@@ -1,5 +1,11 @@
 # DataInMotion
 
+To configure postgres dev user
+
+```
+cat setup_postgres_dev.sql | sudo -H -u postgres bash -c 'psql'
+```
+
 ## Project docs [revision 1](https://docs.google.com/document/d/1s13NnGAXOVwmD-erY1Dy5OWhkGxuqloVx7OwlUKXeqY/edit#https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4), [revision 2](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
 
 # Team Members
