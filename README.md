@@ -1,6 +1,6 @@
 # DataInMotion
 
-## Project docs [here](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4/edit#heading=h.ek9mizrj09cv)
+## Project docs [revision 1](https://docs.google.com/document/d/1s13NnGAXOVwmD-erY1Dy5OWhkGxuqloVx7OwlUKXeqY/edit#https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4), [revision 2](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
 
 # Team Members
 ### Alejandro Lopez:
