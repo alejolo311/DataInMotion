@@ -30,6 +30,12 @@ sudo -H -u postgres bash -c 'pg_dump data_im_dev_db' > <DUMP_FILE>.psql
 cat <DUMP_FILE>.psql | sudo -H -u postgres bash -c 'psql'
 ```
 
+### Open de DataInMotion console
+
+```
+./console.py
+```
+
 ### Running the API
 
 ```
