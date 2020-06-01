@@ -19,6 +19,29 @@ To configure postgres dev user
 ```
 cat setup_postgres_dev.sql | sudo -H -u postgres bash -c 'psql'
 ```
+### To export a DUMP_FILE
+
+```
+sudo -H -u postgres bash -c 'pg_dump data_im_dev_db' > <DUMP_FILE>.psql
+```
+### To import a DUMP_FILE
+
+```
+cat <DUMP_FILE>.psql | sudo -H -u postgres bash -c 'psql'
+```
+
+### Running the API
+
+```
+python3 -m api.v1.app
+```
+
+### Running the WebServer
+
+```
+python3 -m dim_dynamic.nodes
+```
+
 
 ## Project docs
 
