@@ -1,0 +1,53 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Board - Data in motion</title>
+	<link rel="stylesheet" href="../static/styles/node.css?{{ id }}">
+	<link rel="stylesheet" href="../static/styles/side_bar.css?{{ id }}">
+	<link rel="stylesheet" href="../static/styles/container.css?{{ id }}">
+	<link rel="stylesheet" href="../static/styles/canvas.css?{{ id }}">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/scripts/track_mouse.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/node_popup.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/views.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/tools.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/node_settings.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/connections.js?{{ id }}"></script>
+</head>
+<body>
+	<div class="top_bar">
+		<div class="left_top">
+			<h1>Data in motion - board</h1>
+			<div>
+				<!--<h2>options</h2>
+				<h2>edit</h2>
+				<h2>tools</h2>
+				<h2>nodes</h2>
+				<h2>boards</h2>-->
+				<h2>help</h2>
+				<h2 class="save">save</h2>
+			</div>
+		</div>
+		<div class="tools">
+			<button style="background-image: url('../static/images/run.png');"></button>
+			<button></button>
+		</div>
+	</div>
+	<div class="side_bar">
+	</div>
+	<div class="coords">
+		<h2 class="x" style="width: 50px;"></h2>
+		<h2 class="y" style="width: 50px;"></h2>
+		<h2 class="selected" style="width: 150px;padding-top: 2px;"></h2>
+		<button class="toggle_console"></button>
+		<h2 class="console">DataInMotion v1 > </h2>
+	</div>
+	<div class="container" board_id="{{ board_id }}">
+		<canvas class="canvas" id="canvas_connections">
+
+		</canvas>
+	</div>
+</body>
+</html>

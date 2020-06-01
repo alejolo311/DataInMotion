@@ -1,0 +1,297 @@
+:root {
+	--node_up_bar_height: 90px;
+	--radius: 20px;
+	--letter_spacing: 0.01em;
+	--font: 'Nanum Gothic Coding', monospace;
+	--tag_radius: 14px;
+}
+body {
+	background-color: #10040d;
+}
+.coords {
+	position: absolute;
+	display: flex;
+	top: 88;
+	left: 8;
+	color: white;
+	font-family: var(--font);
+	letter-spacing: var(--letter_spacing);
+	width: 100%;
+	height: 40px;
+	background-color: rgba(128, 128, 128, 0.568);
+}
+.coords h2 {
+	padding: 8px;
+	font-size: 10px;
+	letter-spacing: var(--letter_spacing);
+}
+.console {
+	margin-top: 0;
+	width: 100%;
+	height: 24px;
+	background-color: aliceblue;
+	color: black;
+	font-family: var(--font);
+	font-size: 16px;
+}
+.toggle_console {
+	width: 60px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 20px 0 0 20px;
+	background-color: grey;
+	border: none;
+	background-image: url('../images/right.png');
+	background-position: center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	outline: none;
+
+}
+.toggle_console:hover {
+	background-color: rgb(216, 216, 216);
+}
+.toggle_console:active {
+	background-color: rgba(0, 0, 0, 0.116);
+}
+.node_container {
+	top: 160;
+	left: 30;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	background-color: rgb(250, 248, 248);
+	position: absolute;
+	width: 200;
+	cursor: pointer;
+	border-radius: var(--radius) var(--radius) var(--radius) var(--radius);
+	outline: none;
+	font-family: var(--font);
+	letter-spacing: var(--letter_spacing);
+}
+.node_up_bar {
+	border-radius: var(--radius) var(--radius);
+	background-color: rgb(255, 255, 255);
+	width: 200px;
+	height: var(--node_up_bar_height);
+	display: flex;
+	border-bottom: 1px solid grey;
+}
+.tag_color {
+	width: 30px;
+	height: var(--node_up_bar_height);
+	border-radius: 0 var(--tag_radius) var(--tag_radius) 0;
+	outline: none;
+}
+.tag_color:hover {
+	background-image: url(../images/right.png);
+	background-position: center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+}
+.tag_name {
+	position: absolute;
+	height: var(--node_up_bar_height);
+	font-size: 22px;
+	text-align: left;
+	padding-top: 8px;
+	padding-left: 18px;
+	outline: none;
+	font-family: var(--font);
+	letter-spacing: var(--letter_spacing);
+}
+.work_toggle {
+	margin-top: 50px;
+	padding-left: 10px;
+	background-color:transparent;
+	display: flex;
+}
+.work_toggle button {
+	width: 70px;
+	margin-left: 6px;
+	padding: 6px;
+	border-radius: 12px;
+	border: none;
+	background-color: rgba(195, 195, 195, 0);
+	z-index: 10;
+	cursor: pointer;
+	outline: none;
+	font-size: 10px;
+	font-weight: bold;
+	font-family: var(--font);
+	letter-spacing: var(--letter_spacing);
+}
+.work_toggle button:hover {
+	color: white;
+	box-shadow: 1px 1px 4px black;
+}
+.work_toggle button:active {
+	box-shadow: 1px 1px 4px rgb(172, 182, 178);
+}
+request:hover {
+	background-color: orange;
+}
+request:active {
+	background-color: rgb(233, 153, 5);
+}
+process:hover {
+	background-color: rgb(13, 179, 13);
+}
+process:active {
+	background-color: rgb(9, 155, 9);
+}
+.up {
+	height: var(--node_up_bar_height);
+	width: 170px;
+}
+.outnodes {
+	background-color: transparent;
+	max-height: 120px;
+	max-width: 20px;
+	position: absolute;
+	bottom: 0;
+	right: -14px;
+	padding: 13px 0 13 0;
+	overflow-x: scroll;
+	border-radius: 0px 20px 20px 0px;
+}
+.outnodes button {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background-color: #15d815;
+	border: 1px solid black;
+	margin-left: 2px;
+	cursor: pointer;
+	outline: none;
+	margin-bottom: 8px;
+}
+.outnodes button:hover {
+	background-color: #d81577;
+}
+.outnodes::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+	background-color: rgb(233, 239, 250);
+}
+.outnodes::-webkit-scrollbar-thumb {
+	background-color: #1f4068;
+	border-radius: 4px;
+}
+.connections {
+	position: absolute;
+	left: -20px;
+	top: 20px;
+	display: block;
+	max-width: 18px;
+	max-height: 80px;
+	background-color: rgba(114, 114, 114, 0);
+	padding-left: 8px;
+	padding-top: 8px;
+	overflow-y: scroll;
+	z-index: 2;
+}
+.connections button {
+	width: 14px;
+	height: 14px;
+	padding: 4px;
+	margin-bottom: 8px;
+	background-color: rgb(26, 169, 235);
+	border: 1px solid black;
+	border-radius: 50%;
+	outline: none;
+	cursor: pointer;
+}
+.connections button:hover {
+	background-color: orange;
+}
+.connections::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+	background-color: rgb(233, 239, 250);
+}
+.connections::-webkit-scrollbar-thumb {
+	background-color: #1f4068;
+	border-radius: 4px;
+}
+.grabber {
+	width: 30px;
+	height: 30px;
+	background-color: rgb(194, 193, 193);
+	position: absolute;
+	top: -10px;
+	left: -10px;
+	visibility: hidden;
+	border-radius: 50%;
+	cursor: grab;
+	background-image: url('../images/move.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 18px;
+	
+}
+.innodes {
+	display: flex;
+	max-width: 180px;
+	position: absolute;
+	top: -10;
+	left: 18px;
+	max-height: 18px;
+	background-color: transparent;
+}
+.innodes button {
+	width: 14px;
+	height: 14px;
+	margin-left: 4px;
+	background-color: darkorange;
+	border: 1px solid black;
+	border-radius: 50%;
+	outline: none;
+	cursor: pointer;
+}
+.innodes button:hover {
+	background-color: chartreuse;
+}
+.colors {
+	display: none;
+	padding: 8px;
+	background-color: aliceblue;
+	border: 1px solid black;
+	border-radius: 12px;
+	position: absolute;
+	cursor: pointer;
+	padding-bottom: 50px;
+	top: 0;
+	right: -170px;
+	grid-template-columns: 30px 30px 30px 30px 30px;
+}
+.colors h2 {
+	font-size: 12px;
+	border: none;
+	text-align: center;
+	padding: 8px;
+	background-color: #184551;
+	color: white;
+	border-radius: 8px;
+	position: absolute;
+	bottom: 6px;
+	right: 6px;
+}
+.colors h2:hover {
+	background-color: #29778c;
+}
+.colors h2:active {
+	background-color: #0c232a;
+}
+.colors button {
+	border: none;
+	width: 30px;
+	height: 30px;
+	border-radius: 8px;
+	cursor: pointer;
+	outline: none;
+}
+.colors button:hover {
+	border: 4px solid rgba(0, 0, 0, 0.157);
+}

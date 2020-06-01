@@ -1,0 +1,26 @@
+ headers sig_data = {"include_entities": "true",
+                    "oauth_nonce": self.nonce,
+                    "oauth_signature_method": "HMAC-SHA1",
+                    "oauth_timestamp": self.get_time(),
+                    "oauth_consumer_key": self.__cons_k,
+                    "oauth_token": self.__tok_k,
+                    "oauth_version": "1.0",
+                    "status": message
+                    }
+
+
+"headers": {
+    "include_entities": "true",
+    "oauth_consumer_key": "rkmNCkTPy1W5xPaKYiRevP8V6",
+    "oauth_nonce": "WHN3anZYa3dheFV0d3RQaHlPV1pxb1Z2a0NoeHNZaUk",
+    "oauth_signature_method": "HMAC-SHA1",
+    "oauth_timestamp": "1590894505",
+    "oauth_token": "1144866141090799616-TaNaYqKbcYKsVujLnibYfISXIUfqEp",
+	"oauth_version": "1.0",
+    "status": "The jedi Luke Skywalker is a great an tall man, he is like 172 cm height"
+  },
+
+cons_key: rkmNCkTPy1W5xPaKYiRevP8V6
+52sL2OeMwURDWNyh39vjfJFm2UKTYpSlJwOAcis5CTloftDa0j
+cons_token: 1144866141090799616-TaNaYqKbcYKsVujLnibYfISXIUfqEp
+cons_token_sec: SLWdMh5Ed4qV9Jw2RdYFXyBocM6nFX1Jo1JEhapbC95Sm

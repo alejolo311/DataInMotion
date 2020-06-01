@@ -70,7 +70,7 @@ class DBEngine:
         """
         Resturn a record by class and id
         """
-        objs = self.all()
+        objs = self.all(cls)
         for obj in objs.values():
             if obj.id == id:
                 return obj
@@ -80,4 +80,4 @@ class DBEngine:
         """
         Deletes a record
         """
-        self.__session.delet(obj)
+        self.__session.delete(obj)

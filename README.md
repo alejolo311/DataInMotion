@@ -1,12 +1,43 @@
 # DataInMotion
 
+
+## Environment
+- Ubuntu 18.04
+- Python 3.6 or higher
+- SqlAlqchemy
+- Flask
+- Postgresql
+
+To install all dependencies
+
+```
+./install
+```
+
 To configure postgres dev user
 
 ```
 cat setup_postgres_dev.sql | sudo -H -u postgres bash -c 'psql'
 ```
 
-## Project docs [revision 1](https://docs.google.com/document/d/1s13NnGAXOVwmD-erY1Dy5OWhkGxuqloVx7OwlUKXeqY/edit#https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4), [revision 2](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
+## Project docs
+
+[revision 1](https://docs.google.com/document/d/1s13NnGAXOVwmD-erY1Dy5OWhkGxuqloVx7OwlUKXeqY/edit#https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
+[revision 2](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
+
+
+## The model Custom Nodes
+
+I/O attibutes
+
+- innodes: list of other nodes ids the actual node will depend on the innodes to contruct its logic
+
+- outnodes: list of subsequence of task nodes, the node start a request to another node and waits for a response, then return the resulted data to the caller node
+
+Terms: 
+- connections: list of ids of the caller nodes, notes de difference with the innodes, the resulting data from this nodes will be returned to the actual caller connection, this term will be used for UX design purposes
+
+
 
 # Team Members
 ### Alejandro Lopez:

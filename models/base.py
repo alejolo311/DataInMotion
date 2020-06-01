@@ -25,7 +25,7 @@ class BaseNode:
         """
         Initializes a new model
         """
-        self.id = uuid.uuid4()
+        self.id = str(uuid.uuid4())
 
     def __str__(self):
         return '<node>(' + self.type + ')[id=' + self.id + ']'
@@ -40,5 +40,22 @@ class BaseNode:
     def to_dict(self):
         """
         Returns the dict representation
+        [{"cond": "<"}, {"value2": "150"}]
         """
-        return self.__dict__.copy()
+        dic = self.__dict__.copy()
+        if '_sa_instance_state' in dic:
+            del dic['_sa_instance_state']
+        if 'analisis_params' in dic:
+            try:
+                dic['analisis_params'] = json.loads(dic['analisis_params'])
+            except:
+                pass
+        if 'data' in dic:
+            dic['data'] = json.loads(dic['data'])
+        if 'innodes' in dic:
+            dic['innodes'] = json.loads(dic['innodes'])
+        if 'outnodes' in dic:
+            dic['outnodes'] = json.loads(dic['outnodes'])
+        if 'headers' in dic:
+            dic['headers'] = json.loads(dic['headers'])
+        return json.dumps(dic, indent=2, sort_keys=True)
