@@ -33,6 +33,7 @@ $(window).on('load', function () {
 					loadPositions();
 					setNodeSettings();
 					setOpsListeners();
+					drawGrid();
 					// console.log(nodes);
 				}
 			});

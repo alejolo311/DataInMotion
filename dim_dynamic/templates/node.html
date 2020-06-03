@@ -1,11 +1,11 @@
 {% for node in nodes %}
 <div class="node_container" name="{{ node.name }}_cont" node_id="{{ node.id }}"
 	tag_color="{{ node.color }}" 
-	style="border: 6px solid {{ node.color }};">
+	style="border: 2px solid {{ node.color }};">
 	<div class="node_up_bar">
 		<div class="up" p_id="{{ node.id }}">
 			<h1 class="tag_name">{{ node.name }}</h1>
-			<div class="work_toggle">
+			<!--<div class="work_toggle">
 				<button class="request"
 				{% if node.work_type == 'request' %}
 					style="background-color: brown; color: white;"
@@ -20,8 +20,9 @@
 					style="color: rgb(160, 160, 160);"
 				{% endif %}
 				>process</button>
-			</div>
+			</div>-->
 		<div class="test_button" n_id="{{ node.id }}"
+
 		{% if node.type == 'service' %}
 		style="display: block;">
 		{% else %}
@@ -36,7 +37,7 @@
 	<!--<h4>info</h4>-->
 	<div class="connections">
 		{% for con in node.connections %}
-		<button con_id="{{ node.id }}" peer="{{ con.0 }}" type="{{ con.1 }}"></button>
+		<h2 con_id="{{ node.id }}" peer="{{ con.0 }}" type="{{ con.1 }}"></h2>
 		{% endfor %}
 	</div>
 	<div class="grabber" parent="{{ node.name }}">
@@ -44,12 +45,12 @@
 	</div>
 	<div class="innodes">
 		{% for inno in node.innodes %}
-		<button in_id="{{ inno }}"></button>
+		<h2 in_id="{{ inno }}"></h2>
 		{% endfor %}
 	</div>
 	<div class="outnodes">
 		{% for outno in node.outnodes %}
-		<button out_id="{{ outno }}"></button>
+		<h2 out_id="{{ outno }}"></h2>
 		{% endfor %}
 	</div>
 	<div class="colors">

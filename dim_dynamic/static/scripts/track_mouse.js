@@ -3,7 +3,7 @@ function setGrabbers() {
 	let nodeName = '';
 	let nodeId = '';
 	let offX = 15;
-	let offY = 135;
+	let offY = 115;
 	$(window).mousemove(function (evn) {
 		$('.x').text('x: ' + evn.pageX.toString());
 		$('.y').text('y: ' + evn.pageY.toString());
@@ -42,7 +42,7 @@ function setGrabbers() {
 	});
 	$('.grabber').on('click', function (evn) {
 		// console.log('grabber clicked');
-		$('.selected').text('Node selected: ' + $(this).attr('parent'));
+		$('.selected').text('Selected Node: ' + $(this).attr('parent'));
 		// console.log(evn.originalEvent.layerX, evn.originalEvent.layerY)
 		// console.log(evn);
 		if (nodeName !== $(this).attr('parent')) {
@@ -55,7 +55,7 @@ function setGrabbers() {
 			const color = $('[name="' + nodeName + '_cont"]').attr('tag_color');
 			// console.log(color);
 			$('[name="' + nodeName + '_cont"]').css('z-index', '100');
-			$('[name="' + nodeName + '_cont"]').css('box-shadow', '15px 15px 20px #73466a');
+			$('[name="' + nodeName + '_cont"]').css('box-shadow', '0px 0px 40px #73466a');
 		} else {
 			$(this).css('cursor', 'grab');
 			$(this).css('z-index', '2');
@@ -66,7 +66,7 @@ function setGrabbers() {
 			nodeName = '';
 			nodeId = '';
 			autosave(null);
-			$('.selected').text('Node selected: ');
+			$('.selected').text('Selected Node: ');
 		}
 	});
 };
