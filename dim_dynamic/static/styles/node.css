@@ -2,12 +2,16 @@
 	--node_up_bar_height: 30px;
 	--radius: 20px;
 	--letter_spacing: 0.01em;
-	--font: 'Nanum Gothic Coding', monospace;
+	--font: 'Mallanna', sans-serif;
 	--tag_radius: 14px;
-	--board_color: #180118;
+	--board_color: #350135;
+	--board_color_end: #110111;
+	
 }
 body {
 	background-color: var(--board_color);
+	/*background-image: linear-gradient(to right, #041530, #010b1b);*/
+	background-image: linear-gradient(to right, var(--board_color), var(--board_color_end));
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
@@ -16,7 +20,7 @@ body {
 .coords {
 	position: absolute;
 	display: flex;
-	top: 88;
+	top: 116px;
 	left: 8;
 	color: white;
 	font-family: var(--font);
@@ -78,7 +82,7 @@ body {
 	box-shadow: inset 0px 0px 2px white;
 }
 .node_container:hover {
-	box-shadow: inset 0px 0px 30px rgba(97, 97, 97, 0.315);
+	box-shadow: inset 0px 0px 30px #b92eb991;
 }
 .node_up_bar {
 	border-radius: var(--radius) var(--radius);
@@ -87,15 +91,15 @@ body {
 	border-bottom: 1px solid grey;
 }
 .tag_color {
-	width: 16px;
+	width: 28px;
 	height: var(--node_up_bar_height);
-	border-radius: 0 var(--tag_radius) var(--tag_radius) 0;
+	border-radius: var(--tag_radius) var(--tag_radius);
 	outline: none;
 }
 .tag_color:hover {
-	background-image: url(../images/right.png);
+	background-image: url(../images/dropper.png);
 	background-position: center;
-	background-size: 20px;
+	background-size: 16px;
 	background-repeat: no-repeat;
 }
 .up {
@@ -111,7 +115,7 @@ body {
 	text-align: center;
 	outline: none;
 	border-radius: var(--radius) 0 0 var(--radius);
-	font-family: 'Mallanna', sans-serif;;
+	font-family: 'Mallanna', sans-serif;
 	letter-spacing: var(--letter_spacing);
 	color: white;
 }
@@ -169,7 +173,6 @@ process:active {
 }
 .outnodes {
 	background-color: transparent;
-	max-width: 20px;
 	position: absolute;
 	bottom: -6px;
 	right: -12px;
@@ -188,9 +191,10 @@ process:active {
 	outline: none;
 }
 .outnodes h2:hover {
-	background-color: #d81577;
+	background-color: white;
 	width: 14px;
 	height: 14px;
+	transform: translate(0px, 0px);
 }
 .outnodes::-webkit-scrollbar {
 	width: 0px;
@@ -225,7 +229,10 @@ process:active {
 	cursor: pointer;
 }
 .connections h2:hover {
-	background-color: orange;
+	background-color: white;
+	width: 14px;
+	height: 14px;
+	transform: translate(-4px, -4px);
 }
 .connections::-webkit-scrollbar {
 	width: 0px;
@@ -271,7 +278,10 @@ process:active {
 	cursor: pointer;
 }
 .innodes h2:hover {
-	background-color: rgb(95, 179, 11);
+	background-color: white;
+	width: 14px;
+	height: 14px;
+	transform: translate(-4px, -4px);
 }
 .colors {
 	display: none;
@@ -444,11 +454,11 @@ hr {
 
 }
 .test_button {
-	width: 20px;
-	height: 20px;
+	width: 16px;
+	height: 16px;
 	background-color: white;
 	right: 38px;
-	margin-top: 4px; 
+	margin-top: 6px; 
 	margin-right: 8px;
 	clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);
 	-webkit-clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);

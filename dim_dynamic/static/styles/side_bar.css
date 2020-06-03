@@ -14,7 +14,6 @@
 .top_bar {
 	position: absolute;
 	width: 100%;
-	height: 80px;
 	background-color: #10040d;
 	display: flex;
 }

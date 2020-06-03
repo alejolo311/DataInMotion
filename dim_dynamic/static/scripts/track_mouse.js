@@ -1,4 +1,3 @@
-let board = {};
 function setGrabbers() {
 	let nodeName = '';
 	let nodeId = '';
@@ -13,7 +12,7 @@ function setGrabbers() {
 			let y = evn.pageY - offY;
 			let bar_height = Number($('.top_bar').css('height').slice(0, -2));
 			// console.log(y, Number($('.top_bar').css('height').slice(0, -2)))
-			if (y > 0) {
+			if (y > 40) {
 				$('[name="' + nodeName + '_cont"]').css('top', (evn.pageY - offY).toString());
 			}
 			if (nodeId !== '') {

@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="../static/styles/container.css?{{ id }}">
 	<link rel="stylesheet" href="../static/styles/canvas.css?{{ id }}">
 	<link rel="stylesheet" href="../static/styles/slider.css?{{ id }}">
+	<link rel="stylesheet" href="../static/styles/menus.css?{{ id }}">
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -19,6 +20,7 @@
 	<script type="text/javascript" src="../static/scripts/connections.js?{{ id }}"></script>
 	<script type="text/javascript" src="../static/scripts/operations.js?{{ id }}"></script>
 	<script type="text/javascript" src="../static/scripts/draw.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/project_management.js?{{ id }}"></script>
 </head>
 <body>
 	<div class="top_bar">
@@ -28,9 +30,9 @@
 				<!--<h2>options</h2>
 				<h2>edit</h2>
 				<h2>tools</h2>
-				<h2>nodes</h2>
-				<h2>boards</h2>-->
-				<h2 class="menu_nodes">nodes</h2>
+				<h2>nodes</h2>-->
+				<h2 menu="project">project</h2>
+				<h2 menu="nodes" class="menu_nodes">nodes</h2>
 				<h2 class="save">save</h2>
 			</div>
 		</div>
@@ -132,6 +134,75 @@
 				</div>
 			</div>
 		</form>
+	</div>
+	<div class="menus">
+		<ul>
+			<li>option1</li>
+			<li>option2</li>
+			<li>option3</li>
+		</ul>
+	</div>
+	<div class="types">
+		<div class="service"">
+			<img src="../static/images/api.png">
+			<h1>API Requester</h1>
+			<p>Creates a request <span style="font-weight: bold; color: orange;">
+								work_type
+								</span> node.<br>
+				You can use this node to to extract data from any public source or anywhere you have access, 
+				if you need credentials from an auth process try using our predefined
+				<span style="font-weight: bold;">Auth nodes</span>
+			</p>
+			<button>chose</button>
+		</div>
+		<div class="service"">
+			<img src="../static/images/service.png">
+			<h1>Service Runner</h1>
+			<p>Creates a proccess <span style="font-weight: bold; color: orange;">
+				work_type
+				</span> node.<br>
+				This node is and entry point, its allowed to start the dataflow from itself,
+				 you can link it to the 
+				 <span style="font-weight: bold;">console</span> to see the request flow response.
+				 <br>
+				 Also attach <span style="font-weight: bold; color: brown;">triggers</span>
+				 or <span style="font-weight: bold; color: brown;">replace</span> 
+				 nodes to proccess the outputs etc...
+				<!--<span style="font-weight: bold;
+							font-size: 12px;
+							color: grey;
+							font-style: italic;">
+				* You can also download the results</span>-->
+			</p>
+			<button>chose</button>
+		</div>
+		<div class="service">
+			<img src="../static/images/fire-alarm.png">
+			<h1>Trigger</h1>
+			<p>Creates a process <span style="font-weight: bold; color: orange;">
+				work_type
+				</span> node.<br>
+			Perfoms a simple comparission between data stored in the node, and the data transfered by the 
+			<span style="font-weight: bold; color: darkcyan;">connection</span> 
+			and returns a 
+			<span style="font-weight: bold; color: rgb(34, 155, 34);">true</span> or 
+			<span style="font-weight: bold; color: red;">false</span>
+			value corresponding to the condition.
+			</p>
+			<button>chose</button>
+		</div>
+		<div class="service">
+			<img src="../static/images/auth.png">
+			<h1>Trigger</h1>
+		</div>
+		<div class="service">
+			<img src="../static/images/social-network.png">
+			<h1>Twitter</h1>
+		</div>
+		<div class="service">
+			<img src="../static/images/message.png">
+			<h1>Trigger</h1>
+		</div>
 	</div>
 	<div class="container" board_id="{{ board_id }}">
 		<canvas class="canvas" id="canvas_connections">

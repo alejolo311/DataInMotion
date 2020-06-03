@@ -1,4 +1,6 @@
 $(window).on('load', function () {
+	setProjectMenu();
+	drawGrid();
 	const loadPositions = function () {
 		const boardId = $('.container').attr('board_id');
 		$.ajax({
@@ -33,7 +35,6 @@ $(window).on('load', function () {
 					loadPositions();
 					setNodeSettings();
 					setOpsListeners();
-					drawGrid();
 					// console.log(nodes);
 				}
 			});
