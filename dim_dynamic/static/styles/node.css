@@ -7,6 +7,10 @@
 }
 body {
 	background-color: #10040d;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }
 .coords {
 	position: absolute;
@@ -69,9 +73,11 @@ body {
 	outline: none;
 	font-family: var(--font);
 	letter-spacing: var(--letter_spacing);
+	padding-bottom: 0px;
+	border-width: 8px;
 }
 .node_up_bar {
-	border-radius: var(--radius) var(--radius);
+	border-radius: var(--radius) var(--radius) 0 0;
 	background-color: rgb(255, 255, 255);
 	width: 200px;
 	height: var(--node_up_bar_height);
@@ -81,7 +87,7 @@ body {
 .tag_color {
 	width: 30px;
 	height: var(--node_up_bar_height);
-	border-radius: 0 var(--tag_radius) var(--tag_radius) 0;
+	border-radius: 0 var(--tag_radius) 0 0;
 	outline: none;
 }
 .tag_color:hover {
@@ -144,6 +150,18 @@ process:active {
 .up {
 	height: var(--node_up_bar_height);
 	width: 170px;
+}
+.node_container h4 {
+	padding: 0;
+	font-size: 10px;
+	background-color:transparent;
+	border-bottom: 1px dotted rgb(197, 197, 197);
+	width: calc(100% - 24px);
+	text-align: center;
+	max-width: 100%;
+	margin-top: 0;
+	padding: 4px 12px;
+
 }
 .outnodes {
 	background-color: transparent;
@@ -294,4 +312,148 @@ process:active {
 }
 .colors button:hover {
 	border: 4px solid rgba(0, 0, 0, 0.157);
+}
+
+.node_settings {
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	z-index: 20;
+	background-color: rgba(0, 0, 0, 0.596);
+	width: 100vw;
+	height: 100vw;
+	position: absolute;
+	display: none;
+	font-family: var(--font);
+}
+.node_settings div{
+	width: 360px;
+	padding: 10px 20px 6px 20px;
+	border-radius: 0px;
+}
+.node_settings ul {
+	padding: 0;
+}
+.node_settings li {
+	list-style: none;
+	font-size: 12px;
+	margin-bottom: 0;
+	margin-left: 0px;
+	background-color:transparent;
+	max-width: 340px;
+	color: grey;
+	cursor: pointer;
+}
+.node_settings li:hover {
+	color: blue;
+}
+.node_settings li:active {
+	color: blueviolet;
+}
+.node_settings form {
+	position: absolute;
+	width: 400px;
+	margin-top: 60px;
+	margin-left: 27%;
+	background-color: rgb(248, 242, 228);
+	border-radius: 12px;
+	padding-top: 0;
+	padding-bottom: 20px;
+}
+.add {
+	width: 20px;
+	height: 20px;
+	font-size: 12px;
+	padding: 6px 10px 0px 10px;
+	border-radius: 12px;
+	margin-left: 12px;
+	margin-top: 2px;
+	background-color: rgb(76, 230, 178);
+	cursor: pointer;
+	color: rgb(3, 3, 99);
+}
+.add:hover {
+	background-color: rgb(133, 247, 209);
+}
+.add:active {
+	background-color: rgb(65, 156, 156);
+}
+.save_node {
+	padding: 12px;
+	background-color: rgb(252, 252, 252);
+	border-radius: 8px;
+	border: none;
+	color: rgb(16, 129, 50);
+	cursor: pointer;
+	width: fit-content;
+	margin-left: px;
+	outline: none;
+	font-size: 14px;
+	text-align: center;
+	margin-left: 26px;
+	max-height: 14px;
+}
+.save_node:hover {
+	background-color: rgb(181, 221, 202);
+}
+.save_node:active {
+	background-color: rgb(11, 148, 63);
+	color: white;
+}
+.node_settings label {
+	font-weight: bold;
+}
+.node_settings input {
+	margin-left: 12px;
+	padding: 8px;
+	outline: none;
+	border: 1px solid black;
+	border-radius: 12px;
+	font-family: var(--font);
+	max-height: 30px;
+	max-width: 160px;
+	background-color: white;
+}
+.node_settings textarea {
+	font-family: var(--font);
+	border-radius: 12px;
+	outline: none;
+	border: 1px solid black;
+	margin-left: 12px;
+	padding: 8px;
+	overflow: hidden;
+	width: 200px;
+	max-height: 30px;
+}
+hr {
+	border: 1px dotted rgba(0, 0, 0, 0.26);
+	margin: 4px;
+}
+.node_settings select {
+	background-color: aliceblue;
+	border: 1px solid black;
+	border-radius: 12px;
+	padding: 8px;
+	cursor: pointer;
+	outline: none;
+	font-family: var(--font);
+
+}
+.test_button {
+	width: 20px;
+	height: 20px;
+	background-color: #159598;
+	position: absolute;
+	right: 38;
+	top: 8;
+	clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);
+	-webkit-clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);
+	
+}
+.test_button:hover {
+	background-color: #4accce;
+}
+.test_button:active {
+	background-color: blue;
 }

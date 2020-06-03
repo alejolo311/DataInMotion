@@ -10,7 +10,7 @@ from models import storage
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 app.register_blueprint(app_nodes)
 
 @app.teardown_appcontext

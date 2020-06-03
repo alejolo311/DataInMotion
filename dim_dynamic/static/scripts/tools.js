@@ -1,6 +1,6 @@
 function autosave (evn) {
 	// console.log(board);
-	console.log($('.container').attr('board_id'));
+	// console.log($('.container').attr('board_id'));
 	const boardId = $('.container').attr('board_id');
 	$.ajax({
 		type: 'POST',

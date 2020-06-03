@@ -1,4 +1,4 @@
-#!/usr/bin /python3
+#!/usr/bin/python3
 """
 Flask web server
 """
@@ -14,7 +14,7 @@ import json
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 @app.route('/boards/<board_id>', methods=['GET'], strict_slashes=False)
 def board(board_id):
@@ -24,17 +24,31 @@ def board(board_id):
     return render_template('board.html', id=str(uuid.uuid4()), board_id=board_id)
 
 
-@app.route('/nodes/<user_id>', methods=['GET'], strict_slashes=False)
-def nodes(user_id):
+@app.route('/boards/<board_id>/nodes', methods=['GET'], strict_slashes=False)
+def nodes(board_id):
     """
     return a list of nodes
+    by now it returns all the created nodes, it need to filter by board id
     """
-    nodes = storage.all(CustomNode)
+    ## read the board file
+    nodes = []
+    try:
+        with open('boards/Board.' + board_id) as board:
+            board = json.loads(board.read())
+            for key in board.keys():
+                node = storage.get(CustomNode, key)
+                nodes.append(node)
+            print('clossing , Boards.', board_id)
+    except Exception as e:
+        print(e)
+        ## THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
+        ## IT JUST VALID FOR DEVELOPING PURPOSE
+        nodes = storage.all(CustomNode).values()
     parsed = []
-    for node in nodes.values():
+    for node in nodes:
         nd = json.loads(node.to_dict())
         nd['connections'] = []
-        for n in nodes.values():
+        for n in nodes:
             for inp in json.loads(n.innodes):
                 if inp == node.id:
                     nd['connections'].append((inp, 'in'))

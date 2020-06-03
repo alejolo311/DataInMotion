@@ -42,12 +42,14 @@ while True:
             elif chose == 'set':
                 print(json.loads(node.to_dict()).keys())
                 print('Shortcuts\n\tap: analisis_parameters, nm: name, wt: work_type')
-                print('\tapi: the api url, end: the endpoint, data: request data')
-                print('\tout: outnodes, h: headers, am: analisis mode, ty: type, co: color')
+                print('\ts:string, api: the api url, end: the endpoint, data: request data')
+                print('\tout: outnodes, h: headers, h_value<value>: header value, am: analisis mode, ty: type, co: color')
                 key = input('key > ')
                 chose = input('value > ')
                 if key == 'ap':
                     node.analisis_params = chose
+                elif key == 's':
+                    node.string = chose
                 elif key == 'ty':
                     node.type = chose
                 elif key == 'nm':
@@ -68,6 +70,11 @@ while True:
                     node.analisis_mode = chose
                 elif key == 'co':
                     node.color = chose
+                elif 'h_value' in key:
+                    headers = json.loads(node.headers)
+                    k = key.split('<')[1][:-1]
+                    headers[k] = chose
+                    node.headers = json.dumps(headers)
                 node.save()
                 print(chose, key, 'this method is not implemented yet')
             elif chose == 'append_ap':

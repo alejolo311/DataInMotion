@@ -20,19 +20,20 @@ $(window).on('load', function () {
 		});
 	};
 	// console.log('views imported');
+	const boardId = $('.container').attr('board_id');
 	$.ajax({
 		url: 'http://0.0.0.0:8000/api/v1/status',
 		success: function (data) {
 			$.ajax({
-				url: 'http://0.0.0.0:8001/nodes/324',
+				url: 'http://0.0.0.0:8001/boards/' + boardId + '/nodes',
 				success: function (nodes) {
 					$('.container').append($(nodes));
 					popup();
 					setGrabbers();
 					loadPositions();
 					setNodeSettings();
+					setOpsListeners();
 					// console.log(nodes);
-
 				}
 			});
 		},

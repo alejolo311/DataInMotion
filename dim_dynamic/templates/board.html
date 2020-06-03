@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="../static/styles/side_bar.css?{{ id }}">
 	<link rel="stylesheet" href="../static/styles/container.css?{{ id }}">
 	<link rel="stylesheet" href="../static/styles/canvas.css?{{ id }}">
+	<link rel="stylesheet" href="../static/styles/slider.css?{{ id }}">
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="../static/scripts/track_mouse.js?{{ id }}"></script>
@@ -15,6 +16,7 @@
 	<script type="text/javascript" src="../static/scripts/tools.js?{{ id }}"></script>
 	<script type="text/javascript" src="../static/scripts/node_settings.js?{{ id }}"></script>
 	<script type="text/javascript" src="../static/scripts/connections.js?{{ id }}"></script>
+	<script type="text/javascript" src="../static/scripts/operations.js?{{ id }}"></script>
 </head>
 <body>
 	<div class="top_bar">
@@ -44,9 +46,93 @@
 		<button class="toggle_console"></button>
 		<h2 class="console">DataInMotion v1 > </h2>
 	</div>
+	<div class="node_settings">
+		<form action="">
+			<div style="margin-top: 0; padding: 0; display: flex;">
+				<div class="node_settings_tag"style="display: flex; border-radius: 12px 12px 0 0;background-color: blueviolet; width: 360px; height: 60px;">
+					<div style="padding-left: 0;">
+						<label style="color: white;margin-left: 0;">Node name<input name="node_name" type="text" placeholder="Node name"></label>
+					</div>
+					<h1 class="save_node">Save</h1>
+				</div>
+			</div>
+			<div>
+				<label for="" style="display: flex; padding-top: 4px;">
+					<h1 style="margin-left: 12px; margin-right: 12px;font-size: 16px; max-width: 90px;">
+						Work type</h1>
+					<select name="work_type" id="">
+						<option value="request">Request</option>
+						<option value="process">Process</option>
+					</select>
+					<h1 style="margin-left: 24px; margin-right: 12px;font-size: 16px; max-width: 30px;">
+						Auth</h1>
+					<label class="switch">
+						<input type="checkbox">
+						<span class="slider round"></span>
+					  </label>
+				</label>
+			</div>
+			<div field="url">
+				<label for=""> Url&nbsp;&nbsp;
+					<input name="node_url" type="text">
+				</label>
+			</div>
+			<div field="endpoint">
+				<label for=""> Endpoint&nbsp;&nbsp;
+					<input name="node_endpoint" type="text">
+				</label>
+			</div>
+			<div field="headers">
+				<label for="">
+					Headers: &nbsp;&nbsp;
+					<ul group='headers'>
+					</ul>
+					<div style="display: flex; width: 300px; background-color: transparent;margin-left: 0;">
+						<input name="headers_key" style="width: 90px;" type="text" placeholder="key">
+						<input class="value" name="headers_value" style="width: 90px;" type="text" placeholder="value">
+						<h1 class="add head_add">add</h1>
+					</div>
+				</label>
+			</div>
+			<div>
+				<label for="">
+					Data: &nbsp;&nbsp;
+					<ul group='data'>
+					</ul>
+					<div style="display: flex; max-width: 100vw; background-color: transparent;margin-left: 0;">
+						<input name="data_key" style="width: 90px;" type="text" placeholder="key">
+						<textarea name="data_value" class="value" style="width: 90px;" type="text" placeholder="value"></textarea>
+						<h1 class="add data_add">add</h1>
+					</div>
+				</label>
+			</div>
+			<div>
+				<label for="">
+					Analisis mode &nbsp;&nbsp;
+					<select name="analisis_mode" id="">
+						<option value="none"></option>
+						<option value="comparision">Comparision</option>
+						<option value="replace">Replace</option>
+						<option value="gen_signature">GenSignature</option>
+						<option value="JSON">JSON</option>
+						<option value="HTML">text or HTML</option>
+					</select>
+				</label>
+			</div>
+			<div>
+				<label for="">
+					Analisis Params: &nbsp;&nbsp;
+				</label>
+				<div style="display: flex; max-width: 100vw; background-color: transparent;margin-left: 0;">0.
+					<input style="width: 90px;" type="text" placeholder="key">
+					<input style="width: 90px;" type="text" placeholder="value">
+					<input style="width: 90px;" type="text" placeholder="path">
+				</div>
+			</div>
+		</form>
+	</div>
 	<div class="container" board_id="{{ board_id }}">
 		<canvas class="canvas" id="canvas_connections">
-
 		</canvas>
 	</div>
 </body>

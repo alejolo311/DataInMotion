@@ -24,3 +24,15 @@ cons_key: rkmNCkTPy1W5xPaKYiRevP8V6
 52sL2OeMwURDWNyh39vjfJFm2UKTYpSlJwOAcis5CTloftDa0j
 cons_token: 1144866141090799616-TaNaYqKbcYKsVujLnibYfISXIUfqEp
 cons_token_sec: SLWdMh5Ed4qV9Jw2RdYFXyBocM6nFX1Jo1JEhapbC95Sm
+
+
+"headers": {
+    "include_entities": "true",
+    "oauth_consumer_key": "rkmNCkTPy1W5xPaKYiRevP8V6",
+    "oauth_nonce": "aVFzTXZrWmRHampJR1prZGdxY3pVWm5TcFBaTkJjdXI",
+    "oauth_signature_method": "HMAC-SHA1",
+    "oauth_timestamp": "1590904577",
+    "oauth_token": "1144866141090799616-TaNaYqKbcYKsVujLnibYfISXIUfqEp",
+    "oauth_version": "1.0",
+    "status": "Luke Skywalker es una persona muy agradable y mide 172 cm"
+  }

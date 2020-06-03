@@ -1,9 +1,9 @@
 {% for node in nodes %}
 <div class="node_container" name="{{ node.name }}_cont" node_id="{{ node.id }}"
 	tag_color="{{ node.color }}" 
-	style="border: 3px solid {{ node.color }}">
+	style="border: 6px solid {{ node.color }};">
 	<div class="node_up_bar">
-		<div class="up">
+		<div class="up" p_id="{{ node.id }}">
 			<h1 class="tag_name">{{ node.name }}</h1>
 			<div class="work_toggle">
 				<button class="request"
@@ -21,11 +21,19 @@
 				{% endif %}
 				>process</button>
 			</div>
+		<div class="test_button" n_id="{{ node.id }}"
+		{% if node.type == 'service' %}
+		style="display: block;">
+		{% else %}
+		style="display:none;">
+		{% endif %}
+			</div>
 		</div>
 		<div class="tag_color" style="background-color: {{ node.color }}" id="{{ node.id }}">
 			
 		</div>
 	</div>
+	<!--<h4>info</h4>-->
 	<div class="connections">
 		{% for con in node.connections %}
 		<button con_id="{{ node.id }}" peer="{{ con.0 }}" type="{{ con.1 }}"></button>

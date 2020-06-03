@@ -210,7 +210,6 @@ class CustomNode(BaseNode, Base):
                 headers['status'] = params
                 headers['oauth_signature'] = data
                 self.headers = json.dumps(headers)
-                self.save()
             else:
                 data, inn_resp = node.run_node_task(params)
             
@@ -224,7 +223,7 @@ class CustomNode(BaseNode, Base):
             print('data:', data, '\nparams:', params)
             headers = {}
             tmp_headers = self.headers
-            if self.analisis_mode == 'auth':
+            if self.string == 'auth':
                 headers['Authorization'] = auth.gen_header(json.loads(self.headers))
                 print('headers: ', self.headers)
                 print('___result_headers___')

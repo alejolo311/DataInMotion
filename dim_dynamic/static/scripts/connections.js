@@ -1,5 +1,5 @@
 const drawLine = function (a, b, canvas) {
-	console.log('drawLine', a, b);
+	// console.log('drawLine', a, b);
 	let contx = canvas.getContext('2d');
 	contx.strokeStyle = '#DDEAC8';
 	contx.lineWidth = 4;
@@ -11,17 +11,17 @@ const drawLine = function (a, b, canvas) {
 };
 
 function drawConnections () {
-	console.log('drawin connections');
+	// console.log('drawin connections');
 	// console.log($('.node_container').toArray());
 	$('#canvas_connections').attr('width', $(' .container').outerWidth());
 	$('#canvas_connections').attr('height', $('.container').outerHeight());
 	let canvas = document.getElementById('canvas_connections');
-	console.log(canvas);
+	// console.log(canvas);
 	for (child of $('.connections button').toArray()) {
 		// console.log($(child));
 
 		if ($(child).attr('peer') !== undefined) {
-			console.log($(child).attr('peer'));
+			// console.log($(child).attr('peer'));
 			const peer = $(child).attr('peer');
 			const type = $(child).attr('type');
 			const offset = $(child).offset();
@@ -38,7 +38,7 @@ function drawConnections () {
 				drawLine(a, b, canvas);
 				// console.log(a, b);
 			}
-			console.log($(child).attr('type'));
+			// console.log($(child).attr('type'));
 		}
 	}
 };
