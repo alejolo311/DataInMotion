@@ -36,26 +36,29 @@
 	</div>
 	<!--<h4>info</h4>-->
 	<div class="connections">
-		{% for con in node.connections %}
-		<h2 con_id="{{ node.id }}" peer="{{ con.0 }}" type="{{ con.1 }}"></h2>
-		{% endfor %}
+		<h2 con_id="{{ node.id }}"></h2>
 	</div>
 	<div class="grabber" parent="{{ node.name }}">
 
 	</div>
 	<div class="innodes">
+		<h2 class="show_ins" style="z-index: 16;"></h2>
 		{% for inno in node.innodes %}
-		<h2 in_id="{{ inno }}"></h2>
+		<h2 in_id="{{ inno }}"></h2>	
 		{% endfor %}
+		<h2 add_in_id="{{ node.id }}" class="add_in" style="z-index: 10;"></h2>
 	</div>
 	<div class="outnodes">
+		<h2 class="show_outs" style="z-index: 16;"></h2>
 		{% for outno in node.outnodes %}
-		<h2 out_id="{{ outno }}"></h2>
+		<h2 out_id="{{ outno }}" father="{{ node.id }}"></h2>
 		{% endfor %}
+		<h2 add_out_id="{{ node.id }}" class="add_out" style="z-index: 10;"></h2>
 	</div>
 	<div class="colors">
 		{% for col in colors%}
 		<button style="background-color: {{ col }};"
+	
 			color="{{ col }}"
 			tag_id="{{ node.id }}"
 			></button>

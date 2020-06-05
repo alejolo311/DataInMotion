@@ -2,6 +2,7 @@
 	position: absolute;
 	background-color: transparent;
 	margin: 0;
+	z-index: 1;
 }
 .grid_canvas {
 	position: absolute;

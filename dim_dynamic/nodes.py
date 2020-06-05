@@ -59,13 +59,38 @@ def nodes(board_id):
     war_cols = ['#cc3300', '#ff9966', '#ffcc00', '#99cc33', '#339900']
     pastel_rainbow = ['#a8e6cf', '#dcedc1', '#ffd3b6', '#ffaaa5', '#ff8b94']
     data = ['#010743', '#FE038C', '#FB7500', '#FEE70B', '#8AB6FE']
-    cols = ['#f32e9c', '#932989', '#9bfa18', '#ef912f', '#f9463a', ]
-    cols.extend(war_cols)
-    cols.extend(pastel_rainbow)
-    cols.extend(data)
+    cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900', '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
+    cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900', '#999100', '#fff766' ,'#fffbb2', '#00fff2'])
+    cols.extend(['#ff5724', '#ff784f', '#ff8965', '#ff9a7b', '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
+    cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af', '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
+    #cols = ['#e9b000', '#e9bd49', '#fde2db', '#f9d7cb', '#dfaf98']
+    #cols = ['#a22e8b', '#b376c5', '#a689dc', '#644b91', '#e3e2e3']
+    #cols = ['#f32e9c', '#932989', '#9bfa18', '#ef912f', '#f9463a', ]
+    # cols.extend(war_cols)
+    # cols.extend(pastel_rainbow)
+    # cols.extend(data)
     template = render_template('node.html', nodes=parsed, id=str(uuid.uuid4()), colors=cols)
     return template
 
+
+@app.route('/nodes/<node_id>', methods=['GET'], strict_slashes=False)
+def get_node(node_id):
+    """
+    return the html view for a single node
+    """
+    nodes = storage.all(CustomNode)
+    parsed = []
+    nd = json.loads(storage.get(CustomNode, node_id).to_dict())
+    nd['connections'] = []
+    for n in nodes.values():
+        for inp in json.loads(n.innodes):
+            if inp == nd['id']:
+                nd['connections'].append((inp, 'in'))
+        for inp in json.loads(n.outnodes):
+            if inp == nd['id']:
+                nd['connections'].append((inp, 'out'))
+    template = render_template('node.html', nodes=[nd])
+    return template
 
 
 if __name__ == '__main__':

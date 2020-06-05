@@ -56,3 +56,47 @@ def run_node(node_id):
     node = storage.get(CustomNode, node_id)
     resp = node.run_node_task({})
     return Response(json.dumps(resp), status=200)
+
+
+@app_nodes.route('/nodes/<node_id>/add_connection',
+                    methods=['POST'], strict_slashes=False)
+def add_connection(node_id):
+    """
+    Add a connection to the given id
+    """
+    node = storage.get(CustomNode, node_id)
+    new_connection = request.get_json()['con_id']
+    typ = request.get_json()['type']
+    if typ == 'out':
+        outnodes = json.loads(node.outnodes)
+        if not new_connection in outnodes:
+            outnodes.append(new_connection)
+        node.outnodes = json.dumps(outnodes)
+    else:
+        innodes = json.loads(node.innodes)
+        if not new_connection in innodes:
+            innodes.append(new_connection)
+        node.outnodes = json.dumps(innodes)
+    node.save()
+    return Response({'success': 'OK'}, status=200)
+
+
+@app_nodes.route('/nodes/<node_id>/del_connection',
+                    methods=['DELETE'], strict_slashes=False)
+def del_connection(node_id):
+    """
+    Delete the out
+    """
+    typ = request.get_json()['type']
+    conn = request.get_json()['con_id']
+    node = storage.get(CustomNode, node_id)
+    print(typ, conn, node.id)
+    if typ == 'out':
+        print('')
+        outnodes = json.loads(node.outnodes)
+        if conn in outnodes:
+            print('remove', conn)
+            del outnodes[outnodes.index(conn)]
+        node.outnodes = json.dumps(outnodes)
+    node.save()
+    return Response({'state': 'Connection removed'}, status=200)

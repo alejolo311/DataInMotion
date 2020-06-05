@@ -35,6 +35,7 @@ $(window).on('load', function () {
 					loadPositions();
 					setNodeSettings();
 					setOpsListeners();
+					setConnectionsListeners()
 					// console.log(nodes);
 				}
 			});

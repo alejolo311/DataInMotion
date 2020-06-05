@@ -42,10 +42,10 @@ function setProjectMenu() {
 		
 		$('.menus').empty();
 		const items = [];
-		items.push(['create new project', createProject])
-		items.push(['open project', openProject]);
-		items.push(['open board', openBoard]);
+		// items.push(['create new project', createProject])
+		// items.push(['open project', openProject]);
 		items.push(['create new board', createBoard]);
+		items.push(['open board', openBoard]);
 		createMenu(evn.pageX, items);
 		
 

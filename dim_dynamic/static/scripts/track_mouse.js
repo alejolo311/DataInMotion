@@ -17,26 +17,26 @@ function setGrabbers() {
 			}
 			if (nodeId !== '') {
 				board[nodeId] = {'x': evn.pageX - offX, 'y': evn.pageY - offY};
-				drawConnections();
 			}
 			$('[name="' + nodeName + '_cont"]').css('left', (evn.pageX - offX).toString());
 			$('[name="' + nodeName + '_cont"]').find('.grabber').css('visibility', 'visible');
 			$('.container').width($(window).width());// .css('background-image', 'linear-gradient(to right, #511845 , #10040d);');
 		}
+		drawConnections();
 
 	});
 	$('.node_container').mousemove(function (evn) {
 		if (nodeName === '') {
 			// console.log('focus');
 			// console.log(this);
-			$(this).css('z-index', '8');
+			$(this).css('z-index', '10');
 		}
 	});
 	$('.node_container').mouseleave(function (evn) {
 		if (nodeName === '') {
 			// console.log('focus');
 			// console.log(this);
-			$(this).css('z-index', '0');
+			$(this).css('z-index', '2');
 		}
 	});
 	$('.grabber').on('click', function (evn) {
