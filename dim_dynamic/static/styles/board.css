@@ -1,0 +1,52 @@
+:root {
+	--font: 'Mallanna', sans-serif;
+}
+.boards {
+	position: absolute;
+	display: grid;
+	left: 60px;
+	grid-template-columns: 240px 240px 240px;
+	grid-gap: 20px;
+	grid-template-rows: 130px 130px;
+
+}
+.boards > div{
+	margin-top: 20px;
+	position: relative;
+	background-image: linear-gradient(to right, rgb(46, 65, 126), rgb(8, 39, 90));
+	min-width: 200px;
+	z-index: 20;
+	cursor: pointer;
+	padding: 18px;
+	border-radius: 12px;
+}
+.boards >div:hover {
+	box-shadow: 0px 0px 20px rgba(92, 37, 114, 0.568);
+}
+.boards >div:active {
+	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.212);
+}
+.boards h1 {
+	font-size: 18px;
+	font-family: var(--font);
+	color: white;
+}
+.boards h2 {
+	font-size: 10px;
+	margin-top: 0;
+	font-family: var(--font);
+	color: white;
+}
+.add_board {
+	background-image: url(/static/images/plus.png);
+	background-position: 180px 60px;
+	background-repeat: no-repeat;
+	background-size: 30px 30px;
+	background-color: rgb(91, 142, 187);
+}
+.add_board:hover {
+	box-shadow: 0px 0px 40px white;
+}
+.add_board h2 {
+	color: rgb(255, 255, 255);
+}

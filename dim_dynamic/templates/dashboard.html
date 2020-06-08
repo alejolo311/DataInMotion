@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Board - Data in motion</title>
+	<link rel="stylesheet" href="/static/styles/node.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/side_bar.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/container.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/canvas.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/slider.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/menus.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/board.css?{{ id }}">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/scripts/views.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/draw.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/project_management.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/init.js?{{ id }}"></script>
+</head>
+<body>
+	<div class="top_bar">
+		<div class="left_top">
+			<h1>Welcome {{ username }}</h1>
+		</div>
+	</div>
+	<div class="side_bar">
+	</div>
+	<!--<div class="coords">
+		<h2 class="x" style="width: 50px;"></h2>
+		<h2 class="y" style="width: 50px;"></h2>
+		<h2 class="selected" style="width: 150px;padding-top: 2px;"></h2>
+		<button class="toggle_console"></button>
+		<h2 class="console">DataInMotion v1 > </h2>
+	</div>-->
+	<div class="container" 
+	{% if user is not none %}
+	user_id="{{ user.id }}">
+	{% endif %}
+	</div>
+	<canvas class="grid_canvas" id="canvas_grid">
+	</canvas>
+</body>
+</html>

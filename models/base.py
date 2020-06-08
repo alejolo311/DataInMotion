@@ -58,4 +58,6 @@ class BaseNode:
             dic['outnodes'] = json.loads(dic['outnodes'])
         if 'headers' in dic:
             dic['headers'] = json.loads(dic['headers'])
+        if 'nodes' in dic:
+            dic['nodes'] = json.loads(dic['nodes'])
         return json.dumps(dic, indent=2, sort_keys=True)

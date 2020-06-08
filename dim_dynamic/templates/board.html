@@ -3,43 +3,59 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>My Board - Data in motion</title>
-	<link rel="stylesheet" href="../static/styles/node.css?{{ id }}">
-	<link rel="stylesheet" href="../static/styles/side_bar.css?{{ id }}">
-	<link rel="stylesheet" href="../static/styles/container.css?{{ id }}">
-	<link rel="stylesheet" href="../static/styles/canvas.css?{{ id }}">
-	<link rel="stylesheet" href="../static/styles/slider.css?{{ id }}">
-	<link rel="stylesheet" href="../static/styles/menus.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/node.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/side_bar.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/container.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/canvas.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/slider.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/menus.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/board.css?{{ id }}">
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="../static/scripts/track_mouse.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/node_popup.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/views.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/tools.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/node_settings.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/connections.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/operations.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/draw.js?{{ id }}"></script>
-	<script type="text/javascript" src="../static/scripts/project_management.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/track_mouse.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/node_popup.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/views.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/tools.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/node_settings.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/connections.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/operations.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/draw.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/project_management.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/init.js?{{ id }}"></script>
 </head>
 <body>
 	<div class="top_bar">
+		<h2 style="margin: 0;
+						text-align: center;
+						width: 20px;
+						height: calc(100% - 10px);
+						position: absolute;
+						top: 0px;
+						left: 0px;"
+						></h2>
+			
 		<div class="left_top">
-			<h1>Data in motion - board</h1>
-			<div>
+			<h1 style="margin-left: 40px; margin-bottom: 0;">{{ board.name }}</h1>
+			<h1 style="margin-left: 40px; font-size: 12px; margin-top: 0;">{{ board.id }}</h1>
+			<div style="margin-left: 30px;">
 				<!--<h2>options</h2>
 				<h2>edit</h2>
 				<h2>tools</h2>
 				<h2>nodes</h2>-->
-				<h2 menu="project">project</h2>
 				<h2 menu="nodes" class="menu_nodes">nodes</h2>
 				<h2 class="save">save</h2>
 			</div>
 		</div>
-		<div class="tools">
-			<button style="background-image: url('../static/images/run.png');"></button>
-			<button></button>
+		<div>
+			<div class="trash_can">
+
+			</div>
 		</div>
+		<!-- <div class="tools">
+			<button style="background-image: url('/static/images/run.png');"></button>
+			<button></button>
+		</div> -->
 	</div>
 	<div class="side_bar">
 	</div>
@@ -151,7 +167,7 @@
 	</div>
 	<div class="types">
 		<div class="service"">
-			<img src="../static/images/api.png">
+			<img src="/static/images/api.png">
 			<h1>API Requester</h1>
 			<p>Creates a request <span style="font-weight: bold; color: orange;">
 								work_type
@@ -163,7 +179,7 @@
 			<button>chose</button>
 		</div>
 		<div class="service"">
-			<img src="../static/images/service.png">
+			<img src="/static/images/service.png">
 			<h1>Service Runner</h1>
 			<p>Creates a proccess <span style="font-weight: bold; color: orange;">
 				work_type
@@ -184,7 +200,7 @@
 			<button>chose</button>
 		</div>
 		<div class="service">
-			<img src="../static/images/fire-alarm.png">
+			<img src="/static/images/fire-alarm.png">
 			<h1>Trigger</h1>
 			<p>Creates a process <span style="font-weight: bold; color: orange;">
 				work_type
@@ -199,23 +215,26 @@
 			<button>chose</button>
 		</div>
 		<div class="service">
-			<img src="../static/images/auth.png">
+			<img src="/static/images/auth.png">
 			<h1>Trigger</h1>
 		</div>
 		<div class="service">
-			<img src="../static/images/social-network.png">
+			<img src="/static/images/social-network.png">
 			<h1>Twitter</h1>
 		</div>
 		<div class="service">
-			<img src="../static/images/message.png">
+			<img src="/static/images/message.png">
 			<h1>Trigger</h1>
 		</div>
 	</div>
-	<div class="container" board_id="{{ board_id }}">
-		<canvas class="canvas" id="canvas_connections">
-		</canvas>
-		<canvas class="grid_canvas" id="canvas_grid">
-		</canvas>
+	<div class="container" board_id="{{ board.id }}">
+	</div>
+	<canvas class="canvas" id="canvas_connections">
+	</canvas>
+	<canvas class="grid_canvas" id="canvas_grid">
+	</canvas>
+	<div class="landing_zone">
+		<h2>Landing Zone</h2>
 	</div>
 </body>
 </html>

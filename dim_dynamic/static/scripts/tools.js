@@ -9,7 +9,10 @@ function autosave (evn) {
 		url: 'http://0.0.0.0:8000/api/v1/boards/' + boardId,
 		data: JSON.stringify(board),
 		success: function (resp) {
-			console.log(resp);
+			// console.log(resp);
+		},
+		error: function (error) {
+			// console.log(error);
 		}
 	});
 

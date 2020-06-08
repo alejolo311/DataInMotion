@@ -12,10 +12,14 @@
 	display: none;
 }
 .top_bar {
-	position: absolute;
+	left: 0;
+	top: 0;
+	margin-top: 0;
+	position: relative;
 	width: 100%;
 	background-color: #10040d;
 	display: flex;
+	z-index: 4;
 }
 .top_bar h1 {
 	font-size: 18px;
@@ -75,4 +79,64 @@
 }
 .tools button:active {
 	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.513);
+}
+.coords {
+	z-index: 4;
+	position: relative;
+	display: flex;
+	color: white;
+	font-family: var(--font);
+	letter-spacing: var(--letter_spacing);
+	width: 100%;
+	height: 40px;
+	background-color: rgba(128, 128, 128, 0.568);
+}
+.coords h2 {
+	padding: 8px;
+	font-size: 10px;
+	letter-spacing: var(--letter_spacing);
+}
+.console {
+	margin-top: 0;
+	margin-left: 0;
+	padding-left: 0;
+	width: 100%;
+	height: 24px;
+	background-color: aliceblue;
+	color: black;
+	font-family: var(--font);
+	font-size: 16px;
+}
+.toggle_console {
+	width: 60px;
+	height: 40px;
+	cursor: pointer;
+	border-radius: 20px 0 0 20px;
+	background-color: grey;
+	border: none;
+	background-image: url('../images/right.png');
+	background-position: center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	outline: none;
+
+}
+.toggle_console:hover {
+	background-color: rgb(216, 216, 216);
+}
+.toggle_console:active {
+	background-color: rgba(0, 0, 0, 0.116);
+}
+.trash_can {
+	width: 126px;
+	height: 100%;
+	background-color: #d6ccd6;
+	z-index: 100;
+	background-image: url(../images/trash_can.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 60px;
+}
+.trash_can:hover {
+	background-color: #e5eae5;
 }

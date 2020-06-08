@@ -5,8 +5,9 @@ Index route for nodes api
 
 from api.v1.nodes import app_nodes
 from models import storage
-from flask import jsonify, Response, request
+from flask import jsonify, Response, request, render_template
 from models.custom import CustomNode
+from models.board import Board
 import json
 
 
@@ -31,7 +32,7 @@ def nodes_savecolor(node_id):
     node.save()
     return Response(json.dumps({'status': 'saved'}), mimetype='application/json', status=200)
 
-@app_nodes.route('/nodes/<node_id>/save_analisis_data',
+@app_nodes.route('/nodes/<node_id>/save_analisis_params',
                     methods=['POST'], strict_slashes=False)
 def save_analisis_data(node_id):
     """
@@ -76,7 +77,7 @@ def add_connection(node_id):
         innodes = json.loads(node.innodes)
         if not new_connection in innodes:
             innodes.append(new_connection)
-        node.outnodes = json.dumps(innodes)
+        node.innodes = json.dumps(innodes)
     node.save()
     return Response({'success': 'OK'}, status=200)
 
@@ -98,5 +99,80 @@ def del_connection(node_id):
             print('remove', conn)
             del outnodes[outnodes.index(conn)]
         node.outnodes = json.dumps(outnodes)
+    if typ == 'in':
+        print('')
+        innodes = json.loads(node.innodes)
+        if conn in innodes:
+            print('remove', conn)
+            del innodes[innodes.index(conn)]
+        node.innodes = json.dumps(innodes)
     node.save()
     return Response({'state': 'Connection removed'}, status=200)
+
+
+@app_nodes.route('/boards/<board_id>/create_node', methods=['POST'], strict_slashes=False)
+def creates_new_node(board_id):
+    """
+    Creates a new node an likit to board id and user id
+    """
+    board = storage.get(Board, board_id)
+    user_id = board.user_id
+    print(user_id)
+    new_node = CustomNode()
+    new_node.name = 'New'
+    new_node.user_id = user_id
+    new_node.board_id = board_id
+    new_node.save()
+    nodes = json.loads(board.nodes)
+    nodes[new_node.id] = {'x': 20, 'y': 60}
+    board.nodes = json.dumps(nodes)
+    board.save()
+    # template = render_template('node.html', nodes=[json.loads(new_node.to_dict())], )
+    return Response(json.dumps({'id': new_node.id }), mimetype= 'application/json', status=200)
+
+
+@app_nodes.route('/nodes/<node_id>', methods=['DELETE'], strict_slashes=False)
+def delete_node(node_id):
+    """
+    Delete a node instance, recursively and all references in any node at the board
+    """
+    try:
+        node = storage.get(CustomNode, node_id)
+        board = storage.get(Board, node.board_id)
+        nodes = json.loads(board.nodes)
+        for n_id in nodes:
+            nod = storage.get(CustomNode, n_id)
+            nod_inns = json.loads(nod.innodes)
+            if node.id in nod_inns:
+                del nod_inns[nod_inns.index(node.id)]
+            nod_outs = json.loads(nod.outnodes)
+            if node.id in nod_outs:
+                del nod_outs[nod_outs.index(node.id)]
+            nod.innodes = json.dumps(nod_inns)
+            nod.outnodes = json.dumps(nod_outs)
+            nod.save()
+        if node_id in nodes:
+            del nodes[node_id]
+        board.nodes = json.dumps(nodes)
+        board.save()
+        storage.delete(node)
+        return Response('deleted', status=200)
+    except Exception as e:
+        return Response(str(e), status=500)
+
+
+@app_nodes.route('/nodes/<node_id>/save', methods=['POST'], strict_slashes=False)
+def save_entire_node(node_id):
+    """
+    saves the entire node object
+    """
+    in_node = request.get_json()
+    node = storage.get(CustomNode, node_id)
+    sample_keys = json.loads(node.to_dict()).keys()
+    for key in sample_keys:
+        val = in_node[key]
+        if type(val) == dict or type(val) == list:
+            val = json.dumps(val)
+        setattr(node, key, val)
+    node.save()
+    return Response(json.dumps({'id': node_id}), status=200, mimetype='application/json')

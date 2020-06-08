@@ -4,8 +4,9 @@ const drawLine = function (a, b, canvas) {
 	contx.strokeStyle = '#DDEAC8';
 	contx.lineWidth = '1px';
 	contx.beginPath();
-	contx.moveTo(a.x - 1, a.y - 124);
-	contx.lineTo(b.x - 1, b.y - 124);
+	const offY =  160;
+	contx.moveTo(a.x - 1, a.y - offY);
+	contx.lineTo(b.x - 1, b.y - offY);
 	contx.stroke();
 	contx.closePath();
 };
@@ -30,6 +31,7 @@ function drawConnections () {
 			drawLine(a, b, canvas);
 		}
 	}
+	// Draw the innodes connections
 	for (child of $('.innodes h2').toArray()) {
 		if ($(child).attr('in_id') !== undefined) {
 			const peer = $(child).attr('in_id');
@@ -41,8 +43,11 @@ function drawConnections () {
 		}
 	}
 };
-
+// Set the connection listeners
+// the expand and collapse buttons for the innodes and outnodes
+// 
 function setConnectionsListeners() {
+	// The Expand handlers
 	const expandIns = function (obj) {
 		const parent = $(obj).parent();
 		parent.toggleClass('in_expanded');
@@ -105,12 +110,7 @@ function setConnectionsListeners() {
 		}
 		drawConnections();
 	};
-	// $('.outnodes').mouseleave(function () {
-	// 	const button = $(this).find('.show_outs');
-	// 	expandOuts(button);
-
-	// });
-	// This Expands the view for all the outnodes
+	// The Expand Listeners
 	$('.show_outs').on('click', function (evn) {
 		// console.log('deploy outputs');
 		expandOuts(this);
@@ -119,26 +119,41 @@ function setConnectionsListeners() {
 		console.log('expand innodes');
 		expandIns(this);
 	});
-	// This creates a new connection
-	// Get the id of the presed outnode and track the mouse to the final conection position
+	// This creates a new connection element in the DOM to track a new connection and draw in the canvas
+	// Get the id of the pressed outnode and track the mouse to the final conection position
 	const tmpObj = $('<div class="connections"><h2 con_id="temporal_con"></h2></div>');
 	tmpObj.css('position', 'absolute');
-	// tmpObj.css('width', '10px');
-	// tmpObj.css('height', '10px');
 	tmpObj.css('z-index', 0);
 	tmpObj.css('visibility', 'hidden');
+	// --------------------------------
 	$('body').append(tmpObj);
 	$('.add_out').on('click', function () {
 		console.log('create a new connection');
 		const id = $(this).attr('add_out_id');
 		$(this).attr('out_id', 'temporal_con');
 		$(tmpObj).attr('parent', id);
-		//console.log(tmpObj.attr('con_id'));
-		//console.log(id);
-		const appendNode = $(this);
+		$(tmpObj).attr('type', 'out');
+		// Shows a cross when tracking a new connection
 		$('#canvas_connections').css('cursor', 'crosshair');
-		// 
 		$(window).mousemove(function (evn) {
+			// Change the new connection tracker position
+			// and reloads the canvas
+			tmpObj.css('top', evn.pageY - 36);
+			tmpObj.css('left', evn.pageX - 16);
+			drawConnections();
+		});
+	});
+	$('.add_in').on('click', function () {
+		console.log('creating a new innode connection');
+		const id = $(this).attr('add_in_id');
+		$(this).attr('in_id', 'temporal_con');
+		$(tmpObj).attr('parent', id);
+		$(tmpObj).attr('type', 'in');
+		// Shows a cross when tracking a new connection
+		$('#canvas_connections').css('cursor', 'crosshair');
+		$(window).mousemove(function (evn) {
+			// Change the new connection tracker position
+			// and reloads the canvas
 			tmpObj.css('top', evn.pageY - 36);
 			tmpObj.css('left', evn.pageX - 16);
 			drawConnections();
@@ -146,21 +161,21 @@ function setConnectionsListeners() {
 	});
 	// This listener cleans the new connection if the user doesn't click any node
 	$('#canvas_connections').on('click', function (evn) {
-		// console.log('canvas clicked');
 		$(this).css('z-index', 1);
-		// console.log($(tmpObj).attr('parent'));
-		// console.log('clean new connections');
 		const outId = $(tmpObj).attr('parent');
-		const outnode = $('[add_out_id=' + outId + ']');
-		outnode.removeAttr('out_id');
+		const type = $(tmpObj).attr('type');
+		const outnode = $('[add_' + type + '_id=' + outId + ']');
+		outnode.removeAttr(type + '_id');
 		$(tmpObj).removeAttr('parent');
+		$(tmpObj).removeAttr('type');
 		$(this).css('cursor', 'default');
 		drawConnections();
 	});
-	// detects a new connection
+	// detects a new connection incoming from another node
 	// bind the outnode sending the id to connections
 	$('.connections h2').on('click', function (evn) {
 		const outId = $(tmpObj).attr('parent');
+		const ty = $(tmpObj).attr('type');
 		const conId = $(this).attr('con_id');
 		if (conId !== outId && outId !== undefined && conId !== undefined) {
 			console.log('new connection upcomming');
@@ -169,7 +184,7 @@ function setConnectionsListeners() {
 				type: 'POST',
 				url: 'http://0.0.0.0:8000/api/v1/nodes/' + outId + '/add_connection',
 				contentType: 'application/json',
-				data: JSON.stringify({'con_id': conId, 'type': 'out'}),
+				data: JSON.stringify({'con_id': conId, 'type': ty}),
 				success: function (response) {
 					console.log(response);
 					location.reload();
@@ -177,7 +192,9 @@ function setConnectionsListeners() {
 			});
 		}
 	});
-	// to select a clicked outnode show options and remove if choosen
+	// Show the outnodes options
+	// Remove: deletes the outnode id
+	// Reindex: changes the index to the users selection <-- This feature has to be done
 	$('.outnodes h2').on('click', function (evn) {
 		if ($(this).attr('out_id') !== undefined && !$(this).hasClass('add_out')) {
 			console.log('display outnode options');
@@ -188,6 +205,7 @@ function setConnectionsListeners() {
 			$('.outnode_settings').css('visibility', 'visible');
 			$('.outnode_settings').attr('nod', parentId);
 			$('.outnode_settings').attr('out', id);
+			$('.outnode_settings').attr('type', 'out');
 			$('.outnode_settings').css('top', evn.pageY - 20);
 			$('.outnode_settings').css('left', evn.pageX - 20);
 			$('.outnode_settings').css('z-index', 12);
@@ -197,12 +215,35 @@ function setConnectionsListeners() {
 	$('.outnode_settings').mouseleave(function (evn) {
 		$(this).css('visibility', 'hidden');
 	});
-	// adding tjhe same listener to the button click
+	// adding tjhe same listener to the button whe the user click it
 	$('.outnode_settings h2').on('click', function (evn) {
 		$('.outnode_settings').css('visibility', 'hidden');
+
 	});
+	// Innodes options
+	// Change index and remove
+	$('.innodes h2').on('click', function (evn) {
+		console.log('innodes options');
+		if ($(this).attr('in_id') !== undefined && !$(this).hasClass('add_in')) {
+			console.log('display innode options');
+			console.log(evn.pageX);
+			console.log(evn.pageY);
+			const parentId = $(this).attr('father');
+			const id = $(this).attr('in_id');
+			$('.outnode_settings').css('visibility', 'visible');
+			$('.outnode_settings').attr('nod', parentId);
+			$('.outnode_settings').attr('out', id);
+			$('.outnode_settings').attr('type', 'in');
+			$('.outnode_settings').css('top', evn.pageY - 20);
+			$('.outnode_settings').css('left', evn.pageX - 20);
+			$('.outnode_settings').css('z-index', 12);
+		}
+	});
+	// listener to a remove action to a connection
+	// Here the button can detects innodes and outnodes by checking the value in the outnode_settings
 	$('button[action=remove]').on('click', function (evn) {
 		const out = $('.outnode_settings').attr('out');
+		const typ = $('.outnode_settings').attr('type');
 		const node = $('.outnode_settings').attr('nod');
 		console.log('remove', out, 'from', node);
 		$.ajax({
@@ -211,7 +252,7 @@ function setConnectionsListeners() {
 			contentType: 'application/json',
 			data: JSON.stringify({
 				'con_id': out,
-				'type': 'out'
+				'type': typ
 			}),
 			success: function (response) {
 				location.reload();

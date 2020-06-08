@@ -1,27 +1,24 @@
-$(window).on('load', function () {
-	setProjectMenu();
-	drawGrid();
-	const loadPositions = function () {
-		const boardId = $('.container').attr('board_id');
-		$.ajax({
-			url: 'http://0.0.0.0:8000/api/v1/boards/' + boardId,
-			dataType: 'json',
-			contentType: 'application/json',
-			success: function (resp) {
-				for (key in resp) {
-					// console.log(resp[key]);
-					// console.log(key);
-					$('[node_id="' + key + '"]').css('top', resp[key]['y']);
-					$('[node_id="' + key + '"]').css('left', resp[key]['x']);
-					board = resp;
-
-				}
-				drawConnections();
-				// console.log(resp);
+// Get the board from the Server
+function loadPositions () {
+	const boardId = $('.container').attr('board_id');
+	$.ajax({
+		url: 'http://0.0.0.0:8000/api/v1/boards/' + boardId,
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function (resp) {
+			// change 'resp' for 'resp.nodes' 
+			// console.log(resp);
+			for (key in resp.nodes) {
+				// console.log(key);
+				$('[node_id="' + key + '"]').css('top', resp.nodes[key]['y']);
+				$('[node_id="' + key + '"]').css('left', resp.nodes[key]['x']);
 			}
-		});
-	};
-	// console.log('views imported');
+			board = resp;
+			drawConnections();
+		}
+	});
+};
+function getBoardView () {
 	const boardId = $('.container').attr('board_id');
 	$.ajax({
 		url: 'http://0.0.0.0:8000/api/v1/status',
@@ -29,6 +26,9 @@ $(window).on('load', function () {
 			$.ajax({
 				url: 'http://0.0.0.0:8001/boards/' + boardId + '/nodes',
 				success: function (nodes) {
+					// console.log(nodes);
+					// $('.container').empty();
+					$('.container').empty();
 					$('.container').append($(nodes));
 					popup();
 					setGrabbers();
@@ -44,4 +44,4 @@ $(window).on('load', function () {
 			console.log(err)
 		}
 	});
-});
+}

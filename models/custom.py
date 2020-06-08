@@ -43,6 +43,7 @@ class CustomNode(BaseNode, Base):
     timeout = Column(Integer, default=0)
     inner_connections = Column(String(2000), default='') # Format {outnodes}
     color = Column(String(16), default='#9bfa18') # Default node color
+    board_id = Column(String(60), default='')
     # content = Column(String(16), default='', nullable=True) # this will store the inode request response
 
 

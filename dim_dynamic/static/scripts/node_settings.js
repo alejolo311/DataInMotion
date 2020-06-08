@@ -87,7 +87,7 @@ function setNodeSettings () {
 				nodeActual = node;
 				// console.log(node.color);
 				$('.node_settings_tag').css('background-color', node.color);
-				$('[name=node_name]').attr('value', node.name);
+				$('[name=node_name]').val(node.name);
 				$('[name=work_type]').val(node.work_type);
 				$('[name=analisis_mode]').val(node.analisis_mode);
 				$('[name=node_url]').val(node.api_url);
@@ -119,6 +119,8 @@ function setNodeSettings () {
 			}
 		});
 	};
+	// Detect when a node is pressed two times
+	// and display the node form
 	let node_id = '';
 	$('.up').on('click', function () {
 		if (node_id === '') {
@@ -126,6 +128,7 @@ function setNodeSettings () {
 		} else if (node_id === $(this).attr('p_id')) {
 			node_id = '';
 			$('.node_settings').css('display', 'block');
+			for (input of $('.node_settings'))
 			// console.log('show node form');
 			loadNode($(this).attr('p_id'));
 		} else {
@@ -133,6 +136,23 @@ function setNodeSettings () {
 		}
 	});
 	$('.save_node').on('click', function (evn) {
+		const name = $('[name=node_name]').val();
+		nodeActual.name = name
+		$.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			dataType: 'json',
+			url: 'http://0.0.0.0:8000/api/v1/nodes/' + nodeActual.id + '/save',
+			data: JSON.stringify(nodeActual),
+			success:  function (resp) {
+				console.log(resp);
+				const nameLabel = $('[p_id=' + nodeActual.id + ']').find('.tag_name');
+				$(nameLabel).text(nodeActual.name);
+			},
+			error: function (error) {
+				console.log(error);
+			}
+		});
 		$('.node_settings').css('display', 'none');
 	});
 

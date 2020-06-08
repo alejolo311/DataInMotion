@@ -7,21 +7,37 @@ Flask web server
 from flask import Flask
 from flask_cors import CORS
 from models import storage
-from flask import render_template
+from flask import render_template, Response
 from models.custom import CustomNode
+from models.board import Board
+from models.user import User
 import uuid
 import json
 
+# libertad y whiskey
 
 app = Flask(__name__)
 CORS(app)
+
+@app.route('/user/<id>/boards', methods=['GET'], strict_slashes=False)
+def main_board(id):
+    """
+    shows the main page to start creating a board
+    """
+    user = storage.get(User, id)
+    print('User: ', id, '\n', user)
+    if user is None:
+        return Response({'error': 'User doesnt exists'}, status=404)
+    user = json.loads(user.to_dict())
+    return render_template('dashboard.html', id=str(uuid.uuid4()), user=user)
 
 @app.route('/boards/<board_id>', methods=['GET'], strict_slashes=False)
 def board(board_id):
     """
     return a view for the board
     """
-    return render_template('board.html', id=str(uuid.uuid4()), board_id=board_id)
+    board = json.loads(storage.get(Board, board_id).to_dict())
+    return render_template('board.html', id=str(uuid.uuid4()), board=board)
 
 
 @app.route('/boards/<board_id>/nodes', methods=['GET'], strict_slashes=False)
@@ -32,18 +48,13 @@ def nodes(board_id):
     """
     ## read the board file
     nodes = []
-    try:
-        with open('boards/Board.' + board_id) as board:
-            board = json.loads(board.read())
-            for key in board.keys():
-                node = storage.get(CustomNode, key)
-                nodes.append(node)
-            print('clossing , Boards.', board_id)
-    except Exception as e:
-        print(e)
-        ## THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
-        ## IT JUST VALID FOR DEVELOPING PURPOSE
-        nodes = storage.all(CustomNode).values()
+    boar = json.loads(storage.get(Board, board_id).to_dict())
+    for key in boar['nodes']:
+        node = storage.get(CustomNode, key)
+        nodes.append(node)
+    print('clossing , Boards.', board_id)
+    ## THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
+    ### IT JUST VALID FOR DEVELOPING PURPOSE
     parsed = []
     for node in nodes:
         nd = json.loads(node.to_dict())
@@ -56,19 +67,10 @@ def nodes(board_id):
                 if inp == node.id:
                     nd['connections'].append((inp, 'out'))
         parsed.append(nd)
-    war_cols = ['#cc3300', '#ff9966', '#ffcc00', '#99cc33', '#339900']
-    pastel_rainbow = ['#a8e6cf', '#dcedc1', '#ffd3b6', '#ffaaa5', '#ff8b94']
-    data = ['#010743', '#FE038C', '#FB7500', '#FEE70B', '#8AB6FE']
     cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900', '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
     cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900', '#999100', '#fff766' ,'#fffbb2', '#00fff2'])
     cols.extend(['#ff5724', '#ff784f', '#ff8965', '#ff9a7b', '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
     cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af', '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
-    #cols = ['#e9b000', '#e9bd49', '#fde2db', '#f9d7cb', '#dfaf98']
-    #cols = ['#a22e8b', '#b376c5', '#a689dc', '#644b91', '#e3e2e3']
-    #cols = ['#f32e9c', '#932989', '#9bfa18', '#ef912f', '#f9463a', ]
-    # cols.extend(war_cols)
-    # cols.extend(pastel_rainbow)
-    # cols.extend(data)
     template = render_template('node.html', nodes=parsed, id=str(uuid.uuid4()), colors=cols)
     return template
 
@@ -91,6 +93,26 @@ def get_node(node_id):
                 nd['connections'].append((inp, 'out'))
     template = render_template('node.html', nodes=[nd])
     return template
+
+
+# @app.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
+# def get_user(user_id):
+#     """
+#     return the view of an user profile
+#     """
+#     return 
+
+@app.teardown_appcontext
+def taerdown(exception):
+    """Tears down close storage"""
+    storage.close()
+
+@app.route('/home', methods=['GET'], strict_slashes=False)
+def home():
+    """
+    A index page to redirect user to the board
+    """
+    return render_template('home.html', id=str(uuid.uuid4()))
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@
 	<div class="innodes">
 		<h2 class="show_ins" style="z-index: 16;"></h2>
 		{% for inno in node.innodes %}
-		<h2 in_id="{{ inno }}"></h2>	
+		<h2 in_id="{{ inno }}" father="{{ node.id }}"></h2>	
 		{% endfor %}
 		<h2 add_in_id="{{ node.id }}" class="add_in" style="z-index: 10;"></h2>
 	</div>

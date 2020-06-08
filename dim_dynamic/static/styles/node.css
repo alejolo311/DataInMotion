@@ -5,6 +5,7 @@
 	--font: 'Mallanna', sans-serif;
 	--tag_radius: 14px;
 	--board_color: #350135;
+	/*--board_color: #809a80;*/
 	--board_color_end: #110111;
 	
 	/*--board_color: white;
@@ -20,52 +21,8 @@ body {
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
-}
-.coords {
-	position: absolute;
-	display: flex;
-	top: 116px;
-	left: 8;
-	color: white;
-	font-family: var(--font);
-	letter-spacing: var(--letter_spacing);
-	width: 100%;
-	height: 40px;
-	background-color: rgba(128, 128, 128, 0.568);
-}
-.coords h2 {
-	padding: 8px;
-	font-size: 10px;
-	letter-spacing: var(--letter_spacing);
-}
-.console {
-	margin-top: 0;
-	width: 100%;
-	height: 24px;
-	background-color: aliceblue;
-	color: black;
-	font-family: var(--font);
-	font-size: 16px;
-}
-.toggle_console {
-	width: 60px;
-	height: 40px;
-	cursor: pointer;
-	border-radius: 20px 0 0 20px;
-	background-color: grey;
-	border: none;
-	background-image: url('../images/right.png');
-	background-position: center;
-	background-size: 20px;
-	background-repeat: no-repeat;
-	outline: none;
-
-}
-.toggle_console:hover {
-	background-color: rgb(216, 216, 216);
-}
-.toggle_console:active {
-	background-color: rgba(0, 0, 0, 0.116);
+	padding: 0;
+	margin: 0;
 }
 .node_container {
 	top: 160;
@@ -585,4 +542,25 @@ hr {
 }
 .out_opts h2:hover {
 	background-color: rgba(145, 88, 184, 0.452);
+}
+.landing_zone {
+	width: 160px;
+	height: 80px;
+	position: absolute;
+	top: 166px;
+	left: 0;
+	background-color: red;
+	border-radius: 0 0 20px 0;
+	background-color: transparent;
+	border: 1px solid white;
+	z-index: 0;
+}
+.landing_zone h2 {
+	position: absolute;
+	margin: 0;
+	bottom: 0;
+	left: 38px;
+	color: rgba(255, 255, 255, 0.616);
+	font-family: var(--font);
+	font-size: 14px;
 }

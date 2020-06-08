@@ -5,7 +5,7 @@ function drawGrid () {
 	const ctx = canvas.getContext('2d')
 	const width = $(' .container').outerWidth();
 	const height = $(' .container').outerHeight();
-	console.log(width, height);
+	// console.log(width, height);
 	const anchor = 10;
 	ctx.beginPath();
 	ctx.fillStyle = '#e6e6e620';

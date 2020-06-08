@@ -4,6 +4,8 @@ Controls the ORM transactions using postgres db
 """
 
 from models.base import BaseNode, Base
+from models.user import User
+from models.board import Board
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
