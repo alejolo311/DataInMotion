@@ -6,7 +6,7 @@
 	--tag_radius: 14px;
 	--board_color: #350135;
 	/*--board_color: #809a80;*/
-	--board_color_end: #110111;
+	--board_color_end: #310331;
 	
 	/*--board_color: white;
 	*--board_color_end: white;
@@ -549,9 +549,8 @@ hr {
 	position: absolute;
 	top: 166px;
 	left: 0;
-	background-color: red;
+	background-color: rgba(240, 248, 255, 0.144);
 	border-radius: 0 0 20px 0;
-	background-color: transparent;
 	border: 1px solid white;
 	z-index: 0;
 }

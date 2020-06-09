@@ -106,7 +106,7 @@ function newNode () {
 		type: 'POST',
 		success: function (resp) {
 			console.log(resp);
-			location.reload();
+			newNodeFlow(resp.id, resp);
 		},
 		error: function (error) {
 			console.log(error);
