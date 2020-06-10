@@ -1,16 +1,23 @@
-FROM python:3.8.3
-LABEL maintainer "alejolo311 - danrocus - Vik407 " 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y \
-    && apt-get -y install apt-utils libpq-dev python3-dev \
-    && apt-get autoremove -y \
-    && apt-get clean all
-ENV INSTALL_PATH /usr/app/static
-RUN mkdir -p $INSTALL_PATH
-WORKDIR $INSTALL_PATH
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-COPY . .
+# pull official base image
+FROM python:3.8.1-slim-buster
 
-CMD ["/web/entrypoint.sh"]
+# set work directory
+WORKDIR /usr/src/app
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install system dependencies
+RUN apt-get update && apt-get install -y netcat
+
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
+
+# copy project
+COPY . /usr/src/app/
+
+# run entrypoint.sh
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

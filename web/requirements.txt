@@ -1,10 +1,7 @@
-psycopg2-binary==2.8.4
-psycopg2==2.8.4
-SQLAlchemy==1.2.5
-Flask==1.0.2
-gunicorn==18.0
-requests
 flask_cors
+requests
 flasgger
-pathlib2
- 
+Flask==1.1.1
+Flask-SQLAlchemy==2.4.1
+gunicorn==20.0.4
+psycopg2-binary==2.8.4
