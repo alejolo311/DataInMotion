@@ -354,7 +354,7 @@ function getAMInfo (mode) {
 
 function saveNode(node) {
 	$.ajax({
-		url: 'http://0.0.0.0:8000/api/v1/nodes/' + node.id + '/save',
+		url: 'http://0.0.0.0:8080/api/v1/nodes/' + node.id + '/save',
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',

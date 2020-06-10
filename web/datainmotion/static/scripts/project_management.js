@@ -102,7 +102,7 @@ function saveBoardName (name) {
 	const bId = $('.container').attr('board_id');
 	$.ajax({
 		type: 'POST',
-		url: 'http://0.0.0.0:8000/api/v1/boards/' + bId + '/save_name',
+		url: 'http://0.0.0.0:8080/api/v1/boards/' + bId + '/save_name',
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify({'name': name}),
