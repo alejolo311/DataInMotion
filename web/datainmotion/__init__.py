@@ -1,9 +1,7 @@
-#!/usr/bin/python3
 """
 Flask web server
 """
-
-
+ 
 from flask import Flask
 from flask_cors import CORS
 from models import storage
@@ -18,7 +16,6 @@ import json
 
 app = Flask(__name__)
 CORS(app)
-
 @app.route('/user/<id>/boards', methods=['GET'], strict_slashes=False)
 def main_board(id):
     """
@@ -116,4 +113,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='8001')
+    app.run("localhost", 8000)
