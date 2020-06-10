@@ -18,8 +18,25 @@ function loadPositions () {
 		}
 	});
 };
+function goBack () {
+	console.log('Go back', board);
+	window.open('/user/' + board.user_id + '/boards', '_self');
+}
 function getBoardView () {
 	const boardId = $('.container').attr('board_id');
+	// Detect when board name is pressed
+	$('.board_name').on('click', function () {
+		console.log('chage board name');
+		$(this).css('display', 'none');
+		$('[name=board_name]').css('display', 'block');
+	});
+	$('[name=board_name]').focusout(function (evn) {
+		console.log($(this).val());
+		$(this).css('display', 'none');
+		$('.board_name').css('display', 'block');
+		$('.board_name').text($(this).val());
+		saveBoardName($(this).val());
+	});
 	$.ajax({
 		url: 'http://0.0.0.0:8000/api/v1/status',
 		success: function (data) {
@@ -35,7 +52,10 @@ function getBoardView () {
 					loadPositions();
 					setNodeSettings();
 					setOpsListeners();
-					setConnectionsListeners()
+					setConnectionsListeners();
+					$('[action=user]').on('click', function () {
+						goBack();
+					});
 					// console.log(nodes);
 				}
 			});

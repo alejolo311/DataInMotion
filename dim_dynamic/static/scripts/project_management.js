@@ -98,6 +98,19 @@ function createBoard() {
 	});
 	
 }
+function saveBoardName (name) {
+	const bId = $('.container').attr('board_id');
+	$.ajax({
+		type: 'POST',
+		url: 'http://0.0.0.0:8000/api/v1/boards/' + bId + '/save_name',
+		dataType: 'json',
+		contentType: 'application/json',
+		data: JSON.stringify({'name': name}),
+		success: function (resp) {
+			console.log(resp);
+		}
+	});
+}
 function newNode () {
 	console.log('Create a new node');
 	const boardId = $('.container').attr('board_id');
@@ -106,6 +119,11 @@ function newNode () {
 		type: 'POST',
 		success: function (resp) {
 			console.log(resp);
+			$('[name=n_name]').val('');
+			$('[name=w_type]').val('request');
+			$('[name=n_url]').val('');
+			$('[name=an_mode]').val('none');
+			$('[name=string]').val('');
 			newNodeFlow(resp.id, resp);
 		},
 		error: function (error) {

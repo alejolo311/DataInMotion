@@ -36,9 +36,9 @@ function drawConnections () {
 		if ($(child).attr('in_id') !== undefined) {
 			const peer = $(child).attr('in_id');
 			const offset = $(child).offset();
-			let a = {'x': offset.left, 'y': offset.top};
+			let a = {'x': offset.left + 8, 'y': offset.top};
 			const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
-			let b = {'x': $(p[0]).offset().left, 'y': $(p[0]).offset().top};
+			let b = {'x': $(p[0]).offset().left + 8, 'y': $(p[0]).offset().top};
 			drawLine(a, b, canvas);
 		}
 	}

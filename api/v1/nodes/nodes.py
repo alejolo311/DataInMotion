@@ -128,7 +128,7 @@ def creates_new_node(board_id):
     board.nodes = json.dumps(nodes)
     board.save()
     # template = render_template('node.html', nodes=[json.loads(new_node.to_dict())], )
-    return Response(json.dumps({'id': new_node.id }), mimetype= 'application/json', status=200)
+    return Response(json.dumps(json.loads(new_node.to_dict())), mimetype= 'application/json', status=200)
 
 
 @app_nodes.route('/nodes/<node_id>', methods=['DELETE'], strict_slashes=False)
@@ -169,7 +169,16 @@ def save_entire_node(node_id):
     in_node = request.get_json()
     node = storage.get(CustomNode, node_id)
     sample_keys = json.loads(node.to_dict()).keys()
+    print(in_node)
+    if 'type' not in in_node:
+        node.type = 'custom'
     for key in sample_keys:
+        if key == 'analisis_mode':
+            if key not in in_node:
+                setattr(node, key, '')
+        if key not in in_node:
+            print('excluding', key)
+            continue
         val = in_node[key]
         if type(val) == dict or type(val) == list:
             val = json.dumps(val)

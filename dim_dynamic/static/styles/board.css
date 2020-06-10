@@ -50,3 +50,13 @@
 .add_board h2 {
 	color: rgb(255, 255, 255);
 }
+.b_name {
+	border: 2px solid white;
+	border-radius: 8px;
+	background-color: transparent;
+	width: 200px;
+	padding: 12px;
+	margin-left: 40px;
+	margin-top: 12px;
+	display: none;
+}

@@ -74,3 +74,15 @@ def boards(board_id):
     except Exception as e:
         print(e)
     return Response({'ok': 'yes'}, mimetype='application/json')
+
+@app_nodes.route('/boards/<board_id>/save_name',
+                    methods=['POST'],
+                    strict_slashes=False)
+def save_name(board_id):
+    """
+    Saves the name for the board
+    """
+    board = storage.get(Board, board_id)
+    board.name = request.get_json()['name']
+    board.save()
+    return Response(board.to_dict(), status=200)

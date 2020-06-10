@@ -84,38 +84,49 @@ function setNodeSettings () {
 		$.ajax({
 			url: 'http://0.0.0.0:8000/api/v1/nodes/' + id,
 			success: function (node) {
-				nodeActual = node;
-				// console.log(node.color);
-				$('.node_settings_tag').css('background-color', node.color);
-				$('[name=node_name]').val(node.name);
-				$('[name=work_type]').val(node.work_type);
-				$('[name=analisis_mode]').val(node.analisis_mode);
-				$('[name=node_url]').val(node.api_url);
-				$('[name=node_url]').css('width', '280px');
-				$('[name=node_url]').css('max-width', '280px');
-				$('[name=node_endpoint]').val(node.api_endpoint);
-				if (node.work_type === 'process') {
-					$('[field=url]').css('display', 'none');
-					$('[field=endpoint]').css('display', 'none');
-					$('[field=headers]').css('display', 'none');
+				$('[name=n_name]').val(node.name);
+				if (node.type === 'service') {
+					$('[name=is_service]').prop('checked', true);
 				} else {
-					$('[field=url]').css('display', 'block');
-					$('[field=endpoint]').css('display', 'block');
-					$('[field=headers]').css('display', 'block');
+					$('[name=is_service]').prop('checked', false);
 				}
-				if (node.string === 'auth') {
-					// console.log('node requires auth');
-					if ($('.switch input').attr('checked') === undefined) {
-						$('.switch input').trigger('click');
-					}
-				} else {
-					// $('.switch input').removeAttr('checked');
-					if ($('.switch input').attr('checked') === 'checked') {
-						$('.switch input').trigger('click');
-					}
-				}
-				reloadDict('headers', true);
-				reloadDict('data', true);
+				$('[name=w_type]').val(node.work_type);
+				$('[name=n_url]').val(node.api_url);
+				$('[name=an_mode]').val(node.analisis_mode);
+				$('[name=string]').val(node.string);
+				newNodeFlow(node.id, node);
+				// nodeActual = node;
+				// // console.log(node.color);
+				// $('.node_settings_tag').css('background-color', node.color);
+				// $('[name=node_name]').val(node.name);
+				// $('[name=work_type]').val(node.work_type);
+				// $('[name=analisis_mode]').val(node.analisis_mode);
+				// $('[name=node_url]').val(node.api_url);
+				// $('[name=node_url]').css('width', '280px');
+				// $('[name=node_url]').css('max-width', '280px');
+				// $('[name=node_endpoint]').val(node.api_endpoint);
+				// if (node.work_type === 'process') {
+				// 	$('[field=url]').css('display', 'none');
+				// 	$('[field=endpoint]').css('display', 'none');
+				// 	$('[field=headers]').css('display', 'none');
+				// } else {
+				// 	$('[field=url]').css('display', 'block');
+				// 	$('[field=endpoint]').css('display', 'block');
+				// 	$('[field=headers]').css('display', 'block');
+				// }
+				// if (node.string === 'auth') {
+				// 	// console.log('node requires auth');
+				// 	if ($('.switch input').attr('checked') === undefined) {
+				// 		$('.switch input').trigger('click');
+				// 	}
+				// } else {
+				// 	// $('.switch input').removeAttr('checked');
+				// 	if ($('.switch input').attr('checked') === 'checked') {
+				// 		$('.switch input').trigger('click');
+				// 	}
+				// }
+				// reloadDict('headers', true);
+				// reloadDict('data', true);
 			}
 		});
 	};
@@ -126,10 +137,10 @@ function setNodeSettings () {
 		if (node_id === '') {
 			node_id = $(this).attr('p_id');
 		} else if (node_id === $(this).attr('p_id')) {
-			node_id = '';
-			$('.node_settings').css('display', 'block');
-			for (input of $('.node_settings'))
-			// console.log('show node form');
+			// node_id = '';
+			// $('.node_settings').css('display', 'block');
+			// for (input of $('.node_settings'))
+			// // console.log('show node form');
 			loadNode($(this).attr('p_id'));
 		} else {
 			node_id = '';

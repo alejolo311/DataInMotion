@@ -14,6 +14,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 import json
 import requests
 from models.auth import Auth
+import re
 
 auth = Auth()
 
@@ -123,15 +124,22 @@ class CustomNode(BaseNode, Base):
             val1 = None
             val2 = None
             for par in params:
-                if 'value1' in par:
-                    val1 = par['value1']
-                if 'value2' in par:
-                    val2 = par['value2']
+                if 'key' in par:
+                    val1 = par['key']
+                if 'comp' in par:
+                    val2 = par['comp']
                 if 'cond' in par:
                     cond = par['cond']
             print(val1, cond, val2)
-            res = eval(val1 + ' ' + cond + ' ' + val2)
-            print(res)
+            print(response)
+            if val1 in response:
+                val1 = response[val1] 
+            res = ''
+            try:
+                res = eval(val1 + ' ' + cond + ' ' + val2)
+                print(res)
+            except Exception as e:
+                print(e)
             if res == None:
                 return False
             return res
@@ -141,15 +149,24 @@ class CustomNode(BaseNode, Base):
             r  = response
             print(r)
             method, url = r['url'].split(' ')
-            data = json.loads(self.data)
-            sign = auth.gen_sig(data['key1'], data['key2'], r['data'], url, method)
+            print(self.analisis_params)
+            data = json.loads(self.analisis_params)
+            print(data, response)
+            sign = auth.gen_sig(data[0], data[1], r['data'], url, method)
             print(sign)
             print('====================================')
             return sign
         # this process extracts the data from the reponse object
+        if self.analisis_mode == 'replace':
+                resp = response;
+                parsed = self.parse_string(self.string, resp)
+                print('\033[36mparsed string:\033[0m\n\t', parsed,)
+                return parsed
         if len(params) > 0:
             for param in params:
                 # print(json.dumps(param, indent=2))
+                if 'path' not in param:
+                    continue
                 paths = param['path'].split('/')
                 print('paths: ', paths)
                 obj = response
@@ -163,10 +180,6 @@ class CustomNode(BaseNode, Base):
                             obj = obj[path]
                     if last == i:
                         resp[param['key']] = obj
-            if self.analisis_mode == 'replace':
-                parsed = self.parse_string(self.api_endpoint, resp)
-                print('\033[36mparsed string:\033[0m\n\t', parsed,)
-                return parsed
             return resp
         else:
             return response
@@ -224,7 +237,11 @@ class CustomNode(BaseNode, Base):
             print('data:', data, '\nparams:', params)
             headers = {}
             tmp_headers = self.headers
-            if self.string == 'auth':
+            authenticate = False
+            for head in json.loads(self.headers).keys():
+                if 'auth' in head.lower():
+                    authenticate = True
+            if authenticate:
                 headers['Authorization'] = auth.gen_header(json.loads(self.headers))
                 print('headers: ', self.headers)
                 print('___result_headers___')
@@ -315,13 +332,25 @@ class CustomNode(BaseNode, Base):
         """
         Search patterns and replace values in the endpoint
         """
-        keys = [ '{' + k + '}' for k in data.keys()]
+        print(data, format_string)
+        keys_starts = [oc.start() for oc in re.finditer('{', format_string)]
+        keys_ends = [oc.start() for oc in re.finditer('}', format_string)]
+        end_string = format_string
+        for i, k_start in enumerate(keys_starts):
+            key = format_string[k_start + 1:keys_ends[i]]
+            print(key)
+            if key in data:
+                print('{' + key + '}')
+                end_string = end_string.replace('{' + key + '}', data[key])
+                print(end_string)
         # print(format, data)
-        resp = format_string
-        for i, k in enumerate(keys):
-            resp = resp.replace(k, data[k[1:-1]])
+        # resp = format_string
+        # for i, k in enumerate(keys):
+        #     resp = resp.replace(k, data[k[1:-1]])
         # print(format_string)
         # print('parsed response', resp)
+        resp = end_string
+        print(resp)
         return resp
 
 
@@ -329,6 +358,7 @@ class CustomNode(BaseNode, Base):
         """
         Search patterns and replace values in the endpoint
         """
+
         keys = [ '{' + k + '}' for k in self.parse_data({}).keys()]
         resp = self.api_endpoint
         for k in keys:
