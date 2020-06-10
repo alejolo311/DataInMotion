@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  api:
+    build: 
+      context: .
+      dockerfile: ./api/Dockerfile
+    command: python3 -m api.v1.app
+    env_file:
+      - ./.env.dev
+    ports:
+      - 8080:8080
+    depends_on: 
+      - web
+  web:
+    build: ./web
+    command: python manage.py run -h 0.0.0.0
+    volumes:
+      - ./web/:/usr/src/app/
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - db
+  db:
+    image: postgres:12-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=data_im_dev
+      - POSTGRES_PASSWORD=dim_passwd
+      - POSTGRES_DB=data_im_dev_db
+
+volumes:
+  postgres_data:
