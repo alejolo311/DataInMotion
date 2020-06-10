@@ -1,0 +1,7 @@
+flask_cors
+requests
+flasgger
+Flask==1.1.1
+Flask-SQLAlchemy==2.4.1
+gunicorn==20.0.4
+psycopg2-binary==2.8.4
