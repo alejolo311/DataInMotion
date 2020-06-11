@@ -16,3 +16,5 @@ jobs:
       script: echo "build"
     - stage: Deploy
       script: echo "deploy"
+      on:
+        branch: master

@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 # Lint the Web
-pycodestyle ./web
+pycodestyle --ignore=E731,E402 ./web 
 
 # Lint the API
-pycodestyle ./api
-pycodestyle ./models
+pycodestyle --ignore=E731,E402 ./api 
+pycodestyle --ignore=E731,E402 ./models  
