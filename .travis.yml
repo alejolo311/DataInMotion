@@ -4,17 +4,27 @@ dist: bionic
 language: python
 python:
   - "3.8"
+env:
+  - DOCKER_COMPOSE_VERSION=3.7
+  
 jobs:
   include:
     - stage: Lint
       install:
         - pip3 install pycodestyle
       script: bash deploy/lint.sh
-    - stage: Test
-      script: echo "test"
-    - stage: Build
-      script: echo "build"
+    - stage: Build & Test
+      services:
+        - docker
+      before_install:
+        - sudo rm /usr/local/bin/docker-compose
+        - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+        - chmod +x docker-compose
+        - sudo mv docker-compose /usr/local/bin
+      script: 
+        - docker-compose -f docker-compose.prod.yml up --build -d
+        - python3 -m unittest tests/tests.py
     - stage: Deploy
+      if: branch = master
       script: echo "deploy"
-      on:
-        branch: master
+      
