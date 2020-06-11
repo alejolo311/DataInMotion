@@ -1,5 +1,6 @@
 # DataInMotion
 
+[![Build Status](https://travis-ci.com/alejolo311/DataInMotion.svg?branch=master)](https://travis-ci.com/alejolo311/DataInMotion)
 
 ## Environment
 - Ubuntu 18.04
