@@ -30,4 +30,4 @@ jobs:
     - eval "$(ssh-agent -s)"
     - chmod 400 key.pem
     - ssh-add key.pem
-    script: ssh -i key.pem root@$ip 'bash -s' < ./deploy/deploy.sh 
+    script: bash deploy/branch.sh
