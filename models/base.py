@@ -48,7 +48,7 @@ class BaseNode:
         if 'analisis_params' in dic:
             try:
                 dic['analisis_params'] = json.loads(dic['analisis_params'])
-            except:
+            except Exception:
                 pass
         if 'data' in dic:
             dic['data'] = json.loads(dic['data'])

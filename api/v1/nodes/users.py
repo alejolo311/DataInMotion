@@ -20,7 +20,8 @@ def users():
     return Response(users, mimetype='application/json')
 
 
-@app_nodes.route('/users/<user_id>/boards', methods=['GET'], strict_slashes=False)
+@app_nodes.route('/users/<user_id>/boards', methods=['GET'],
+                 strict_slashes=False)
 def users_boards(user_id):
     """
     Returns users

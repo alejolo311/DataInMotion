@@ -1,0 +1,33 @@
+os:
+- linux
+dist: bionic
+language: python
+python:
+- '3.8'
+env:
+- DOCKER_COMPOSE_VERSION=3.7
+services:
+- docker
+addons:
+  ssh_known_hosts:
+    - 159.65.38.228
+jobs:
+  include:
+  - stage: Lint
+    install:
+    - pip3 install pycodestyle
+    script: bash deploy/lint.sh
+  - stage: Build & Test
+    before_install: pip3 install docker-compose
+    script:
+    - docker-compose -f docker-compose.prod.yml up --build -d
+    - python3 -m unittest tests/tests.py
+  - stage: Deploy
+    if: branch = master
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_8233ba1cfa27_key -iv $encrypted_8233ba1cfa27_iv
+      -in ./deploy/key.pem.enc -out key.pem -d
+    - eval "$(ssh-agent -s)"
+    - chmod 400 key.pem
+    - ssh-add key.pem
+    script: ssh -i key.pem root@$ip 'bash -s' < ./deploy/deploy.sh 

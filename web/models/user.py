@@ -9,6 +9,7 @@ from models.board import Board
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
 
+
 class User(BaseNode, Base):
     """
     This model stores the needed data for the triggers
