@@ -6,11 +6,13 @@ python:
   - "3.8"
 jobs:
   include:
-    - stage: lint
-      script: echo "lint"
-    - stage: test
+    - stage: Lint
+      install:
+        - pip3 install pycodestyle
+      script: ./deploy/lint.sh
+    - stage: Test
       script: echo "test"
-    - stage: build
+    - stage: Build
       script: echo "build"
-    - stage: deploy
+    - stage: Deploy
       script: echo "deploy"
