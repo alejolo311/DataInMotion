@@ -9,7 +9,7 @@ jobs:
     - stage: Lint
       install:
         - pip3 install pycodestyle
-      script: ./deploy/lint.sh
+      script: bash deploy/lint.sh
     - stage: Test
       script: echo "test"
     - stage: Build
