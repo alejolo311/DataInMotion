@@ -1,26 +1,26 @@
 os:
-  - linux
+- linux
 dist: bionic
 language: python
 python:
-  - "3.8"
+- '3.8'
 env:
-  - DOCKER_COMPOSE_VERSION=3.7
+- DOCKER_COMPOSE_VERSION=3.7
 services:
-  - docker
+- docker
 jobs:
   include:
-    - stage: Lint
-      install:
-        - pip3 install pycodestyle
-      script: bash deploy/lint.sh
-    - stage: Build & Test
-      before_install:
-        pip3 install docker-compose
-      script: 
-        - docker-compose -f docker-compose.prod.yml up --build -d
-        - python3 -m unittest tests/tests.py
-    - stage: Deploy
-      if: branch = master
-      script: echo "deploy"
-      
+  - stage: Lint
+    install:
+    - pip3 install pycodestyle
+    script: bash deploy/lint.sh
+  - stage: Build & Test
+    before_install: pip3 install docker-compose
+    script:
+    - docker-compose -f docker-compose.prod.yml up --build -d
+    - python3 -m unittest tests/tests.py
+  - stage: Deploy
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_8233ba1cfa27_key -iv $encrypted_8233ba1cfa27_iv
+      -in key.pem.enc -out key.pem -d
+    script: bash deploy/deploy.sh
