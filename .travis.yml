@@ -9,7 +9,8 @@ env:
 services:
 - docker
 addons:
-  ssh_known_hosts: $ip
+  ssh_known_hosts:
+    - 159.65.38.228
 jobs:
   include:
   - stage: Lint
