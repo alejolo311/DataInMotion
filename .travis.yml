@@ -25,4 +25,5 @@ jobs:
     before_install:
     - openssl aes-256-cbc -K $encrypted_8233ba1cfa27_key -iv $encrypted_8233ba1cfa27_iv
       -in ./deploy/key.pem.enc -out key.pem -d
-    script: bash deploy/deploy.sh
+    - chmod 400 key.pem
+    script: bash ssh -i key.pem root@$ip 'bash -s' < ./deploy/deploy.sh 
