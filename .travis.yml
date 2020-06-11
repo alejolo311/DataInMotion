@@ -1,0 +1,16 @@
+os:
+  - linux
+dist: bionic
+language: python
+python:
+  - "3.8"
+jobs:
+  include:
+    - stage: lint
+      script: echo "lint"
+    - stage: test
+      script: echo "test"
+    - stage: build
+      script: echo "build"
+    - stage: deploy
+      script: echo "deploy"
