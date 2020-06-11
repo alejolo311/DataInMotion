@@ -11,10 +11,12 @@ services:
 jobs:
   include:
   - stage: Lint
+    if: branch = master
     install:
     - pip3 install pycodestyle
     script: bash deploy/lint.sh
   - stage: Build & Test
+    if: branch = master
     before_install: pip3 install docker-compose
     script:
     - docker-compose -f docker-compose.prod.yml up --build -d
@@ -22,5 +24,5 @@ jobs:
   - stage: Deploy
     before_install:
     - openssl aes-256-cbc -K $encrypted_8233ba1cfa27_key -iv $encrypted_8233ba1cfa27_iv
-      -in key.pem.enc -out key.pem -d
+      -in ./deploy/key.pem.enc -out key.pem -d
     script: bash deploy/deploy.sh
