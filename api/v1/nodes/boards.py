@@ -25,7 +25,7 @@ def return_board(board_id):
 
 
 @app_nodes.route('/users/<user_id>/create_board',
-                    methods=['GET'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def create_a_new_board(user_id):
     """
     Creates a new board appended to the user id
@@ -51,10 +51,8 @@ def create_a_new_board(user_id):
     # Save the created instances
     d_service.save()
     board.save()
-    return Response(json.dumps({'board_id': board.id}), mimetype='application/json')
-
-
-
+    return Response(json.dumps({'board_id': board.id}),
+                    mimetype='application/json')
 
 
 @app_nodes.route('/boards/<board_id>/', methods=['POST'], strict_slashes=False)
@@ -75,9 +73,10 @@ def boards(board_id):
         print(e)
     return Response({'ok': 'yes'}, mimetype='application/json')
 
+
 @app_nodes.route('/boards/<board_id>/save_name',
-                    methods=['POST'],
-                    strict_slashes=False)
+                 methods=['POST'],
+                 strict_slashes=False)
 def save_name(board_id):
     """
     Saves the name for the board
