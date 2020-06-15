@@ -120,6 +120,14 @@ def home():
     """
     return render_template('home.html', id=str(uuid.uuid4()))
 
+@app.route('/', methods=['GET'], strict_slashes=False)
+def index():
+    """
+    A index page to redirect user to the board
+    """
+    return render_template('index.html')
+
+
 
 if __name__ == '__main__':
     app.run("localhost", 8000)
