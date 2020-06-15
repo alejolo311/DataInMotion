@@ -113,12 +113,12 @@ def taerdown(exception):
     storage.close()
 
 
-@app.route('/home', methods=['GET'], strict_slashes=False)
-def home():
+@app.route('/login', methods=['GET'], strict_slashes=False)
+def login():
     """
     A index page to redirect user to the board
     """
-    return render_template('home.html', id=str(uuid.uuid4()))
+    return render_template('login.html', id=str(uuid.uuid4()))
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
