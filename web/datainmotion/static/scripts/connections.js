@@ -182,7 +182,7 @@ function setConnectionsListeners() {
 			console.log(outId, conId);
 			$.ajax({
 				type: 'POST',
-				url: 'http://0.0.0.0:8080/api/v1/nodes/' + outId + '/add_connection',
+				url: `http://${global.apiDirection}:8080/api/v1/nodes/${outId}/add_connection`,
 				contentType: 'application/json',
 				data: JSON.stringify({'con_id': conId, 'type': ty}),
 				success: function (response) {
@@ -248,7 +248,7 @@ function setConnectionsListeners() {
 		console.log('remove', out, 'from', node);
 		$.ajax({
 			type: 'DELETE',
-			url: 'http://0.0.0.0:8080/api/v1/nodes/' + node + '/del_connection',
+			url: `http://${global.apiDirection}:8080/api/v1/nodes/${node}/del_connection`,
 			contentType: 'application/json',
 			data: JSON.stringify({
 				'con_id': out,
@@ -265,7 +265,7 @@ function setConnectionsListeners() {
 
 function reloadNode (nodeId) {
 	$.ajax({
-		url: 'http://0.0.0.0:8001/nodes/' + nodeId,
+		url: `'http://${global.apiDirection}/nodes/${nodeId}`,
 		success: function (node) {
 			const actual = $('.node_container[node_id=' + nodeId + ']');
 			console.log('actual', actual);

@@ -82,7 +82,7 @@ function setNodeSettings () {
 	const loadNode = function (id) {
 		// console.log(id);
 		$.ajax({
-			url: 'http://0.0.0.0:8080/api/v1/nodes/' + id,
+			url:`http://${global.apiDirection}:8080/api/v1/nodes/${id}`,
 			success: function (node) {
 				$('[name=n_name]').val(node.name);
 				if (node.type === 'service') {
@@ -153,7 +153,7 @@ function setNodeSettings () {
 			type: 'POST',
 			contentType: 'application/json',
 			dataType: 'json',
-			url: 'http://0.0.0.0:8080/api/v1/nodes/' + nodeActual.id + '/save',
+			url: `http://${global.apiDirection}:8080/api/v1/nodes/${nodeActual.id}/save`,
 			data: JSON.stringify(nodeActual),
 			success:  function (resp) {
 				console.log(resp);

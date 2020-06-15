@@ -6,7 +6,7 @@ function autosave (evn) {
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
-		url: 'http://0.0.0.0:8080/api/v1/boards/' + boardId,
+		url: `http://${global.apiDirection}:8080/api/v1/boards/${boardId}`,
 		data: JSON.stringify(board),
 		success: function (resp) {
 			// console.log(resp);
