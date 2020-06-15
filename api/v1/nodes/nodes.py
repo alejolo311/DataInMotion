@@ -22,7 +22,8 @@ def nodes(node_id):
     return Response(resp, mimetype='application/json')
 
 
-@app_nodes.route('/nodes/<node_id>/savecolor', methods=['POST'], strict_slashes=False)
+@app_nodes.route('/nodes/<node_id>/savecolor',
+                 methods=['POST'], strict_slashes=False)
 def nodes_savecolor(node_id):
     """
     Returns list of nodes by user_id
@@ -30,10 +31,12 @@ def nodes_savecolor(node_id):
     node = storage.get(CustomNode, node_id)
     node.color = request.get_json()['color']
     node.save()
-    return Response(json.dumps({'status': 'saved'}), mimetype='application/json', status=200)
+    return Response(json.dumps({'status': 'saved'}),
+                    mimetype='application/json', status=200)
+
 
 @app_nodes.route('/nodes/<node_id>/save_analisis_params',
-                    methods=['POST'], strict_slashes=False)
+                 methods=['POST'], strict_slashes=False)
 def save_analisis_data(node_id):
     """
     Saves the incoming object analisis data attribute of node_id to db
@@ -49,7 +52,7 @@ def save_analisis_data(node_id):
 
 
 @app_nodes.route('/nodes/<node_id>/run',
-                    methods=['GET'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def run_node(node_id):
     """
     run the node proccesses and conections
@@ -60,7 +63,7 @@ def run_node(node_id):
 
 
 @app_nodes.route('/nodes/<node_id>/add_connection',
-                    methods=['POST'], strict_slashes=False)
+                 methods=['POST'], strict_slashes=False)
 def add_connection(node_id):
     """
     Add a connection to the given id
@@ -70,12 +73,12 @@ def add_connection(node_id):
     typ = request.get_json()['type']
     if typ == 'out':
         outnodes = json.loads(node.outnodes)
-        if not new_connection in outnodes:
+        if new_connection not in outnodes:
             outnodes.append(new_connection)
         node.outnodes = json.dumps(outnodes)
     else:
         innodes = json.loads(node.innodes)
-        if not new_connection in innodes:
+        if new_connection not in innodes:
             innodes.append(new_connection)
         node.innodes = json.dumps(innodes)
     node.save()
@@ -83,7 +86,7 @@ def add_connection(node_id):
 
 
 @app_nodes.route('/nodes/<node_id>/del_connection',
-                    methods=['DELETE'], strict_slashes=False)
+                 methods=['DELETE'], strict_slashes=False)
 def del_connection(node_id):
     """
     Delete the out
@@ -110,7 +113,8 @@ def del_connection(node_id):
     return Response({'state': 'Connection removed'}, status=200)
 
 
-@app_nodes.route('/boards/<board_id>/create_node', methods=['POST'], strict_slashes=False)
+@app_nodes.route('/boards/<board_id>/create_node', methods=['POST'],
+                 strict_slashes=False)
 def creates_new_node(board_id):
     """
     Creates a new node an likit to board id and user id
@@ -127,14 +131,17 @@ def creates_new_node(board_id):
     nodes[new_node.id] = {'x': 20, 'y': 60}
     board.nodes = json.dumps(nodes)
     board.save()
-    # template = render_template('node.html', nodes=[json.loads(new_node.to_dict())], )
-    return Response(json.dumps(json.loads(new_node.to_dict())), mimetype= 'application/json', status=200)
+    # template = render_template('node.html',
+    # nodes=[json.loads(new_node.to_dict())], )
+    return Response(json.dumps(json.loads(new_node.to_dict())),
+                    mimetype='application/json', status=200)
 
 
 @app_nodes.route('/nodes/<node_id>', methods=['DELETE'], strict_slashes=False)
 def delete_node(node_id):
     """
-    Delete a node instance, recursively and all references in any node at the board
+    Delete a node instance, recursively
+    and all references in any node at the board
     """
     try:
         node = storage.get(CustomNode, node_id)
@@ -161,7 +168,8 @@ def delete_node(node_id):
         return Response(str(e), status=500)
 
 
-@app_nodes.route('/nodes/<node_id>/save', methods=['POST'], strict_slashes=False)
+@app_nodes.route('/nodes/<node_id>/save', methods=['POST'],
+                 strict_slashes=False)
 def save_entire_node(node_id):
     """
     saves the entire node object
@@ -184,4 +192,5 @@ def save_entire_node(node_id):
             val = json.dumps(val)
         setattr(node, key, val)
     node.save()
-    return Response(json.dumps({'id': node_id}), status=200, mimetype='application/json')
+    return Response(json.dumps({'id': node_id}), status=200,
+                    mimetype='application/json')
