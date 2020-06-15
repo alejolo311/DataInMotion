@@ -4,7 +4,7 @@ function setOpsListeners() {
 		// The next wil send a GET request to DataInMotion AP
 		// to run the test and return the response
 		$.ajax({
-			url: 'http://0.0.0.0:8080/api/v1/nodes/' + nodeId + '/run',
+			url: `http://${global.apiDirection}:8080/api/v1/nodes/${nodeId}/run`,
 			crossDomain: true,
 			headers: {
 				'Access-Control-Allow-Origin': '*',

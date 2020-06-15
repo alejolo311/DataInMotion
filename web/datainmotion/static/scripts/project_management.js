@@ -35,7 +35,7 @@ function getBoards() {
 	// and attach the view to the container
 	
 	$.ajax({
-		url: 'http://0.0.0.0:8080/api/v1/users/' + userId + '/boards',
+		url: `http://${global.apiDirection}:8080/api/v1/users/${userId}/boards`,
 		contentType: 'application/json',
 		dataType: 'json',
 		success: function (response) {
@@ -85,7 +85,7 @@ function createBoard() {
 	const userId = $('.container').attr('user_id');
 	// const userId = 'a74c74e5-3be5-420b-809a-592b0e65d76b';
 	$.ajax({
-		url: 'http://0.0.0.0:8080/api/v1/users/' + userId + '/create_board',
+		url: `http://${global.apiDirection}:8080/api/v1/users/${userId}/create_board`,
 		contentType: 'application/json',
 		dataType: 'json',
 		success: function (data) {
@@ -102,7 +102,7 @@ function saveBoardName (name) {
 	const bId = $('.container').attr('board_id');
 	$.ajax({
 		type: 'POST',
-		url: 'http://0.0.0.0:8080/api/v1/boards/' + bId + '/save_name',
+		url: `http://${global.apiDirection}:8080/api/v1/boards/${bId}/save_name`,
 		dataType: 'json',
 		contentType: 'application/json',
 		data: JSON.stringify({'name': name}),
@@ -115,7 +115,7 @@ function newNode () {
 	console.log('Create a new node');
 	const boardId = $('.container').attr('board_id');
 	$.ajax({
-		url: 'http://0.0.0.0:8080/api/v1/boards/' + boardId + '/create_node',
+		url: `http://${global.apiDirection}:8080/api/v1/boards/${boardId}/create_node`,
 		type: 'POST',
 		success: function (resp) {
 			console.log(resp);
@@ -135,7 +135,7 @@ function newNode () {
 function deleteNode (id) {
 	$.ajax({
 		type: 'DELETE',
-		url: 'http://0.0.0.0:8080/api/v1/nodes/' + id,
+		url: `http://${global.apiDirection}:8080/api/v1/nodes/${id}`,
 		success: function (response) {
 			console.log(response);
 			$('[node_id=' + id + ']').remove();
