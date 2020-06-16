@@ -11,6 +11,10 @@
 	cursor: pointer;
 	display: none;
 }
+.top_bar .logo{
+	height: 50px;
+	line-height: 55px;
+}
 .top_bar {
 	left: 0;
 	top: 0;
@@ -20,24 +24,50 @@
 	background-color: #10040d;
 	display: flex;
 	z-index: 4;
+	vertical-align: baseline;
 }
+
+.top_bar .utility_menu, .top_bar .utility_menu ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.top_bar .utility_menu > li.back i{
+	line-height: 55px;
+	margin-right: 10px;
+}
+.top_bar .utility_menu > li{
+	float: left;
+}
+.top_bar .utility_menu h2{
+	line-height: 16px;
+	font-size: 12px;
+	margin: 5px 0;
+}
+.top_bar .utility_menu > li:last-child{
+	clear: both;
+}
+.top_bar .utility_menu > li:last-child > ul > li{
+	float:left;
+	margin-right: 20px;
+}
+.top_bar .utility_menu > li:last-child > ul > li i{
+	margin-right: 10px;
+}
+
 .top_bar h1 {
+	line-height: 50px;
 	font-size: 18px;
 	color: white;
 	font-family: var(--font);
 }
 .top_bar h2 {
-	padding: 4px 8px;
-	font-size: 14px;
-	margin-left: 12px;
-	border: 2px solid white;
-	border-radius: 8px;
 	cursor: pointer;
 	color: white;
 	font-family: var(--font);
 }
 .top_bar h2:hover {
-	background-color: rgba(180, 175, 175, 0.767);
+	color: #F29A2E;
 }
 .top_bar h2:active {
 	background-color: #511829;
@@ -126,17 +156,4 @@
 }
 .toggle_console:active {
 	background-color: rgba(0, 0, 0, 0.116);
-}
-.trash_can {
-	width: 126px;
-	height: 100%;
-	background-color: #d6ccd6;
-	z-index: 100;
-	background-image: url(../images/trash_can.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 60px;
-}
-.trash_can:hover {
-	background-color: #e5eae5;
 }

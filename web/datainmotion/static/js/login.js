@@ -1,4 +1,4 @@
-let htmlLogin =  '<a href="/login"> <span>Login</span> </a>'
+let htmlLogin = '<a href="/login"> <span>Login</span> </a>'
 let htmlLogout = `<a>
                     <span>Account</span>
                     <div>
@@ -7,17 +7,18 @@ let htmlLogout = `<a>
                     </div>
                   </a>`
 let button = document.getElementById("loginButton")
-if (localStorage.getItem("isLogged") === "true"){
+if (localStorage.getItem("isLogged") === "true") {
   button.innerHTML = htmlLogout
 }
-else{
+else {
   button.innerHTML = htmlLogin
 }
 
-function logout(){
+function logout() {
   localStorage.removeItem("isLogged");
   location.reload();
 }
-function boards(){
-  let user = localStorage.getItem("user") 
-  window.location.replace(`http://${global.apiDirection}/user/${user}/boards`);
+function boards() {
+  let user = localStorage.getItem("user")
+  window.location.replace(`http://${global.apiDirection}/user/${user}/boards`)
+};

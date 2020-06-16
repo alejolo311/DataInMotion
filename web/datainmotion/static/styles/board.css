@@ -1,6 +1,7 @@
 :root {
 	--font: 'Mallanna', sans-serif;
 }
+
 .boards {
 	position: absolute;
 	display: grid;
