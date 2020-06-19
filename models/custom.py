@@ -189,8 +189,8 @@ class CustomNode(BaseNode, Base):
                 obj = resp[param['key']]
                 count = json.loads(self.data)['count']
                 # print(count)
-                self.logger.log(self.name, param['key'] +
-                                ' length is ' + str(len(obj)))
+                self.logger.log(self.name, param['key']
+                                + ' length is ' + str(len(obj)))
                 if len(obj) > int(count):
                     # print('there is a new record')
                     # print(obj[len(obj) - 1])
@@ -247,8 +247,8 @@ class CustomNode(BaseNode, Base):
                         heads['data'][h] = auth.get_time()
                 heads['url'] = self.api_url
                 tmp_data = self.data
-                logger.log(self.name, 'Replacing ' +
-                           ' in ' + json.dumps(params))
+                logger.log(self.name, 'Replacing '
+                           + ' in ' + json.dumps(params))
                 dat = self.data.replace('*content*', params)
                 dat = json.loads(dat)
                 dat['status'] += ' {}'.format(auth.get_time())
