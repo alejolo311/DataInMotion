@@ -18,7 +18,10 @@ function newNodeFlow(id, node) {
 	});
 	// Close node options
 	$('[step=0]').find('.back').on('click', function (evn) {
-		$('.new_node_cont').css('display', 'none');	
+		$('.new_node_cont').css('display', 'none');
+		$('[step]').find('.back').unbind('click');
+		$('[step]').find('.next').unbind('click');
+		return null;
 	});
 	// forward step 1 to 2
 	$('[step=1]').find('.next').on('click', function () {
@@ -102,6 +105,7 @@ function newNodeFlow(id, node) {
 			$('.new_node_cont').css('display', 'none');
 			$('[step=6]').css('display', 'none');
 			saveNode(node);
+			return null;
 		} else {
 			$('[step=6]').css('display', 'none');
 			$('[step=7]').css('display', 'block');
@@ -128,6 +132,7 @@ function newNodeFlow(id, node) {
 		node.analisis_params = finAP;
 		node.string = $('[name=string]').val();
 		saveNode(node);
+		return null;
 	});
 	// backward step 7 to 6
 	$('[step=7]').find('.back').on('click', function (evn) {
@@ -330,6 +335,20 @@ function newNodeFlow(id, node) {
 			tmpAnPm.push(t_secret);
 		}
 	});
+	// Detect input elements to analisis_params when analisis_mode is 
+	// get_updates
+	$('[mode=get_updates] button').on('click', function (evn) {
+		// html_disc, html_occ, html_stop
+		const key = $('[name=upd_key]').val();
+		const path = $('[name=upd_path]').val();
+		if (key !== '' && path !== '') {
+			tmpAnPm.push({'key': key, 'path': path});
+			reloadParams();
+			$('[name=upd_key]').val('');
+			$('[name=upd_path]').val('');
+		}
+	});
+	reloadData();
 }
 
 function getAMInfo (mode) {

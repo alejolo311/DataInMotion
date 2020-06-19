@@ -4,9 +4,10 @@ const drawLine = function (a, b, canvas) {
 	contx.strokeStyle = '#DDEAC8';
 	contx.lineWidth = '1px';
 	contx.beginPath();
-	const offY =  160;
-	contx.moveTo(a.x - 1, a.y - offY);
-	contx.lineTo(b.x - 1, b.y - offY);
+	const offY =  132;
+	const offX = 2;
+	contx.moveTo(a.x + offX, a.y - offY);
+	contx.lineTo(b.x + offX, b.y - offY);
 	contx.stroke();
 	contx.closePath();
 };

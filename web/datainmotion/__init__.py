@@ -113,21 +113,33 @@ def taerdown(exception):
     storage.close()
 
 
-@app.route('/home', methods=['GET'], strict_slashes=False)
-def home():
+@app.route('/login', methods=['GET'], strict_slashes=False)
+def login():
     """
     A index page to redirect user to the board
     """
-    return render_template('home.html', id=str(uuid.uuid4()))
+    return render_template('login.html', id=str(uuid.uuid4()))
+
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     """
     A index page to redirect user to the board
     """
-    return render_template('index.html')
+    return render_template('index.html', id=str(uuid.uuid4()))
 
 
+@app.route('/launch_demo', methods=['GET'], strict_slashes=False)
+def launch_demo():
+    """
+    Find the demo user and send the id
+    """
+    users = storage.all(User)
+    us = None
+    for user in users.values():
+        if user.email == 'test':
+            us = user
+    return Response(json.dumps({'id': us.id}), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run("localhost", 8000)

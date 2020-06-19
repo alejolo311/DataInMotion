@@ -7,7 +7,7 @@ $(window).on('load', function () {
 	if (boardId !== undefined && boardId !== '') {
 		getBoardView();
 	} else {
-		console.log('no board');
+		// console.log('no board');
 		getBoards();
 	}
 });

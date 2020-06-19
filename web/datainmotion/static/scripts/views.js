@@ -29,6 +29,7 @@ function getBoardView () {
 		console.log('chage board name');
 		$(this).css('display', 'none');
 		$('[name=board_name]').css('display', 'block');
+		$('[name=board_name]').val($(this).text().replace(/^\s+|\s+$/g, ''));
 	});
 	$('[name=board_name]').focusout(function (evn) {
 		console.log($(this).val());

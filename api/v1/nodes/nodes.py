@@ -8,6 +8,8 @@ from models import storage
 from flask import jsonify, Response, request, render_template
 from models.custom import CustomNode
 from models.board import Board
+from models.logger import Logger
+from models.user import User
 import json
 
 
@@ -58,8 +60,15 @@ def run_node(node_id):
     run the node proccesses and conections
     """
     node = storage.get(CustomNode, node_id)
-    resp = node.run_node_task({})
-    return Response(json.dumps(resp), status=200)
+    logger = Logger(node.user_id)
+    resp = node.run_node_task({}, logger)
+    logger_content = str(logger)
+    print(logger_content)
+    logger.reset()
+    print(logger.json())
+    return Response(json.dumps(logger.json()),
+                    mimetype='application/json',
+                    status=200)
 
 
 @app_nodes.route('/nodes/<node_id>/add_connection',
@@ -94,19 +103,19 @@ def del_connection(node_id):
     typ = request.get_json()['type']
     conn = request.get_json()['con_id']
     node = storage.get(CustomNode, node_id)
-    print(typ, conn, node.id)
+    # print(typ, conn, node.id)
     if typ == 'out':
-        print('')
+        # print('')
         outnodes = json.loads(node.outnodes)
         if conn in outnodes:
-            print('remove', conn)
+            # print('remove', conn)
             del outnodes[outnodes.index(conn)]
         node.outnodes = json.dumps(outnodes)
     if typ == 'in':
-        print('')
+        # print('')
         innodes = json.loads(node.innodes)
         if conn in innodes:
-            print('remove', conn)
+            # print('remove', conn)
             del innodes[innodes.index(conn)]
         node.innodes = json.dumps(innodes)
     node.save()
@@ -121,7 +130,7 @@ def creates_new_node(board_id):
     """
     board = storage.get(Board, board_id)
     user_id = board.user_id
-    print(user_id)
+    # print(user_id)
     new_node = CustomNode()
     new_node.name = 'New'
     new_node.user_id = user_id
@@ -177,7 +186,7 @@ def save_entire_node(node_id):
     in_node = request.get_json()
     node = storage.get(CustomNode, node_id)
     sample_keys = json.loads(node.to_dict()).keys()
-    print(in_node)
+    # print(in_node)
     if 'type' not in in_node:
         node.type = 'custom'
     for key in sample_keys:
@@ -185,7 +194,7 @@ def save_entire_node(node_id):
             if key not in in_node:
                 setattr(node, key, '')
         if key not in in_node:
-            print('excluding', key)
+            # print('excluding', key)
             continue
         val = in_node[key]
         if type(val) == dict or type(val) == list:
@@ -194,3 +203,59 @@ def save_entire_node(node_id):
     node.save()
     return Response(json.dumps({'id': node_id}), status=200,
                     mimetype='application/json')
+
+
+@app_nodes.route('/users/<board_id>/boards_nodes', methods=['GET'],
+                 strict_slashes=False)
+def get_boards_nodes(board_id):
+    """
+    return a list ob boards an their node ids
+    """
+    board = storage.get(Board, board_id)
+    user = storage.get(User, board.user_id)
+    boards = storage.all(Board)
+    bs = {}
+    for b in boards.values():
+        # print(b)
+        if b.user_id == user.id:
+            bs[b.id] = {}
+            bs[b.id]['nodes'] = []
+            # print(b.nodes)
+            for node in json.loads(b.nodes).keys():
+                print(node)
+                n = storage.get(CustomNode, node)
+                if n is not None:
+                    bs[b.id]['nodes'].append({'name': n.name, 'id': n.id})
+            bs[b.id]['name'] = b.name
+    # print(bs)
+    return Response(json.dumps(bs), mimetype='application/json', status=200)
+
+
+@app_nodes.route('/nodes/<node_id>/copy_to/<board_id>', methods=['GET'],
+                 strict_slashes=False)
+def copy_node_to_board(node_id, board_id):
+    """
+    create a new node based on an existin one from other board
+    """
+    node = storage.get(CustomNode, node_id)
+    new_node = CustomNode()
+    in_node = json.loads(node.to_dict())
+    sample_keys = json.loads(node.to_dict()).keys()
+    # print(in_node)
+    del in_node['id']
+    for key in sample_keys:
+        if key in in_node:
+            val = in_node[key]
+            if type(val) == dict or type(val) == list:
+                val = json.dumps(val)
+            setattr(new_node, key, val)
+    new_node.innodes = json.dumps([])
+    new_node.outnodes = json.dumps([])
+    new_node.board_id = board_id
+    new_node.save()
+    board = storage.get(Board, board_id)
+    nodes = json.loads(board.nodes)
+    nodes[new_node.id] = {'x': 20, 'y': 50}
+    board.nodes = json.dumps(nodes)
+    board.save()
+    return Response('success', status=200)

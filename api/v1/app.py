@@ -17,6 +17,7 @@ app.register_blueprint(app_nodes)
 @app.teardown_appcontext
 def taerdown(exception):
     """Tears down close storage"""
+    print(exception)
     storage.close()
 
 

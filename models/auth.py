@@ -46,7 +46,7 @@ class Auth():
         nonce = lambda length: list(filter(lambda s: chr(s).isalpha(),
                                            base64.b64encode(os.urandom(
                                                length * 2))))[:length]
-        nonce = ''.join([chr(x) for x in nonce])[:-1]
+        nonce = ''.join([chr(x) for x in nonce(32)])[:-1]
         self.nonce = nonce
         return self.nonce
 

@@ -27,7 +27,7 @@ def users_boards(user_id):
     Returns users
     """
     user = storage.get(User, user_id)
-    print(user.boards)
+    # print(user.boards)
     boards = []
     for board in user.boards:
         boards.append(json.loads(board.to_dict()))

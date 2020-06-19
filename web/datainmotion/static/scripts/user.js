@@ -1,17 +1,17 @@
-$(window).on('load', function () {
-	const email = prompt('create an user with your email');
-	$.ajax({
-		type: 'POST',
-		contentType: 'application/json',
-		dataType: 'json',
-		url: `http://${global.apiDirection}:8080/api/v1/users/check/`,
-		data: JSON.stringify({
-			'email': email
-		}),
-		success: function (response) {
-			console.log(response);
-			window.open(`http://${global.apiDirection}/user/${response.id}/boards`, '_self');
-		}
-
-	});
-});
+async function login(event) {
+	const userName = document.getElementById("username").value
+	const response = await fetch(`http://${global.apiDirection}:8080/api/v1/users/check/`, {
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email: userName
+		})
+	})
+	let json = await response.json();
+	localStorage.user = json.id;
+	localStorage.isLogged = true;
+	window.location.replace(`http://${global.apiDirection}/user/${json.id}/boards`);
+}
