@@ -325,8 +325,8 @@ function deep(index, path) {
 							deep($(this).text(), p);
 						} else {
 							$(this).removeAttr('clicked');
-							$(this).parent().parent().find('div[cont=true]').empty();
-							$(this).parent().parent().find('div[cont=true]').remove();
+							$(this).parent().find('div[cont=true]').empty();
+							$(this).parent().find('div[cont=true]').remove();
 						}
 						
 					});
