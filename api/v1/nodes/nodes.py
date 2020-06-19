@@ -230,6 +230,7 @@ def get_boards_nodes(board_id):
     # print(bs)
     return Response(json.dumps(bs), mimetype='application/json', status=200)
 
+
 @app_nodes.route('/nodes/<node_id>/copy_to/<board_id>', methods=['GET'],
                  strict_slashes=False)
 def copy_node_to_board(node_id, board_id):
