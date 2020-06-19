@@ -86,6 +86,7 @@ def save_name(board_id):
     board.save()
     return Response(board.to_dict(), status=200)
 
+
 @app_nodes.route('/boards/<board_id>/delete',
                  methods=['GET'],
                  strict_slashes=False)

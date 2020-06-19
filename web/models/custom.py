@@ -189,15 +189,15 @@ class CustomNode(BaseNode, Base):
                 obj = resp[param['key']]
                 count = json.loads(self.data)['count']
                 # print(count)
-                self.logger.log(self.name, param['key'] +
-                                ' length is ' + str(len(obj)))
+                t = param['key'] + ' length is ' + str(len(obj))
+                self.logger.log(self.name, t)
                 if len(obj) > int(count):
                     # print('there is a new record')
                     # print(obj[len(obj) - 1])
                     # TODO
                     # set the counter to the new value
                     data = json.loads(self.data)
-                    data['count'] = int(len(obj))
+                    data['count'] = int(len(obj)) - 1
                     self.data = json.dumps(data)
                     self.save()
                     return obj[len(obj) - 1]
@@ -247,12 +247,14 @@ class CustomNode(BaseNode, Base):
                         heads['data'][h] = auth.get_time()
                 heads['url'] = self.api_url
                 tmp_data = self.data
-                logger.log(self.name, 'Replacing ' +
-                           ' in ' + json.dumps(params))
+                t = 'Replacing ' + ' in ' + json.dumps(params)
+                logger.log(self.name, t)
                 dat = self.data.replace('*content*', params)
-                self.data = dat
+                dat = json.loads(dat)
+                dat['status'] += ' {}'.format(auth.get_time())
+                self.data = json.dumps(dat)
                 # heads['data'] = params
-                heads['data']['status'] = json.loads(dat)['status']
+                heads['data']['status'] = dat['status']
                 # print('incoming params to', node.name, '\n', heads)
                 data, json_log = node.run_node_task(heads, logger)
                 headers = json.loads(self.headers)
