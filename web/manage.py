@@ -8,5 +8,6 @@ cli = FlaskGroup(app)
 def create_db():
     return 22
 
+
 if __name__ == "__main__":
     cli()

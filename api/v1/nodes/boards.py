@@ -25,7 +25,7 @@ def return_board(board_id):
 
 
 @app_nodes.route('/users/<user_id>/create_board',
-                    methods=['GET'], strict_slashes=False)
+                 methods=['GET'], strict_slashes=False)
 def create_a_new_board(user_id):
     """
     Creates a new board appended to the user id
@@ -51,10 +51,8 @@ def create_a_new_board(user_id):
     # Save the created instances
     d_service.save()
     board.save()
-    return Response(json.dumps({'board_id': board.id}), mimetype='application/json')
-
-
-
+    return Response(json.dumps({'board_id': board.id}),
+                    mimetype='application/json')
 
 
 @app_nodes.route('/boards/<board_id>/', methods=['POST'], strict_slashes=False)
@@ -62,15 +60,38 @@ def boards(board_id):
     """
     Returns list of nodes by user_id
     """
-    # print(request.data)
+    # # print(request.data)
     try:
-        print(request.get_json())
+        # print(request.get_json())
         board = storage.get(Board, board_id)
         board.nodes = json.dumps(request.get_json()['nodes'])
         board.save()
         # with open('boards/Board.' + board_id, 'w') as board:
         #     board.write(json.dumps(request.get_json()));
-        # print(dir(request))
+        # # print(dir(request))
     except Exception as e:
         print(e)
     return Response({'ok': 'yes'}, mimetype='application/json')
+
+
+@app_nodes.route('/boards/<board_id>/save_name',
+                 methods=['POST'],
+                 strict_slashes=False)
+def save_name(board_id):
+    """
+    Saves the name for the board
+    """
+    board = storage.get(Board, board_id)
+    board.name = request.get_json()['name']
+    board.save()
+    return Response(board.to_dict(), status=200)
+
+@app_nodes.route('/boards/<board_id>/delete',
+                 methods=['GET'],
+                 strict_slashes=False)
+def remove_board(board_id):
+    board = storage.get(Board, board_id)
+    print('deleting', board)
+    storage.delete(board)
+    storage.save()
+    return Response('a todo dar wey', status=200)

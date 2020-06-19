@@ -9,6 +9,7 @@ from models.board import Board
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+
 class DBEngine:
     __engine = None
     __session = None
@@ -24,7 +25,6 @@ class DBEngine:
         self.__engine = create_engine('postgres://{}:{}@{}:5432/{}'.format(
             user, password, host, db
         ))
-
 
     def reload(self):
         """

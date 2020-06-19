@@ -5,7 +5,7 @@
 }
 .menus {
 	position: absolute;
-	top: 116px;
+	top: 100px;
 	padding: 0px;
 	background-color: var(--menu_back);
 	z-index: 10;
