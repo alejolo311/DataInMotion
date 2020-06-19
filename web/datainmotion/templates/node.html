@@ -1,5 +1,5 @@
 {% for node in nodes %}
-<div class="node_container" name="{{ node.name }}_cont" node_id="{{ node.id }}"
+<div class="node_container" name="{{ node.name }}_cont" node_id="{{ node.id }}" cont_node_id="{{ node.id }}"
 	tag_color="{{ node.color }}" 
 	style="border: 2px solid {{ node.color }};">
 	<div class="node_up_bar">
@@ -14,6 +14,7 @@
 				{% endif %}
 				>request</button>
 				<button class="process" 
+				
 				{% if node.work_type == 'process' %}
 					style="background-color: rgb(29, 180, 29); color: white;"
 				{% else %}
@@ -38,7 +39,7 @@
 	<div class="connections">
 		<h2 con_id="{{ node.id }}"></h2>
 	</div>
-	<div class="grabber" parent="{{ node.name }}">
+	<div class="grabber" parent="{{ node.id }}">
 
 	</div>
 	<div class="innodes">

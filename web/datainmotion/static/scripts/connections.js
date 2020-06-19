@@ -4,9 +4,10 @@ const drawLine = function (a, b, canvas) {
 	contx.strokeStyle = '#DDEAC8';
 	contx.lineWidth = '1px';
 	contx.beginPath();
-	const offY =  160;
-	contx.moveTo(a.x - 1, a.y - offY);
-	contx.lineTo(b.x - 1, b.y - offY);
+	const offY =  132;
+	const offX = 2;
+	contx.moveTo(a.x + offX, a.y - offY);
+	contx.lineTo(b.x + offX, b.y - offY);
 	contx.stroke();
 	contx.closePath();
 };
@@ -36,9 +37,9 @@ function drawConnections () {
 		if ($(child).attr('in_id') !== undefined) {
 			const peer = $(child).attr('in_id');
 			const offset = $(child).offset();
-			let a = {'x': offset.left, 'y': offset.top};
+			let a = {'x': offset.left + 8, 'y': offset.top};
 			const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
-			let b = {'x': $(p[0]).offset().left, 'y': $(p[0]).offset().top};
+			let b = {'x': $(p[0]).offset().left + 8, 'y': $(p[0]).offset().top};
 			drawLine(a, b, canvas);
 		}
 	}
@@ -182,7 +183,7 @@ function setConnectionsListeners() {
 			console.log(outId, conId);
 			$.ajax({
 				type: 'POST',
-				url: 'http://0.0.0.0:8080/api/v1/nodes/' + outId + '/add_connection',
+				url: `http://${global.apiDirection}:8080/api/v1/nodes/${outId}/add_connection`,
 				contentType: 'application/json',
 				data: JSON.stringify({'con_id': conId, 'type': ty}),
 				success: function (response) {
@@ -248,7 +249,7 @@ function setConnectionsListeners() {
 		console.log('remove', out, 'from', node);
 		$.ajax({
 			type: 'DELETE',
-			url: 'http://0.0.0.0:8080/api/v1/nodes/' + node + '/del_connection',
+			url: `http://${global.apiDirection}:8080/api/v1/nodes/${node}/del_connection`,
 			contentType: 'application/json',
 			data: JSON.stringify({
 				'con_id': out,
@@ -265,7 +266,7 @@ function setConnectionsListeners() {
 
 function reloadNode (nodeId) {
 	$.ajax({
-		url: 'http://0.0.0.0:8001/nodes/' + nodeId,
+		url: `'http://${global.apiDirection}/nodes/${nodeId}`,
 		success: function (node) {
 			const actual = $('.node_container[node_id=' + nodeId + ']');
 			console.log('actual', actual);

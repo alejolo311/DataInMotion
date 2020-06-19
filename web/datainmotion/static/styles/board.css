@@ -1,6 +1,7 @@
 :root {
 	--font: 'Mallanna', sans-serif;
 }
+
 .boards {
 	position: absolute;
 	display: grid;
@@ -13,7 +14,7 @@
 .boards > div{
 	margin-top: 20px;
 	position: relative;
-	background-image: linear-gradient(to right, rgb(46, 65, 126), rgb(8, 39, 90));
+	/* background-image: linear-gradient(to right, rgb(46, 65, 126), rgb(8, 39, 90));*/
 	min-width: 200px;
 	z-index: 20;
 	cursor: pointer;
@@ -50,3 +51,237 @@
 .add_board h2 {
 	color: rgb(255, 255, 255);
 }
+
+
+.console_cont {
+	display: none;
+	top: 0;
+	left: 0;
+	width: 80%;
+	height: 100vw;
+	position: absolute;
+	z-index: 10;
+	background-color: rgba(0, 0, 0, 0.616);
+	padding: 2% 10%;
+}
+.data_extractor {
+	font-family: var(--font);
+	color: black;
+	padding: 20px;
+	background-color: white;
+	border: none;
+	border-radius: 12px;
+	line-height: 14px;
+	cursor: pointer;
+}
+.console_cont div {
+	margin: 0;
+}
+.console_cont h1 {
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
+	background-image: url(../images/close.png);
+	background-repeat: no-repeat;
+	background-size: 16px;
+	background-position: center;
+}
+.console_cont h1:hover {
+	box-shadow: 0 0 20px rgba(255, 255, 255, 0.747);
+}
+.console_cont h1:active {
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.554);
+	background-color: rgb(236, 236, 236);
+}
+.data_extractor h2 {
+	margin-top: 0;
+	margin: 2px;
+	width: fit-content;
+	background-color: #3200FF;
+	color: white;
+	font-family: var(--font);
+	padding: 4px 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 16px;
+}
+.data_extractor h2:hover {
+	background-color: rgb(61, 61, 206);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.445);
+}
+.data_extractor h2:active {
+	background-color:rgb(177, 177, 192);
+}
+.data_extractor h3 {
+	background-color: black;
+	border-radius: 12px;
+	color: white;
+	text-align: center;
+	padding: 4px 12px;
+	display: none;
+	margin: 0px -4px;
+	font-size: 14px;
+	max-height: 18px;
+}
+.data_extractor h3:hover {
+	display: block;
+	background-color: rgb(83, 83, 83);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.575);
+}
+.data_extractor h3:active {
+	background-color: white;
+	border: 1px solid black;
+	color: black;
+}
+div[node="true"] {
+	display: flex;
+}
+.colores {
+	color: #ff5100; 
+}
+.import {
+	background-color: rgba(0, 0, 0, 0.555);
+	position: absolute;
+	width: 100vw;
+	height: 100vw;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	display: none;
+}
+.import h3 {
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border-radius: 50%;
+	margin-left: 40px;
+	cursor: pointer;
+	background-image: url(../images/close.png);
+	background-position: center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+}
+.import h3:hover {
+	box-shadow: 0 0 30px rgba(255, 255, 255, 0.644);
+}
+.board_nodes {
+	background-color: white;
+	margin: 40px;
+	padding: 20px 40px;
+	border-radius: 20px;
+	display: grid;
+	grid-template-columns: 260px 260px 260px 260px;
+	grid-gap: 20px;
+
+}
+.board_node {
+	border-radius: 20px;
+	background-color: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.157);
+	padding: 10px 20px;
+
+}
+.import h2 {
+	cursor: pointer;
+	font-size: 18px;
+	text-align: center;
+	line-height: 18px;
+	padding: 4px;
+	border-radius: 12px;
+	margin-top: 0;
+	font-family: var(--font);
+}
+.import h2:hover {
+	color: purple;
+	background-color: rgba(128, 128, 128, 0.13);
+}
+.import h2:active {
+	color: rgb(238, 181, 238);
+	background-color: rgba(128, 128, 128, 0);
+}
+.import h1 {
+	font-family: var(--font);
+	font-size: 22px;
+	text-align: center;
+	color: rgb(68, 152, 173);
+}
+.loading {
+	display: none;
+	position: absolute;
+	width: 100vw;
+	z-index: 10;
+	height: 100vw;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.856);
+}
+.loading > div {
+	width: 140px;
+	height: 140px;
+	border-radius: 50%;
+	text-align: center;
+	background-color: white;
+	background-image: url(../images/wait.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100px;
+	margin-top: calc(14%);
+	margin-left: calc(45% - 70px);
+}
+.loading h1 {
+	color: white;
+	font-family: var(--font);
+	width: 90%;
+	text-align: center;
+}
+
+.gradient div:hover {
+	box-shadow: 0 0 60px #ffffffa1;
+}
+
+.gradient {
+	background: -moz-radial-gradient(53deg,#7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* ff3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #7b469a), color-stop(60%, #9c75b3), color-stop(100%, #b88dbb)); /* safari4+,chrome */
+	background: -webkit-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* safari5.1+,chrome10+ */
+	background: -o-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* opera 11.10+ */
+	background: -ms-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* ie10+ */
+	background: radial-gradient(37deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* w3c */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b88dbb', endColorstr='#7b469a',GradientType=0 ); /* ie6-9 */
+	background-size: 200% 200%;
+	-webkit-animation: gradient_animation 1.7s ease infinite;
+	-moz-animation: gradient_animation 1.7s ease infinite;
+	animation: gradient_animation 1.7s ease infinite;
+}
+@keyframes gradient_animation {
+	0% {
+	  background-position: 0% 50%; }
+	5% {
+	  background-position: 100% 50%; }
+	100% {
+	background-position: 0% 50%; } }
+
+@-webkit-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+5% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }
+
+@-moz-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+5% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }
+
+@-ms-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+10% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }

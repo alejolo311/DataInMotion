@@ -13,11 +13,12 @@
 	top: 120px;
 	position: absolute;
 	width: 60%;
+	max-width: 500px;
 	margin-left: 18%;
 	min-height: 100px;
 	border-radius: 12px;
 	padding-bottom: 60px;
-	display: block;
+	display: none;
 }
 .step h3 {
 	width: 80%;
@@ -125,7 +126,7 @@
 	cursor: pointer;
 }
 .step li:hover {
-	color: orange;
+	color: orange;<p>Replace mode</p>
 	font-weight: bold;
 }
 .step li:active {
@@ -147,5 +148,5 @@
 	background-color: blue;
 }
 .step button:active {
-	background-color: rgb(63, 63, 206);
+	background-color: rgb(158, 158, 248);
 }

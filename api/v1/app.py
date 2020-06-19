@@ -13,10 +13,13 @@ app = Flask(__name__)
 CORS(app)
 app.register_blueprint(app_nodes)
 
+
 @app.teardown_appcontext
 def taerdown(exception):
     """Tears down close storage"""
+    print(exception)
     storage.close()
+
 
 @app.errorhandler(500)
 def server_error(error):
@@ -24,7 +27,8 @@ def server_error(error):
     Prints the Server error
     """
     print(error)
-    return jsonify(error='Server error', message=str(error)), 500 
+    return jsonify(error='Server error', message=str(error)), 500
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -34,12 +38,15 @@ def not_found(error):
     print(error)
     return jsonify(error=str(error)), 404
 
+
 @app.route('/', strict_slashes=False)
 def index():
     """
     Main page
     """
+
     return 'hello'
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port='8080')
