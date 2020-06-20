@@ -88,6 +88,10 @@ class CustomNode(BaseNode, Base):
             # # print(headers)
         # print(headers, type(headers), '\n',
         #    protocol, url, '\n', data, type(data))
+        self.logger.log(self.name, 'Request parameters:')
+        self.logger.log(self.name, self.api_url)
+        self.logger.log(self.name, json.dumps(json.loads(self.headers), indent=2))
+        self.logger.log(self.name, json.dumps(json.loads(self.data), indent=2))
         try:
             if protocol == 'GET':
                 response = requests.get(url, params=data, headers=headers)
@@ -110,9 +114,16 @@ class CustomNode(BaseNode, Base):
                 # print(e)
                 response = response.content
         else:
-            response = {'error': response.reason,
-                        'message': response.json()['errors'][0]['message'],
-                        'code': response.status_code}
+            try:
+                response = {'error': response.reason,
+                            'message': response.json()['errors'][0]['message'],
+                            'code': response.status_code}
+            except Exception as e:
+                print(e)
+                print(response.content)
+                response = {'error': response.reason,
+                            'message': str(response.content),
+                            'code': response.status_code}
         # # print(response.json())
         # # print(response.json())
         return response, response
@@ -153,19 +164,6 @@ class CustomNode(BaseNode, Base):
             if not res:
                 return False
             return res
-        if self.analisis_mode == 'gen_signature':
-            # print('==========Gen Signature=============')
-
-            r = response
-            # print(r)
-            method, url = r['url'].split(' ')
-            data = json.loads(self.analisis_params)
-            sign = auth.gen_sig(data[0],
-                                data[1], r['data'], url, method)
-            # print(sign)
-            # print('====================================')
-            return sign
-        # this process extracts the data from the reponse object
         if len(params) > 0:
             for param in params:
                 # # print(json.dumps(param, indent=2))
@@ -234,83 +232,101 @@ class CustomNode(BaseNode, Base):
             logger.log(self.name, 'Checking innodes')
             innodes = json.loads(self.innodes)
             node = models.storage.get(CustomNode, innodes[0])
-            if node.analisis_mode == 'gen_signature':
-                logger.log(self.name, 'innode -> gen_signature mode')
-                heads = {}
-                heads['data'] = json.loads(self.headers)
-                for h in heads['data'].keys():
-                    if heads['data'][h] == 'random':
-                        rand = h
-                        heads['data'][h] = auth.gen_nonce()
-                    elif heads['data'][h] == 'time':
-                        time = h
-                        heads['data'][h] = auth.get_time()
-                heads['url'] = self.api_url
-                tmp_data = self.data
-                t = 'Replacing ' + ' in ' + json.dumps(params)
-                logger.log(self.name, t)
-                dat = self.data.replace('*content*', params)
-                dat = json.loads(dat)
-                dat['status'] += ' {}'.format(auth.get_time())
-                self.data = json.dumps(dat)
-                # heads['data'] = params
-                heads['data']['status'] = dat['status']
-                # print('incoming params to', node.name, '\n', heads)
-                data, json_log = node.run_node_task(heads, logger)
-                headers = json.loads(self.headers)
-                if rand in headers:
-                    headers[rand] = heads['data'][rand]
-                if time in headers:
-                    headers[time] = heads['data'][time]
-                headers['oauth_signature'] = data
-                self.headers = json.dumps(headers)
-            else:
-                data, json_log = node.run_node_task(params, logger)
-            # # print(data)
+            data, json_log = node.run_node_task(params, logger)
         # Handles the request if the worker is request
         # take in count the headers
         # and the behavior give by the innodes-data response
         if self.work_type == 'request':
             logger.log(self.name, 'Request mode')
-            # print('.......................')
-            # print('Request from', self.name)
-            # print('data:', data, '\nparams:', params)
             headers = {}
             tmp_headers = self.headers
+            tmp_data = self.data
             need_auth = False
             for head in json.loads(self.headers):
                 if 'auth' in head:
                     need_auth = True
+                    break
             if need_auth:
-                headers['Authorization'] = auth.gen_header(
-                    json.loads(self.headers))
-                # print('headers: ', self.headers)
-                # print('___result_headers___')
-                # print(headers)
-                self.headers = json.dumps(headers)
-            # print('.......................')
-            data, json_log = self.request(self.parse_data(data))
+                heads = {}
+                heads['data'] = json.loads(self.headers)
+                # logger.log(self.name, json.dumps(heads, indent=2))
+                for h in heads['data'].keys():
+                    # logger.log(self.name, heads['data'][h])
+                    if heads['data'][h] == 'random':
+                        heads['data'][h] = auth.gen_nonce()
+                    elif heads['data'][h] == 'time':
+                        heads['data'][h] = auth.get_time()
+                    # logger.log(self.name, heads['data'][h])
+                heads['url'] = self.api_url
+                t = 'Replacing ' + ' in ' + json.dumps(params)
+                logger.log(self.name, t)
+                # print(type(params))
+                if type(params) != dict:
+                    dat = self.data.replace('*content*', params)
+                else:
+                    dat = self.data
+                dat = json.loads(dat)
+                self.data = json.dumps(dat)
+                # Remove no auth keys in headers
+                hs = heads['data'].copy()
+                keys = heads['data'].keys()
+                for key in keys:
+                    if not 'auth' in key:
+                        del hs[key]
+                heads['data'] = hs.copy()
+                # append the data to send to the headers
+                for key in dat:
+                    heads['data'][key] = dat[key]
+                if len(heads['url'].split(' ')) > 1:
+                    method, url = heads['url'].split(' ')
+                else:
+                    method = 'GET'
+                    url = heads['url']
+                    self.api_url = '{} {}'.format(method, self.api_url)
+                # hs = json.loads(self.headers)
+                # print(hs['Signature_keys'], type(hs['Signature_keys']))
+                try:
+                    keys = json.loads(json.loads(tmp_headers)['Signature_keys'])
+                    print(keys, type(keys))
+                except Exception as e:
+                    print(e)
+                # print()
+                signature = auth.gen_sig(keys['key1'],
+                                keys['key2'], heads['data'], url, method)
+                heads['data']['oauth_signature'] = signature
+                hs = {}
+                h = heads['data'].copy()
+                for key in dat:
+                    if key in heads['data'].keys():
+                        del h[key]
+                heads['data'] = h.copy()
+                print('303', json.dumps(heads['data'], indent=2))
+                hs['Authorization'] = auth.gen_header(heads['data'])
+                for key in json.loads(tmp_headers).keys():
+                    if not 'auth' in key:
+                        hs[key] = json.loads(tmp_headers)[key]
+                if 'Signature_keys' in hs:
+                    del hs['Signature_keys']
+                self.headers = json.dumps(hs)
+            data, json_log = self.request(json.loads(self.data))
             self.headers = tmp_headers
-            # search signature an delete it from model,
-            # also restart nounce 'random' tag
-            headers = json.loads(self.headers)
-            if 'oauth_signature' in headers:
-                del headers['oauth_signature']
-            if rand in headers:
-                headers[rand] = 'random'
-            if time in headers:
-                headers[time] = 'time'
-            self.headers = json.dumps(headers)
-            if tmp_data:
-                self.data = tmp_data
+            self.data = tmp_data
             self.save()
         # Set this variable to be able to call multiple innodes
         # The data here is filtered by the analisis_params parameters
         if len(params) > 0:
+            print('data is params plus data')
             data = self.parse_data(params)
         logger.log(self.name, self.analisis_mode)
         data = self.processResponse(data)
         if self.work_type == 'request':
+            if type(data) == dict:
+                index = 0
+                for key in data:
+                    try:
+                        json_log[key] = data[key]
+                    except Exception as e:
+                        print(e)
             logger.json_log[self.name] = json_log
         else:
             logger.json_log[self.name] = data
@@ -340,7 +356,7 @@ class CustomNode(BaseNode, Base):
                 else:
                     if len(json_log) <= 0:
                         json_log = data
-                    data, json_log = node.run_node_task(json_log, logger)
+                    data, json_log = node.run_node_task(data, logger)
                 if type(data) == dict:
                     data = self.parse_data(data)
         return data, json_log

@@ -65,7 +65,7 @@ def run_node(node_id):
     logger_content = str(logger)
     print(logger_content)
     logger.reset()
-    print(logger.json())
+    # print(logger.json())
     return Response(json.dumps(logger.json()),
                     mimetype='application/json',
                     status=200)

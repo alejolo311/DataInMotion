@@ -2,8 +2,7 @@
 """
 Logger Object to return data in a pretty format
 """
-
-
+import shutil
 import json
 
 
@@ -31,8 +30,13 @@ class Logger:
         """
         add a new line to to file attached to the user
         """
+        cols, rows = shutil.get_terminal_size(fallback=(80, 24))
         with open(self.user_id + '.log', 'a+') as logfile:
-            logfile.write('{:<14}:   '.format(node_name) + content + '\n')
+            lines = content.split('\n')
+            cols = cols - 15
+            for line in lines:
+                for i in range(0, len(line), cols):
+                    logfile.write('{:<14}:   '.format(node_name) + line[i:i + cols] + '\n')
 
     def __str__(self):
         """

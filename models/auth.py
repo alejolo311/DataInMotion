@@ -69,9 +69,16 @@ class Auth():
         par_str = "&".join([method, url, out_s])
         # print(par_str)
         par_str = bytes([ord(x) for x in par_str])
-        sig_key = quote(bytes([ord(x) for x in key1]), safe="") + "&"
-        sig_key += quote(bytes([ord(x) for x in key2]), safe="")
+        print(par_str)
+        sig_key = None
+        if key1 != "":
+            sig_key = quote(bytes([ord(x) for x in key1]), safe="") + "&"
+        if key2 != "":
+            sig_key += quote(bytes([ord(x) for x in key2]), safe="")
+        if sig_key is None:
+            sig_key = ''
         sig_key = bytes([ord(x) for x in sig_key])
+        print(sig_key)
         # print(sig_key)
         # Hashing with hmac-sha1
         hashed = hmac.new(sig_key, par_str, sha1)
