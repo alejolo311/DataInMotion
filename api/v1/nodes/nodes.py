@@ -69,7 +69,7 @@ def run_node(node_id):
     # print(logger_content)
     # print(logger.json())
     # logger.json()['raw_text'] = logger_content
-    #return jsonify(logger.json()), 200
+    # return jsonify(logger.json()), 200
     return Response(json.dumps(dict(logger.json())),
                     mimetype='application/json',
                     status=200)
