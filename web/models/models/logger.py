@@ -24,7 +24,7 @@ class Logger:
         """
         return the json log
         """
-        return self.json_log
+        return self.json_log.copy()
 
     def log(self, node_name, content):
         """
@@ -36,7 +36,9 @@ class Logger:
             cols = cols - 15
             for line in lines:
                 for i in range(0, len(line), cols):
-                    logfile.write('{:<14}:   '.format(node_name) + line[i:i + cols] + '\n')
+                    print('{:<14}:   '.format(node_name) + line[i:i + cols])
+                    logfile.write('{:<14}:   '.format(node_name) +
+                                  line[i:i + cols] + '\n')
 
     def __str__(self):
         """

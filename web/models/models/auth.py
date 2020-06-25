@@ -14,6 +14,15 @@ import time
 from urllib.parse import quote
 import base64
 import os
+import json
+
+
+def nonce(length):
+    """
+    generates a nonce 32 bytes string
+    """
+    return list(filter(lambda s: chr(s).isalpha(),
+                       base64.b64encode(os.urandom(length * 2))))[:length]
 
 
 class Auth():
@@ -43,16 +52,13 @@ class Auth():
 
     def gen_nonce(self):
         """This method generates the nonce string"""
-        nonce = lambda length: list(filter(lambda s: chr(s).isalpha(),
-                                           base64.b64encode(os.urandom(
-                                               length * 2))))[:length]
-        nonce = ''.join([chr(x) for x in nonce(32)])[:-1]
-        self.nonce = nonce
+        non = nonce(32)
+        non = ''.join([chr(x) for x in non])[:-1]
+        self.nonce = non
         return self.nonce
 
     def gen_sig(self, key1, key2, dic, url="", method=""):
         """This method generates the authorization signature"""
-        print("========================\nGenerating signature\n")
         keys = [st for st in dic.keys()]
         keys = sorted(keys)
         out_s = ""
@@ -60,7 +66,7 @@ class Auth():
         for attr in keys:
             key = quote(bytes(attr, "ascii"), safe="")
             out_s += key + "="
-            out_s += quote(bytes(dic[attr], "UTF-8"), safe="")
+            out_s += quote(bytes(str(dic[attr]), "UTF-8"), safe="")
             out_s += "&"
         # print(out_s)
         out_s = quote(bytes([ord(x) for x in out_s[:-1]]), safe="")
@@ -69,7 +75,7 @@ class Auth():
         par_str = "&".join([method, url, out_s])
         # print(par_str)
         par_str = bytes([ord(x) for x in par_str])
-        print(par_str)
+        # print(par_str)
         sig_key = None
         if key1 != "":
             sig_key = quote(bytes([ord(x) for x in key1]), safe="") + "&"
@@ -78,15 +84,15 @@ class Auth():
         if sig_key is None:
             sig_key = ''
         sig_key = bytes([ord(x) for x in sig_key])
-        print(sig_key)
+        # print(sig_key)
         # print(sig_key)
         # Hashing with hmac-sha1
         hashed = hmac.new(sig_key, par_str, sha1)
-        print(hashed)
+        # print(hashed)
         # print(hashed)
         hashed = codecs.encode(hashed.digest(), "base64").rstrip(bytes([10]))
         # print(hashed)
         hashed = quote(hashed, safe="")
-        print(hashed)
-        print("========================")
+        # print(hashed)
+        # print("========================")
         return hashed
