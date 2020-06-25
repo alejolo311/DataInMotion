@@ -528,8 +528,8 @@ class CustomNode(BaseNode, Base):
             params = self.analisis_params
         if self.analisis_mode == 'comparision':
             self.logger.log(self.name, 'Comparission mode')
-            self.logger.log(self.name, 'Cheking analisis_params\n'
-                            + json.dumps(params))
+            self.logger.log(self.name, 'Cheking analisis_params\n')
+            self.logger.log(self.name, json.dumps(params))
             print(self.name, response.keys())
             cond = None
             val1 = None
@@ -553,8 +553,8 @@ class CustomNode(BaseNode, Base):
             occurr = []
             res = False
             if type(val1) == dict:
-                res = eval("'{}'".format(val2)
-                           + ' ' + cond + ' ' + json.dumps(list(val1.keys())))
+                lis = json.dumps(list(val1.keys()))
+                res = eval('"{}" {} {}'.format(val2, cond, lis))
             elif type(val1) == list:
                 for el in val1:
                     if val2.lower() in json.dumps(el).lower():
@@ -564,8 +564,7 @@ class CustomNode(BaseNode, Base):
                         occurr.append(el)
             if val1 and type(val1) != dict and type(val1) != list:
                 if cond == 'in':
-                    res = eval('"{}"'.format(val2)
-                               + ' ' + cond + ' ' + '"{}"'.format(val2))
+                    res = eval('"{}" {} "{}"'.format(val2, cond, val1))
                     occurr = val1
                 else:
                     res = eval(val1 + ' ' + cond + ' ' + val2)
