@@ -559,8 +559,8 @@ class CustomNode(BaseNode, Base):
                 for el in val1:
                     if val2.lower() in json.dumps(el).lower():
                         res = True
-                        self.logger.log(self.name, 'found ocurrence: '
-                                        + json.dumps(el, indent=2))
+                        self.logger.log(self.name, 'found ocurrence')
+                        self.logger.log(self.name, json.dumps(el, indent=2))
                         occurr.append(el)
             if val1 and type(val1) != dict and type(val1) != list:
                 if cond == 'in':

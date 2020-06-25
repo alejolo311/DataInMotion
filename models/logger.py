@@ -37,8 +37,8 @@ class Logger:
             for line in lines:
                 for i in range(0, len(line), cols):
                     print('{:<14}:   '.format(node_name) + line[i:i + cols])
-                    logfile.write('{:<14}:   '.format(node_name) +
-                                  line[i:i + cols] + '\n')
+                    lin = line[i:i + cols] + '\n'
+                    logfile.write('{:<14}:   {}'.format(node_name, lin))
 
     def __str__(self):
         """
