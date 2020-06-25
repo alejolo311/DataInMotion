@@ -61,12 +61,16 @@ def run_node(node_id):
     """
     node = storage.get(CustomNode, node_id)
     logger = Logger(node.user_id)
-    resp = node.run_node_task({}, logger)
+    resp = node.run_node_task(({}, {}), logger)
     logger_content = str(logger)
-    print(logger_content)
+    # with open('logger_content', 'w') as logfile:
+    #     logfile.write(logger_content)
     logger.reset()
+    # print(logger_content)
     # print(logger.json())
-    return Response(json.dumps(logger.json()),
+    # logger.json()['raw_text'] = logger_content
+    #return jsonify(logger.json()), 200
+    return Response(json.dumps(dict(logger.json())),
                     mimetype='application/json',
                     status=200)
 
@@ -200,6 +204,7 @@ def save_entire_node(node_id):
         if type(val) == dict or type(val) == list:
             val = json.dumps(val)
         setattr(node, key, val)
+    print('Saved node\n', node.to_dict())
     node.save()
     return Response(json.dumps({'id': node_id}), status=200,
                     mimetype='application/json')

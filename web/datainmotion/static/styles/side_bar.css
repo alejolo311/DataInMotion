@@ -167,9 +167,12 @@
 	margin-top: 12px;
 	display: none;
 }
-board_name {
-	position: absolute;
-	left: 200px;
+.board_name {
+	padding: 0px 16px;
+	border-radius: 12px;
+}
+.board_name:hover {
+	background-color: grey;
 }
 .delete_sign {
 	color: purple;
@@ -183,14 +186,20 @@ board_name {
 }
 .trash_can {
 	position: absolute;
+	width: 60%;
+	height: calc(100% - 36px);
 	right: 0px;
 	margin-top: 0;
-	background-color: rgb(13, 137, 245);
-	padding: 18px;
+	background-color: #165185;
+	padding: 32px 4px;
 	top: 0;
 	font-size: 18px;
-	text-align: center;
+	text-align: left;
+}
+.trash_can:hover {
+	color: white;
 }
 .trash_can i {
-	margin-left: 12px;
+	margin-left: 80px;
+	margin-right: 20px;
 }

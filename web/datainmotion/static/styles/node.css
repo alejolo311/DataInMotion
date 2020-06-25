@@ -14,9 +14,8 @@
 	
 }
 body {
-	background-color: var(--board_color);
+	/* background-color: var(--board_color); */
 	/*background-image: linear-gradient(to right, #041530, #010b1b);*/
-	background-image: linear-gradient(to right, var(--board_color), var(--board_color_end));
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
@@ -484,11 +483,11 @@ hr {
 
 }
 .test_button {
-	width: 16px;
-	height: 16px;
+	width: 20px;
+	height: 20px;
 	background-color: white;
 	right: 38px;
-	margin-top: 6px; 
+	margin-top: 4px; 
 	margin-right: 8px;
 	clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);
 	-webkit-clip-path: polygon(100% 49%, 100% 49%, 46% 77%, 46% 26%, 46% 25%, 46% 77%, 0 100%, 0 0);
@@ -499,6 +498,37 @@ hr {
 }
 .test_button:active {
 	background-color: #1d7c7e;
+}
+.media_player {
+	width: 28px;
+	height: 28px;
+	background-color: white;
+	background-image: url(../images/document.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 16px;
+	border-radius: 50%;
+	margin-left: 0;
+	margin-right: 10px;
+}
+.media_player:hover {
+	background-color: rgb(216, 216, 216);
+}
+.media_player:active {
+	background-color: rgb(219, 255, 198);
+}
+.media_cont {
+	display: none;
+	width: 100%;
+	position: absolute;
+	top: 35px;
+	border-radius: 12px;
+}
+.media_cont img {
+	width: calc(100% - 8px);
+	object-fit: cover;
+	margin: 4px;
+	border-radius: 12px;
 }
 .outnode_settings {
 	background-color: rgba(45, 6, 46, 0.65);

@@ -1,41 +1,37 @@
 {% for node in nodes %}
-<div class="node_container" name="{{ node.name }}_cont" node_id="{{ node.id }}" cont_node_id="{{ node.id }}"
+<div class="node_container"
+	 name="{{ node.name }}_cont"
+	 node_id="{{ node.id }}"
+	 cont_node_id="{{ node.id }}"
+
 	tag_color="{{ node.color }}" 
 	style="border: 2px solid {{ node.color }};">
 	<div class="node_up_bar">
 		<div class="up" p_id="{{ node.id }}">
-			<h1 class="tag_name">{{ node.name }}</h1>
-			<!--<div class="work_toggle">
-				<button class="request"
-				{% if node.work_type == 'request' %}
-					style="background-color: brown; color: white;"
+			<h1 class="tag_name" p_id="{{ node.id }}">{{ node.name }}</h1>
+			<div class="test_button" n_id="{{ node.id }}"
+				{% if node.type == 'service' %}
+				style="display: block;"
 				{% else %}
-					style="color: rgb(160, 160, 160);"
+				style="display:none;"
 				{% endif %}
-				>request</button>
-				<button class="process" 
-				
-				{% if node.work_type == 'process' %}
-					style="background-color: rgb(29, 180, 29); color: white;"
-				{% else %}
-					style="color: rgb(160, 160, 160);"
-				{% endif %}
-				>process</button>
-			</div>-->
-		<div class="test_button" n_id="{{ node.id }}"
-
-		{% if node.type == 'service' %}
-		style="display: block;">
-		{% else %}
-		style="display:none;">
-		{% endif %}
-			</div>
+			></div>
 		</div>
-		<div class="tag_color" style="background-color: {{ node.color }}" id="{{ node.id }}">
-			
-		</div>
+		<div class="media_player" id="{{ node.id }}"
+			{% if node.analisis_mode == 'media_player' %}
+			style="display:block;"
+			{% else %}
+			style="display:none;"
+			{% endif %}
+		></div>
+		<div class="tag_color"
+			style="background-color: {{ node.color }}"
+			id="{{ node.id }}"
+		></div>
 	</div>
-	<!--<h4>info</h4>-->
+	
+	<!--all the floating views-->
+
 	<div class="connections">
 		<h2 con_id="{{ node.id }}"></h2>
 	</div>
@@ -65,6 +61,12 @@
 			></button>
 		{% endfor %}
 		<h2 n_id="{{ node.id }}">save</h2>
+	</div>
+	<div class="media_cont" style="background-color: {{ node.color }};">
+		{% if node.analisis_mode == 'media_player' %}
+		<img src="../static/images/giphy.gif">
+		{% endif %}
+
 	</div>
 </div>
 {% endfor %}

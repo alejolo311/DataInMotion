@@ -3,6 +3,8 @@ function setOpsListeners() {
 		const nodeId = $(this).attr('n_id');
 		// The next wil send a GET request to DataInMotion AP
 		// to run the test and return the response
+		setTimeout('', 2000);
+		$('.new_node_cont').css('display', 'none');
 		$('.loading').css('display', 'block');
 		$.ajax({
 			url: `http://${global.apiDirection}:8080/api/v1/nodes/${nodeId}/run`,
