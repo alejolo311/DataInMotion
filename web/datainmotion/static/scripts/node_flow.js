@@ -1,146 +1,6 @@
-function newNodeFlow(id, node) {
-	let pos = 0;
-	let tmpAnPm = node.analisis_params;
-	$('.new_node_cont').css('display', 'block');
-	$('[step=0]').css('display', 'block');
+let tmpAnPm;
+function newNodeFlow(id) {
 
-	// This block defines the flow buttons listeners
-	// forward step 0 to 1
-	$('[step=0]').find('.next').on('click', function (evn) {
-		const name = $('[name=n_name]').val();
-		console.log(name);
-		if (name !== '' && name !== undefined) {
-			node.name = name;
-			$('[step=0]').css('display', 'none');
-			$('[step=1]').css('display', 'block');
-			pos = 1;
-		}
-	});
-	// Close node options
-	$('[step=0]').find('.back').on('click', function (evn) {
-		$('.new_node_cont').css('display', 'none');
-		$('[step]').find('.back').unbind('click');
-		$('[step]').find('.next').unbind('click');
-		return null;
-	});
-	// forward step 1 to 2
-	$('[step=1]').find('.next').on('click', function () {
-		const service = $('[name=is_service]').prop('checked');
-		if (service) {
-			node.type = 'service';
-		} else {
-			node.type = 'custom';
-		}
-		$('[step=1]').css('display', 'none');
-		$('[step=2]').css('display', 'block');
-	});
-	// backward step 1 to 0
-	$('[step=1]').find('.back').on('click', function (evn) {
-		$('[step=1]').css('display', 'none');
-		$('[step=0]').css('display', 'block');
-	});
-	// forward step 2 to 3 or 5 depending on the work_type selected
-	$('[step=2]').find('.next').on('click', function (evn) {
-		const type = $('[name=w_type]').val();
-		node.work_type = type;
-		if (type === 'request') {
-			$('[step=2]').css('display', 'none');
-			$('[step=3]').css('display', 'block');
-		} else {
-			$('[step=2]').css('display', 'none');
-			$('[step=5]').css('display', 'block');
-		}
-	});
-	// backward step 2 to 1
-	$('[step=2]').find('.back').on('click', function (evn) {
-		$('[step=2]').css('display', 'none');
-		$('[step=1]').css('display', 'block');
-	});
-	// forward step 3 to 4
-	$('[step=3]').find('.next').on('click', function (evn) {
-		const url = $('[name=n_url]').val();
-		if (url !== '') {
-			node.api_url = url;
-			$('[step=3]').css('display', 'none');
-			$('[step=4]').css('display', 'block');
-			reloadHeaders();
-		}
-	});
-	// backward step 3 to 2
-	$('[step=3]').find('.back').on('click', function (evn) {
-		$('[step=3]').css('display', 'none');
-		$('[step=2]').css('display', 'block');
-	});
-	// forward step 4 to 5
-	$('[step=4]').find('.next').on('click', function (evn) {
-		$('[step=4]').css('display', 'none');
-		$('[step=5]').css('display', 'block');
-		reloadData();
-	});
-	// backward step 4 to 3
-	$('[step=4]').find('.back').on('click', function (evn) {
-		$('[step=4]').css('display', 'none');
-		$('[step=3]').css('display', 'block');
-	});
-	// forward step 5 to 6
-	$('[step=5]').find('.next').on('click', function (evn) {
-		$('[step=5]').css('display', 'none');
-		$('[step=6]').css('display', 'block');
-	});
-	// backward step 5 to 4 or 2 depending
-	$('[step=5]').find('.back').on('click', function (evn) {
-		if (node.work_type == 'request') {
-			$('[step=5]').css('display', 'none');
-			$('[step=4]').css('display', 'block');
-		} else {
-			$('[step=5]').css('display', 'none');
-			$('[step=2]').css('display', 'block');
-		}
-	});
-	// forward step 6 to 7
-	$('[step=6]').find('.next').on('click', function (evn) {
-		const am = $('[name=an_mode]').val();
-		console.log(am);
-		if (am === 'none') {
-			$('.new_node_cont').css('display', 'none');
-			$('[step=6]').css('display', 'none');
-			saveNode(node);
-			return null;
-		} else {
-			$('[step=6]').css('display', 'none');
-			$('[step=7]').css('display', 'block');
-			$('[mode]').css('display', 'none');
-			$('[mode=' + am + ']').css('display', 'flex');
-			reloadParams();
-		}
-	});
-	// backward step 6 to 5
-	$('[step=6]').find('.back').on('click', function (evn) {
-		$('[step=6]').css('display', 'none');
-		$('[step=5]').css('display', 'block');
-	});
-	// forward step 7 to save()
-	$('[step=7]').find('.next').on('click', function (evn) {
-		$('[step=7]').css('display', 'none');
-		$('.new_node_cont').css('display', 'none');
-		const finAP = [];
-		for (params of tmpAnPm) {
-			if (params !== null) {
-				finAP.push(params);
-			}
-		}
-		node.analisis_params = finAP;
-		node.string = $('[name=string]').val();
-		saveNode(node);
-		return null;
-	});
-	// backward step 7 to 6
-	$('[step=7]').find('.back').on('click', function (evn) {
-		$('[step=7]').css('display', 'none');
-		$('[step=6]').css('display', 'block');
-	});
-	// -------------------end flow listeners--------------
-	// reload the headers selector
 	const reloadHeaders = function () {
 		$('[list=headers]').empty();
 		// console.log(node);
@@ -161,7 +21,290 @@ function newNodeFlow(id, node) {
 			$('[list=headers]').append($(li));
 		}
 	};
-	// reloadHeaders();
+	$('.progress li').mousemove(function (evn) {
+		$(this).find('h1').css('display', 'block');
+	});
+	$('.progress li').mouseleave(function (evn) {
+		$(this).find('h1').css('display', 'none');
+	});
+	let actual = 0;
+	$('[pos=0]').css('background-color', 'yellow');
+	let on = 'yellow';
+	let off = 'purple';
+	$('.progress li').on('click', function (evn) {
+		const pos = $(this).attr('pos');
+		$('.step').css('display', 'none');
+		$('[step="' + pos + '"]').css('display', 'block');
+		switch (actual) {
+			case 0:
+				const name = $('[name=n_name]').val();
+				console.log(name);
+				if (name !== '' && name !== undefined) {
+					node.name = name;
+				}
+				break;
+			case 1:
+				const service = $('[name=is_service]').prop('checked');
+				if (service) {
+					node.type = 'service';
+				} else {
+					node.type = 'custom';
+				}
+				break;
+			case 2:
+				const type = $('[name=w_type]').val();
+				node.work_type = type;
+				break;
+			case 3:
+				const url = $('[name=n_url]').val();
+				if (url !== '') {
+					node.api_url = url;
+				}
+				break;
+			case 6:
+				const am = $('[name=an_mode]').val();
+				console.log(am);
+				if (am === 'none') {
+					tmpAnPm = [];
+					node.analisis_mode = '';
+					node.analisis_params = [];
+					$('.new_node_cont').css('display', 'none');
+					saveNode(node);
+				} else {
+					$('[mode=' + am + ']').css('display', 'flex');
+				}
+			default:
+				break;
+		}
+		console.log(pos);
+		let am;
+		$('[pos]').css('background-color', off);
+		$('[pos=' + pos.toString() + ']').css('background-color', on);
+		switch (Number(pos)) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				console.log('reload headers');
+				reloadHeaders();
+				break;
+			case 5:
+				reloadData();
+				break;
+			case 6:
+				am = $('[name=an_mode]').val();
+				getAMInfo(am);
+				break;
+			case 7:
+				am = $('[name=an_mode]').val();
+				getAMInfo(am);
+				console.log(am);
+				if (am === 'none') {
+					tmpAnPm = [];
+					node.analisis_mode = '';
+					node.analisis_params = [];
+					$('.new_node_cont').css('display', 'none');
+					saveNode(node);
+					return null;
+				} else {
+					$('[mode]').css('display', 'none');
+					$('[mode=' + am + ']').css('display', 'flex');
+					reloadParams();
+				}
+				break;
+		}
+		$('[pos="' + pos + '"]').toggleClass('actual');
+		$('[pos="' + actual + '"]').toggleClass('actual');
+		actual = pos;
+	});
+	$('.li_save').on('click', function () {
+		saveNode(node);
+	});
+	let pos = 0;
+	tmpAnPm = node.analisis_params;
+	const width = window.outerWidth + 400;
+	const height = window.outerHeight + 400;
+	$('.new_node_cont').css('display', 'block');
+	$('.new_node_cont').css('width', width);
+	$('.new_node_cont').css('height', height);
+	$('[step=0]').css('display', 'block');
+
+	// This block defines the flow buttons listeners
+	// forward step 0 to 1
+	$('[step=0]').find('.next').on('click', function (evn) {
+		const name = $('[name=n_name]').val();
+		console.log(name);
+		if (name !== '' && name !== undefined) {
+			node.name = name;
+			$('.step').css('display', 'none');
+			$('[step=1]').css('display', 'block');
+			$('[pos=0]').css('background-color', off);
+			$('[pos=1]').css('background-color', on);
+			pos = 1;
+		}
+	});
+	// Close node options
+	$('[step=0]').find('.back').on('click', function (evn) {
+		$('.new_node_cont').css('display', 'none');
+		$('[step]').find('.back').unbind('click');
+		$('[step]').find('.next').unbind('click');
+		return null;
+	});
+	// forward step 1 to 2
+	$('[step=1]').find('.next').on('click', function () {
+		const service = $('[name=is_service]').prop('checked');
+		if (service) {
+			node.type = 'service';
+		} else {
+			node.type = 'custom';
+		}
+		$('.step').css('display', 'none');
+		$('[step=2]').css('display', 'block');
+		$('[pos=1]').css('background-color', off);
+		$('[pos=2]').css('background-color', on);
+	});
+	// backward step 1 to 0
+	$('[step=1]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=0]').css('display', 'block');
+		$('[pos=1]').css('background-color', off);
+		$('[pos=0]').css('background-color', on);
+	});
+	// forward step 2 to 3 or 5 depending on the work_type selected
+	$('[step=2]').find('.next').on('click', function (evn) {
+		const type = $('[name=w_type]').val();
+		node.work_type = type;
+		if (type === 'request') {
+			$('.step').css('display', 'none');
+			$('[step=3]').css('display', 'block');
+			$('[pos=2]').css('background-color', off);
+			$('[pos=3]').css('background-color', on);
+		} else {
+			$('.step').css('display', 'none');
+			$('[step=5]').css('display', 'block');
+			$('[pos=2]').css('background-color', off);
+			$('[pos=5]').css('background-color', on);
+		}
+	});
+	// backward step 2 to 1
+	$('[step=2]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=1]').css('display', 'block');
+		$('[pos=2]').css('background-color', off);
+		$('[pos=1]').css('background-color', on);
+	});
+	// forward step 3 to 4
+	$('[step=3]').find('.next').on('click', function (evn) {
+		const url = $('[name=n_url]').val();
+		if (url !== '') {
+			node.api_url = url;
+			$('.step').css('display', 'none');
+			$('[step=4]').css('display', 'block');
+			$('[pos=3]').css('background-color', off);
+			$('[pos=4]').css('background-color', on);
+			reloadHeaders();
+		}
+	});
+	// backward step 3 to 2
+	$('[step=3]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=2]').css('display', 'block');
+		$('[pos=3]').css('background-color', off);
+		$('[pos=2]').css('background-color', on);
+	});
+	// forward step 4 to 5
+	$('[step=4]').find('.next').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=5]').css('display', 'block');
+		$('[pos=4]').css('background-color', off);
+		$('[pos=5]').css('background-color', on);
+		reloadData();
+	});
+	// backward step 4 to 3
+	$('[step=4]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=3]').css('display', 'block');
+		$('[pos=4]').css('background-color', off);
+		$('[pos=3]').css('background-color', on);
+	});
+	// forward step 5 to 6
+	$('[step=5]').find('.next').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=6]').css('display', 'block');
+		$('[pos=5]').css('background-color', off);
+		$('[pos=6]').css('background-color', on);
+	});
+	// backward step 5 to 4 or 2 depending
+	$('[step=5]').find('.back').on('click', function (evn) {
+		if (node.work_type == 'request') {
+			$('.step').css('display', 'none');
+			$('[step=4]').css('display', 'block');
+			$('[pos=5]').css('background-color', off);
+			$('[pos=4]').css('background-color', on);
+		} else {
+			$('.step').css('display', 'none');
+			$('[step=2]').css('display', 'block');
+			$('[pos=5]').css('background-color', off);
+			$('[pos=2]').css('background-color', on);
+		}
+	});
+	// forward step 6 to 7
+	$('[step=6]').find('.next').on('click', function (evn) {
+		const am = $('[name=an_mode]').val();
+		console.log(am);
+		if (am === 'none') {
+			tmpAnPm = [];
+			node.analisis_mode = '';
+			node.analisis_params = [];
+			$('.new_node_cont').css('display', 'none');
+			$('.step').css('display', 'none');
+			saveNode(node);
+			return null;
+		} else {
+			$('.step').css('display', 'none');
+			$('[step=7]').css('display', 'block');
+			$('[pos=6]').css('background-color', off);
+			$('[pos=7]').css('background-color', on);
+			$('[mode]').css('display', 'none');
+			$('[mode=' + am + ']').css('display', 'flex');
+			reloadParams();
+		}
+	});
+	// backward step 6 to 5
+	$('[step=6]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=5]').css('display', 'block');
+		$('[pos=6]').css('background-color', off);
+		$('[pos=5]').css('background-color', on);
+	});
+	// forward step 7 to save()
+	$('[step=7]').find('.next').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('.new_node_cont').css('display', 'none');
+		const finAP = [];
+		for (params of tmpAnPm) {
+			if (params !== null) {
+				finAP.push(params);
+			}
+		}
+		node.analisis_params = finAP;
+		node.string = $('[name=string]').val();
+		saveNode(node);
+		return null;
+	});
+	// backward step 7 to 6
+	$('[step=7]').find('.back').on('click', function (evn) {
+		$('.step').css('display', 'none');
+		$('[step=6]').css('display', 'block');
+	});
+	// -------------------end flow listeners--------------
+	//
+	//
 	// The headers step
 	$('[step=4] button').on('click', function (evn) {
 		const key = $('[name=h_key] ').val();
@@ -354,24 +497,46 @@ function newNodeFlow(id, node) {
 function getAMInfo (mode) {
 	let info;
 	if (mode == 'comparision') {
-		info = 'Mode info: <br>Compares a list of values and returns to you a true or false value';
+		info = 'Compares a list of values and returns to you a true or false value';
 	} else if (mode == 'JSON') {
-		info = 'Mode info: <br>Extracts the value at the given path from the data and store it with the name you define';
+		info = 'Extracts the value at the given path from the data and store it with the name you define, in the path you can define the keyword "random" to choose a random index in a list';
 	} else if (mode == 'HTML') {
-		info = 'Mode info: <br>scrappe an HTML or a text file to find the occurrencies and extract the values until the stop value and store it as you want to name it';
+		info = 'Scrappe an HTML or a text file to find the occurrencies and extract the values until the stop value and store it as you want to name it<br>You can use wildcards "*" to extract values from the previous nodes and put them in the occurrence pattern<br>Example: my_url = sponges<br>href="some/url/*my_url*<br> Result -> some/url/sponges';
 	} else if (mode == 'replace') {
-		info = 'Mode info: <br>finds the format keys in the data and put them in the string you customize<br>Ex: "i want {maximum} donnuts please"<br>' +
-						'maximum = 20, <br>result: "i want 20 donnuts please"';
+		info = 'Finds the {key} formats and replace them with the correspoding data value, the keys are a cumulative of all the output, lom that means, you can find a value of a node much further back in the flow<br>And the output of this node will be stored with the key "content" to be used in the forward of the flow<br>Run a test and check the output for the keys you need';
 	} else if (mode == 'gen_signature') {
-		info = 'Mode info: <br>Uses the headers from the connection node and the keys stored in the data to create a HMAC-SHA1 signature';
+		info = 'Uses the headers from the connection node and the keys stored in the data to create a HMAC-SHA1 signature';
 	} else if (mode == 'none') {
-		info = 'Mode info: <br>';
+		info = '';
+	} else if (mode == 'media_player') {
+		info = 'when this option is selected, the caller node should pass a value with the key "url" in order to load the source file, if you connect this node with a download node, we will handle the media for you'
+	} else if (mode == 'get_updates'){
+		info = 'set the key to store the extracted data, and the path to get the value<br>this options finds if there is new records in the input data and extract the last one by checking the parameter counter stored in the node to use this option set the value "count" to 0 or whatever value you need in the previous section';
 	}
 	$('[content=analisis_mode]').html(info);
 	$('[content=analisis_info]').html(info);
 }
 
 function saveNode(node) {
+	const name = $('[name=n_name]').val();
+	console.log(name);
+	if (name !== '' && name !== undefined) {
+		node.name = name;
+	}
+	const url = $('[name=n_url]').val();
+	if (url !== '') {
+		node.api_url = url;
+	}
+	const finAP = [];
+	for (params of tmpAnPm) {
+		if (params !== null) {
+			finAP.push(params);
+		}
+	}
+	node.analisis_params = finAP;
+	const workerType = $('[name=w_type]').val();
+	node.work_type = workerType;
+	node.string = $('[name=string]').val();
 	$.ajax({
 		url: `http://${global.apiDirection}:8080/api/v1/nodes/${node.id}/save`,
 		type: 'POST',

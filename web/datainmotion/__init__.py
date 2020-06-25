@@ -141,5 +141,6 @@ def launch_demo():
             us = user
     return Response(json.dumps({'id': us.id}), mimetype='application/json')
 
+
 if __name__ == '__main__':
     app.run("localhost", 8000)

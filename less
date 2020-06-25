@@ -1,0 +1,121 @@
+[
+    {
+        "Id": "sha256:cf624d6ff0646098230b01374424b4a938af384aa1371e396858d01e7ee921f6",
+        "RepoTags": [
+            "postgres:12-alpine"
+        ],
+        "RepoDigests": [
+            "postgres@sha256:bd975ce4ddb0cf271a3c0132afaa16894ccdbadd0a1e81aa5d1b12727bb43779"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2020-06-11T23:03:42.339629478Z",
+        "Container": "5ea6f8cea5be00199d48930c55ae80cdd170c3a7d9b757dc4233d6a12738a4f3",
+        "ContainerConfig": {
+            "Hostname": "5ea6f8cea5be",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "5432/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=en_US.utf8",
+                "PG_MAJOR=12",
+                "PG_VERSION=12.3",
+                "PG_SHA256=94ed64a6179048190695c86ec707cc25d016056ce10fc9d229267d9a8f1dcf41",
+                "PGDATA=/var/lib/postgresql/data"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ",
+                "CMD [\"postgres\"]"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:dd7d30014601c724b5baf699074c62b94faaf1c6be916492ae176b5b3e95b756",
+            "Volumes": {
+                "/var/lib/postgresql/data": {}
+            },
+            "WorkingDir": "",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "18.09.7",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "5432/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=en_US.utf8",
+                "PG_MAJOR=12",
+                "PG_VERSION=12.3",
+                "PG_SHA256=94ed64a6179048190695c86ec707cc25d016056ce10fc9d229267d9a8f1dcf41",
+                "PGDATA=/var/lib/postgresql/data"
+            ],
+            "Cmd": [
+                "postgres"
+            ],
+            "ArgsEscaped": true,
+            "Image": "sha256:dd7d30014601c724b5baf699074c62b94faaf1c6be916492ae176b5b3e95b756",
+            "Volumes": {
+                "/var/lib/postgresql/data": {}
+            },
+            "WorkingDir": "",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 156711902,
+        "VirtualSize": 156711902,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/a75a2d90e1d2facbd93177641866813c9df85f7f481d6df36aeee1dbaee3d82f/diff:/var/lib/docker/overlay2/23d4e474932caf031e572d83297cdb60ba55cebe49cf0d8794ec297821fc6147/diff:/var/lib/docker/overlay2/88556219e62668aba2330f66ca2e252bc8ebbfdeb3fcd9c752a6a78c163a0553/diff:/var/lib/docker/overlay2/76a8ec72bd7ddb058fe45f5d03b62779c91708f4540e805dbe1ce3ea9e18753c/diff:/var/lib/docker/overlay2/bd82e080bae0553f7c7f68d4ffd1427b49648a853f72b3d4d16ba6e2592d7284/diff:/var/lib/docker/overlay2/491206801c82ab310db26a85d16b004ed0efb67dd94e8f67d77251c4785453be/diff:/var/lib/docker/overlay2/eee3befde8ec65274ddc1b6c9288dfa39597e5f9b14980b7fd1bab100fcef762/diff",
+                "MergedDir": "/var/lib/docker/overlay2/645021dda361621010f295065f24b2b6de3f32a1b9eb6b4fdade33c1b09d5086/merged",
+                "UpperDir": "/var/lib/docker/overlay2/645021dda361621010f295065f24b2b6de3f32a1b9eb6b4fdade33c1b09d5086/diff",
+                "WorkDir": "/var/lib/docker/overlay2/645021dda361621010f295065f24b2b6de3f32a1b9eb6b4fdade33c1b09d5086/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:50644c29ef5a27c9a40c393a73ece2479de78325cae7d762ef3cdc19bf42dd0a",
+                "sha256:62c05715278965a1dac27dd8dd226ba4641bb0bad580267ce7a1a271500a71a4",
+                "sha256:731b196c42dfde255044afae47b1406201d9e45d91999d25b88e1dd8cd48db9f",
+                "sha256:853c88d832aaf0f94be700a4060b8036dd4b2841888dde658a747d7ee85da588",
+                "sha256:bc7ba044c5d77c22629704e40de7d0dff451f4248ad703dbe3872fd43544b502",
+                "sha256:0247fa91db52cf6e0dcffd84be112685d4ae38c23f94b5519c9ee240e0961689",
+                "sha256:c423de13bae1709292c4d3aa8556524212dd959e758d660d1c82377e15536788",
+                "sha256:787d29d5440e9cd2250e00871c2dd215865d48b5d4682f454e98deff2f905a49"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]

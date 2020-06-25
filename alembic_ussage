@@ -1,0 +1,25 @@
+alembic revision --autogenerate
+alembic upgrade head
+
+to migrate in the docker container
+you need to check the alembic versions if one or more are missing
+and also check that the changes has been applied
+
+run 
+----------
+docker ps
+----------
+to get the container name then
+
+-----------
+docker exec -it <docker-container-name> bash
+-----------
+
+to open a shell
+in the container open the psql shell
+
+-----------
+psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+-----------
+\dt -> to list the tables
+\d  -> describes a table
