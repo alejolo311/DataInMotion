@@ -471,12 +471,19 @@ class CustomNode(BaseNode, Base):
         wppStatus = {}
         client = Client(account_sid, auth_token)
         number_list = json.loads(data["numbers_list"])
+        # content = '{}\n{}'.format(content, outData['url'])
         for number in number_list:
             message = client.messages.create(
                                         body=content,
-                                        from_='whatsapp:+1' +
+                                        from_='whatsapp:+' +
                                         str(data['from']),
-                                        to='whatsapp:+57' + str(number)
+                                        to='whatsapp:+' + str(number)
+                                    )
+            message = client.messages.create(
+                                        body=outData['url'],
+                                        from_='whatsapp:+' +
+                                        str(data['from']),
+                                        to='whatsapp:+' + str(number)
                                     )
             wppStatus[message.sid] = str(number)
 

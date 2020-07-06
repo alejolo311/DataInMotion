@@ -138,6 +138,10 @@ def add_node(board_id):
         new_node.innodes = json.dumps([])
         new_node.outnodes = json.dumps([])
         new_node.board_id = board_id
+        new_node.data = json.dumps(nod['data'])
+        new_node.work_type = nod['work_type']
+        new_node.analisis_mode = nod['analisis_mode']
+        new_node.headers = json.dumps(nod['headers'])
         new_node.save()
         nodes = json.loads(board.nodes)
         nodes[new_node.id] = {'x': 20, 'y': 50}
@@ -155,7 +159,7 @@ def add_complete_board(board_id):
     """
     board = storage.get(Board, board_id)
     imp_board = request.get_json()
-    # print(imp_board)
+    # print(imp_board)	let board;
     print(imp_board['data']['name'])
     for node in imp_board['nodes']:
         print(node)
