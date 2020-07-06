@@ -48,6 +48,7 @@
 	<script type="text/javascript" src="/static/scripts/init.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/node_flow.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/media_player.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/walkthroughts.js?{{ id }}"></script>
 
 	<!-- Favicons -->
 	<link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
@@ -81,6 +82,7 @@
 				<li>
 					<ul class="sub_nav">
 						<li><h2 menu="nodes"><i class="fas fa-sticky-note fa-lg" title="New Node"></i> New Node</h2></li>
+						<li><h2 menu="board"><i class="fas fa-sticky-note fa-lg" title="Board"></i> Board</h2></li>
 						<li><h2 class="save"><i class="fas fa-save fa-lg" title="Save this board"></i> Save Board</h2></li>
 					</ul>
 				</li>
@@ -105,7 +107,7 @@
 		<h2 class="y" style="width: 50px;"></h2>
 		<h2 class="selected" style="width: 300px;padding-top: 2px;">{{ board.id }}</h2>
 		<button class="toggle_console"></button>
-		<h2 class="console">DataInMotion v1 > </h2>
+		<h2 class="console"><-- Click here to see the console output</h2>
 	</div>
 	<!--New Node form-->
 	<div class="new_node_cont">
@@ -217,7 +219,30 @@
 
 			<div class="step" step="4">
 				<h4 class="help"></h4>
-				<h3>provide request Headers</h3>
+				<h3>Request Headers</h3>
+				<label for="" style="width: 80%; text-align: left; margin: 0; margin-left: 30px; ">
+					<input name="auth_check" style="cursor: pointer; width: 20px;" type="checkbox">Auth</label>
+				<div class="auth_inputs" style="display: none;">	
+					<h1>Authentication protocol	</h1>
+					<select name="auth-protocol" id="" style="cursor: pointer;">
+						<option value=""></option>
+						<option value="oauth-1.0">OAuth 1.0</option>
+						<option value="oauth-2.0">OAuth 2.0</option>
+						<option value="bearer">Bearer</option>
+					</select>
+					<div class="auth_fields">
+						<div class="bearer">
+							<label for="">API key<input type="text"></label>
+							<label for="">API secret<input type="text"></label>
+						</div>
+						<div class="oauth-1">
+							<label for="">oauth_consumer_key<input type="text"></label>
+							<label for="">oauth_token (optional)<input type="text"></label>
+							<label for="">Key secret<input type="text"></label>
+							<label for="">Token secret<input type="text"></label>
+						</div>
+					</div>
+				</div>
 				<p>Add the headers required to complete the request<br>
 					Be sure of pressing "add" to append the new data
 					<br>if you don't need any click next to
@@ -291,6 +316,7 @@
 				</p>
 				<select name="an_mode" id="">
 					<option value="none" selected></option>
+					<option value="statistics">Statistics</option>
 					<option value="comparision">Comparision</option>
 					<option value="replace">Generate phrase</option>
 					<!--<option value="gen_signature">GenSignature</option>-->
@@ -335,10 +361,36 @@
 						placeholder="comp value">
 					<button>add</button>
 				</div>
+				<div mode="statistics" style="display: none;">
+					<div style="display: flex;">
+						<ul list="statistics_samples">
+						</ul>
+						<ul list="statistics_parameters">
+						</ul>
+					</div>
+					<div style="display: flex;">
+						<input name="samples" style="margin-left: 10%; width: 20%; max-height: 38px;" type="text"
+						placeholder="samples">
+						<button for="samples">add</button>
+						<input name="parameters" style="margin-left: 12px; width: 20%; max-height: 38px;" type="text"
+							placeholder="parameters">
+						<button for="parameters">add</button>
+					</div>
+					<div style="display: none;">
+						<h1>Choose graphics</h1>
+						<select style="margin-left: px; margin-top: 10px;
+									width: 20%;
+									max-height: 38px;" name="cond" id="">
+							<option value="" selected></option>
+							<option value="cake">Cake</option>
+							<option value="bars">Bars</option>
+						</select>
+					</div>
+				</div>
 				<div mode="replace" style="display: none;">
 					<div style="display: block;width: 100%;">
-						<input name="string" style="margin-left: 20%; width: 60%; max-height: 38px;" type="text"
-							placeholder="Text to insert the {data key} founded in the node">
+						<textarea name="string" style="margin-left: 15%; width: 80%; height: 100px;" type="text"
+							placeholder="Text to insert the {data key} founded in the node"></textarea>
 						<!-- <div style="display: flex;">
 							<input name="r_key" style="margin-left: 35%; width: 20%; max-height: 38px;" type="text"
 								placeholder="data key">
@@ -443,6 +495,11 @@
 	</div>
 	<div class="import">
 		
+	</div>
+	<div class="walkthrought">
+		<div class="walk_window">
+
+		</div>
 	</div>
 </body>
 

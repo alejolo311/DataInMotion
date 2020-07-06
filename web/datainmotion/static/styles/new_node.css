@@ -271,4 +271,11 @@
 .act_progress {
 	background-color: yellow;
 }
-
+[list*="statistics"] {
+	width: 40%;
+}
+[list*="statistics"] h1 {
+	color: rgb(253, 168, 235);
+	font-family: var(--font);
+	font-size: 14px;
+}

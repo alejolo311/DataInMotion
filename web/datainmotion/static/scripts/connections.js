@@ -1,8 +1,7 @@
-const drawLine = function (a, b, canvas) {
-  // console.log('drawLine', a, b);
+const drawLine = function (a, b, canvas, color) {
   const contx = canvas.getContext('2d');
-  contx.strokeStyle = '#DDEAC8';
-  contx.lineWidth = '1px';
+  contx.strokeStyle = color;
+  contx.lineWidth = 3;
   contx.beginPath();
   const offY = 132;
   const offX = 2;
@@ -13,36 +12,33 @@ const drawLine = function (a, b, canvas) {
 };
 
 function drawConnections () {
-  // console.log('drawing connections');
-  // console.log($('.node_container').toArray());
   const canvas = document.getElementById('canvas_connections');
-  // console.log(canvas);
   // Draw outnodes conections
+  // extract width and height from body, and apply them to the connections canvas
   const width = document.getElementsByTagName('body')[0].scrollWidth;
   const height = document.getElementsByTagName('body')[0].scrollHeight;
   const contx = canvas.getContext('2d');
   contx.clearRect(0, 0, width, height);
+  // Check the outnodes and link them to the respective connection
   for (const child of $('.outnodes h2').toArray()) {
-    // console.log($(child));
     if ($(child).attr('out_id') !== undefined) {
-      // console.log($(child).attr('peer'));
       const peer = $(child).attr('out_id');
       const offset = $(child).offset();
       const a = { x: offset.left + 12, y: offset.top + 4 };
       const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
       const b = { x: $(p[0]).offset().left + 0, y: $(p[0]).offset().top + 4 };
-      drawLine(a, b, canvas);
+      drawLine(a, b, canvas, $(child).parent().parent().attr('tag_color'));
     }
   }
-  // Draw the innodes connections
+  // Check the innodes and link them to the respective connection
   for (const child of $('.innodes h2').toArray()) {
     if ($(child).attr('in_id') !== undefined) {
       const peer = $(child).attr('in_id');
       const offset = $(child).offset();
       const a = { x: offset.left + 8, y: offset.top };
       const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
-      const b = { x: $(p[0]).offset().left + 8, y: $(p[0]).offset().top };
-      drawLine(a, b, canvas);
+	  const b = { x: $(p[0]).offset().left + 8, y: $(p[0]).offset().top };
+      drawLine(a, b, canvas, $(child).parent().parent().attr('tag_color'));
     }
   }
 }
@@ -55,7 +51,8 @@ function setConnectionsListeners () {
     const parent = $(obj).parent();
     parent.toggleClass('in_expanded');
     let width = 40;
-    let expand;
+	let expand;
+	// measuring the correct width summing each connection
     for (const child of parent.find('h2').toArray()) {
       $(child).toggleClass('expanded');
       if ($(child).hasClass('expanded')) {
@@ -196,7 +193,7 @@ function setConnectionsListeners () {
   });
   // Show the outnodes options
   // Remove: deletes the outnode id
-  // Reindex: changes the index to the users selection <-- This feature has to be done
+  // Reindex: changes the index to the users selection <-- This feature needs to be created
   $('.outnodes h2').on('click', function (evn) {
     if ($(this).attr('out_id') !== undefined && !$(this).hasClass('add_out')) {
       console.log('display outnode options');
@@ -217,12 +214,12 @@ function setConnectionsListeners () {
   $('.outnode_settings').mouseleave(function (evn) {
     $(this).css('visibility', 'hidden');
   });
-  // adding tjhe same listener to the button whe the user click it
+  // adding the same listener to the button when the user click it
   $('.outnode_settings h2').on('click', function (evn) {
     $('.outnode_settings').css('visibility', 'hidden');
   });
-  // Innodes options
-  // Change index and remove
+  // Display Innodes options
+  // (Change index, remove)
   $('.innodes h2').on('click', function (evn) {
     console.log('innodes options');
     if ($(this).attr('in_id') !== undefined && !$(this).hasClass('add_in')) {
@@ -240,7 +237,8 @@ function setConnectionsListeners () {
       $('.outnode_settings').css('z-index', 12);
     }
   });
-  // listener to a remove action to a connection
+  // listener to remove a connection
+  // To remove an existing outnode
   // Here the button can detects innodes and outnodes by checking the value in the outnode_settings
   $('button[action=remove]').on('click', function (evn) {
     const out = $('.outnode_settings').attr('out');
@@ -260,9 +258,10 @@ function setConnectionsListeners () {
       }
     });
   });
-  // To remove an existing outnode
 }
-
+// fetch the node from the API
+// remove it from the DOM
+// and set Grabber listener
 function reloadNode (nodeId) {
   $.ajax({
     url: `'http://${global.apiDirection}/nodes/${nodeId}`,

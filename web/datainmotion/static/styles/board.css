@@ -291,3 +291,232 @@ div[node="true"] {
 	background-position: 100% 50%; }
 100% {
 	background-position: 0% 50%; } }
+
+/* Couch Marks */
+
+.walkthrought {
+	top: 0;
+	display: none;
+	position: absolute;
+	width: 100vw;
+	height: 100vw;
+	background-color: rgba(26, 0, 19, 0.596);
+	z-index: 20;
+}
+.walk_window {
+	background-color: white;
+}
+.walk_window h1 {
+	font-family: var(--font);
+	padding: 4px 12px;
+	font-size: 14px;
+}
+.box_bottom_arrow {
+	width: 18px;
+	height: 18px;
+	background-color: white;
+	border: 1px solid white;
+	border-top: none;
+	border-left: none;
+	position: absolute;
+	bottom: -10;
+	left: calc(50% - 9px);
+	clip-path: polygon(18px 0px, 18px 18px, 0px 18px, 18px 0);
+	transform: rotate(45deg);
+}
+
+.innodes_walk {
+	padding: 0;
+	width: 220px;
+	height: 80px;
+	background-color: white;
+	color: black;
+	position: absolute;
+	border-radius: 12px;
+}
+.box_top_arrow {
+	width: 18px;
+	height: 18px;
+	background-color: white;
+	border: 1px solid white;
+	border-top: none;
+	border-left: none;
+	position: absolute;
+	top: -9;
+	left: calc(50% - 9px);
+	clip-path: polygon(0px 0px, 18px 18px, 0px 18px, 0px 0px);
+	transform: rotate(135deg);
+}
+.box_left_arrow {
+	width: 18px;
+	height: 18px;
+	background-color: white;
+	border: 1px solid white;
+	border-top: none;
+	border-left: none;
+	position: absolute;
+	top: 20;
+	left: -9;
+	clip-path: polygon(0px 0px, 18px 18px, 0px 18px, 0px 0px);
+	transform: rotate(45deg);
+}
+.alert_cont {
+	z-index: 19;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vw;
+	background-color: rgba(0, 0, 0, 0.733);
+}
+.file_cont {
+	z-index: 20;
+	position: absolute;
+	width: 400px;
+	min-height: 40px;
+	height: fit-content;
+	max-width: 400px;
+	left: 100px;
+	top: 100px;
+	padding: 40px 20px;
+	background-color: white;
+	border-radius: 12px;
+}
+.file_cont input{
+	background-color: white;
+	font-family: var(--font);
+	cursor: pointer;
+}
+.file_cont button {
+	background-color: white;
+	padding: 4px 8px;
+	width: 40%;
+	text-align: center;
+	margin-top: 12px;
+	margin-left: 5%;
+	margin-right: 5%;
+	cursor: pointer;
+	border-radius: 8px;
+	border: 1px solid grey;
+	font-weight: bold;
+	outline: none;
+}
+.file_cont button:hover {
+	background-color: rgb(163, 163, 163);
+	color: white;
+}
+.file_cont button:active {
+	background-color: rgb(192, 192, 192);
+}
+.browse {
+	margin-left: 10%;
+	border: 1px solid grey;
+	border-radius: 10px;
+	cursor: pointer;
+	outline: none;
+	color: blue;
+	width: 80%;
+	padding: 6px 12px;
+	font-weight: bold;
+	font-size: 14px;
+}
+.browse:hover {
+	background-color: blue;
+	color: white;
+}
+.browse:active {
+	background-color: rgb(140, 140, 255);
+}
+.import_name {
+	display: flex;
+}
+.import_name button{
+	display: none;
+	padding: 0px;
+	border-radius: 8px;
+	border: 1px solid grey;
+	background-color: rgb(83, 83, 131);
+	color: white;
+	max-height: 30px;
+}
+.import_name button:hover{
+	background-color: rgb(127, 127, 214);
+}
+.import_name button:active{
+	background-color: white;
+	color: rgb(127, 127, 214);
+}
+.file_cont h1 {
+	width: 80%;
+	margin-left: 10%;
+	color: orange;
+	font-size: 18px;
+	text-align: center;
+	font-family: var(--font);
+}
+.import_name h1{
+	text-align: center;
+	padding-right: 20px;
+}
+.file_cont li{
+	color: black;
+	display: flex;
+	list-style: none;
+	font-family: var(--font);
+	font-size: 12px;
+	margin: 0;
+	width: 200px;
+	margin-left: 100px;
+	border-radius: 8px;
+	padding-right: 12px;
+}
+.file_cont li:hover{
+	background-color: rgba(255, 189, 189, 0.561);
+}
+.file_cont li > h3{
+	font-size: 14px;
+	width: 180px;
+	margin: 0;
+	margin-right: 12px;
+	padding-left: 12px;
+}
+.download_board {
+	border: 1px solid grey;
+	padding: 6px 12px;
+	min-width: 360px;
+	width: 360px;
+	text-align: center;
+	font-family: var(--font);
+	font-size: 14px;
+	color: purple;
+	border-radius: 12px;
+	text-decoration: none;
+	font-weight: bold;
+	outline: none;
+}
+.download_board:hover {
+	background-color: purple;
+	color: white;
+}
+.download_board:active {
+	background-color: rgb(219, 75, 219);
+}
+.close {
+	position: absolute;
+	top: -70px;
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	border-radius: 50%;
+	cursor: pointer;
+	background-image: url(../images/close.png);
+	background-repeat: no-repeat;
+	background-size: 16px;
+	background-position: center;
+}
+.close:hover {
+	box-shadow: 0 0 20px white;
+}
+.close:active {
+	box-shadow: 0 0 0px white;
+}

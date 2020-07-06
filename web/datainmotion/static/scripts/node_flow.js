@@ -1,6 +1,5 @@
 let tmpAnPm;
 function newNodeFlow(id) {
-
 	const reloadHeaders = function () {
 		$('[list=headers]').empty();
 		// console.log(node);
@@ -21,6 +20,7 @@ function newNodeFlow(id) {
 			$('[list=headers]').append($(li));
 		}
 	};
+	// Display the timeline progress
 	$('.progress li').mousemove(function (evn) {
 		$(this).find('h1').css('display', 'block');
 	});
@@ -28,9 +28,12 @@ function newNodeFlow(id) {
 		$(this).find('h1').css('display', 'none');
 	});
 	let actual = 0;
-	$('[pos=0]').css('background-color', 'yellow');
-	let on = 'yellow';
-	let off = 'purple';
+	// Set the colors to the progress points
+	const on = 'yellow';
+	const off = 'purple';
+	$('[pos]').css('background-color', off);
+	$('[pos=0]').css('background-color', on);
+	// Event listeners to timeline progress points
 	$('.progress li').on('click', function (evn) {
 		const pos = $(this).attr('pos');
 		$('.step').css('display', 'none');
@@ -113,8 +116,16 @@ function newNodeFlow(id) {
 					return null;
 				} else {
 					$('[mode]').css('display', 'none');
-					$('[mode=' + am + ']').css('display', 'flex');
-					reloadParams();
+					let display = 'flex';
+					if (am === 'statistics') {
+						display = 'block';
+					}
+					$('[mode=' + am + ']').css('display', display);
+					if (node.analisis_mode !== 'statistics') {
+						reloadParams();
+					} else {
+						reloadStatisticsParams();
+					}
 				}
 				break;
 		}
@@ -133,7 +144,6 @@ function newNodeFlow(id) {
 	$('.new_node_cont').css('width', width);
 	$('.new_node_cont').css('height', height);
 	$('[step=0]').css('display', 'block');
-
 	// This block defines the flow buttons listeners
 	// forward step 0 to 1
 	$('[step=0]').find('.next').on('click', function (evn) {
@@ -272,7 +282,15 @@ function newNodeFlow(id) {
 			$('[pos=7]').css('background-color', on);
 			$('[mode]').css('display', 'none');
 			$('[mode=' + am + ']').css('display', 'flex');
-			reloadParams();
+			if (node.analisis_mode !== 'statistics') {
+				reloadParams();
+			} else {
+				$('[mode=' + am + ']').css('display', 'block');
+				if (node.analisis_params === []) {
+					node.analisis_params = [{'parameters': {}, 'samples': {}}];
+				}
+				reloadStatisticsParams();
+			}
 		}
 	});
 	// backward step 6 to 5
@@ -305,7 +323,7 @@ function newNodeFlow(id) {
 	// -------------------end flow listeners--------------
 	//
 	//
-	// The headers step
+	// Detect when a header is added
 	$('[step=4] button').on('click', function (evn) {
 		const key = $('[name=h_key] ').val();
 		let value = $('[name=h_value] ').val();
@@ -315,6 +333,22 @@ function newNodeFlow(id) {
 			$('[name=h_key] ').val('');
 			$('[name=h_value] ').val('');
 		}
+	});
+	// Detects Auth checkbox
+	// show the form with the oauth required fields
+	$('[name=auth_check]').on('click', function () {
+		console.log($(this).prop('checked'));
+		const checked = $(this).prop('checked');
+		if (checked) {
+			console.log('show oauth form');
+			$('.auth_inputs').css('display', 'block');
+		} else {
+			console.log('hidde oauth form');
+			$('.auth_inputs').css('display', 'none');
+		}
+	});
+	$('[name=auth-protocol]').change(function () {
+		console.log($(this).val());
 	});
 	const reloadData = function () {
 		$('[list=data]').empty();
@@ -335,7 +369,7 @@ function newNodeFlow(id) {
 			$('[list=data]').append($(li));
 		}
 	};
-	// The data step
+	// Detects inputs on the data fields
 	$('[step=5] button').on('click', function () {
 		const key = $('[name=d_key] ').val();
 		let value = $('[name=d_value] ').val();
@@ -346,7 +380,6 @@ function newNodeFlow(id) {
 			$('[name=d_value] ').val('');
 		}
 	});
-
 	// Detects changes in the analisis mode variable
 	$('[name=an_mode]').change(function () {
 		const val = $(this).val();
@@ -355,12 +388,19 @@ function newNodeFlow(id) {
 			tmpAnPm = node.analisis_params;
 		} else {
 			tmpAnPm = [];
+			if (val === 'statistics') {
+				tmpAnPm.push({'parameters': {}, 'samples': {}});
+			}
 		}
 		node.analisis_mode = val;
 		$('[mode]').css('display', 'none');
 		$('[mode=' + val + ']').css('display', 'flex');
 		getAMInfo(val);
-		reloadParams();
+		if (val !== 'statistics') {
+			reloadParams();
+		} else {
+			reloadStatisticsParams();
+		}
 	});
 	// reload params list
 	const reloadParams = function () {
@@ -399,7 +439,7 @@ function newNodeFlow(id) {
 						$('[name=html_disc]').prop('checked', tmpAnPm[p].discard);
 					}
 					delete tmpAnPm[p];
-					reloadParams(node.params);
+					reloadParams();
 				});
 				pos++;
 				$('[list=params]').append($(li));
@@ -416,7 +456,11 @@ function newNodeFlow(id) {
 			// console.log('store comparision params');
 			// console.log(key, condition, comp);
 			tmpAnPm.push({'key': key, 'cond': condition, 'comp': comp});
-			reloadParams();
+			if (node.analisis_mode !== 'statistics') {
+				reloadParams();
+			} else {
+				reloadStatisticsParams();
+			}
 			$('[name=an_d_key]').val('');
 			$('[name=cond]').val('==');
 			$('[name=comp_value]').val('');
@@ -491,6 +535,68 @@ function newNodeFlow(id) {
 			$('[name=upd_path]').val('');
 		}
 	});
+	// Draw the parameters stored for Statistics
+	const reloadStatisticsParams = function () {
+		const listSamples = $('[list=statistics_samples]');
+		const listParams = $('[list=statistics_parameters]');
+		$(listSamples).empty();
+		$(listParams).empty();
+		const samplesTitle = $('<h1>Samples</h1>');
+		const paramsTitle = $('<h1>Parameters</h1>');
+		$(listSamples).append(samplesTitle);
+		$(listParams).append(paramsTitle);
+		const changeParam = function (obj) {
+			const type = $(obj).attr('type');
+			const key = $(obj).attr('key');
+			const param = tmpAnPm[0][type][key];
+			delete tmpAnPm[0][type][key];
+			reloadStatisticsParams();
+			$('[name=' + type + ']').val(key);
+		};
+		console.log(tmpAnPm);
+		for (sample in tmpAnPm[0]['samples']) {
+			console.log(sample);
+			const li = $('<li></li>');
+			$(li).text(sample);
+			$(li).attr('type', 'samples');
+			$(li).attr('key', sample);
+			$(li).on('click', function (evn) {
+				changeParam(this);
+			});
+			$(listSamples).append($(li));
+		}
+		for (parameter in tmpAnPm[0]['parameters']) {
+			console.log(parameter);
+			const li = $('<li></li>');
+			$(li).attr('type', 'parameters');
+			$(li).attr('key', parameter);
+			$(li).text(parameter);
+			$(li).on('click', function (evn) {
+				changeParam(this);
+			});
+			$(listParams).append($(li));
+		}
+	}
+	// Detect input elements to analisis_params when analisis_mode is 
+	// statistics
+	// for parameters
+	$('[mode=statistics] button[for="parameters"]').on('click', function (evn) {
+		const parameter = $('[name=parameters]').val();
+		if (parameter !== '') {
+			tmpAnPm[0]['parameters'][parameter] = true;
+			$('[name=parameters]').val('');
+			reloadStatisticsParams();
+		}
+	});
+	// for samples
+	$('[mode=statistics] button[for="samples"]').on('click', function (evn) {
+		const sample = $('[name=samples]').val();
+		if (sample !== '') {
+			tmpAnPm[0]['samples'][sample] = true;
+			$('[name=samples]').val('');
+			reloadStatisticsParams();
+		}
+	});
 	reloadData();
 }
 
@@ -512,6 +618,8 @@ function getAMInfo (mode) {
 		info = 'when this option is selected, the caller node should pass a value with the key "url" in order to load the source file, if you connect this node with a download node, we will handle the media for you'
 	} else if (mode == 'get_updates'){
 		info = 'set the key to store the extracted data, and the path to get the value<br>this options finds if there is new records in the input data and extract the last one by checking the parameter counter stored in the node to use this option set the value "count" to 0 or whatever value you need in the previous section';
+	} else if (mode == 'statistics'){
+		info = 'samples:<br>parameters:<br>';
 	}
 	$('[content=analisis_mode]').html(info);
 	$('[content=analisis_info]').html(info);

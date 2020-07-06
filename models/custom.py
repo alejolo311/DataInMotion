@@ -35,7 +35,7 @@ class CustomNode(BaseNode, Base):
     work_type = Column(String(20), default='request')
     api_url = Column(String(500), default='')
     api_endpoint = Column(String(100), default='')
-    string = Column(String(200))
+    string = Column(String(1000))
     headers = Column(String(500), default='{}')
     innodes = Column(String(2000), default='[]')
     data = Column(String(2000), default='{}')
@@ -417,7 +417,7 @@ class CustomNode(BaseNode, Base):
                     # print('comparission result type', type(comp))
                     if 'result' in comp.keys():
                         if comp['result'] is False:
-                            break
+                            pass
                 else:
                     print('Outnode')
                     print(self.name, '->', node.name)
@@ -430,7 +430,7 @@ class CustomNode(BaseNode, Base):
                 if type(comp) == dict:
                     if 'result' in comp.keys():
                         if comp['result'] is False:
-                            break
+                            pass
                     print(node.name,
                           'outnode run result',
                           json.dumps(comp)[:50])
@@ -526,6 +526,9 @@ class CustomNode(BaseNode, Base):
             params = json.loads(self.analisis_params)
         else:
             params = self.analisis_params
+        #
+        # Analisis mode Comparision
+        #
         if self.analisis_mode == 'comparision':
             self.logger.log(self.name, 'Comparission mode')
             self.logger.log(self.name, 'Cheking analisis_params\n')
@@ -649,6 +652,49 @@ class CustomNode(BaseNode, Base):
                     if len(occurrences) > 0:
                         return {'occurrences': occurrences}
                     return response
+        #
+        # Analisis mode Statistics
+        #
+        if self.analisis_mode == 'statistics':
+            statistics = json.loads(self.analisis_params)
+            samples, params = statistics[0]['samples'], statistics[0]['parameters']
+            print(self.name, 'Checking Statistics params')
+            print('Samples\n', samples)
+            print('Parameters\n', params)
+            try:
+                results = {}
+                print(response.keys())
+                average = 0
+                for sample in samples.keys():
+                    try:
+                        samp = int(sample)
+                        average += samp
+                    except:
+                        average += int(response[sample])
+                        pass
+                results['sample'] = average / len(samples.keys())
+                results['scores'] = {}
+                for param in params.keys():
+                    print(response[param])
+                    # apply simple three rule
+                    # pop -> population
+                    # percent = (pop * 100%) / sample
+                    sample = results['sample']
+                    pop = int(response[param])
+                    percent = (pop * 100) / sample
+                    results['scores'][param] = {}
+                    results['scores'][param]['value'] = '{:.2f}'.format(percent)
+                    sign = '+'
+                    if sample > pop:
+                        sign = '-'
+                    results['scores'][param]['diff'] = '{}{:.2f}'.format(sign, 100 - percent)
+                    int_dif = sample - pop
+                    results['scores'][param]['int_diff'] = '{}'.format(int(int_dif))
+                print(results)
+                return results
+            except Exception as e:
+                print('Failed: ', e)
+                pass
         if params and len(params) > 0 and self.analisis_mode == 'JSON':
             ######
             #
@@ -873,7 +919,7 @@ class CustomNode(BaseNode, Base):
         resp = format_string
         for i, k in enumerate(keys):
             print(self.name, 'parse_string: ', k, str(data[k[1:-1]])[:50])
-            if k in resp and type(data[k[1:-1]]) == str:
+            if k in resp and (type(data[k[1:-1]]) == str or type(data[k[1:-1]]) == int or type(data[k[1:-1]]) == float):
                 resp = resp.replace(str(k), str(data[k[1:-1]]))
         return resp
 

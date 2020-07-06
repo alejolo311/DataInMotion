@@ -213,6 +213,57 @@ function newNode () {
     }
   });
 }
+function importTheNode (nId, reload) {
+	const boardId = $('.container').attr('board_id');
+	fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${nId}/copy_to/${boardId}`)
+	.then(function (resp) {
+		return resp;
+	}).then(function (resp) {
+		console.log(resp);
+		$('.import').css('display', 'none');
+		if (reload) {
+			location.reload();
+		}
+	});
+}
+function importTheNodeOnByOne (node) {
+	console.log(node);
+	const boardId = $('.container').attr('board_id');
+	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/add_node`,
+	  {
+		method: 'POST', // or 'PUT'
+		body: JSON.stringify(node), // data can be `string` or {object}!
+		headers:{
+		  'Content-Type': 'application/json'
+		}
+	  })
+	.then(function (resp) {
+		return resp;
+	}).then(function (resp) {
+		console.log(resp);
+		$('.import').css('display', 'none');
+		location.reload();
+	});
+}
+function importCompleteBoard (impBoard) {
+	console.log(node);
+	const boardId = $('.container').attr('board_id');
+	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/complete_board`,
+	  {
+		method: 'POST', // or 'PUT'
+		body: JSON.stringify(impBoard), // data can be `string` or {object}!
+		headers:{
+		  'Content-Type': 'application/json'
+		}
+	  })
+	.then(function (resp) {
+		return resp;
+	}).then(function (resp) {
+		console.log(resp);
+		$('.import').css('display', 'none');
+		// location.reload();
+	});
+}
 function importNode () {
   // Get a list of boards and render them as html
   const boardId = $('.container').attr('board_id');
@@ -234,18 +285,10 @@ function importNode () {
           const nodeHtml = $(`<h2 node_id="${nodeId}">${nodeName}</h2>`);
           // This fetch the node info from the API
           $(nodeHtml).on('click', function (evn) {
-            // fetch for a new node
-            console.log($(this).attr('node_id'));
-            const nId = $(this).attr('node_id');
-            const boardId = $('.container').attr('board_id');
-            fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${nId}/copy_to/${boardId}`)
-              .then(function (resp) {
-                return resp;
-              }).then(function (resp) {
-                console.log(resp);
-                $('.import').css('display', 'none');
-                location.reload();
-              });
+			// fetch for a new node
+			const nId = $(obj).attr('node_id');
+			// true for reload
+            importTheNode(nId, true);
           });
           boardCont.append(nodeHtml);
         }
@@ -271,6 +314,108 @@ function importNode () {
       $('.import').css('z-index', 30);
       $('.import').css('display', 'block');
     });
+}
+let importedBoard;
+function importBoard() {
+	console.log('Import board from file');
+	const filePrompt = $('<div class="file_cont"></div>');
+	const cont = $('<div class="alert_cont"></div>');
+	const close = $('<h2 class="close"></h2>');
+	const fileInput = $('<input id="file" name="file" type="file" accept=".dim" style="display: none;">');
+	const buttonInput = $('<input class="browse" type="button" value="Browse from device...">');
+	const complete = $('<button >import complete board</button>');
+	const oneOrMore = $('<button >import one or more nodes</button>');
+	$(buttonInput).on('click', function () {
+		$(fileInput).trigger('click');
+	});
+	$(fileInput).change(function (evn) {
+		console.log($(this).val());
+		const fr = new FileReader();
+		fr.onload = function (evn) {
+			// console.log(evn.target.result);
+			importedBoard = JSON.parse(evn.target.result);
+			$(filePrompt).append($(oneOrMore));
+			$(filePrompt).append($(complete));
+			$(filePrompt).append($(`<div class="import_name"><h1>${importedBoard.data.name}</h1><button>import</button></div>`));
+		};
+		fr.readAsText(evn.target.files[0]);
+	});
+	$(oneOrMore).on('click', function (evn) {
+		const list = $('<ul style="margin: 0;padding: 0;"></ul>');
+		console.log(importedBoard);
+		for (node in importedBoard.nodes) {
+			console.log(importedBoard.nodes[node].name);
+			const name = importedBoard.nodes[node].name;
+			const li = $(`<li node_id="${node}"></li>`);
+			const inp = $(`<h3>${name}</h3><input type="checkbox" style="margin-top: 6px;">`);
+			$(li).append($(inp));
+			$(list).append($(li));
+		}
+		$('.import_name button').css('display', 'block');
+		$('.import_name button').on('click', function (evn) {
+			console.log($(this).parent().parent().find('ul'));
+			const ul = $(this).parent().parent().find('ul')[0];
+			const childs = $(ul).children().toArray();
+			console.log(childs);
+			const nodesList = [];
+			for (li of childs) {
+				// console.log(li);
+				const checkbox = $(li).find('input');
+				const name = $(li).find('h3').text();
+				const nId = $(li).attr('node_id');
+				console.log($(li).attr('node_id'));
+				if ($(checkbox).prop('checked')) {
+					// false to no reload
+					nodesList.push(importedBoard.nodes[nId]);
+					
+				}
+				// console.log(name, $(checkbox).prop('checked'));
+			}
+			importTheNodeOnByOne(nodesList);
+		});
+		$(filePrompt).append($(list));
+	});
+	$(complete).on('click', function () {
+		importCompleteBoard(importedBoard);
+	});
+	$(close).on('click', function () {
+		$(cont).remove();
+	});
+	$(filePrompt).append($(fileInput));
+	$(filePrompt).append($(buttonInput));
+	$(filePrompt).append($(close));
+	$(cont).append($(filePrompt));
+	$('body').append($(cont));
+	$(cont).css('display', 'block');
+}
+function exportBoard() {
+	console.log('Export board from file');
+	const cont = $('<div class="alert_cont" ></div>')
+	const close = $('<h2 class="close"></h2>');
+	const filePrompt = $('<div class="file_cont" style="width: auto;"></div>');
+	const link = $('<a id="download_board" class="download_board">Download this board</a>');
+	const exportObj = {data: board};
+	const boardId = $('.container').attr('board_id');
+	const boardName = $('.board_name').text().replace(/^\s+|\s+$/g, "");
+	$(close).on('click', function () {
+		$(cont).remove();
+	});
+	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/nodes`)
+	.then(function (resp) {
+		return resp.json();
+	}).then(function (resp) {
+		exportObj.nodes = resp;
+		const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObj));
+		$(link).on('click', function (evn) {
+			$(cont).remove();
+		});
+		$(link).attr('href', dataStr);
+		$(link).attr('download', `${boardName}.dim`);
+		$(filePrompt).append($(link));
+		$(filePrompt).append($(close));
+		$(cont).append($(filePrompt));
+		$('body').append($(cont));
+	});
 }
 function deleteNode (id) {
   $.ajax({
@@ -302,6 +447,13 @@ function setProjectMenu () {
     const items = [];
     items.push(['new node', newNode]);
     items.push(['import from other board', importNode]);
+    createMenu(evn.pageX, items);
+  });
+  $('[menu=board]').on('click', function (evn) {
+    $('.menus').empty();
+    const items = [];
+    items.push(['import file', importBoard]);
+    items.push(['export file', exportBoard]);
     createMenu(evn.pageX, items);
   });
 }

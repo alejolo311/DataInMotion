@@ -90,9 +90,96 @@ def save_name(board_id):
 @app_nodes.route('/boards/<board_id>/delete',
                  methods=['GET'],
                  strict_slashes=False)
-def remove_board(board_id):
+def nodes_board(board_id):
     board = storage.get(Board, board_id)
     print('deleting', board)
     storage.delete(board)
     storage.save()
     return Response('a todo dar wey', status=200)
+
+
+@app_nodes.route('/boards/<board_id>/nodes',
+                 methods=['GET'],
+                 strict_slashes=False)
+def remove_board(board_id):
+    """
+    Return the nodes for the board id
+    """
+    board = storage.get(Board, board_id)
+    nodes = {}
+    for node_id in json.loads(board.nodes):
+        nodes[node_id] = json.loads(storage.get(CustomNode, node_id).to_dict())
+    return Response(json.dumps(nodes), mimetype='application/json')
+
+
+@app_nodes.route('/boards/<board_id>/add_node',
+                 methods=['POST'],
+                 strict_slashes=False)
+def add_node(board_id):
+    """
+    Append Node from file one by one
+    """
+    board = storage.get(Board, board_id)
+    in_nodes = request.get_json()
+    for nod in in_nodes:
+        new_node = CustomNode()
+        sample_keys = json.loads(new_node.to_dict()).keys()
+        print('the node from the file\n', nod)
+        del nod['id']
+        for key in sample_keys:
+            if key in nod:
+                val = nod[key]
+                if type(val) == dict or type(val) == list:
+                    val = json.dumps(val)
+                setattr(new_node, key, val)
+        new_node.name = nod['name']
+        new_node.color = nod['color']
+        new_node.user_id = board.user_id
+        new_node.innodes = json.dumps([])
+        new_node.outnodes = json.dumps([])
+        new_node.board_id = board_id
+        new_node.save()
+        nodes = json.loads(board.nodes)
+        nodes[new_node.id] = {'x': 20, 'y': 50}
+        board.nodes = json.dumps(nodes)
+        board.save()
+    return Response('success', status=200)
+
+
+@app_nodes.route('/boards/<board_id>/complete_board',
+                 methods=['POST'],
+                 strict_slashes=False)
+def add_complete_board(board_id):
+    """
+    Append Node from file one by one
+    """
+    board = storage.get(Board, board_id)
+    imp_board = request.get_json()
+    # print(imp_board)
+    print(imp_board['data']['name'])
+    for node in imp_board['nodes']:
+        print(node)
+    # in_nodes = request.get_json()
+    # for nod in in_nodes:
+    #     new_node = CustomNode()
+    #     sample_keys = json.loads(new_node.to_dict()).keys()
+    #     print('the node from the file\n', nod)
+    #     del nod['id']
+    #     for key in sample_keys:
+    #         if key in nod:
+    #             val = nod[key]
+    #             if type(val) == dict or type(val) == list:
+    #                 val = json.dumps(val)
+    #             setattr(new_node, key, val)
+    #     new_node.name = nod['name']
+    #     new_node.color = nod['color']
+    #     new_node.user_id = board.user_id
+    #     new_node.innodes = json.dumps([])
+    #     new_node.outnodes = json.dumps([])
+    #     new_node.board_id = board_id
+    #     new_node.save()
+    #     nodes = json.loads(board.nodes)
+    #     nodes[new_node.id] = {'x': 20, 'y': 50}
+    #     board.nodes = json.dumps(nodes)
+    #     board.save()
+    return Response('success', status=200)
