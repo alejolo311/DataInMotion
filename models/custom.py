@@ -456,10 +456,10 @@ class CustomNode(BaseNode, Base):
                 print(self.name, json_log.keys())
         return data, json_log
 
-
     def send_message(self, outData):
         """
-        parse the data in self and in out data and use that to send whatsapp mesagges
+        parse the data in self and in out data and use that to send
+        whatsapp mesagges
         """
         headers = json.loads(self.headers)
         data = json.loads(self.data)
@@ -474,12 +474,14 @@ class CustomNode(BaseNode, Base):
         for number in number_list:
             message = client.messages.create(
                                         body=content,
-                                        from_='whatsapp:+1' + str(data['from']),
+                                        from_='whatsapp:+1' +
+                                        str(data['from']),
                                         to='whatsapp:+57' + str(number)
                                     )
             wppStatus[message.sid] = str(number)
 
         return wppStatus
+
     def request(self, data):
         """
         Makes a request depending on the node data, headers, and method
