@@ -72,7 +72,7 @@ class WebWhastapp():
         # self.driver = webdriver.Chrome(options=options)
         # --------------------------------------
         self.driver.set_window_position(0, 0)
-        self.driver.set_window_size(1024, 768)
+        self.driver.set_window_size(900, 400)
 
     def auth(self):
         """
@@ -83,42 +83,46 @@ class WebWhastapp():
             self.save_screenshot('init_page')
         except Exception as e:
             return False
-        try:
-            canvas = WebDriverWait(self.driver, 3).until(
-                EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
-            location = canvas.location
-            size = canvas.size
-            qrcode = self.driver.get_screenshot_as_png()
-            im = Image.open(BytesIO(qrcode))
-            left = location['x']
-            top = location['y']
-            right = location['x'] + size['width']
-            bottom = location['y'] + size['height']
-            im = im.crop((left, top, right, bottom))
-            im.save('./api/verification_images/{}.png'.format(self.node_id))
-            # send the Qrcode link to the admin
-            # self.number = '573176923716'
-            url = 'web_whatsapp_verify?id=' + self.node_id
-            self.send_twilio_message(
-                self.number,
-                '*Scan with your phone ' + ' the QRcode in the link*')
-            self.send_twilio_message(self.number, str(self.node_id))
-            return True
-        except Exception as e:
-            print('QRcode not found:')
-            print('\t', e)
-            return False
+        retries = 4
+        tries = 0
+        while tries < retries:
+            try:
+                canvas = WebDriverWait(self.driver, 3).until(
+                    EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
+                location = canvas.location
+                size = canvas.size
+                qrcode = self.driver.get_screenshot_as_png()
+                im = Image.open(BytesIO(qrcode))
+                left = location['x']
+                top = location['y']
+                right = location['x'] + size['width']
+                bottom = location['y'] + size['height']
+                im = im.crop((left, top, right, bottom))
+                im.save('./api/verification_images/{}.png'.format(self.node_id))
+                url = 'web_whatsapp_verify?id=' + self.node_id
+                self.send_twilio_message(
+                    self.number,
+                    '*Scan with your phone ' + ' the QRcode in the link*')
+                self.send_twilio_message(self.number, str(self.node_id))
+                return True
+            except TimeoutException:
+                print('QRcode not found:')
+            except Exception as e:
+                print('\t', e)
+                retries += 1
+        return False
 
     def send_twilio_message(self, contact, message):
         """
         Send a message via twilio
         """
-        media_message = self.twilio_client.messages.create(
-            body=message,
-            from_='whatsapp:+' + str(self.twilio_credentials['from_sender']),
-            to='whatsapp:+' + str(contact)
-        )
-        return media_message
+        # media_message = self.twilio_client.messages.create(
+        #     body=message,
+        #     from_='whatsapp:+' + str(self.twilio_credentials['from_sender']),
+        #     to='whatsapp:+' + str(contact)
+        # )
+        # return media_message
+        return True
 
     def search_contact(self, contact_number):
         """
@@ -146,6 +150,7 @@ class WebWhastapp():
         # print(parent.get_attribute('outerHTML'))
         parent.click()
         time.sleep(2)
+        self.save_screenshot('contact_selected')
 
     def send_whatsapp_message(self, message):
         """
@@ -184,6 +189,7 @@ class WebWhastapp():
         x_xpath = '//span[@data-testid = "smiley"]'
         x_btn = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_xpath)))
+        self.save_screenshot('smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
         # select the gif button
@@ -192,6 +198,7 @@ class WebWhastapp():
             EC.presence_of_element_located((By.XPATH, gif_xpath)))
         gif = gif.find_element_by_xpath('..')
         time.sleep(2)
+        self.save_screenshot('gif')
         gif.click()
         gif_inp_xpath = '//input[@title = ' +\
             '"Search GIFs via GIPHY"]'

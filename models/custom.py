@@ -356,6 +356,7 @@ class CustomNode(BaseNode, Base):
             try:
                 data = self.web_whatsapp(pars)
             except Exception as e:
+                traceback.print_exec()
                 print(e)
                 data = {'error': str(e)}
                 pass

@@ -4,7 +4,9 @@ services:
   api:
     build: 
       context: .
+      shm_size: '4gb'
       dockerfile: ./api/Dockerfile.prod
+    shm_size: '4gb'
     command: python3 -m api.v1.app
     env_file:
       - ./.env.prod
