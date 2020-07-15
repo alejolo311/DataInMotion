@@ -1,3 +1,4 @@
 const global = {
-  apiDirection: "localhost"
+  // apiDirection: "localhost"
+  apiDirection: "dnart.tech"
 }
