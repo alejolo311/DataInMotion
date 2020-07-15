@@ -553,7 +553,7 @@ class CustomNode(BaseNode, Base):
         for number in number_list:
             if 'url' in outData.keys():
                 media_message = client.messages.create(
-                    from_='whatsapp:+'+ str(data['from']),
+                    from_='whatsapp:+' + str(data['from']),
                     to='whatsapp:+' + str(number),
                     media_url=[outData['url']]
                 )
