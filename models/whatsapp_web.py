@@ -189,6 +189,7 @@ class WebWhastapp():
         x_xpath = '//span[@data-testid = "smiley"]'
         x_btn = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_xpath)))
+        print(x_btn.get_attribute('outerHTML'))
         self.save_screenshot('smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
