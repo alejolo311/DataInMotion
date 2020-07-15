@@ -275,7 +275,7 @@ function importCompleteBoard (impBoard) {
 	}).then(function (resp) {
 		console.log(resp);
 		$('.import').css('display', 'none');
-		// location.reload();
+		location.reload();
 	});
 }
 function importNode () {
@@ -391,6 +391,7 @@ function importBoard() {
 	});
 	$(complete).on('click', function () {
 		importCompleteBoard(importedBoard);
+
 	});
 	$(close).on('click', function () {
 		$(cont).remove();

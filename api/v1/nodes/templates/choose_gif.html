@@ -43,8 +43,7 @@
 		left: 0;
 	}	
 	div[selected="gif"] video{
-		height: 30vw;
-		max-width: 50%;
+		width: 150px;
 		cursor: pointer;
 		border-radius: 12px;
 		margin: 6px;
@@ -56,6 +55,7 @@
 		video.addEventListener('click', function (evn) {
 			$('[selected="gif"]').css('display', 'block');
 			$('[selected="gif"] video source').attr('src', evn.target.firstElementChild.src);
+			$('[selected="gif"] video').trigger('play');
 			// console.log(this.firstElementChild);
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
