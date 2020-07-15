@@ -190,7 +190,7 @@ class WebWhastapp():
         x_btn = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_xpath)))
         print(x_btn.get_attribute('outerHTML'))
-        self.save_screenshot('smiley')
+        # self.save_screenshot('smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
         # select the gif button
@@ -199,7 +199,6 @@ class WebWhastapp():
             EC.presence_of_element_located((By.XPATH, gif_xpath)))
         gif = gif.find_element_by_xpath('..')
         time.sleep(2)
-        self.save_screenshot('gif')
         gif.click()
         gif_inp_xpath = '//input[@title = ' +\
             '"Search GIFs via GIPHY"]'
@@ -229,7 +228,7 @@ class WebWhastapp():
         divs = WebDriverWait(footer, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
         divs = divs[:6]
-        self.save_screenshot('giphy')
+        # self.save_screenshot('giphy')
         pos = 0
         for div in divs:
             self.driver.execute_script(
