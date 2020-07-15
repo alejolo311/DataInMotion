@@ -65,6 +65,7 @@ function getBoardView () {
         success: function (nodes) {
 		  // console.log(nodes);
 		  // $('.container').empty();
+		  // console.log(nodes);
           $('.container').empty();
           $('.container').append($(nodes));
           popup();

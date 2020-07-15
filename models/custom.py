@@ -19,6 +19,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 import json
 import requests
 from models.auth import Auth
+from models.whatsapp_web import WebWhastapp
 from inspect import currentframe as ctf
 from inspect import getframeinfo as gfi
 
@@ -60,7 +61,31 @@ class CustomNode(BaseNode, Base):
         """
         return json.dumps(self.__dict__)
 
-    def run_node_task(self, caller_data, logger):
+    def set_caller_node(self, caller_id):
+        """
+        Set the id for the inception node
+        """
+        self.inner_connections = caller_id
+
+    def write_status(self, status, message):
+        """
+        Write the running status to the running file
+        """
+        test_file = {'messages': []}
+        try:
+            with open('./api/running/{}.test'
+                      .format(self.inner_connections), 'r') as test:
+                test_file = json.loads(test.read())
+        except Exception as e:
+            print(e)
+        with open('./api/running/{}.test'
+                  .format(self.inner_connections), 'w') as test:
+            test_file['node_id'] = str(self.id)
+            test_file['status'] = status
+            test_file['messages'].append(message)
+            test.write(json.dumps(test_file))
+
+    def run_node_task(self, caller_data, logger, inception):
         """
         This function is a recursion to run a work flow and collect
         all the data fetched and proccessed by this flow
@@ -76,6 +101,8 @@ class CustomNode(BaseNode, Base):
         - fourth: the collected data is passed to the outnodes
         and collected again by each outnode iteration
         """
+        self.set_caller_node(inception)
+        self.write_status('running_node', 'Running: {}'.format(self.name))
         logger.log(self.name, 'Running task')
         acc_data = {self.name: {'acc-params': {},
                                 'acc-data': {},
@@ -128,7 +155,7 @@ class CustomNode(BaseNode, Base):
             print('acc_json', acc_data[self.name]['acc-json'].keys())
             data, json_log = node.run_node_task((data,
                                                  acc_data[self.name]),
-                                                logger)
+                                                logger, self.inner_connections)
             if type(data) == dict:
                 for key in data:
                     print(self.name,
@@ -162,6 +189,8 @@ class CustomNode(BaseNode, Base):
                 if ('string' in pars.keys() and 'http' in pars['string'][:8]):
                     url_parts = pars['string'].split('?')
                 elif 'url' in pars.keys():
+                    print(pars.keys())
+                    print(pars['url'])
                     url_parts = pars['url'].split('?')
                 if url_parts:
                     self.api_url = 'GET ' + url_parts[0]
@@ -225,7 +254,10 @@ class CustomNode(BaseNode, Base):
                 patt = '*{}*'.format(key)
                 if patt in self.data:
                     if type(pars[key]) == str:
-                        self.data = self.data.replace(patt, pars[key])
+                        print(self.name, 'replacing', patt, 'for', pars[key])
+                        print(self.data)
+                        self.data = self.data.replace(
+                            patt, pars[key].replace('\n', ' '))
             print(self.name, self.data)
             if need_auth:
                 heads = {}
@@ -242,7 +274,8 @@ class CustomNode(BaseNode, Base):
                 t = 'Replacing ' + ' in '
                 logger.log(self.name, t)
                 dat = self.data
-                dat = json.loads(dat)
+                print(self.name, 'replacing', dat)
+                dat = json.loads(dat.encode('utf-8'))
                 self.data = json.dumps(dat)
                 heads['url'] = self.api_url
                 self.save()
@@ -320,7 +353,13 @@ class CustomNode(BaseNode, Base):
                     pars[k] = params[key]['acc-params'][k]
                 for k in params[key]['acc-data'].keys():
                     pars[k] = params[key]['acc-data'][k]
-            data = self.send_message(pars)
+            try:
+                data = self.web_whatsapp(pars)
+            except Exception as e:
+                print(e)
+                data = {'error': str(e)}
+                pass
+            # data = self.send_message(pars)
         #
         # Proccess Data Section
         #
@@ -424,9 +463,10 @@ class CustomNode(BaseNode, Base):
                 node = models.storage.get(CustomNode, nod)
                 comp = None
                 if node.analisis_mode == 'comparision':
-                    comp, comp2 = node.run_node_task((data,
-                                                      acc_data[self.name]),
-                                                     logger)
+                    comp, comp2 = node.run_node_task((
+                        data,
+                        acc_data[self.name]),
+                        logger, self.inner_connections)
                     # print('comparission result type', type(comp))
                     if 'result' in comp.keys():
                         if comp['result'] is False:
@@ -437,9 +477,10 @@ class CustomNode(BaseNode, Base):
                     print(acc_data[self.name]['acc-data'].keys())
                     print(acc_data[self.name]['acc-json'].keys())
                     print(acc_data[self.name]['acc-params'].keys())
-                    comp, comp2 = node.run_node_task((data,
-                                                      acc_data[self.name]),
-                                                     logger)
+                    comp, comp2 = node.run_node_task((
+                        data,
+                        acc_data[self.name]),
+                        logger, self.inner_connections)
                 if type(comp) == dict:
                     if 'result' in comp.keys():
                         if comp['result'] is False:
@@ -455,6 +496,43 @@ class CustomNode(BaseNode, Base):
             if type(json_log) == dict:
                 print(self.name, json_log.keys())
         return data, json_log
+
+    def web_whatsapp(self, outData):
+        """
+        Use selenium to send the QR code and then the messages
+        """
+        if 'content' in outData.keys():
+            message = outData['content']
+        else:
+            return {'error_{}'.format(self.name): 'message content not found'}
+        web = WebWhastapp(self.id, outData)
+        admin = json.loads(self.data)['admin']
+        gif = json.loads(self.data)['gif']
+        data = outData['contacts_list']
+        number_list = [num for num in data.keys()]
+
+        web.start_browser()
+        web.number = admin
+        if not web.auth():
+            return {
+                'error': 'QRCode not found, may be the connection is loose'
+            }
+        self.write_status('verifying', 'Waiting for user to scan the code')
+        web.send_twilio_message(admin, 'Message to send: {}'.format(message))
+        pos = 0
+        for contact in number_list:
+            web.search_contact(contact)
+            if pos == 0:
+                self.write_status(
+                    'sending', 'Sending message to {}'.format(contact))
+                pos += 1
+            print(gif)
+            if gif != '':
+                web.send_animated_gif(gif, self, select_random=False)
+            web.send_whatsapp_message(message)
+            self.write_status('sent', 'Message sent to {}'.format(contact))
+        web.close()
+        return {}
 
     def send_message(self, outData):
         """
@@ -473,20 +551,25 @@ class CustomNode(BaseNode, Base):
         number_list = json.loads(data["numbers_list"])
         # content = '{}\n{}'.format(content, outData['url'])
         for number in number_list:
+            if 'url' in outData.keys():
+                media_message = client.messages.create(
+                    from_='whatsapp:+' +
+                    str(data['from']),
+                    to='whatsapp:+' + str(number),
+                    media_url=[outData['url']]
+                )
             message = client.messages.create(
-                                        body=content,
-                                        from_='whatsapp:+' +
-                                        str(data['from']),
-                                        to='whatsapp:+' + str(number)
-                                    )
-            message = client.messages.create(
-                                        body=outData['url'],
-                                        from_='whatsapp:+' +
-                                        str(data['from']),
-                                        to='whatsapp:+' + str(number)
-                                    )
-            wppStatus[message.sid] = str(number)
-
+                body=content,
+                from_='whatsapp:+' +
+                str(data['from']),
+                to='whatsapp:+' + str(number),
+            )
+            wppStatus[number] = {}
+            wppStatus[number]['status'] = message.status
+            wppStatus[number]['media'] = 'https://api.twilio.com' +\
+                                         message.subresource_uris['media']
+            wppStatus[number]['error'] = str(message.error_code) +\
+                ' , ' + str(message.error_message)
         return wppStatus
 
     def request(self, data):
@@ -519,6 +602,8 @@ class CustomNode(BaseNode, Base):
         self.logger.log(self.name,
                         json.dumps(json.loads(self.data),
                                    indent=2)[:200])
+        self.write_status('running_node',
+                          '{} (Request):<br>{}'.format(self.name, url))
         try:
             if protocol == 'GET':
                 response = requests.get(url, params=data, headers=headers)
@@ -703,7 +788,8 @@ class CustomNode(BaseNode, Base):
         #
         if self.analisis_mode == 'statistics':
             statistics = json.loads(self.analisis_params)
-            samples, params = statistics[0]['samples'], statistics[0]['parameters']
+            samples, params = statistics[0]['samples'], \
+                statistics[0]['parameters']
             print(self.name, 'Checking Statistics params')
             print('Samples\n', samples)
             print('Parameters\n', params)
@@ -729,24 +815,35 @@ class CustomNode(BaseNode, Base):
                     pop = int(response[param])
                     percent = (pop * 100) / sample
                     results['scores'][param] = {}
-                    results['scores'][param]['value'] = '{:.2f}'.format(percent)
+                    results['scores'][param]['value'] = \
+                        '{:.2f}'.format(percent)
                     sign = '+'
                     if sample > pop:
                         sign = '-'
-                    results['scores'][param]['diff'] = '{}{:.2f}'.format(sign, 100 - percent)
+                    results['scores'][param]['diff'] = \
+                        '{}{:.2f}'.format(sign, 100 - percent)
                     int_dif = sample - pop
-                    results['scores'][param]['int_diff'] = '{}'.format(int(int_dif))
+                    results['scores'][param]['int_diff'] = \
+                        '{}'.format(int(int_dif))
                 print(results)
                 return results
             except Exception as e:
                 print('Failed: ', e)
                 pass
+        ######
+        #
+        # Contacts_list mode
+        #
+        #####
+        if self.analisis_mode == 'contacts_list':
+            return {'contacts_list': json.loads(self.data)}
         if params and len(params) > 0 and self.analisis_mode == 'JSON':
             ######
             #
             # JSON  value Extraction
             #
             #######
+            # obj must be set as response object
             if self.work_type == 'request':
                 response = response['request_data']
             print('Json proccess')
@@ -755,8 +852,9 @@ class CustomNode(BaseNode, Base):
             for param in params:
                 if param is None:
                     continue
+                print(self.name, 'Extracting value from', param['path'])
                 paths = param['path'].split('/')
-                obj = response
+                obj = response.copy()
                 last = len(paths) - 1
                 for i, path in enumerate(paths):
                     index = None
@@ -774,9 +872,14 @@ class CustomNode(BaseNode, Base):
                                 pos = random.randint(0, le)
                                 obj = obj[pos]
                                 print(self.name, str(obj)[:50])
-                    if last == i:
-                        if obj is not None:
-                            resp[param['key']] = obj
+                    try:
+                        print(path.encode('utf-8'))
+                        print(obj.encode('utf-8'))
+                    except Exception as e:
+                        print(e)
+                if last == i:
+                    if obj is not None:
+                        resp[param['key']] = obj
             # ------------------------------------------------------
             if self.analisis_mode == 'get_updates':
                 # Checks a list or a dict
@@ -965,7 +1068,10 @@ class CustomNode(BaseNode, Base):
         resp = format_string
         for i, k in enumerate(keys):
             print(self.name, 'parse_string: ', k, str(data[k[1:-1]])[:50])
-            if k in resp and (type(data[k[1:-1]]) == str or type(data[k[1:-1]]) == int or type(data[k[1:-1]]) == float):
+            conds = [k in resp and (type(data[k[1:-1]]) == str)]
+            conds.append(type(data[k[1:-1]]) == int)
+            conds.append(type(data[k[1:-1]]) == float)
+            if conds[0] or conds[1] or conds[2]:
                 resp = resp.replace(str(k), str(data[k[1:-1]]))
         return resp
 

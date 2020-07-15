@@ -146,7 +146,8 @@ process:active {
 	padding: 12px 0 0px 0;
 	width: 30px;
 	border-radius: 12px;
-	background-color: var(--board_color);
+	/* background-color: var(--board_color); */
+	background-color: rgba(137, 43, 226, 0.445);
 	right: -20px;
 	height: 100px;
 	border: 1px solid rgba(255, 255, 255, 0.246);
@@ -281,7 +282,8 @@ process:active {
 	box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.432);
 }
 .in_expanded {
-	background-color: var(--board_color);
+	/* background-color: var(--board_color); */
+	background-color: rgba(128, 0, 128, 0.411);
 	border-radius: 12px;
 	border: 1px solid white;
 	top: -20px;

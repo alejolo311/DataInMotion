@@ -20,28 +20,11 @@ const loadNode = function (id, evn) {
 		url:`http://${global.apiDirection}:8080/api/v1/nodes/${id}`,
 		success: function (n) {
 			node = n;
-			$('[name=n_name]').val(node.name);
-			if (node.type === 'service') {
-				$('[name=is_service]').prop('checked', true);
+			if (node.work_type === 'sender') {
+				WhatsAppFlow(node);
 			} else {
-				$('[name=is_service]').prop('checked', false);
+				setNodeView(node, evn);
 			}
-			$('[name=w_type]').val(node.work_type);
-			$('[name=n_url]').val(node.api_url);
-			$('[name=an_mode]').val(node.analisis_mode);
-			$('[name=string]').val(node.string);
-			$('.node_cont_info').css('top', evn.pageY + 20);
-			$('.node_cont_info').css('left', evn.pageX - 30);
-			$('.progress').css('top', evn.pageY - 26);
-			$('.progress').css('left', evn.pageX + 80);
-			$('.close_node').css('top', evn.pageY);
-			$('.close_node').css('left', evn.pageX - 30);
-			$('.close_node').on('click', function () {
-				node = null;
-				$('.new_node_cont').css('display', 'none');
-			});
-			$('.step').css('display', 'none');
-			newNodeFlow(node.id);
 		}
 	});
 };

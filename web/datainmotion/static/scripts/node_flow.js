@@ -1,6 +1,9 @@
 let tmpAnPm;
-function newNodeFlow(id) {
+function newNodeFlow(node, id) {
+	$('.node_next').html('');
+	$('.node_back').html('');
 	const reloadHeaders = function () {
+		
 		$('[list=headers]').empty();
 		// console.log(node);
 		for (key in node.headers) {
@@ -146,7 +149,7 @@ function newNodeFlow(id) {
 	$('[step=0]').css('display', 'block');
 	// This block defines the flow buttons listeners
 	// forward step 0 to 1
-	$('[step=0]').find('.next').on('click', function (evn) {
+	$('[step=0]').find('.node_next').on('click', function (evn) {
 		const name = $('[name=n_name]').val();
 		console.log(name);
 		if (name !== '' && name !== undefined) {
@@ -158,15 +161,15 @@ function newNodeFlow(id) {
 			pos = 1;
 		}
 	});
-	// Close node options
-	$('[step=0]').find('.back').on('click', function (evn) {
+	// Close node options by clicking back
+	$('[step=0]').find('.node_back').on('click', function (evn) {
 		$('.new_node_cont').css('display', 'none');
-		$('[step]').find('.back').unbind('click');
-		$('[step]').find('.next').unbind('click');
-		return null;
+		$('[step]').find('.node_back').unbind('click');
+		$('[step]').find('.node_next').unbind('click');
+		location.reload();
 	});
 	// forward step 1 to 2
-	$('[step=1]').find('.next').on('click', function () {
+	$('[step=1]').find('.node_next').on('click', function () {
 		const service = $('[name=is_service]').prop('checked');
 		if (service) {
 			node.type = 'service';
@@ -179,14 +182,14 @@ function newNodeFlow(id) {
 		$('[pos=2]').css('background-color', on);
 	});
 	// backward step 1 to 0
-	$('[step=1]').find('.back').on('click', function (evn) {
+	$('[step=1]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=0]').css('display', 'block');
 		$('[pos=1]').css('background-color', off);
 		$('[pos=0]').css('background-color', on);
 	});
 	// forward step 2 to 3 or 5 depending on the work_type selected
-	$('[step=2]').find('.next').on('click', function (evn) {
+	$('[step=2]').find('.node_next').on('click', function (evn) {
 		const type = $('[name=w_type]').val();
 		node.work_type = type;
 		if (type === 'request') {
@@ -202,14 +205,14 @@ function newNodeFlow(id) {
 		}
 	});
 	// backward step 2 to 1
-	$('[step=2]').find('.back').on('click', function (evn) {
+	$('[step=2]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=1]').css('display', 'block');
 		$('[pos=2]').css('background-color', off);
 		$('[pos=1]').css('background-color', on);
 	});
 	// forward step 3 to 4
-	$('[step=3]').find('.next').on('click', function (evn) {
+	$('[step=3]').find('.node_next').on('click', function (evn) {
 		const url = $('[name=n_url]').val();
 		if (url !== '') {
 			node.api_url = url;
@@ -221,14 +224,14 @@ function newNodeFlow(id) {
 		}
 	});
 	// backward step 3 to 2
-	$('[step=3]').find('.back').on('click', function (evn) {
+	$('[step=3]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=2]').css('display', 'block');
 		$('[pos=3]').css('background-color', off);
 		$('[pos=2]').css('background-color', on);
 	});
 	// forward step 4 to 5
-	$('[step=4]').find('.next').on('click', function (evn) {
+	$('[step=4]').find('.node_next').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=5]').css('display', 'block');
 		$('[pos=4]').css('background-color', off);
@@ -236,21 +239,21 @@ function newNodeFlow(id) {
 		reloadData();
 	});
 	// backward step 4 to 3
-	$('[step=4]').find('.back').on('click', function (evn) {
+	$('[step=4]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=3]').css('display', 'block');
 		$('[pos=4]').css('background-color', off);
 		$('[pos=3]').css('background-color', on);
 	});
 	// forward step 5 to 6
-	$('[step=5]').find('.next').on('click', function (evn) {
+	$('[step=5]').find('.node_next').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=6]').css('display', 'block');
 		$('[pos=5]').css('background-color', off);
 		$('[pos=6]').css('background-color', on);
 	});
 	// backward step 5 to 4 or 2 depending
-	$('[step=5]').find('.back').on('click', function (evn) {
+	$('[step=5]').find('.node_back').on('click', function (evn) {
 		if (node.work_type == 'request') {
 			$('.step').css('display', 'none');
 			$('[step=4]').css('display', 'block');
@@ -264,7 +267,7 @@ function newNodeFlow(id) {
 		}
 	});
 	// forward step 6 to 7
-	$('[step=6]').find('.next').on('click', function (evn) {
+	$('[step=6]').find('.node_next').on('click', function (evn) {
 		const am = $('[name=an_mode]').val();
 		console.log(am);
 		if (am === 'none') {
@@ -294,14 +297,14 @@ function newNodeFlow(id) {
 		}
 	});
 	// backward step 6 to 5
-	$('[step=6]').find('.back').on('click', function (evn) {
+	$('[step=6]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=5]').css('display', 'block');
 		$('[pos=6]').css('background-color', off);
 		$('[pos=5]').css('background-color', on);
 	});
 	// forward step 7 to save()
-	$('[step=7]').find('.next').on('click', function (evn) {
+	$('[step=7]').find('.node_next').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('.new_node_cont').css('display', 'none');
 		const finAP = [];
@@ -316,7 +319,7 @@ function newNodeFlow(id) {
 		return null;
 	});
 	// backward step 7 to 6
-	$('[step=7]').find('.back').on('click', function (evn) {
+	$('[step=7]').find('.node_back').on('click', function (evn) {
 		$('.step').css('display', 'none');
 		$('[step=6]').css('display', 'block');
 	});
@@ -656,4 +659,210 @@ function saveNode(node) {
 			location.reload();
 		}
 	});
+}
+async function loadContactList(nodeId) {
+	const node_fetch = await fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${nodeId}`);
+	const node = await node_fetch.json();
+	return node;
+}
+async function loadContactsNodes() {
+	const boardId = $('.container').attr('board_id');
+	const conts_lists_fetch = await fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/contacts_list`);
+	const conts_lists = await conts_lists_fetch.json();
+	return conts_lists;
+}
+async function WhatsAppFlow(node) {
+	const col = '#00bfa5';
+	let tmpGif = node.data.gif;
+	const reloadContactsView = function () {
+		const ul = $('[contacts="true"] ul');
+		$(ul).empty();
+		for (cont in contact_list) {
+			const li = $(`<li>${cont}</li>`);
+			$(li).on('click', function () {
+				const name = $('[name="contact_name"]');
+				const number = $('[name="contact_number"]');
+				const contact = contact_list[$(this).text()];
+				name.val($(this).text());
+				number.val(contact);
+				delete contact_list[$(this).text()];
+				reloadContactsView();
+			});
+			$(ul).append($(li));
+		}
+	};
+	// Show list
+	const showList = function () {
+
+		if (contacts_node !== undefined) {
+			$('[contacts="true"] label').text(`Contacts in ${contacts_node.name}:`);	
+		} else {
+			$('[contacts="true"] label').text('New Contacts List');	
+		}
+		$('.contacts_lists').css('display', 'none');
+		$('[contacts="true"]').css('display', 'block');
+		$('[select="contacts"]').css('display', 'none');
+		$('[show="true"]').text('List options');
+		$('[show="true"]').addClass('list_opts');
+		$('[show="true"]').on('click', function (evn) {
+			$(this).removeClass('list_opts');
+			$(this).text('Select an option:');
+			$('[select="contacts"]').css('display', 'block');
+			$('[contacts="true"]').css('display', 'none');
+			$('[edit="true"]').css('display', 'block');
+			$('[edit="true"]').on('click', function (evn) {
+				showList();
+			});
+		});
+		reloadContactsView();
+	};
+	// Show view an set close button
+	let contact_list = {};
+	let contacts_node;
+	// Load contactList
+	// if node is linked to a list
+	if (node.innodes.length > 0) {
+		contact_list = node.innodes;
+		contacts_node = await loadContactList(contact_list[0]);
+		contact_list = contacts_node.data;
+		console.log(contact_list);
+		showList();
+	}
+	// Display the container
+	const container = $('div[form="whatsapp_node"]');
+	$('.wpp_cont').css('display', 'block');
+	container.css('display', 'block');
+	if (node.data.gif !== '') {
+		$('[name="giphy"]').val(node.data.gif);
+		$('[name="giphy"]').css('display', 'block');
+		$('[select="gif"] h2').css('background-color', 'white');
+		$('[select="gif"] h2').css('color', col);
+	}
+	// Close container
+	$('[close="whatsapp"]').on('click', function (evn) {
+		container.css('display', 'none');
+		$('.wpp_cont').css('display', 'none');
+		location.reload();
+	});
+	// Detects changes in admin value
+	$('[name="wpp_admin"]').val(node.data.admin);
+	$('[name="wpp_admin"]').keypress(function (key) {
+		console.log($(this).val());
+		node.data.admin = $(this).val();
+	});
+	
+	// Gif button listener show the search input
+	$('[select="gif"] h2').on('click', function () {
+		if ($('[name="giphy"]').css('display') === 'none') {
+			$('[name="giphy"]').css('display', 'block');
+			$(this).css('background-color', 'white');
+			$(this).css('color', col);
+		} else {
+			$('[name="giphy"]').css('display', 'none');
+			$('[name="giphy"]').val('');
+			$(this).css('background-color', col);
+			$(this).css('color', 'white');
+			node.data.gif = '';
+		}
+	});
+	// Input listener for Giphy search
+	$('[name="giphy"]').keypress(function (key) {
+		node.data.gif = $(this).val() + key.key;
+		// console.log(key.key);
+		console.log(node.data.gif);
+	});
+	// Click to create new list
+	$('[create="true"]').on('click', function (evn) {
+		contact_list = {};
+		contacts_node = undefined;
+		showList();
+	});
+	// Load contacts from other node
+	$('[connect="true"]').on('click', async function (evn) {
+		lists = await loadContactsNodes();
+		console.log(lists);
+		$('.contacts_lists').css('display', 'block');
+		const ul = $('.contacts_lists ul');
+		$(ul).empty();
+		for (list of lists) {
+			const li = $(`<li contacts_id="${list.id}">${list.name}</li>`);
+			$(li).on('click', function (evn) {
+				console.log('click');
+				for (lis of lists) {
+					if (lis.id === $(this).attr('contacts_id')) {
+						contact_list = lis.data;
+						contacts_node = lis;
+						showList();
+					}
+				}
+			});
+			$(ul).append($(li));
+		}
+	});
+	// add a contact to the list
+	$('[contacts="true"] button').on('click', function (evn) {
+		const name = $('[name="contact_name"]');
+		const number = $('[name="contact_number"]');
+		if (name.val() !== '' && number.val() !== '') {
+			console.log(name.val(), number.val());
+			contact_list[name.val()] = number.val();
+			name.val('');
+			number.val('');
+			reloadContactsView();
+		} else {
+			console.log('empty values');
+		}
+	});
+	// Save Whatsapp Node
+	$('[save="whatsapp"]').on('click', function (evn) {
+		saveWhatsappNode(node, contacts_node, contact_list)
+	});
+	console.log(node);
+}
+// Save Whatsapp Node
+async function saveWhatsappNode(node, contacts_node, contacts_list) {
+	let contactsNode = contacts_node;
+	// Detects existing contactsnode
+	if (contactsNode!== undefined) {
+		node.innodes = [contactsNode.id];
+		contactsNode.data = contacts_list
+		const c_fetch = await fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${contactsNode.id}/save`, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(contactsNode)
+		});
+		const contacts_saved = await c_fetch.json();
+	}
+	else {
+		// Creates a new contacts node
+		const boardId = $('.container').attr('board_id');
+		const new_conts = await fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/create_node`, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				data: contacts_list,
+				type: 'contacts_list'
+			})
+		});
+		contactsNode= await new_conts.json();
+		node.innodes = [contactsNode.id];
+	}
+	const r_fetch = await fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${node.id}/save`, {
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(node)
+	});
+	const resp = await r_fetch.json();
+	$('.wpp_cont').css('display', 'none');
+	console.log(node, contacts_node, contacts_list);
+	location.reload();	
 }

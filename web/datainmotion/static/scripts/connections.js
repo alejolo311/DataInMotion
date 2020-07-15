@@ -1,6 +1,11 @@
 const drawLine = function (a, b, canvas, color) {
   const contx = canvas.getContext('2d');
-  contx.strokeStyle = color;
+  if (color !== undefined && color !== null && color !== '') {
+	contx.strokeStyle = color;
+  } else {
+	contx.strokeStyle = '#ffffff';
+  }
+  
   contx.lineWidth = 3;
   contx.beginPath();
   const offY = 132;
@@ -26,8 +31,12 @@ function drawConnections () {
       const offset = $(child).offset();
       const a = { x: offset.left + 12, y: offset.top + 4 };
       const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
-      const b = { x: $(p[0]).offset().left + 0, y: $(p[0]).offset().top + 4 };
-      drawLine(a, b, canvas, $(child).parent().parent().attr('tag_color'));
+      try {
+		  const b = { x: $(p[0]).offset().left + 0, y: $(p[0]).offset().top + 4 };
+		  drawLine(a, b, canvas, $(child).parent().parent().attr('tag_color'));
+	  } catch (error) {
+		  	console.log(error);
+	  }
     }
   }
   // Check the innodes and link them to the respective connection

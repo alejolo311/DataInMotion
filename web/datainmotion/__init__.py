@@ -70,7 +70,7 @@ def nodes(board_id):
     cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900',
             '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
     cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900',
-                 '#999100', '#fff766', '#fffbb2', '#00fff2'])
+                 '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5'])
     cols.extend(['#ff5724', '#ff784f', '#ff8965', '#ff9a7b',
                  '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
     cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af',
@@ -143,4 +143,4 @@ def launch_demo():
 
 
 if __name__ == '__main__':
-    app.run("localhost", 8000)
+    app.run(host="0.0.0.0", port='8080')
