@@ -5,9 +5,7 @@
 	</video>
 {% endfor %}
 <div selected="gif">Selected gif
-	<video autoplay loop>
-		<source src="" type="video/mp4" pos="">
-	</video>
+	
 </div>
 <style>
 	h1[title="choose"] {
@@ -54,8 +52,8 @@
 	for (video of videos) {
 		video.addEventListener('click', function (evn) {
 			$('[selected="gif"]').css('display', 'block');
-			$('[selected="gif"] video source').attr('src', evn.target.firstElementChild.src);
-			$('[selected="gif"] video').trigger('play');
+			const vid_cont = document.querySelector('[selected="gif"]')
+			vid_cont.appendChild(evn.target);
 			// console.log(this.firstElementChild);
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'

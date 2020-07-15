@@ -185,6 +185,7 @@ class WebWhastapp():
         and send the media to the contact focused by search_contact
         """
         print("sending gif to {}".format(self.contact))
+        instance.write_status('sending', 'Sending {} Gif'.format(search))
         # select the smiley button
         x_xpath = '//span[@data-testid = "smiley"]'
         x_btn = WebDriverWait(self.driver, 10).until(
@@ -229,6 +230,7 @@ class WebWhastapp():
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
         divs = divs[:3]
         # # self.save_screenshot('giphy')
+        instance.write_status('collecting', 'Collecting Gif to send')
         pos = 0
         for div in divs:
             try:
