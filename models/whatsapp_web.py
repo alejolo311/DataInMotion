@@ -80,7 +80,7 @@ class WebWhastapp():
         """
         try:
             self.driver.get('https://web.whatsapp.com')
-            self.save_screenshot('init_page')
+            # self.save_screenshot('init_page')
         except Exception as e:
             return False
         retries = 4
@@ -150,7 +150,7 @@ class WebWhastapp():
         # print(parent.get_attribute('outerHTML'))
         parent.click()
         time.sleep(2)
-        self.save_screenshot('contact_selected')
+        # self.save_screenshot('contact_selected')
 
     def send_whatsapp_message(self, message):
         """
@@ -173,7 +173,7 @@ class WebWhastapp():
             msg_box.send_keys(char)
         msg_box.send_keys(Keys.RETURN)
         time.sleep(2)
-        self.save_screenshot('message')
+        # self.save_screenshot('message')
         self.send_twilio_message(self.number,
                                  'message and Gif sent to *{}*'
                                  .format(self.contact))
@@ -190,7 +190,7 @@ class WebWhastapp():
         x_btn = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_xpath)))
         print(x_btn.get_attribute('outerHTML'))
-        # self.save_screenshot('smiley')
+        # # self.save_screenshot('smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
         # select the gif button
@@ -228,7 +228,7 @@ class WebWhastapp():
         divs = WebDriverWait(footer, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
         divs = divs[:3]
-        # self.save_screenshot('giphy')
+        # # self.save_screenshot('giphy')
         pos = 0
         for div in divs:
             try:
@@ -243,11 +243,12 @@ class WebWhastapp():
                     print(pos, '{:<30}'.format(src))
                     self.video_urls.append([pos, src])
                     pos += 1
-                self.save_screenshot('video_url')
+                time.sleep(2)
+                # self.save_screenshot('video_url')
             except Exception as e:
                 print(e)
                 pass
-        self.save_screenshot('scrolled')
+        # self.save_screenshot('scrolled')
         with open('./api/verification_images/{}.json'
                   .format(self.node_id), 'w') as videos_json:
             videos_json.write(json.dumps(self.video_urls))
@@ -284,7 +285,7 @@ class WebWhastapp():
             r_pos = int(config['pos'])
         div = self.video_divs[r_pos]
         self.driver.execute_script('arguments[0].scrollIntoView(true);', div)
-        self.save_screenshot('after_scroll_to_div')
+        # self.save_screenshot('after_scroll_to_div')
         vi = self.video_urls[r_pos]
         # --------------------------------
         # Scroll to the video view
@@ -300,10 +301,10 @@ class WebWhastapp():
         self.driver.execute_script(
             'arguments[0].style.backgroundColor = "blue";', video)
         time.sleep(2)
-        self.save_screenshot('before_video_clicked')
+        # self.save_screenshot('before_video_clicked')
         self.driver.execute_script("arguments[0].focus();", par)
         time.sleep(2)
-        self.save_screenshot('after_focus')
+        # self.save_screenshot('after_focus')
         x_block = '//div[@class="_2vpZx"]'
         block = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_block)))
@@ -312,11 +313,11 @@ class WebWhastapp():
         action.click().perform()
         action.move_to_element(video)
         video.click()
-        self.save_screenshot('actions_clicked')
+        # self.save_screenshot('actions_clicked')
         count = 0
         while True:
             try:
-                self.save_screenshot('waiting_buttonsend')
+                # self.save_screenshot('waiting_buttonsend')
                 btn_xpath = '//span[@data-testid = "send"]'
                 button = WebDriverWait(self.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, btn_xpath)))
@@ -324,7 +325,7 @@ class WebWhastapp():
                 button = button.find_element_by_xpath('..')
                 button.click()
                 time.sleep(5)
-                self.save_screenshot('buttonsend_clicked')
+                # self.save_screenshot('buttonsend_clicked')
                 return 'Gif sended to {}'.format(self.contact)
             except TimeoutException:
                 print('Timeout Send Button, trying again')
