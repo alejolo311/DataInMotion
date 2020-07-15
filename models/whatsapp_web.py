@@ -72,7 +72,7 @@ class WebWhastapp():
         # self.driver = webdriver.Chrome(options=options)
         # --------------------------------------
         self.driver.set_window_position(0, 0)
-        self.driver.set_window_size(900, 400)
+        self.driver.set_window_size(1080, 592)
 
     def auth(self):
         """
