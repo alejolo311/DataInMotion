@@ -99,9 +99,9 @@ class WebWhastapp():
             # send the Qrcode link to the admin
             # self.number = '573176923716'
             url = 'web_whatsapp_verify?id=' + self.node_id
-            self.send_twilio_message(self.number,
-                                     '*Scan with your phone ' +
-                                     ' the QRcode in the link*')
+            self.send_twilio_message(
+                self.number,
+                '*Scan with your phone ' + ' the QRcode in the link*')
             self.send_twilio_message(self.number, str(self.node_id))
             return True
         except Exception as e:
@@ -262,7 +262,7 @@ class WebWhastapp():
                         instance.write_status('gif_choosed',
                                               'The gif has been selected')
                     break
-                except:
+                except Exception as e:
                     print('Failed to find configuration file')
                     time.sleep(5)
                     if count > 15:

@@ -553,15 +553,13 @@ class CustomNode(BaseNode, Base):
         for number in number_list:
             if 'url' in outData.keys():
                 media_message = client.messages.create(
-                    from_='whatsapp:+' +
-                    str(data['from']),
+                    from_='whatsapp:+'+ str(data['from']),
                     to='whatsapp:+' + str(number),
                     media_url=[outData['url']]
                 )
             message = client.messages.create(
                 body=content,
-                from_='whatsapp:+' +
-                str(data['from']),
+                from_='whatsapp:+' + str(data['from']),
                 to='whatsapp:+' + str(number),
             )
             wppStatus[number] = {}
@@ -801,7 +799,7 @@ class CustomNode(BaseNode, Base):
                     try:
                         samp = int(sample)
                         average += samp
-                    except:
+                    except Exception as e:
                         average += int(response[sample])
                         pass
                 results['sample'] = average / len(samples.keys())
