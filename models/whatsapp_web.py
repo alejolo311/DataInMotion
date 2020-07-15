@@ -227,13 +227,12 @@ class WebWhastapp():
         x_path = '//div[@class = "kpC7S"]'
         divs = WebDriverWait(footer, 10).until(
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
-        divs = divs[:6]
+        divs = divs[:3]
         # self.save_screenshot('giphy')
         pos = 0
         for div in divs:
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView(false);", div)
             try:
+                self.driver.execute_script("arguments[0].scrollIntoView(false);", div)
                 videos = WebDriverWait(div, 10).until(
                     EC.presence_of_all_elements_located((By.TAG_NAME,
                                                          'video')))
