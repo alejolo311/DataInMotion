@@ -53,7 +53,7 @@ COPY ./entrypoint.prod.sh $APP_HOME
 
 # copy project
 COPY . $APP_HOME
-COPY ./../web/ /home/app/
+# COPY ./static /home/app/web/datainmotion/static
 
 # chown all the files to the app user
 RUN chown -R app:app $APP_HOME

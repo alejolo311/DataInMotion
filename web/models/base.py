@@ -28,6 +28,7 @@ class BaseNode:
         self.id = str(uuid.uuid4())
 
     def __str__(self):
+        """String representation"""
         return '<node>(' + self.type + ')[id=' + self.id + ']'
 
     def save(self):

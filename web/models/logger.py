@@ -2,8 +2,7 @@
 """
 Logger Object to return data in a pretty format
 """
-
-
+import shutil
 import json
 
 
@@ -25,14 +24,21 @@ class Logger:
         """
         return the json log
         """
-        return self.json_log
+        return self.json_log.copy()
 
     def log(self, node_name, content):
         """
         add a new line to to file attached to the user
         """
+        cols, rows = shutil.get_terminal_size(fallback=(120, 24))
         with open(self.user_id + '.log', 'a+') as logfile:
-            logfile.write('{:<14}:   '.format(node_name) + content + '\n')
+            lines = content.split('\n')
+            cols = cols - 15
+            for line in lines:
+                for i in range(0, len(line), cols):
+                    print('{:<14}:   '.format(node_name) + line[i:i + cols])
+                    lin = line[i:i + cols] + '\n'
+                    logfile.write('{:<14}:   {}'.format(node_name, lin))
 
     def __str__(self):
         """
