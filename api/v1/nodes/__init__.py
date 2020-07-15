@@ -5,7 +5,11 @@ import the requires routes and creates the blueprint
 
 from flask import Blueprint
 
-app_nodes = Blueprint('api_nodes', __name__, url_prefix='/api/v1')
+app_nodes = Blueprint(
+    'api_nodes',
+    __name__,
+    url_prefix='/api/v1',
+    template_folder='templates')
 
 from api.v1.nodes.index import *
 from api.v1.nodes.users import *

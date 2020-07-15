@@ -5,8 +5,12 @@
 	--font: 'Mallanna', sans-serif;
 	--tag_radius: 14px;
 	--board_color: #350135;
-	/*--board_color: #809a80;*/
+	/* --board_color: #ffffff; */
 	--board_color_end: #310331;
+	/* --board_color_end: #ffffff; */
+	
+	--node_font_color: #ffffff;
+	/*--node_font_color: #525252;*/
 	
 	/*--board_color: white;
 	*--board_color_end: white;
@@ -15,7 +19,7 @@
 }
 body {
 	/* background-color: var(--board_color); */
-	/*background-image: linear-gradient(to right, #041530, #010b1b);*/
+	background-image: linear-gradient(to right, #041530, #010b1b);
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
@@ -78,7 +82,7 @@ body {
 	border-radius: var(--radius) 0 0 var(--radius);
 	font-family: 'Mallanna', sans-serif;
 	letter-spacing: var(--letter_spacing);
-	color: white;
+	color: var(--node_font_color);
 }
 .work_toggle {
 	margin-top: 50px;
@@ -142,7 +146,8 @@ process:active {
 	padding: 12px 0 0px 0;
 	width: 30px;
 	border-radius: 12px;
-	background-color: var(--board_color);
+	/* background-color: var(--board_color); */
+	background-color: rgba(137, 43, 226, 0.445);
 	right: -20px;
 	height: 100px;
 	border: 1px solid rgba(255, 255, 255, 0.246);
@@ -219,7 +224,7 @@ process:active {
 	width: 8px;
 	height: 8px;
 	margin-bottom: 8px;
-	background-color: rgb(255, 255, 255);
+	background-color: var(--node_font_color);
 	border: 4px solid var(--board_color);
 	border-radius: 50%;
 	outline: none;
@@ -277,7 +282,8 @@ process:active {
 	box-shadow: inset 0px 0px 10px rgba(255, 255, 255, 0.432);
 }
 .in_expanded {
-	background-color: var(--board_color);
+	/* background-color: var(--board_color); */
+	background-color: rgba(128, 0, 128, 0.411);
 	border-radius: 12px;
 	border: 1px solid white;
 	top: -20px;

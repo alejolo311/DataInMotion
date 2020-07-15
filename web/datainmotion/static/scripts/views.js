@@ -31,7 +31,8 @@ function getBoardView () {
     console.log('chage board name');
     $(this).css('display', 'none');
     $('[name=board_name]').css('display', 'block');
-    $('[name=board_name]').css('background-color', 'white');
+	$('[name=board_name]').css('background-color', 'white');
+	// strip the boardname
     $('[name=board_name]').val($(this).text().replace(/^\s+|\s+$/g, ''));
   });
   $('[name=board_name]').focusout(function (evn) {
@@ -62,8 +63,9 @@ function getBoardView () {
       $.ajax({
         url: `http://${global.apiDirection}/boards/${boardId}/nodes`,
         success: function (nodes) {
-          // console.log(nodes);
-          // $('.container').empty();
+		  // console.log(nodes);
+		  // $('.container').empty();
+		  // console.log(nodes);
           $('.container').empty();
           $('.container').append($(nodes));
           popup();
@@ -93,7 +95,14 @@ function getBoardView () {
           drawGrid();
           $('[action=user]').on('click', function () {
             goBack();
-          });
+		  });
+		  const nods = $('[cont_node_id]');
+		  console.log($(nods).length);
+		  if (nods.length === 1) {
+			  console.log('Show walkthrought');
+			  console.log($($(nods)[0]).position().left, $($(nods)[0]).position().top);
+			  oneNodeWalkthrought($($(nods)[0]).attr('cont_node_id'));
+		  }
           // console.log(nodes);
         }
       });

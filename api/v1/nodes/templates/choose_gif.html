@@ -1,0 +1,68 @@
+<h1 title="choose">Choose the gif to send</h1>
+{% for gif in gifs %}
+	<video autoplay loop>
+		<source src="{{ gif.1 }}" type="video/mp4" pos="{{ gif.0 }}">
+	</video>
+{% endfor %}
+<div selected="gif">Selected gif
+	<video autoplay loop>
+		<source src="" type="video/mp4" pos="">
+	</video>
+</div>
+<style>
+	h1[title="choose"] {
+		font-family: sans-serif;
+		color: white;
+		font-size: 20px;
+	}
+	video {
+		height: 10vw;
+		max-width: 45%;
+		cursor: pointer;
+		border-radius: 12px;
+		margin: 6px;
+	}
+	video:hover {
+		border: 6px solid salmon;
+		margin: 0px;
+
+	}
+	video:active {
+		border: 6px solid rgb(114, 250, 209);
+	}
+	div[selected="gif"] {
+		background-color: rgba(0, 0, 0, 0.87);
+		color: white;
+		font-size: 20px;
+		width: 100%;
+		height: 100%;
+		display: none;
+		font-family: sans-serif;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}	
+	div[selected="gif"] video{
+		height: 30vw;
+		max-width: 50%;
+		cursor: pointer;
+		border-radius: 12px;
+		margin: 6px;
+	}
+</style>
+<script>
+	const videos = document.getElementsByTagName('video');
+	for (video of videos) {
+		video.addEventListener('click', function (evn) {
+			$('[selected="gif"]').css('display', 'block');
+			$('[selected="gif"] video source').attr('src', evn.target.firstElementChild.src);
+			// console.log(this.firstElementChild);
+			const pos = this.firstElementChild.getAttribute('pos')
+			const nodeId = '{{ id }}'
+			fetch(`http://localhost:8080/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
+			.then(function (resp) {
+				console.log(resp);
+			});
+		});
+	}
+</script>

@@ -1,11 +1,13 @@
-version: '3.3'
+version: '3.5'
 
 services:
   api:
     build: 
       context: .
+      shm_size: '4gb'
       dockerfile: ./api/Dockerfile
-    command: python3 -m api.v1.app
+    shm_size: '4gb'
+    command: ./init_api
     env_file:
       - ./.env.dev
     ports:

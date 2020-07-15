@@ -35,8 +35,8 @@ function setGrabbers() {
 				$('[cont_node_id="' + nodeId + '"]').css('left', (evn.pageX - offX).toString());
 			}
 			$('[cont_node_id="' + nodeId + '"]').find('.grabber').css('visibility', 'visible');
+			drawConnections();
 		}
-		drawConnections();
 	});
 	$('.node_container').mousemove(function (evn) {
 		if (nodeName === '') {
