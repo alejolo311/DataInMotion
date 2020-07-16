@@ -155,9 +155,11 @@ class WebWhastapp():
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
                 break
+            except TimeoutError:
+                pass
             except Exception as e:
                 print(e)
-                pass
+                return {'error': str(e)}
         xpath = "//span[contains(@title, '')]"
         while True:
             try:
