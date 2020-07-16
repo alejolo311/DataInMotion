@@ -649,7 +649,7 @@ function saveNode(node) {
 	node.work_type = workerType;
 	node.string = $('[name=string]').val();
 	$.ajax({
-		url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${node.id}/save`,
+		url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${node.id}/save`,
 		type: 'POST',
 		dataType: 'json',
 		contentType: 'application/json',
@@ -661,13 +661,13 @@ function saveNode(node) {
 	});
 }
 async function loadContactList(nodeId) {
-	const node_fetch = await fetch(`http://${global.domain}${global.apiPort}/api/v1/nodes/${nodeId}`);
+	const node_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${nodeId}`);
 	const node = await node_fetch.json();
 	return node;
 }
 async function loadContactsNodes() {
 	const boardId = $('.container').attr('board_id');
-	const conts_lists_fetch = await fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/contacts_list`);
+	const conts_lists_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/contacts_list`);
 	const conts_lists = await conts_lists_fetch.json();
 	return conts_lists;
 }
@@ -826,7 +826,7 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 	if (contactsNode!== undefined) {
 		node.innodes = [contactsNode.id];
 		contactsNode.data = contacts_list
-		const c_fetch = await fetch(`http://${global.domain}${global.apiPort}/api/v1/nodes/${contactsNode.id}/save`, {
+		const c_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${contactsNode.id}/save`, {
 			method: "POST",
 			headers: {
 				'Accept': 'application/json',
@@ -839,7 +839,7 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 	else {
 		// Creates a new contacts node
 		const boardId = $('.container').attr('board_id');
-		const new_conts = await fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/create_node`, {
+		const new_conts = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/create_node`, {
 			method: "POST",
 			headers: {
 				'Accept': 'application/json',
@@ -853,7 +853,7 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 		contactsNode= await new_conts.json();
 		node.innodes = [contactsNode.id];
 	}
-	const r_fetch = await fetch(`http://${global.domain}${global.apiPort}/api/v1/nodes/${node.id}/save`, {
+	const r_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${node.id}/save`, {
 		method: "POST",
 		headers: {
 			'Accept': 'application/json',

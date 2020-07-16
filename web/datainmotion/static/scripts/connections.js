@@ -190,7 +190,7 @@ function setConnectionsListeners () {
       console.log(outId, conId);
       $.ajax({
         type: 'POST',
-        url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${outId}/add_connection`,
+        url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${outId}/add_connection`,
         contentType: 'application/json',
         data: JSON.stringify({ con_id: conId, type: ty }),
         success: function (response) {
@@ -256,7 +256,7 @@ function setConnectionsListeners () {
     console.log('remove', out, 'from', node);
     $.ajax({
       type: 'DELETE',
-      url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${node}/del_connection`,
+      url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${node}/del_connection`,
       contentType: 'application/json',
       data: JSON.stringify({
         con_id: out,
@@ -273,7 +273,7 @@ function setConnectionsListeners () {
 // and set Grabber listener
 function reloadNode (nodeId) {
   $.ajax({
-    url: `'http://${global.domain}/nodes/${nodeId}`,
+    url: `'${global.prot}://${global.domain}/nodes/${nodeId}`,
     success: function (node) {
       const actual = $('.node_container[node_id=' + nodeId + ']');
       console.log('actual', actual);

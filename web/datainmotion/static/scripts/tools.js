@@ -4,7 +4,7 @@ function autosave (evn) {
     type: 'POST',
     dataType: 'json',
     contentType: 'application/json',
-    url: `http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}`,
+    url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}`,
     data: JSON.stringify(board),
     success: function (resp) {
       console.log(resp);

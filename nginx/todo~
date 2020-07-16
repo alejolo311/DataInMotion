@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# create /opt/nginx-ssl folder
-# create dhparam with openssl command
-openssl dhparam -out /opt/nginx-ssl

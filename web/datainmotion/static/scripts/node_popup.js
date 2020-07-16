@@ -29,7 +29,7 @@ function popup () {
 		node.find('.colors').css('display', 'none');
 		$.ajax({
 			type: 'POST',
-			url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${id}/savecolor`,
+			url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${id}/savecolor`,
 			dataType: 'json',
 			contentType: 'application/json',
 			data: JSON.stringify({

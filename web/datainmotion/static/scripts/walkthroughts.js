@@ -1,14 +1,14 @@
 function oneNodeWalkthrought(id) {
-	console.log(id);
-	$('[cont_node_id=' + id + ']').css('z-index', '21');
-	$('[cont_node_id=' + id + ']').mousemove(function () {
-		$(this).css('z-index', '21');
-	});
-	$('[cont_node_id=' + id + ']').mouseleave(function () {
-		$(this).css('z-index', '21');
-	});
-	$('[cont_node_id=' + id + ']').find('.grabber').css('display', 'block');
-	$('.walkthrought').css('display', 'none');
+	// console.log(id);
+	// $('[cont_node_id=' + id + ']').css('z-index', '21');
+	// $('[cont_node_id=' + id + ']').mousemove(function () {
+	// 	$(this).css('z-index', '21');
+	// });
+	// $('[cont_node_id=' + id + ']').mouseleave(function () {
+	// 	$(this).css('z-index', '21');
+	// });
+	// $('[cont_node_id=' + id + ']').find('.grabber').css('display', 'block');
+	// $('.walkthrought').css('display', 'none');
 }
 // 	const width = document.getElementsByTagName('body')[0].scrollWidth;
 // 	const height = document.getElementsByTagName('body')[0].scrollHeight;

@@ -39,7 +39,7 @@ services:
     volumes:
       - static_volume:/home/app/web/datainmotion/static
       - ./public_html:/public_html
-      - ./conf.d:/etc/nginx/conf.d/
+#      - ./conf.d:/etc/nginx/conf.d/
       - ./dhparam:/etc/nginx/dhparam
       - ./certbot/conf/:/etc/nginx/ssl/
       - ./certbot/data:/usr/share/nginx/html/letsencrypt
@@ -48,13 +48,14 @@ services:
       - 443:443
     depends_on:
       - web
-  certbot:
-    image: certbot/certbot:latest
-    command: certonly --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email danrodcastillo1994@gmail.com --agree-tos --no-eff-email -d dnart.tech
-    volumes:
-      - ./certbot/conf/:/etc/letsencrypt
-      - ./certbot/logs/:/var/log/letsencrypt
-      - ./certbot/data:/usr/share/nginx/html/letsencrypt
+#   certbot:
+#     image: certbot/certbot:latest
+# ##    command: certonly --force-renewal -n --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email danrodcastillo1994@gmail.com --agree-tos --no-eff-email -d 'dnart.tech' --test-cert
+# #    command: certonly --force-renewal -n --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email danrodcastillo1994@gmail.com --agree-tos --no-eff-email -d 'dnart.tech'
+#     volumes:
+#       - ./certbot/conf/:/etc/letsencrypt
+#       - ./certbot/logs/:/var/log/letsencrypt
+#       - ./certbot/data:/usr/share/nginx/html/letsencrypt
 volumes:
   postgres_data:
   static_volume:
