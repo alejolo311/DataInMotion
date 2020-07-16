@@ -159,9 +159,11 @@ class WebWhastapp():
                 time.sleep(2)
             except TimeoutException:
                 self.save_screenshot(name='gif_input')
+                time.sleep(5)
                 if count >= max_retries:
                     sys.exit('1')
                     break
+                print('Retries:', count)
                 count += 1
                 pass
             except Exception as e:
