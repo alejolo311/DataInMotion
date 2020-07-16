@@ -164,9 +164,16 @@ class WebWhastapp():
                 contact = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located((By.XPATH, xpath)))[0]
                 self.remove_verify()
+                parent = contact.find_element_by_xpath('..')
+                parent = parent.find_element_by_xpath('..')
+                parent = parent.find_element_by_xpath('..')
+                parent = parent.find_element_by_xpath('..')
+                parent = parent.find_element_by_xpath('..')
                 self.driver.execute_script(
-                  'arguments[0].style.backgroundColor = "red";', contact)
-                contact.click()
+                  'arguments[0].style.backgroundColor = "red";', parent)
+                parent.click()
+                print(parent.get_attribute('outerHTML'))
+                self.save_screenshot('contact_selected')
                 time.sleep(2)
                 break
             except TimeoutException:
