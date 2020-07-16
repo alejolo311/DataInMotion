@@ -60,7 +60,7 @@
 			// console.log(this.firstElementChild);
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
-			fetch(`http://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
+			fetch(`https://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
 			.then(function (resp) {
 				console.log(resp);
 			});
