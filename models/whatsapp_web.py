@@ -157,20 +157,11 @@ class WebWhastapp():
                 con_input_span.click()
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
-            except TimeoutException:
-                self.save_screenshot(name='gif_input')
-                time.sleep(5)
-                if count >= max_retries:
-                    sys.exit('1')
-                    break
-                print('Retries:', count)
-                count += 1
-                pass
+                break
             except Exception as e:
                 self.save_screenshot(name='gif_input')
                 traceback.print_exc()
                 print(e)
-                sys.exit('1')
         xpath = "//span[contains(@title, '')]"
         while True:
             try:
