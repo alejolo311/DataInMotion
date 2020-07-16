@@ -520,6 +520,7 @@ class CustomNode(BaseNode, Base):
             }
         self.write_status('verifying', 'Waiting for user to scan the code')
         # web.send_twilio_message(admin, 'Message to send: {}'.format(message))
+        
         pos = 0
         url = None
         for contact in number_list:

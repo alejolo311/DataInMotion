@@ -142,7 +142,8 @@ class WebWhastapp():
         """
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
-        contact_search_input = self.driver.find_elements_by_xpath(box_xpath)[0]
+        contact_search_input = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
         contact_search_input.send_keys(contact_number)
         time.sleep(2)
         xpath = "//span[contains(name(), 'title')]"
