@@ -142,6 +142,8 @@ class WebWhastapp():
         """
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
+        max_retries = 10
+        count = 0
         while True:
             try:
                 print('Selecting input to search contact')
@@ -155,6 +157,8 @@ class WebWhastapp():
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
             except TimeoutError:
+                self.save_screenshot('gif_input')
+                count += 1
                 pass
             except Exception as e:
                 traceback.print_exc()
