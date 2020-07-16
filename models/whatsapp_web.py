@@ -43,7 +43,11 @@ class WebWhastapp():
         """
         Defines the web selenium driver handler
         """
-        os.remove('./api/verification_images/{}.png'.format(nodeId))
+        try:
+            os.remove('./api/verification_images/{}.png'.format(nodeId))
+        except Exception as e:
+            print(e)
+            pass
         self.instance = instance
         self.instance.write_status(
             'whatsapp_init',
