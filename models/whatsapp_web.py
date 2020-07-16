@@ -154,17 +154,21 @@ class WebWhastapp():
                 con_input_span.click()
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
-                break
             except TimeoutError:
                 pass
             except Exception as e:
+                traceback.print_exc()
                 print(e)
-                return {'error': str(e)}
+                sys.exit('1')
         xpath = "//span[contains(@title, '')]"
         while True:
             try:
-                contact = WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_all_elements_located((By.XPATH, xpath)))[0]
+                contacts = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, xpath)))
+                for cont in contacts:
+                    self.driver.execute_script(
+                        'arguments[0].style.backgroundColor = "blue";', cont)
+                contact = contacts[0]
                 self.remove_verify()
                 parent = contact.find_element_by_xpath('..')
                 parent = parent.find_element_by_xpath('..')
