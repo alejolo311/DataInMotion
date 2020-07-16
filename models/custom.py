@@ -538,14 +538,14 @@ class CustomNode(BaseNode, Base):
             web.send_whatsapp_message(message)
             self.write_status('sent', 'Message sent to {}'.format(contact))
         web.close()
-        return {
+        return dict({
             'sended_messages': {
                 'result': 'Succesfully send the messages to the distribution list',
-                'distributed_list': data.keys(),
+                'distributed_list': list(data.keys()),
                 'message': message,
-                'gif': url
+                'gif': url[1]
             }
-        }
+        })
 
     def send_message(self, outData):
         """
