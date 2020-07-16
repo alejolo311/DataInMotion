@@ -158,7 +158,7 @@ class WebWhastapp():
             except Exception as e:
                 print(e)
                 pass
-        xpath = "//span[contains(name(), 'title')]"
+        xpath = "//span[contains(@title, '')]"
         while True:
             try:
                 contact = WebDriverWait(self.driver, 10).until(
