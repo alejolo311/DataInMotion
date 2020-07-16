@@ -49,8 +49,7 @@
 			$('[selected="gif"]').css('display', 'block');
 			const vid_cont = document.querySelector('[selected="gif"]')
 			vid_cont.appendChild(evn.target);
-			vid_cont.style.width = '60vw';
-			vid_cont.style.borderRadius = '18px';
+			vid_cont.style.width = '320px';
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
 			fetch(`https://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
