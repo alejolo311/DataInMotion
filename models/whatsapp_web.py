@@ -144,11 +144,11 @@ class WebWhastapp():
         box_xpath = '//div[@contenteditable = "true"]'
         while True:
             try:
-                print('')
+                print('Selecting input to search contact')
                 con_input_span = WebDriverWait(self.driver, 10).until(
                             EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
                 con_input = con_input_span.find_element_by_xpath('..')
-                con_input.click()
+                # con_input.click()
                 con_input = con_input.find_element_by_xpath('..')
                 con_input.click()
                 con_input_span.click()
@@ -168,6 +168,8 @@ class WebWhastapp():
                 time.sleep(2)
                 break
             except TimeoutException:
+                self.save_screenshot(name='waiting_contact')
+                print('trying again to get the contact')
                 pass
             except Exception as e:
                 return {'error': "can not find the contact"}
