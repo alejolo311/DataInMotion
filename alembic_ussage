@@ -34,3 +34,11 @@ alembic revision --autogenerate
 -------------------------
 alembic upgrade head
 -------------------------
+
+Reload static volume
+---------------------------------
+docker-compose down -v
+docker volume ls
+docker volume rm <nombre del volumen>
+docker-compose up --build -d
+---------------------------------

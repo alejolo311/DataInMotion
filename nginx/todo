@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Create /opt/nginx-ssl folder
+mkdir /opt/nginx-ssl
+
+# Create dhparam with openssl command
+mkdir dhparam
+openssl dhparam -out /opt/nginx-ssl/dhparam/dhparam-2048.pem 2048
+
+# Create public_html folder and index.html
+mkdir public_html
+
+# Create conf.d folder -> NGINX conf file
+mkdir conf.d

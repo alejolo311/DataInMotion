@@ -138,7 +138,7 @@ Terms:
 
 - connections: list of ids of the caller nodes, notes de difference with the innodes, the resulting data from this nodes will be returned to the actual caller connection, this term will be used for UX design purposes
 
-  
+
   
   
 

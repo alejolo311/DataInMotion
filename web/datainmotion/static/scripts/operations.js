@@ -3,7 +3,7 @@ async function running_test(nodeId) {
 	let choosing_gif = false;
 	while (true) {
 		await timeSleep(2000);
-		const resp = await fetch(`http://${global.apiDirection}:8080/api/v1/check_response?id=${nodeId}`, {
+		const resp = await fetch(`http://${global.domain}${global.apiPort}/api/v1/check_response?id=${nodeId}`, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
@@ -29,7 +29,7 @@ async function running_test(nodeId) {
 			break;
 		} else if (json.status === 'verifying') {
 			if (verifying === false) {
-				const qrcode = await fetch(`http://${global.apiDirection}:8080/api/v1/web_whatsapp_verify?id=${json.node_id}`, {
+				const qrcode = await fetch(`http://${global.domain}${global.apiPort}/api/v1/web_whatsapp_verify?id=${json.node_id}`, {
 					method: "GET"
 				});
 				const res_qrcode = await qrcode.text();
@@ -47,7 +47,7 @@ async function running_test(nodeId) {
 		} else if (json.status === 'choose_gif') {
 			const len = json.messages.length - 1;
 			if (!choosing_gif) {
-				const gif_fetch = await fetch(`http://${global.apiDirection}:8080/api/v1/choose_gif?id=${json.messages[len]}`);
+				const gif_fetch = await fetch(`http://${global.domain}${global.apiPort}/api/v1/choose_gif?id=${json.messages[len]}`);
 				const gifs = await gif_fetch.text();
 				$('.html_viewer').html(gifs);
 				choosing_gif = true;
@@ -72,7 +72,7 @@ function setOpsListeners() {
 		$('.loading').css('display', 'block');
 
 		$.ajax({
-			url: `http://${global.apiDirection}:8080/api/v1/nodes/${nodeId}/run`,
+			url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${nodeId}/run`,
 			crossDomain: true,
 			contentType: 'application/json',
 			dataType: 'json',

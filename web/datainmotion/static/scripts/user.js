@@ -1,6 +1,6 @@
 async function login(event) {
 	const userName = document.getElementById("username").value
-	const response = await fetch(`http://${global.apiDirection}:8080/api/v1/users/check/`, {
+	const response = await fetch(`http://${global.domain}${global.apiPort}/api/v1/users/check/`, {
 		method: "POST",
 		headers: {
 			'Accept': 'application/json',
@@ -13,5 +13,5 @@ async function login(event) {
 	let json = await response.json();
 	localStorage.user = json.id;
 	localStorage.isLogged = true;
-	window.location.replace(`http://${global.apiDirection}/user/${json.id}/boards`);
+	window.location.replace(`http://${global.domain}/user/${json.id}/boards`);
 }

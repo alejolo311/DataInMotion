@@ -36,7 +36,7 @@ function getBoards () {
   // request the boards attached to the user
   // and attach the view to the container
   $.ajax({
-    url: `http://${global.apiDirection}:8080/api/v1/users/${userId}/boards`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/users/${userId}/boards`,
     contentType: 'application/json',
     dataType: 'json',
     success: function (response) {
@@ -111,7 +111,7 @@ function getBoards () {
             trackedBoard = '';
             const del = confirm("You are about to delete this board?\nThis can't be undone\nContinue");
             if (del) {
-              fetch(`http://${global.apiDirection}:8080/api/v1/boards/` + $(this).attr('b_id') + '/delete')
+              fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/` + $(this).attr('b_id') + '/delete')
                 .then(function (response) {
                   console.log(response);
                   location.reload();
@@ -153,7 +153,7 @@ function createBoard () {
   const userId = $('.container').attr('user_id');
   // const userId = 'a74c74e5-3be5-420b-809a-592b0e65d76b';
   $.ajax({
-    url: `http://${global.apiDirection}:8080/api/v1/users/${userId}/create_board`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/users/${userId}/create_board`,
     contentType: 'application/json',
     dataType: 'json',
     success: function (data) {
@@ -169,7 +169,7 @@ function saveBoardName (name) {
   const bId = $('.container').attr('board_id');
   $.ajax({
     type: 'POST',
-    url: `http://${global.apiDirection}:8080/api/v1/boards/${bId}/save_name`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/boards/${bId}/save_name`,
     dataType: 'json',
     contentType: 'application/json',
     data: JSON.stringify({ name: name }),
@@ -208,7 +208,7 @@ function newNode (type) {
   console.log('Create a new node');
   const boardId = $('.container').attr('board_id');
   $.ajax({
-    url: `http://${global.apiDirection}:8080/api/v1/boards/${boardId}/create_node`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/create_node`,
 	type: 'POST',
 	contentType: 'application/json',
 	data: JSON.stringify({
@@ -229,7 +229,7 @@ function newNode (type) {
 }
 function importTheNode (nId, reload) {
 	const boardId = $('.container').attr('board_id');
-	fetch(`http://${global.apiDirection}:8080/api/v1/nodes/${nId}/copy_to/${boardId}`)
+	fetch(`http://${global.domain}${global.apiPort}/api/v1/nodes/${nId}/copy_to/${boardId}`)
 	.then(function (resp) {
 		return resp;
 	}).then(function (resp) {
@@ -243,7 +243,7 @@ function importTheNode (nId, reload) {
 function importTheNodeOnByOne (node) {
 	console.log(node);
 	const boardId = $('.container').attr('board_id');
-	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/add_node`,
+	fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/add_node`,
 	  {
 		method: 'POST', // or 'PUT'
 		body: JSON.stringify(node), // data can be `string` or {object}!
@@ -262,7 +262,7 @@ function importTheNodeOnByOne (node) {
 function importCompleteBoard (impBoard) {
 	console.log(node);
 	const boardId = $('.container').attr('board_id');
-	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/complete_board`,
+	fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/complete_board`,
 	  {
 		method: 'POST', // or 'PUT'
 		body: JSON.stringify(impBoard), // data can be `string` or {object}!
@@ -281,7 +281,7 @@ function importCompleteBoard (impBoard) {
 function importNode () {
   // Get a list of boards and render them as html
   const boardId = $('.container').attr('board_id');
-  fetch(`http://${global.apiDirection}:8080/api/v1/users/${boardId}/boards_nodes`)
+  fetch(`http://${global.domain}${global.apiPort}/api/v1/users/${boardId}/boards_nodes`)
     .then(function (resp) {
       console.log(resp);
       return (resp.json());
@@ -415,7 +415,7 @@ function exportBoard() {
 	$(close).on('click', function () {
 		$(cont).remove();
 	});
-	fetch(`http://${global.apiDirection}:8080/api/v1/boards/${boardId}/nodes`)
+	fetch(`http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/nodes`)
 	.then(function (resp) {
 		return resp.json();
 	}).then(function (resp) {
@@ -435,7 +435,7 @@ function exportBoard() {
 function deleteNode (id) {
   $.ajax({
     type: 'DELETE',
-    url: `http://${global.apiDirection}:8080/api/v1/nodes/${id}`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/nodes/${id}`,
     success: function (response) {
       console.log(response);
       $('[node_id=' + id + ']').remove();

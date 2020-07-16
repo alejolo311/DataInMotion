@@ -17,7 +17,7 @@ function setNodeSettings () {
 };
 const loadNode = function (id, evn) {
 	$.ajax({
-		url:`http://${global.apiDirection}:8080/api/v1/nodes/${id}`,
+		url:`http://${global.domain}${global.apiPort}/api/v1/nodes/${id}`,
 		success: function (n) {
 			node = n;
 			if (node.work_type === 'sender') {

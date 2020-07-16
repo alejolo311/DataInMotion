@@ -2,7 +2,7 @@
 function loadPositions () {
   const boardId = $('.container').attr('board_id');
   $.ajax({
-    url: `http://${global.apiDirection}:8080/api/v1/boards/${boardId}`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/boards/${boardId}`,
     dataType: 'json',
     contentType: 'application/json',
     success: function (resp) {
@@ -58,10 +58,10 @@ function getBoardView () {
     }
   });
   $.ajax({
-    url: `http://${global.apiDirection}:8080/api/v1/status`,
+    url: `http://${global.domain}${global.apiPort}/api/v1/status`,
     success: function (data) {
       $.ajax({
-        url: `http://${global.apiDirection}/boards/${boardId}/nodes`,
+        url: `http://${global.domain}/boards/${boardId}/nodes`,
         success: function (nodes) {
 		  // console.log(nodes);
 		  // $('.container').empty();

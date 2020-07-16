@@ -1,4 +1,6 @@
 const global = {
-  // apiDirection: "localhost"
-  apiDirection: "dnart.tech"
+  // domain: "localhost", 
+  // apiPort: ":8080"
+  domain: "dnart.tech",
+  apiPort: ""
 }
