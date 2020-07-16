@@ -12,6 +12,7 @@
 		font-family: sans-serif;
 		color: white;
 		font-size: 20px;
+		font-weight: bold;
 	}
 	video {
 		height: 10vw;
@@ -49,7 +50,8 @@
 			$('[selected="gif"]').css('display', 'block');
 			const vid_cont = document.querySelector('[selected="gif"]')
 			vid_cont.appendChild(evn.target);
-			vid_cont.style.width = '320px';
+			vid_cont.style.width = '70vw';
+			vid_cont.style.cursor = 'default';
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
 			fetch(`https://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
