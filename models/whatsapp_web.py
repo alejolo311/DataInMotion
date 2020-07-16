@@ -164,6 +164,8 @@ class WebWhastapp():
                 contact = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located((By.XPATH, xpath)))[0]
                 self.remove_verify()
+                self.driver.execute_script(
+                  'arguments[0].style.backgroundColor = "red";', contact)
                 contact.click()
                 time.sleep(2)
                 break
