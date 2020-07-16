@@ -52,6 +52,10 @@
 			vid_cont.appendChild(evn.target);
 			vid_cont.style.width = '70vw';
 			vid_cont.style.cursor = 'default';
+			this.style.width = '50vw'
+			this.firstElementChild.style.width = '50vw'
+			this.width = '50vw'
+			this.firstElementChild.width = '50vw'
 			const pos = this.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
 			fetch(`https://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
