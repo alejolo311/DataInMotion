@@ -140,6 +140,7 @@ class WebWhastapp():
         Notes: replace this logic with a new one
         ---the browser should search the contact in the search bar at the left
         """
+        self.save_screenshot(name='before_contacts')
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
         max_retries = 10
@@ -157,14 +158,14 @@ class WebWhastapp():
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
             except TimeoutError:
-                self.save_screenshot('gif_input')
+                self.save_screenshot(name='gif_input')
                 if count >= max_retries:
                     sys.exit('1')
                     break
                 count += 1
                 pass
             except Exception as e:
-                self.save_screenshot('gif_input')
+                self.save_screenshot(name='gif_input')
                 traceback.print_exc()
                 print(e)
                 sys.exit('1')
@@ -187,7 +188,7 @@ class WebWhastapp():
                   'arguments[0].style.backgroundColor = "red";', parent)
                 parent.click()
                 print(parent.get_attribute('outerHTML'))
-                self.save_screenshot('contact_selected')
+                self.save_screenshot(name='contact_selected')
                 time.sleep(2)
                 break
             except TimeoutException:
