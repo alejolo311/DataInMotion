@@ -511,7 +511,7 @@ class CustomNode(BaseNode, Base):
         gif = json.loads(self.data)['gif']
         data = outData['contacts_list']
         number_list = [num for num in data.values()]
-
+        print(number_list)
         web.start_browser()
         web.number = admin
         if not web.auth():
@@ -519,7 +519,7 @@ class CustomNode(BaseNode, Base):
                 'error': 'QRCode not found, may be the connection is loose'
             }
         self.write_status('verifying', 'Waiting for user to scan the code')
-        web.send_twilio_message(admin, 'Message to send: {}'.format(message))
+        # web.send_twilio_message(admin, 'Message to send: {}'.format(message))
         pos = 0
         url = None
         for contact in number_list:

@@ -114,6 +114,7 @@ class WebWhastapp():
             except Exception as e:
                 print('\t', e)
                 retries += 1
+                pass
         return False
 
     def send_twilio_message(self, contact, message):
