@@ -377,14 +377,18 @@ class WebWhastapp():
                 button.click()
                 time.sleep(5)
                 # self.save_screenshot('buttonsend_clicked')
-                return 'Gif sended to {}'.format(self.contact)
+                resp = {
+                    'media_url': vi[1],
+                    'message': 'Gif sended to {}'.format(self.contact)
+                }
+                return resp
             except TimeoutException:
                 print('Timeout Send Button, trying again')
                 if count == 3:
                     break
                 else:
                     count += 1
-        return vi
+        return 
 
     def close(self):
         """

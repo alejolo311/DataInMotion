@@ -533,6 +533,11 @@ class CustomNode(BaseNode, Base):
             if gif != '':
                 if url is None:
                     url = web.send_animated_gif(gif, select_random=False)
+                    try:
+                        print('gif response:', url)
+                    except Exception as e:
+                        print(e)
+                        pass
                 else:
                     web.send_animated_gif(gif, select_random=False)
             web.send_whatsapp_message(message)
@@ -541,9 +546,9 @@ class CustomNode(BaseNode, Base):
         return dict({
             'sended_messages': {
                 'result': 'Succesfully send the messages to the distribution list',
-                'distributed_list': list(data.keys()),
+                'distributed_list': data,
                 'message': message,
-                'gif': url[1]
+                'gif': url
             }
         })
 
