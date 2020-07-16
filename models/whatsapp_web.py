@@ -148,9 +148,9 @@ class WebWhastapp():
                 con_input_span = WebDriverWait(self.driver, 10).until(
                             EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
                 con_input = con_input_span.find_element_by_xpath('..')
-                con_input.send_keys('')
+                con_input.click()
                 con_input = con_input.find_element_by_xpath('..')
-                con_input.send_keys('')
+                con_input.click()
                 con_input_span.click()
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
