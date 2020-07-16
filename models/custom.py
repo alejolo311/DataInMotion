@@ -520,7 +520,7 @@ class CustomNode(BaseNode, Base):
             }
         self.write_status('verifying', 'Waiting for user to scan the code')
         # web.send_twilio_message(admin, 'Message to send: {}'.format(message))
-        
+
         pos = 0
         url = None
         for contact in number_list:
@@ -532,9 +532,9 @@ class CustomNode(BaseNode, Base):
             print(gif)
             if gif != '':
                 if url is None:
-                    url = web.send_animated_gif(gif, self, select_random=False)
+                    url = web.send_animated_gif(gif, select_random=False)
                 else:
-                    web.send_animated_gif(gif, self, select_random=False)
+                    web.send_animated_gif(gif, select_random=False)
             web.send_whatsapp_message(message)
             self.write_status('sent', 'Message sent to {}'.format(contact))
         web.close()
