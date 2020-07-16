@@ -1320,13 +1320,18 @@ jQuery(document).ready(function() {
 	 * --------------------------------------------------------------------------- */
 	jQuery('li.scroll > a, a.scroll').click(function() {
 		var url = jQuery(this).attr('href');
-		var hash = '#' + url.split('#')[1];
-		var stickyH = jQuery('.sticky-header #Top_bar').innerHeight();
-		var tabsHeaderH = jQuery(hash).siblings('.ui-tabs-nav').innerHeight();
-		if (hash && jQuery(hash).length) {
-			jQuery('html, body').animate({
-				scrollTop: jQuery(hash).offset().top - stickyH - tabsHeaderH
-			}, 500);
+		try {
+			var hash = '#' + url.split('#')[1];
+			var stickyH = jQuery('.sticky-header #Top_bar').innerHeight();
+			var tabsHeaderH = jQuery(hash).siblings('.ui-tabs-nav').innerHeight();
+			if (hash && jQuery(hash).length) {
+				jQuery('html, body').animate({
+					scrollTop: jQuery(hash).offset().top - stickyH - tabsHeaderH
+				}, 500);
+			}
+	
+		} catch (error) {
+			console.log('error');
 		}
 	});
 	

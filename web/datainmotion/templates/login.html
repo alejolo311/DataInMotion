@@ -1,19 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Data in Motion - Home</title>
-	<script type="text/javascript" src="/static/scripts/global.js?{{ id }}"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/scripts/user.js?{{ id }}"></script>
-	
-</head>
-<body>
-		<form name ="login" id="loginForm" action="javascript:login();">
-		<input type="text" id="username">
-		<input type="password">
-		<input type="submit" value="login">
-	</form>
-</body>
-</html>
+	<form name ="login" id="loginForm" action="javascript:login();">
+		<h1>Sign up</h1>
+	<label for="user">Username</label>
+	<input type="text" id="username" placeholder="E-mail: example@email.com">
+	<label for="pass">Password</label>
+	<input type="password" placeholder="Password">
+	<input type="submit" value="login">
+</form>
+<style>
+	form label {
+		font-size: 12px;
+		margin-bottom: 0;
+		font-weight: lighter;
+	}
+	form {
+		z-index: 30;
+		background-color: white;
+		width: 400px;
+		border-radius: 18px;
+		padding: 40px;
+		display: block;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.431);
+	}
+	input {
+		padding: 8px 14px;
+		background-color: white;
+		border: 1px solid grey;
+		border-radius: 12px !important;
+		color: black !important;
+		font-weight: bold;
+		font-family: monospace;
+		outline: none !important;
+	}
+	input::placeholder {
+		font-weight: normal !important;
+		color: #b3b3b3 !important;
+	}
+	[value="login"] {
+		color: white !important;
+	}
+	[value="login"]:hover {
+		background-color: blue !important;
+	}
+	[value="login"]:active {
+		background-color: rgb(20, 20, 161) !important;
+	}
+</style>

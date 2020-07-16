@@ -29,7 +29,13 @@
 | 
 |
 */
-
+[demo="true"]{
+	border-radius: 12px !important;
+	padding: 20px !important;
+	font-size: 2vw !important;
+	
+	transform: translate(-40px, 0);
+}
 /* #Reset & Basics (Inspired by E. Meyers)
 ================================================== */
 

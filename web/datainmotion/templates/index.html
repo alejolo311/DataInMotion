@@ -48,7 +48,7 @@
         rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins:100,300,400,400italic,500,700,700italic%7CQuicksand:100,300,400,400italic,500,700,700italic'>
 
         <!-- CSS -->
-        <link rel='stylesheet' href='/static/css/global.css'>
+        <link rel='stylesheet' href='/static/css/global.css?{{ id }}'>
         <link rel='stylesheet' href='/static/theme/css/structure.css'>
         <link rel='stylesheet' href='/static/theme/css/company4.css'>
         <link
@@ -57,7 +57,11 @@
         <!-- Revolution Slider -->
 		<link rel="stylesheet" href="/static/vendor/rs-plugin/css/settings.css">
 		<!-- launch DEMO -->
+		<!-- <script type="text/javascript" src="/static/scripts/global.js?{{ id }}"></script> -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/scripts/user.js?{{ id }}"></script>
 		<script type="text/javascript" src="/static/scripts/demo.js?{{ id }}"></script>
+		
     </head>
 
     <body class="home page-template-default page template-slider color-custom style-simple button-flat layout-full-width one-page no-content-padding header-classic minimalist-header-no sticky-header sticky-tb-color ab-hide subheader-both-center menu-link-color menuo-right menuo-no-borders mobile-tb-center mobile-mini-mr-ll tablet-sticky mobile-header-mini mobile-sticky be-reg-2108">
@@ -100,7 +104,7 @@
                                                     </a>
                                                 </li>
                                                  <li id="loginButton">
-                                                    <a href="/login">
+                                                    <a href="">
                                                         <span>Login</span>
                                                     </a>
                                                 </li>
@@ -256,7 +260,7 @@
                                             </div>
                                             <div class="column mcb-column mcb-item-qnmdguwz1 four-fifth column_column">
                                                 <div class="column_attr clearfix" style>
-                                                    <h3 style="font-weight:300;">You get it?</h3>
+                                                    <h3 style="font-weight:bold; font-size: 4vw;margin: 0;">You get it?</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -264,8 +268,8 @@
                                     <div class="wrap mcb-wrap mcb-wrap-p70fr40cm one-fourth valign-middle clearfix">
                                         <div class="mcb-wrap-inner">
                                             <div class="column mcb-column mcb-item-oibzfl21a one column_button">
-                                                <a class="button scroll button_full_width button_size_3 button_dark button_js" href="#about">
-                                                    <span class="button_label demo_button">Try a demo</span>
+                                                <a class="demo_button button scroll button_full_width button_size_3 button_dark button_js" demo="true">
+                                                    <span class="button_label">Try a demo</span>
                                                 </a>
                                             </div>
                                         </div>
@@ -645,7 +649,20 @@
                     </div>
                 </div>
             </footer>
-        </div>
+		</div>
+		<div class="loginContainer">
+
+		</div>
+		<style>
+			.loginContainer {
+				width: 400px;
+				position: absolute;
+				left: 20px;
+				top: 20px;
+				display: none;
+				z-index: 20;
+			}
+		</style>
 
 
         <!-- JS -->
@@ -656,8 +673,8 @@
         <script src="/static/js/jquery.jplayer.min.js"></script>
         <script src="/static/js/animations/animations.js"></script>
         <script src="/static/js/translate3d.js"></script>
-        <script src="/static/js/scripts.js"></script>
-        <script src="/static/js/login.js"></script>
+        <script src="/static/js/scripts.js?{{ id }}"></script>
+        <script src="/static/js/login.js?{{ id }}"></script>
 
 
         <script src="/static/vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
@@ -671,7 +688,50 @@
         <script src="/static/vendor/rs-plugin/js/extensions/revolution.extension.navigation.min.js"></script>
         <script src="/static/vendor/rs-plugin/js/extensions/revolution.extension.migration.min.js"></script>
         <script src="/static/vendor/rs-plugin/js/extensions/revolution.extension.parallax.min.js"></script>
-
+		<script>
+			window.onload = function () {
+				const loginBtn = document.getElementById('loginButton');
+				loginBtn.addEventListener('click', async function (e) {
+					e.preventDefault();
+					const loginView = await getLoginView();
+					// console.log(loginView);
+					const cont = document.getElementsByClassName('loginContainer')[0];
+					cont.style.display = 'block';
+					cont.innerHTML = loginView;
+					const use = document.querySelector('[id="username"]');
+					use.addEventListener('click', function (evn) {
+						document.querySelector('[for="user"]').style.display = 'block';
+					});
+					use.addEventListener('keypress', function (evn) {
+						document.querySelector('[for="user"]').innerHTML = 'Username';
+						document.querySelector('[for="user"]').style.fontWeight = 'lighter';
+						document.querySelector('[for="user"]').style.color = 'grey';
+					});
+					const pass = document.querySelector('[type="password"]');
+					pass.addEventListener('click', function (evn) {
+						document.querySelector('[for="pass"]').style.display = 'block';
+					});
+					pass.addEventListener('keypress', function (evn) {
+						document.querySelector('[for="pass"]').innerHTML = 'Password';
+						document.querySelector('[for="pass"]').style.fontWeight = 'lighter';
+						document.querySelector('[for="pass"]').style.color = 'grey';
+					});
+				});
+				const demo = document.querySelector('[demo="true"]');
+				console.log(demo);
+				demo.addEventListener('click', function (evn) {
+					evn.preventDefault();
+					console.log('Launch Demo');
+					fetch('/launch_demo').then(function (resp) {
+					return resp.json();
+					}).then(function (resp) {
+					console.log(resp);
+					  window.open(`/user/${resp.id}/boards`, '_self');
+					});
+				});
+				
+			}
+		</script>
         <script>
             var revapi1,
                 tpj;
@@ -728,8 +788,8 @@
                                 disableFocusListener: false
                             }
                         });
-                    };
-                };
+					};
+				}
             }());
         </script>
 

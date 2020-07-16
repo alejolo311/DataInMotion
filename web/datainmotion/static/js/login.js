@@ -16,9 +16,10 @@ else {
 
 function logout() {
   localStorage.removeItem("isLogged");
+  localStorage.removeItem("user");
   location.reload();
 }
 function boards() {
   let user = localStorage.getItem("user")
-  window.location.replace(`http://${global.apiDirection}/user/${user}/boards`)
+  window.location.replace(`${global.prot}://${global.domain}/user/${user}/boards`)
 };
