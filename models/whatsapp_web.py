@@ -162,7 +162,7 @@ class WebWhastapp():
                 self.save_screenshot(name='gif_input')
                 traceback.print_exc()
                 print(e)
-        xpath = "//span[contains(@title, '')]"
+        xpath = '//div[@class="eJ0yJ"]'
         while True:
             try:
                 contacts = WebDriverWait(self.driver, 10).until(
