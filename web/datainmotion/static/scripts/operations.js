@@ -56,7 +56,10 @@ async function running_test(nodeId) {
 			$('.loading').css('display', 'none');
 			break;
 		}else {
+			$('.qr').empty();
 			$('.qr').css('display', 'none');
+			$('.html_viewer').empty();
+			$('.html_viewer').css('display', 'none');
 			continue;
 		}
 	}

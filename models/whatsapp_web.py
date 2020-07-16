@@ -39,19 +39,23 @@ class WebWhastapp():
     """
     Selenium Wrapper to whatsapp ops
     """
-    def __init__(self, nodeId, outData):
+    def __init__(self, nodeId, outData, instance):
         """
         Defines the web selenium driver handler
         """
+        self.instance = instance
+        self.instance.write_status(
+            'whatsapp_init',
+            'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         self.out_data = outData
         self.node_id = nodeId
-        self.twilio_credentials = {
-            'account_sid': 'ACa00f369f24b28814ca2bd924a081951a',
-            'auth_token': 'bf76e8988b25fd6f21b68fcca7341192',
-            'from_sender': '14155238886'
-        }
-        self.twilio_client = Client(self.twilio_credentials['account_sid'],
-                                    self.twilio_credentials['auth_token'])
+        # self.twilio_credentials = {
+        #     'account_sid': 'ACa00f369f24b28814ca2bd924a081951a',
+        #     'auth_token': 'bf76e8988b25fd6f21b68fcca7341192',
+        #     'from_sender': '14155238886'
+        # }
+        # self.twilio_client = Client(self.twilio_credentials['account_sid'],
+        #                             self.twilio_credentials['auth_token'])
         self.last_giphy_search = ''
 
     def start_browser(self):
@@ -131,25 +135,29 @@ class WebWhastapp():
         ---the browser should search the contact in the search bar at the left
         """
         self.contact = contact_number
-        xpath = '//span[@title = "{}"]'.format(contact_number)
+        box_xpath = '//div[@contenteditable = "true"]'
+        contact_search_input = self.driver.find_elements_by_xpath(box_xpath)[0]
+        contact_search_input.send_keys(contact_number)
+        time.sleep(2)
+        xpath = "//span[contains(name(), 'title')]"
         while True:
             try:
-                contact = WebDriverWait(self.driver, 3).until(
+                contact = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located((By.XPATH, xpath)))[0]
                 self.remove_verify()
+                contact.click()
+                time.sleep(2)
                 break
             except TimeoutException:
                 pass
             except Exception as e:
-                return
-        parent = contact.find_element_by_xpath('..')
-        parent = parent.find_element_by_xpath('..')
-        parent = parent.find_element_by_xpath('..')
-        parent = parent.find_element_by_xpath('..')
-        parent = parent.find_element_by_xpath('..')
+                return {'error': "can not find the contact"}
+        # parent = contact.find_element_by_xpath('..')
+        # parent = parent.find_element_by_xpath('..')
+        # parent = parent.find_element_by_xpath('..')
+        # parent = parent.find_element_by_xpath('..')
+        # parent = parent.find_element_by_xpath('..')
         # print(parent.get_attribute('outerHTML'))
-        parent.click()
-        time.sleep(2)
         # self.save_screenshot('contact_selected')
 
     def send_whatsapp_message(self, message):
@@ -178,14 +186,16 @@ class WebWhastapp():
                                  'message and Gif sent to *{}*'
                                  .format(self.contact))
 
-    def send_animated_gif(self, search, instance, select_random=False):
+    def send_animated_gif(self, search, select_random=False):
         """
         Query gifs by search, store the url and send them to the admin
         waits for admin to select media
         and send the media to the contact focused by search_contact
         """
         print("sending gif to {}".format(self.contact))
-        instance.write_status('sending', 'Sending {} Gif'.format(search))
+        self.instance.write_status(
+            'sending',
+            'Prepare to click the Gif to send<br>Search: {}'.format(search))
         # select the smiley button
         x_xpath = '//span[@data-testid = "smiley"]'
         x_btn = WebDriverWait(self.driver, 10).until(
@@ -230,7 +240,7 @@ class WebWhastapp():
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
         divs = divs[:3]
         # # self.save_screenshot('giphy')
-        instance.write_status('collecting', 'Collecting Gif to send')
+        self.instance.write_status('collecting', 'Collecting Gif to send')
         pos = 0
         for div in divs:
             try:
@@ -260,7 +270,7 @@ class WebWhastapp():
             self.send_twilio_message(self.number,
                                      '*Choose a gif in from the link*')
             self.send_twilio_message(self.number, uri)
-            instance.write_status('choose_gif', instance.id)
+            self.instance.write_status('choose_gif', self.instance.id)
             while True:
                 try:
                     print('Listening changes on conf file')
@@ -268,7 +278,7 @@ class WebWhastapp():
                     with open('{}/{}.conf'.format(file_src,
                               self.node_id), 'r') as conf:
                         config = json.loads(conf.read())
-                        instance.write_status('gif_choosed',
+                        self.instance.write_status('gif_choosed',
                                               'The gif has been selected')
                     break
                 except Exception as e:
@@ -335,6 +345,7 @@ class WebWhastapp():
                     break
                 else:
                     count += 1
+        return vi
 
     def close(self):
         """

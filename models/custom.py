@@ -506,11 +506,11 @@ class CustomNode(BaseNode, Base):
             message = outData['content']
         else:
             return {'error_{}'.format(self.name): 'message content not found'}
-        web = WebWhastapp(self.id, outData)
+        web = WebWhastapp(self.id, outData, self)
         admin = json.loads(self.data)['admin']
         gif = json.loads(self.data)['gif']
         data = outData['contacts_list']
-        number_list = [num for num in data.keys()]
+        number_list = [num for num in data.values()]
 
         web.start_browser()
         web.number = admin
@@ -521,6 +521,7 @@ class CustomNode(BaseNode, Base):
         self.write_status('verifying', 'Waiting for user to scan the code')
         web.send_twilio_message(admin, 'Message to send: {}'.format(message))
         pos = 0
+        url = None
         for contact in number_list:
             web.search_contact(contact)
             if pos == 0:
@@ -529,11 +530,21 @@ class CustomNode(BaseNode, Base):
                 pos += 1
             print(gif)
             if gif != '':
-                web.send_animated_gif(gif, self, select_random=False)
+                if url is None:
+                    url = web.send_animated_gif(gif, self, select_random=False)
+                else:
+                    web.send_animated_gif(gif, self, select_random=False)
             web.send_whatsapp_message(message)
             self.write_status('sent', 'Message sent to {}'.format(contact))
         web.close()
-        return {}
+        return {
+            'sended_messages': {
+                'result': 'Succesfully send the messages to the distribution list',
+                'distributed_list': data.keys(),
+                'message': message,
+                'gif': url
+            }
+        }
 
     def send_message(self, outData):
         """
