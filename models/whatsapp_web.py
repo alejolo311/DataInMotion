@@ -157,7 +157,7 @@ class WebWhastapp():
                 con_input_span.click()
                 con_input_span.send_keys(contact_number)
                 time.sleep(2)
-            except TimeoutError:
+            except TimeoutException:
                 self.save_screenshot(name='gif_input')
                 if count >= max_retries:
                     sys.exit('1')
