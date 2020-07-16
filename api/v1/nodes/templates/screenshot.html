@@ -52,7 +52,7 @@
 			window.onload = function () {	
 				$('li').on('click', function () {
 					const obj = this
-					fetch(`http://dnart.tech:8080/api/v1/screenshot?file=${$(this).attr('dir')}`)
+					fetch(`http://dnart.tech/api/v1/screenshot?file=${$(this).attr('dir')}`)
 					.then(function (resp) {
 						return resp.text();
 					}).then(function (resp) {
