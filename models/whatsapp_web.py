@@ -158,9 +158,12 @@ class WebWhastapp():
                 time.sleep(2)
             except TimeoutError:
                 self.save_screenshot('gif_input')
+                if count >= max_retries:
+                    sys.exit('1')
                 count += 1
                 pass
             except Exception as e:
+                self.save_screenshot('gif_input')
                 traceback.print_exc()
                 print(e)
                 sys.exit('1')
