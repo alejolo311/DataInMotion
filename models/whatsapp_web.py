@@ -153,6 +153,7 @@ class WebWhastapp():
                 traceback.print_exc()
                 print(e)
         xpath = '//div[@class="eJ0yJ"]'
+        count = 0
         while True:
             try:
                 contacts = WebDriverWait(self.driver, 10).until(
@@ -177,6 +178,9 @@ class WebWhastapp():
             except TimeoutException:
                 self.save_screenshot(name='waiting_contact')
                 print('trying again to get the contact')
+                if count > max_retries:
+                    return {'error': "can not find the contact"}
+                count += 1
                 pass
             except Exception as e:
                 return {'error': "can not find the contact"}
@@ -287,7 +291,7 @@ class WebWhastapp():
             except Exception as e:
                 print(e)
                 pass
-        # self.save_screenshot('scrolled')
+        self.save_screenshot('scrolled')
         with open('./api/verification_images/{}.json'
                   .format(self.node_id), 'w') as videos_json:
             videos_json.write(json.dumps(self.video_urls))
@@ -297,7 +301,7 @@ class WebWhastapp():
             # self.send_twilio_message(self.number,
             #                          '*Choose a gif in from the link*')
             # self.send_twilio_message(self.number, uri)
-            # self.instance.write_status('choose_gif', self.instance.id)
+            self.instance.write_status('choose_gif', self.instance.id)
             while True:
                 try:
                     print('Waiting for selected gif')
