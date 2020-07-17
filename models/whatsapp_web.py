@@ -43,25 +43,15 @@ class WebWhastapp():
         """
         Defines the web selenium driver handler
         """
-        try:
-            os.remove('./api/verification_images/{}.png'.format(nodeId))
-        except Exception as e:
-            print(e)
-            pass
         self.instance = instance
         self.instance.write_status(
             'whatsapp_init',
             'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         self.out_data = outData
         self.node_id = nodeId
-        # self.twilio_credentials = {
-        #     'account_sid': 'ACa00f369f24b28814ca2bd924a081951a',
-        #     'auth_token': 'bf76e8988b25fd6f21b68fcca7341192',
-        #     'from_sender': '14155238886'
-        # }
-        # self.twilio_client = Client(self.twilio_credentials['account_sid'],
-        #                             self.twilio_credentials['auth_token'])
         self.last_giphy_search = ''
+        self.remove_conf()
+        self.remove_verify
 
     def start_browser(self):
         """
@@ -140,7 +130,7 @@ class WebWhastapp():
         Notes: replace this logic with a new one
         ---the browser should search the contact in the search bar at the left
         """
-        self.save_screenshot(name='before_contacts')
+        # self.save_screenshot(name='before_contacts')
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
         max_retries = 10
@@ -159,7 +149,7 @@ class WebWhastapp():
                 time.sleep(2)
                 break
             except Exception as e:
-                self.save_screenshot(name='gif_input')
+                self.save_screenshot(name='contact_input')
                 traceback.print_exc()
                 print(e)
         xpath = '//div[@class="eJ0yJ"]'
@@ -167,9 +157,9 @@ class WebWhastapp():
             try:
                 contacts = WebDriverWait(self.driver, 10).until(
                     EC.presence_of_all_elements_located((By.XPATH, xpath)))
-                for cont in contacts:
-                    self.driver.execute_script(
-                        'arguments[0].style.backgroundColor = "blue";', cont)
+                # for cont in contacts:
+                #     self.driver.execute_script(
+                #         'arguments[0].style.backgroundColor = "blue";', cont)
                 contact = contacts[0]
                 self.remove_verify()
                 parent = contact.find_element_by_xpath('..')
@@ -181,7 +171,7 @@ class WebWhastapp():
                   'arguments[0].style.backgroundColor = "red";', parent)
                 parent.click()
                 print(parent.get_attribute('outerHTML'))
-                self.save_screenshot(name='contact_selected')
+                # self.save_screenshot(name='contact_selected')
                 time.sleep(2)
                 break
             except TimeoutException:
@@ -231,7 +221,6 @@ class WebWhastapp():
         and send the media to the contact focused by search_contact
         """
         print("sending gif to {}".format(self.contact))
-        self.save_screenshot('search_gif')
         self.instance.write_status(
             'sending',
             'Prepare to click the Gif to send<br>Search: {}'.format(search))
@@ -239,8 +228,9 @@ class WebWhastapp():
         x_xpath = '//span[@data-testid = "smiley"]'
         x_btn = WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, x_xpath)))
-        print(x_btn.get_attribute('outerHTML'))
-        # # self.save_screenshot('smiley')
+        # print(x_btn.get_attribute('outerHTML'))
+        print('Smiley pressed')
+        self.save_screenshot(name='smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
         # select the gif button
@@ -248,19 +238,17 @@ class WebWhastapp():
         gif = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, gif_xpath)))
         gif = gif.find_element_by_xpath('..')
-        time.sleep(2)
         gif.click()
+        self.save_screenshot(name='gif_clicked')
         gif_inp_xpath = '//input[@title = ' +\
             '"Search GIFs via GIPHY"]'
         gif_inp = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, gif_inp_xpath)))
-        time.sleep(2)
         # Query to GIPHY integrated
         gif_inp.send_keys(search)
         if search != self.last_giphy_search:
             self.remove_conf()
         self.last_giphy_search = search
-        time.sleep(2)
         config = None
         try:
             file_src = './api/verification_images'
@@ -279,7 +267,7 @@ class WebWhastapp():
             EC.presence_of_all_elements_located((By.XPATH, x_path)))
         divs = divs[:3]
         # # self.save_screenshot('giphy')
-        self.instance.write_status('collecting', 'Collecting Gif to send')
+        self.instance.write_status('collecting', 'Collecting Gifs to choose')
         pos = 0
         for div in divs:
             try:
@@ -294,7 +282,7 @@ class WebWhastapp():
                     print(pos, '{:<30}'.format(src))
                     self.video_urls.append([pos, src])
                     pos += 1
-                time.sleep(2)
+                # time.sleep(2)
                 # self.save_screenshot('video_url')
             except Exception as e:
                 print(e)
@@ -306,13 +294,13 @@ class WebWhastapp():
         count = 0
         if config is None and select_random is False:
             uri = '{}'.format(self.node_id)
-            self.send_twilio_message(self.number,
-                                     '*Choose a gif in from the link*')
-            self.send_twilio_message(self.number, uri)
-            self.instance.write_status('choose_gif', self.instance.id)
+            # self.send_twilio_message(self.number,
+            #                          '*Choose a gif in from the link*')
+            # self.send_twilio_message(self.number, uri)
+            # self.instance.write_status('choose_gif', self.instance.id)
             while True:
                 try:
-                    print('Listening changes on conf file')
+                    print('Waiting for selected gif')
                     file_src = './api/verification_images'
                     with open('{}/{}.conf'.format(file_src,
                               self.node_id), 'r') as conf:
@@ -321,7 +309,7 @@ class WebWhastapp():
                                               'The gif has been selected')
                     break
                 except Exception as e:
-                    print('Failed to find configuration file')
+                    print('Failed to get the gif choose')
                     time.sleep(5)
                     if count > 15:
                         return "Failed, the admin never choosed a gif"
@@ -351,11 +339,9 @@ class WebWhastapp():
         print('Video:\n', video.get_attribute('outerHTML'))
         self.driver.execute_script(
             'arguments[0].style.backgroundColor = "blue";', video)
-        time.sleep(2)
         # self.save_screenshot('before_video_clicked')
         self.driver.execute_script("arguments[0].focus();", par)
-        time.sleep(2)
-        # self.save_screenshot('after_focus')
+        self.save_screenshot('after_focus')
         x_block = '//div[@class="_2vpZx"]'
         block = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_block)))
@@ -364,11 +350,11 @@ class WebWhastapp():
         action.click().perform()
         action.move_to_element(video)
         video.click()
-        # self.save_screenshot('actions_clicked')
+        self.save_screenshot('actions_clicked')
         count = 0
         while True:
             try:
-                # self.save_screenshot('waiting_buttonsend')
+                self.save_screenshot('waiting_buttonsend')
                 btn_xpath = '//span[@data-testid = "send"]'
                 button = WebDriverWait(self.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, btn_xpath)))
@@ -394,8 +380,10 @@ class WebWhastapp():
         """
         Closes Selenium Driver
         """
+        self.remove_verify()
         self.remove_conf()
         self.driver.close()
+        self.driver.quit()
 
     def remove_conf(self):
         """

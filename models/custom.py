@@ -506,42 +506,44 @@ class CustomNode(BaseNode, Base):
             message = outData['content']
         else:
             return {'error_{}'.format(self.name): 'message content not found'}
+        data = outData['contacts_list']
         web = WebWhastapp(self.id, outData, self)
+        if len(data) == 0:
+            web.close()
         admin = json.loads(self.data)['admin']
         gif = json.loads(self.data)['gif']
-        data = outData['contacts_list']
+        
         number_list = [num for num in data.values()]
         print(number_list)
         web.start_browser()
         web.number = admin
         if not web.auth():
+            web.close()
             return {
                 'error': 'QRCode not found, may be the connection is loose'
             }
         self.write_status('verifying', 'Waiting for user to scan the code')
         # web.send_twilio_message(admin, 'Message to send: {}'.format(message))
-
         pos = 0
         url = None
-        for contact in number_list:
-            web.search_contact(contact)
-            if pos == 0:
-                self.write_status(
-                    'sending', 'Sending message to {}'.format(contact))
-                pos += 1
-            print(gif)
-            if gif != '':
-                if url is None:
-                    url = web.send_animated_gif(gif, select_random=False)
-                    try:
-                        print('gif response:', url)
-                    except Exception as e:
-                        print(e)
-                        pass
-                else:
-                    web.send_animated_gif(gif, select_random=False)
-            web.send_whatsapp_message(message)
-            self.write_status('sent', 'Message sent to {}'.format(contact))
+        try:
+            for contact in number_list:
+                web.search_contact(contact)
+                if pos == 0:
+                    self.write_status(
+                        'sending', 'Sending message to {}'.format(contact))
+                    pos += 1
+                print(gif)
+                if gif != '':
+                    if url is None:
+                        url = web.send_animated_gif(gif, select_random=False)
+                    else:
+                        web.send_animated_gif(gif, select_random=False)
+                web.send_whatsapp_message(message)
+                self.write_status('sent', 'Message sent to {}'.format(contact))
+        except Exception as e:
+            web.close()
+            return {'error', str(e)}
         web.close()
         return dict({
             'sended_messages': {
