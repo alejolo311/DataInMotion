@@ -50,6 +50,7 @@ async function running_test(nodeId) {
 				const gif_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/choose_gif?id=${json.messages[len]}`);
 				const gifs = await gif_fetch.text();
 				$('.html_viewer').html(gifs);
+				$('.html_viewer').css('display', 'none');
 				choosing_gif = true;
 			}
 		} else if (json.status === 'error') {
