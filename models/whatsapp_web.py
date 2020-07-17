@@ -298,9 +298,6 @@ class WebWhastapp():
         count = 0
         if config is None and select_random is False:
             uri = '{}'.format(self.node_id)
-            # self.send_twilio_message(self.number,
-            #                          '*Choose a gif in from the link*')
-            # self.send_twilio_message(self.number, uri)
             self.instance.write_status('choose_gif', self.instance.id)
             while True:
                 try:
@@ -316,8 +313,7 @@ class WebWhastapp():
                     print('Failed to get the gif choose')
                     time.sleep(5)
                     if count > 15:
-                        return "Failed, the admin never choosed a gif"
-                        break
+                        return {'error': "Failed, the admin never choosed a gif"}
                     count += 1
                     pass
         # End of exception
@@ -378,7 +374,9 @@ class WebWhastapp():
                     break
                 else:
                     count += 1
-        return 
+            except Exception as e:
+                return {'error': str(e)}
+        return {}
 
     def close(self):
         """
