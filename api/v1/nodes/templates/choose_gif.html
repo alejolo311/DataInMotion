@@ -44,7 +44,7 @@
 	}
 </style>
 <script>
-	const videos = document.getElementsByTagName('video');
+	let videos = document.getElementsByTagName('video');
 	for (video of videos) {
 		video.addEventListener('click', function (evn) {
 			$('[selected="gif"]').css('display', 'block');
