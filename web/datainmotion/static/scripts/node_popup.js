@@ -55,7 +55,7 @@ function unbindAll () {
 		$nd.off('mouseleave');
 	}
 	const wppCont = document.querySelector('.wpp_cont');
-	const wppChilds = newNodeCont.querySelectorAll('*');
+	const wppChilds = wppCont.querySelectorAll('*');
 	for (nod of wppChilds) {
 		const $nd = $(nod);
 		$nd.unbind();

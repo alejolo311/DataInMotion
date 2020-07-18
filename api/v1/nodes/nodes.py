@@ -141,7 +141,6 @@ def run_instanced_nodes(nodes, starter):
         test_file['node_id'] = starter.id
         with open('./api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
-        storage.close()
     except Exception as e:
         traceback.print_exc()
         test_file = {
@@ -152,8 +151,6 @@ def run_instanced_nodes(nodes, starter):
             }
         with open('./api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
-        storage.close()
-
 
 @app_nodes.route('/nodes/<node_id>/run',
                  methods=['GET'], strict_slashes=False)
