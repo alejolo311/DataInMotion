@@ -5,21 +5,23 @@
 	</video>
 {% endfor %}
 <div selected="gif">Selected gif
-	
 </div>
 <style>
 	h1[title="choose"] {
 		font-family: sans-serif;
-		color: white;
-		font-size: 20px;
+		color: rgb(90, 90, 90);
+		font-size: 30px;
 		font-weight: bold;
+		font-family: var(--font);
+		width: 100%;
+		text-align: center;
 	}
 	video {
-		height: 10vw;
-		max-width: 45%;
-		cursor: pointer;
-		border-radius: 12px;
-		margin: 6px;
+	height: 10vw;
+	max-width: 45%;
+	cursor: pointer;
+	border-radius: 12px;
+	margin: 6px;
 	}
 	video:hover {
 		border: 6px solid salmon;
@@ -30,11 +32,11 @@
 		border: 6px solid rgb(114, 250, 209);
 	}
 	div[selected="gif"] {
-		background-color: rgba(0, 0, 0, 0.952);
+		background-color: #ffffff;
 		color: white;
 		font-size: 24px;
 		width: 100%;
-		height: 100%;
+		height: 100vw;
 		display: none;
 		font-family: sans-serif;
 		position: absolute;
@@ -42,26 +44,53 @@
 		top: 0;
 		left: 0;
 	}
+	div[selected="gif"] h1 {
+		color: black;
+		font-family: var(--font);
+		font-size: 24px;
+		width: 100%;
+		text-align: center;
+
+	}
 </style>
 <script>
+	try {
+		for (video in videos) {
+			video.removeEventListener('click', listener);
+		}
+	} catch (error) {
+		console.log(error);
+	}
 	var videos = document.getElementsByTagName('video');
-	for (video of videos) {
-		video.addEventListener('click', function (evn) {
+	var listener = function (evn) {
 			$('[selected="gif"]').css('display', 'block');
 			const vid_cont = document.querySelector('[selected="gif"]')
-			vid_cont.appendChild(evn.target);
-			vid_cont.style.width = '70vw';
+			const width = evn.target.videoWidth;
+			const height = evn.target.videoHeight;
+			console.log(width, height);
+			const nw = Math.round(width * 1);
+			const nh = Math.round(height * 1);
+			evn.target.style.height = nh;
+			evn.target.style.width = nw;
+			evn.target.style.maxWidth = nw;
+			evn.target.style.marginLeft = '60px';
+			evn.target.videHeight = nh;
+			evn.target.videoWidth = nw;
+			evn.target.firstElementChild.height = nh;
+			evn.target.firstElementChild.width = nw;
+			console.log(nw, nh);
 			vid_cont.style.cursor = 'default';
-			this.style.width = '50vw'
-			this.firstElementChild.style.width = '50vw'
-			this.width = '50vw'
-			this.firstElementChild.width = '50vw'
-			const pos = this.firstElementChild.getAttribute('pos')
+			vid_cont.appendChild(evn.target);
+			console.log(evn.target);
+			const pos = evn.target.firstElementChild.getAttribute('pos')
 			const nodeId = '{{ id }}'
-			fetch(`https://dnart.tech/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
+			fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/gif_selection?pos=${pos}&id=${nodeId}`)
 			.then(function (resp) {
 				console.log(resp);
 			});
-		});
+			evn.target.removeEventListener('click', listener);
+		}
+	for (video of videos) {
+		video.addEventListener('click', listener);
 	}
 </script>

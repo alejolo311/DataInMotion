@@ -143,6 +143,7 @@ function newNodeFlow(node, id) {
 	tmpAnPm = node.analisis_params;
 	const width = window.outerWidth + 400;
 	const height = window.outerHeight + 400;
+	// Display node container
 	$('.new_node_cont').css('display', 'block');
 	$('.new_node_cont').css('width', width);
 	$('.new_node_cont').css('height', height);
@@ -166,7 +167,8 @@ function newNodeFlow(node, id) {
 		$('.new_node_cont').css('display', 'none');
 		$('[step]').find('.node_back').unbind('click');
 		$('[step]').find('.node_next').unbind('click');
-		location.reload();
+		unbindAll();
+		getBoardView();
 	});
 	// forward step 1 to 2
 	$('[step=1]').find('.node_next').on('click', function () {
@@ -656,7 +658,10 @@ function saveNode(node) {
 		data: JSON.stringify(node),
 		success: function (resp) {
 			console.log(resp);
-			location.reload();
+			unbindAll();
+			getBoardView();
+			$('.new_node_cont').css('display', 'none');
+			console.log("node container loaded");
 		}
 	});
 }
@@ -742,7 +747,8 @@ async function WhatsAppFlow(node) {
 	$('[close="whatsapp"]').on('click', function (evn) {
 		container.css('display', 'none');
 		$('.wpp_cont').css('display', 'none');
-		location.reload();
+		unbindAll();
+		getBoardView();
 	});
 	// Detects changes in admin value
 	$('[name="wpp_admin"]').val(node.data.admin);
@@ -864,5 +870,6 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 	const resp = await r_fetch.json();
 	$('.wpp_cont').css('display', 'none');
 	console.log(node, contacts_node, contacts_list);
-	location.reload();	
+	unbindAll();
+	getBoardView();
 }

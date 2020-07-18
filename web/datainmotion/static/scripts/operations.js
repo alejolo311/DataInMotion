@@ -1,24 +1,39 @@
-async function running_test(nodeId) {
+let stoped = false;
+async function running_test(instanceId) {
+	stoped = false;
+	$('[stop="true"]').on('click', async function () {
+		stoped = true;
+		$('.last_state h1').html('Stopping process ...');
+		await stopProcess(instanceId);
+		$('.loading').css('display', 'none');
+	});
+	localStorage.running_test = true;
+	localStorage.running_id = instanceId;
 	let verifying = false;
 	let choosing_gif = false;
-	while (true) {
+	$('.loading ul').empty();
+	$('.html_viewer').empty();
+	while (!stoped) {
 		await timeSleep(2000);
-		const resp = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/check_response?id=${nodeId}`, {
+		const resp = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/check_response?id=${instanceId}`, {
 			method: "GET",
 			headers: {
 				'Accept': 'application/json',
 			},
 		});
 		let json = await resp.json();
+		// Display gif choose jus once
 		if (json.status !== 'choose_gif') {
 			choosing_gif = false;
 		}
 		console.log(json.status);
 		// console.log(json.messages);
 		// console.log(json.messages[json.messages.length - 1]);
-		$('.last_state h1').html(json.messages[json.messages.length - 1]);
+		if (!stoped) {
+			$('.last_state h1').html(json.messages[json.messages.length - 1]);
+		}
 		$('.loading ul').empty();
-		for (mess of json.messages) {
+		for (mess of json.messages.reverse()) {
 			const li = $(`<li>${mess}</li>`);
 			$('.loading ul').append($(li));
 		}
@@ -29,7 +44,7 @@ async function running_test(nodeId) {
 			break;
 		} else if (json.status === 'verifying') {
 			if (verifying === false) {
-				const qrcode = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/web_whatsapp_verify?id=${json.node_id}`, {
+				const qrcode = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/web_whatsapp_verify?id=${instanceId}`, {
 					method: "GET"
 				});
 				const res_qrcode = await qrcode.text();
@@ -47,12 +62,13 @@ async function running_test(nodeId) {
 		} else if (json.status === 'choose_gif') {
 			const len = json.messages.length - 1;
 			if (!choosing_gif) {
-				const gif_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/choose_gif?id=${json.messages[len]}`);
+				const gif_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/choose_gif?id=${instanceId}`);
 				const gifs = await gif_fetch.text();
+				$('.html_viewer').empty();
 				$('.html_viewer').html(gifs);
 				$('.html_viewer').css('display', 'block');
 				choosing_gif = true;
-			}
+			}json.messages[len]
 		} else if (json.status === 'error') {
 			$('.loading').css('display', 'none');
 			break;
@@ -71,7 +87,7 @@ function setOpsListeners() {
 		const nodeId = $(this).attr('n_id');
 		// The next wil send a GET request to DataInMotion AP
 		// to run the test and return the response
-		setTimeout('', 2000);
+		setTimeout('', 3000);
 		$('.new_node_cont').css('display', 'none');
 		$('.loading').css('display', 'block');
 
@@ -85,7 +101,7 @@ function setOpsListeners() {
 			},
 			success: function (data) {
 				console.log(data);
-				return running_test(nodeId);
+				running_test(data.instance);
 			},
 			error: function (error) {
 				console.log(error);

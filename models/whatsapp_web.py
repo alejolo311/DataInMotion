@@ -97,12 +97,12 @@ class WebWhastapp():
                 right = location['x'] + size['width']
                 bottom = location['y'] + size['height']
                 im = im.crop((left, top, right, bottom))
-                im.save('./api/verification_images/{}.png'.format(self.node_id))
-                url = 'web_whatsapp_verify?id=' + self.node_id
-                self.send_twilio_message(
-                    self.number,
-                    '*Scan with your phone ' + ' the QRcode in the link*')
-                self.send_twilio_message(self.number, str(self.node_id))
+                im.save('./api/verification_images/{}.png'.format(self.instance.instance_id))
+                url = 'web_whatsapp_verify?id=' + self.instance.instance_id
+                # self.send_twilio_message(
+                #     self.number,
+                #     '*Scan with your phone ' + ' the QRcode in the link*')
+                # self.send_twilio_message(self.number, str(self.node_id))
                 return True
             except TimeoutException:
                 print('QRcode not found:')
@@ -250,6 +250,7 @@ class WebWhastapp():
             EC.presence_of_element_located((By.XPATH, gif_inp_xpath)))
         # Query to GIPHY integrated
         gif_inp.send_keys(search)
+        time.sleep(3)
         if search != self.last_giphy_search:
             self.remove_conf()
         self.last_giphy_search = search
@@ -286,33 +287,39 @@ class WebWhastapp():
                     print(pos, '{:<30}'.format(src))
                     self.video_urls.append([pos, src])
                     pos += 1
-                # time.sleep(2)
+                time.sleep(1)
                 # self.save_screenshot('video_url')
             except Exception as e:
                 print(e)
                 pass
         self.save_screenshot('scrolled')
+        # Saving video Urls
         with open('./api/verification_images/{}.json'
-                  .format(self.node_id), 'w') as videos_json:
+                  .format(self.instance.instance_id), 'w') as videos_json:
             videos_json.write(json.dumps(self.video_urls))
         count = 0
         if config is None and select_random is False:
             uri = '{}'.format(self.node_id)
-            self.instance.write_status('choose_gif', self.instance.id)
+            self.instance.write_status('choose_gif', 'Waiting for your choose')
             while True:
                 try:
                     print('Waiting for selected gif')
                     file_src = './api/verification_images'
                     with open('{}/{}.conf'.format(file_src,
-                              self.node_id), 'r') as conf:
+                              self.instance.instance_id), 'r') as conf:
                         config = json.loads(conf.read())
                         self.instance.write_status('gif_choosed',
                                               'The gif has been selected')
+                        # os.remove('{}/{}.conf'.format(file_src,
+                        #       self.instance.instance_id))
                     break
                 except Exception as e:
-                    print('Failed to get the gif choose')
+                    print('Retrying to get the gif choose')
+                    self.instance.write_status('choose_gif', 'Waiting for the selected choose')
                     time.sleep(5)
                     if count > 15:
+                        os.remove('{}/{}.conf'.format(file_src,
+                               self.instance.instance_id))
                         return {'error': "Failed, the admin never choosed a gif"}
                     count += 1
                     pass
@@ -358,11 +365,11 @@ class WebWhastapp():
                 btn_xpath = '//span[@data-testid = "send"]'
                 button = WebDriverWait(self.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, btn_xpath)))
-                time.sleep(5)
+                time.sleep(2)
                 button = button.find_element_by_xpath('..')
                 button.click()
-                time.sleep(5)
-                # self.save_screenshot('buttonsend_clicked')
+                time.sleep(2)
+                self.save_screenshot('buttonsend_clicked')
                 resp = {
                     'media_url': vi[1],
                     'message': 'Gif sended to {}'.format(self.contact)
@@ -393,9 +400,9 @@ class WebWhastapp():
         """
         file_src = './api/verification_images'
         try:
-            os.remove('{}/{}.conf'.format(file_src, self.node_id))
+            os.remove('{}/{}.conf'.format(file_src, self.instance.instance_id))
         except Exception as e:
-            print("Can't remove png file {}.conf".format(self.node_id), e)
+            print("Can't remove png file {}.conf".format(self.instance.instance_id), e)
 
     def remove_verify(self):
         """
@@ -403,9 +410,9 @@ class WebWhastapp():
         """
         file_src = './api/verification_images'
         try:
-            os.remove('{}/{}.png'.format(file_src, self.node_id))
+            os.remove('{}/{}.png'.format(file_src, self.instance.instance_id))
         except Exception as e:
-            print("Can't remove png file {}.png".format(self.node_id), e)
+            print("Can't remove png file {}.png".format(self.instance.instance_id), e)
 
     def save_screenshot(self, name="screenshot"):
         """

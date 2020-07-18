@@ -221,7 +221,7 @@ div[node="true"] {
 	height: 100vw;
 	top: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.856);
+	background-color: rgba(255, 255, 255, 0.856);
 }
 .last_state {
 	width: 50%;
@@ -250,6 +250,26 @@ div[node="true"] {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 30px;
+}
+[stop="true"] {
+	position: absolute;
+	top: 30px;
+	right: 120px;
+	max-height: 50px;
+	background-color: red;
+	color: white;
+	cursor: pointer;
+	border-radius: 12px;
+	font-size: 18px;
+	padding: 8px 12px;
+	outline: none;
+	border: none;
+}
+[stop="true"]:hover {
+	background-color: rgb(194, 8, 8);
+}
+[stop="true"]:active {
+	background-color: rgb(253, 117, 117);
 }
 .qr {
 	position: absolute;
@@ -284,12 +304,13 @@ div[node="true"] {
 	background-color: grey;
 }
 .loading ul {
-	width: 340px;
-	max-height: 95%;
+	width: 48%;
+	min-height: 100px;
+	max-height: 400px;
 	position: absolute;
-	right: 20px;
+	right: 0;
 	margin: 0;
-	top: 60px;
+	top: 120px;
 	padding: 0;
 	background-color: transparent;
 	overflow: scroll;
@@ -304,7 +325,9 @@ div[node="true"] {
 	border-radius: 4px;
 }
 .loading li {
+	max-width: 60%;
 	margin: 2px;
+	margin-top: 4px;
 	list-style: none;
 	font-family: var(--font);
 	color: rgb(138, 138, 138);
@@ -316,18 +339,27 @@ div[node="true"] {
 	border-bottom: 1px solid rgba(128, 128, 128, 0.212);
 	background-color: white;
 	border-radius: 12px;
-
+	border: 1px solid grey;
 }
 .html_viewer {
 	position: absolute;
-	width: 640px;
+	width: 50%;
 	left: 0;
 	top: 120px;
-	background-color: rgba(255, 255, 255, 0.308);
+	background-color: rgb(255, 255, 255);
 	border-radius: 18px;
 	overflow: scroll;
+	max-height: 480px;
 }
-
+.html_viewer::-webkit-scrollbar {
+	width: 8px;
+	background-color: rgb(233, 239, 250);
+}
+.html_viewer::-webkit-scrollbar-thumb {
+	background-color: #1f4068;
+	
+}
+/* Gradient boards */
 .gradient div:hover {
 	box-shadow: 0 0 60px #ffffffa1;
 }

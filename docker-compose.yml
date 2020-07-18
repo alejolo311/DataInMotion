@@ -4,7 +4,9 @@ services:
   api:
     build: 
       context: .
+      shm_size: 4gb
       dockerfile: ./api/Dockerfile
+      shm_size: 4gb
     command: ./init_api
     env_file:
       - ./.env.dev

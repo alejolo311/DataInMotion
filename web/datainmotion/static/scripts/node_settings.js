@@ -1,4 +1,3 @@
-let node;
 let node_id = '';
 function setNodeSettings () {
 	// Detect when a node is pressed two times
@@ -19,7 +18,7 @@ const loadNode = function (id, evn) {
 	$.ajax({
 		url:`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${id}`,
 		success: function (n) {
-			node = n;
+			const node = n;
 			if (node.work_type === 'sender') {
 				WhatsAppFlow(node);
 			} else {

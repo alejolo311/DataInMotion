@@ -42,3 +42,25 @@ function popup () {
 
 	});
 };
+function unbindAll () {
+	console.log('unbinding all container content');
+	$('.container').children().remove();
+	const newNodeCont = document.querySelector('.new_node_cont');
+	const childs = newNodeCont.querySelectorAll('*');
+	for (nod of childs) {
+		const $nd = $(nod);
+		$nd.unbind();
+		$nd.off('click');
+		$nd.off('mousemove');
+		$nd.off('mouseleave');
+	}
+	const wppCont = document.querySelector('.wpp_cont');
+	const wppChilds = newNodeCont.querySelectorAll('*');
+	for (nod of wppChilds) {
+		const $nd = $(nod);
+		$nd.unbind();
+		$nd.off('click');
+		$nd.off('mousemove');
+		$nd.off('mouseleave');
+	}
+}

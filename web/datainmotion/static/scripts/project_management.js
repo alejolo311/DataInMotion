@@ -199,7 +199,8 @@ function setNodeView(node, evn) {
 	$('.close_node').on('click', function () {
 		node = null;
 		$('.new_node_cont').css('display', 'none');
-		location.reload();
+		unbindAll();
+		getBoardView();
 	});
 	$('.step').css('display', 'none');
 	newNodeFlow(node, node.id);
@@ -439,7 +440,8 @@ function deleteNode (id) {
     success: function (response) {
       console.log(response);
       $('[node_id=' + id + ']').remove();
-      location.reload();
+	  unbindAll();
+	  getBoardView();
     },
     error: function (error) {
       console.log(error);

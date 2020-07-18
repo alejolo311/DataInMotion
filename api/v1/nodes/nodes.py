@@ -10,12 +10,19 @@ from models.custom import CustomNode
 from models.board import Board
 from models.logger import Logger
 from models.user import User
+from models.node_flow_test import instancedNode
 import traceback
 import json
 import os
 import sys
 from threading import Thread
+from multiprocessing import Process
+import multiprocessing
 import threading
+import uuid
+
+
+THREADS = []
 
 
 @app_nodes.route('/nodes/<node_id>',
@@ -96,6 +103,57 @@ def run_thread(node_id):
         # threading.currentThread().join()
     # dict(logger.json())
 
+def create_node_instances(board_id, node_id):
+    """
+    Create JSON instances for the board and theri links
+    and return the id for the caller node
+    """
+    board = storage.get(Board, board_id)
+    nodes = {}
+    nods = json.loads(board.nodes)
+    instance_id = str(uuid.uuid4())
+    for key in nods.keys():
+        js = json.loads(storage.get(CustomNode, key).to_dict())
+        nodes[key] = instancedNode(js, instance_id)
+    return nodes, nodes[node_id]
+    
+
+
+def run_instanced_nodes(nodes, starter):
+    """
+    Test for running instanced nodes
+    """
+    try:
+        logger = Logger(starter.id)
+        resp = starter.run_node_task(({}, {}), logger, starter.id, nodes)
+        test_file = {
+            'status': 'started',
+            'node_id': starter.id,
+            'instance': starter.instance_id,
+            'messages': []
+            }
+        with open('./api/running/{}.test'.format(starter.instance_id), 'w') as test:
+            test.write(json.dumps(test_file))
+        with open('./api/running/{}.test'.format(starter.instance_id), 'r') as test:
+            test_file = json.loads(test.read())
+        test_file['logger'] = dict(logger.json())
+        test_file['status'] = 'completed'
+        test_file['node_id'] = starter.id
+        with open('./api/running/{}.test'.format(starter.instance_id), 'w') as test:
+            test.write(json.dumps(test_file))
+        storage.close()
+    except Exception as e:
+        traceback.print_exc()
+        test_file = {
+            'status': 'completed',
+            'node_id': '1234',
+            'instance': '1234',
+            'messages': ['failed']
+            }
+        with open('./api/running/{}.test'.format(starter.instance_id), 'w') as test:
+            test.write(json.dumps(test_file))
+        storage.close()
+
 
 @app_nodes.route('/nodes/<node_id>/run',
                  methods=['GET'], strict_slashes=False)
@@ -103,12 +161,55 @@ def run_node(node_id):
     """
     run the node proccesses and conections
     """
-    Thread(target=run_thread, args=(node_id, )).start()
+    node = storage.get(CustomNode, node_id)
+    board_id = node.board_id
+    nodes, starter = create_node_instances(board_id, node_id)
+    # starter.run_node_task()
+    # Thread(target=run_thread, args=(node_id, )).start()
+    print('*****************')
+    print('Threadings Count:')
+    # print('\t', multiprocessing.activeCount())
+    print('*****************')
+    Process(name=starter.instance_id, target=run_instanced_nodes, args=(nodes, starter)).start()
+    for thread in multiprocessing.active_children():
+        print(thread.name)
+    return Response(json.dumps({
+        'status': 'started',
+        'nodeId': starter.id,
+        'instance': starter.instance_id
+        }), mimetype='application/json',
+            status=200)
 
-    return Response(json.dumps({'status': 'started'}),
-                    mimetype='application/json',
-                    status=200)
-
+@app_nodes.route('/test/<test_id>/stop',
+                 methods=['GET'], strict_slashes=False)
+def stop_thread(test_id):
+    """
+    run the node proccesses and conections
+    """
+    import time
+    print('*****************')
+    print('Stoping Thread:', test_id)
+    # print('\t', multiprocessing.activeCount())
+    print('*****************')
+    for thread in multiprocessing.active_children():
+        print(thread.name)
+        if thread.name == test_id:
+            thread.terminate()
+            # thread.close()
+            thread.join()
+            time.sleep(3)
+            try:
+                print('Alive?', str(thread.is_alive()))
+            except Exception as e:
+                print(e)
+    print('*****************')
+    print('Threadings Count:')
+    # print('\t', threading.activeCount())
+    print('*****************')
+    for thread in multiprocessing.active_children():
+        print(thread.name)
+    return 'success'
+    
 
 @app_nodes.route('/nodes/<node_id>/add_connection',
                  methods=['POST'], strict_slashes=False)

@@ -63,6 +63,7 @@ function getBoardView () {
       $.ajax({
         url: `${global.prot}://${global.domain}/boards/${boardId}/nodes`,
         success: function (nodes) {
+			
 		  // console.log(nodes);
 		  // $('.container').empty();
 		  // console.log(nodes);
