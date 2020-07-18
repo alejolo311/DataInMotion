@@ -149,7 +149,7 @@ class WebWhastapp():
                 time.sleep(2)
                 break
             except Exception as e:
-                self.save_screenshot(name='contact_input')
+                # self.save_screenshot(name='contact_input')
                 traceback.print_exc()
                 print(e)
         xpath = '//div[@class="eJ0yJ"]'
@@ -234,7 +234,7 @@ class WebWhastapp():
             EC.presence_of_element_located((By.XPATH, x_xpath)))
         # print(x_btn.get_attribute('outerHTML'))
         print('Smiley pressed')
-        self.save_screenshot(name='smiley')
+        # self.save_screenshot(name='smiley')
         x_btn = x_btn.find_element_by_xpath('..')
         x_btn.click()
         # select the gif button
@@ -243,7 +243,7 @@ class WebWhastapp():
             EC.presence_of_element_located((By.XPATH, gif_xpath)))
         gif = gif.find_element_by_xpath('..')
         gif.click()
-        self.save_screenshot(name='gif_clicked')
+        # self.save_screenshot(name='gif_clicked')
         gif_inp_xpath = '//input[@title = ' +\
             '"Search GIFs via GIPHY"]'
         gif_inp = WebDriverWait(self.driver, 10).until(
@@ -292,7 +292,7 @@ class WebWhastapp():
             except Exception as e:
                 print(e)
                 pass
-        self.save_screenshot('scrolled')
+        # self.save_screenshot('scrolled')
         # Saving video Urls
         with open('./api/verification_images/{}.json'
                   .format(self.instance.instance_id), 'w') as videos_json:
@@ -348,7 +348,7 @@ class WebWhastapp():
             'arguments[0].style.backgroundColor = "blue";', video)
         # self.save_screenshot('before_video_clicked')
         self.driver.execute_script("arguments[0].focus();", par)
-        self.save_screenshot('after_focus')
+        # self.save_screenshot('after_focus')
         x_block = '//div[@class="_2vpZx"]'
         block = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, x_block)))
@@ -357,11 +357,11 @@ class WebWhastapp():
         action.click().perform()
         action.move_to_element(video)
         video.click()
-        self.save_screenshot('actions_clicked')
+        # self.save_screenshot('actions_clicked')
         count = 0
         while True:
             try:
-                self.save_screenshot('waiting_buttonsend')
+                # self.save_screenshot('waiting_buttonsend')
                 btn_xpath = '//span[@data-testid = "send"]'
                 button = WebDriverWait(self.driver, 20).until(
                     EC.presence_of_element_located((By.XPATH, btn_xpath)))
@@ -369,7 +369,7 @@ class WebWhastapp():
                 button = button.find_element_by_xpath('..')
                 button.click()
                 time.sleep(2)
-                self.save_screenshot('buttonsend_clicked')
+                # self.save_screenshot('buttonsend_clicked')
                 resp = {
                     'media_url': vi[1],
                     'message': 'Gif sended to {}'.format(self.contact)

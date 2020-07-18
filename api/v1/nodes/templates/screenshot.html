@@ -49,7 +49,15 @@
 			}
 		</style>
 		<script>
-			window.onload = function () {	
+			window.onload = function () {
+				const global = {
+					//   prot: 'http',
+					//   domain: "localhost", 
+					//   apiPort: ":8080"
+					prot: 'https',
+					domain: "dnart.tech",
+					apiPort: ""
+				}
 				$('li').on('click', function () {
 					const obj = this
 					fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/screenshot?file=${$(this).attr('dir')}`)
