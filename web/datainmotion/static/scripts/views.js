@@ -62,13 +62,14 @@ function getBoardView () {
     success: function (data) {
       $.ajax({
         url: `${global.prot}://${global.domain}/boards/${boardId}/nodes`,
-        success: function (nodes) {
-			
+        success: async function (nodes) {
+
 		  // console.log(nodes);
 		  // $('.container').empty();
 		  // console.log(nodes);
-          $('.container').empty();
-          $('.container').append($(nodes));
+		  unbindContainer();
+		  $('.container').append($(nodes));
+		  await timeSleep(3000);
           popup();
           setGrabbers();
           loadPositions();

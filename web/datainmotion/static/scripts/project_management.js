@@ -16,22 +16,10 @@ function createMenu (position, items) {
     $(this).css('visibility', 'hidden');
   });
 }
-// function createProject () {
-//   console.log('create project');
-//   const newProject = {};
-//   newProject.name = prompt('Project name: >');
-//   newProject.boards = [];
-//   newProject.boards.push(prompt('Board name: >'));
-//   console.log(newProject);
-// }
-// function openProject () {
-//   console.log('Open an existing project');
-// }
 let trackedBoard;
 const initial = {};
 let topColor;
 function getBoards () {
-  // console.log('get boards');
   const userId = $('.container').attr('user_id');
   // request the boards attached to the user
   // and attach the view to the container
@@ -180,6 +168,7 @@ function saveBoardName (name) {
   });
 }
 function setNodeView(node, evn) {
+	unbinNodeEditor();
 	$('[name=n_name]').val(node.name);
 	if (node.type === 'service') {
 		$('[name=is_service]').prop('checked', true);

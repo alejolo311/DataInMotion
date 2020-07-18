@@ -614,7 +614,7 @@ function getAMInfo (mode) {
 	} else if (mode == 'HTML') {
 		info = 'Scrappe an HTML or a text file to find the occurrencies and extract the values until the stop value and store it as you want to name it<br>You can use wildcards "*" to extract values from the previous nodes and put them in the occurrence pattern<br>Example: my_url = sponges<br>href="some/url/*my_url*<br> Result -> some/url/sponges';
 	} else if (mode == 'replace') {
-		info = 'Finds the {key} formats and replace them with the correspoding data value, the keys are a cumulative of all the output, lom that means, you can find a value of a node much further back in the flow<br>And the output of this node will be stored with the key "content" to be used in the forward of the flow<br>Run a test and check the output for the keys you need';
+		info = 'Finds the {getBoardskey} formats and replace them with the correspoding data value, the keys are a cumulative of all the output, lom that means, you can find a value of a node much further back in the flow<br>And the output of this node will be stored with the key "content" to be used in the forward of the flow<br>Run a test and check the output for the keys you need';
 	} else if (mode == 'gen_signature') {
 		info = 'Uses the headers from the connection node and the keys stored in the data to create a HMAC-SHA1 signature';
 	} else if (mode == 'none') {

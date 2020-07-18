@@ -1,5 +1,6 @@
 let stoped = false;
 async function running_test(instanceId) {
+	window.scrollTo(0, 0);
 	stoped = false;
 	$('[stop="true"]').on('click', async function () {
 		stoped = true;
