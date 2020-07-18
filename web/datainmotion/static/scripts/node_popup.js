@@ -87,3 +87,11 @@ function unbinNodeEditor () {
 		$nd.off('keypress');
 	}
 }
+function unbindCanvas () {
+	const container = document.querySelector('canvas');
+	container.off();
+	container.off('click');
+	container.off('mousemove');
+	container.off('mouseleave');
+	container.off('keypress');
+}

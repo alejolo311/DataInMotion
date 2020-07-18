@@ -1,6 +1,6 @@
 {
 	"nodes": {
-		"replace": {
+		"new_message": {
 			"analisis_mode": "replace",
 			"analisis_params": [],
 			"api_endpoint": "",
