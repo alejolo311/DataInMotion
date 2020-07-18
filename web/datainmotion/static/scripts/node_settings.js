@@ -9,7 +9,6 @@ function setNodeSettings () {
 		} else if (node_id === $(this).attr('p_id')) {
 			console.log(evn.pageX);
 			console.log(evn.pageY);
-			$('.new_node_cont').css('display', 'block');
 			loadNode($(this).attr('p_id'), evn);
 			node_id = '';
 		} else {
@@ -25,6 +24,7 @@ const loadNode = function (id, evn) {
 			if (node.work_type === 'sender') {
 				WhatsAppFlow(node);
 			} else {
+				$('.new_node_cont').css('display', 'block');
 				setNodeView(node, evn);
 			}
 		}

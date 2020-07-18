@@ -69,7 +69,7 @@ function getBoardView () {
 		  // console.log(nodes);
 		  unbindContainer();
 		  $('.container').append($(nodes));
-		  await timeSleep(3000);
+		  // await timeSleep(000);
           popup();
           setGrabbers();
           loadPositions();
