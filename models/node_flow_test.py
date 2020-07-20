@@ -61,8 +61,23 @@ class instancedNode():
         """
         Creates a copy from obj
         """
-        for key in obj.keys():
-            setattr(self, key, obj[key])
+        name = obj['name']
+        work_type = obj['work_type']
+        api_url = obj['url']
+        api_endpoint = obj['api_endpoint']
+        string = obj['string']
+        headers = obj['headers']
+        innodes = obj['innodes']
+        data = obj['data']
+        outnodes = obj['outnodes']
+        analisis_mode = obj['analisis_mode']
+        analisis_params = obj['analisis_params']
+        trigger = obj['trigger']
+        timeout = obj['timeout']
+        inner_connections = obj['inner_connections']
+        color = obj['color']
+        board_id = obj['board_id']
+
 
     def get(self, id):
         """
