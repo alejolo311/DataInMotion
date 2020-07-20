@@ -7,7 +7,6 @@ $(window).on('load', async function () {
   if (boardId !== undefined && boardId !== '') {
     getBoardView();
   } else {
-    // console.log('no board');
     getBoards();
   }
 });
