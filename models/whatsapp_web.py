@@ -440,6 +440,7 @@ class WebWhastapp():
             #     EC.element_to_be_clickable((By.XPATH, media_input_xpath))
             # )
             # media_input.click()
+            self.driver.execute_script('arguments[0].scrollIntoView(true)', img_span)
             action = ActionChains(self.driver)
             action.move_to_element(img_span)
             action.click().perform()
