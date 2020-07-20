@@ -442,7 +442,7 @@ class WebWhastapp():
             # media_input.click()
             self.driver.execute_script('arguments[0].scrollIntoView(true)', img_span)
             action = ActionChains(self.driver)
-            action.move_to_element(img_span)
+            action.move_to_element(parent)
             action.click().perform()
 
 
