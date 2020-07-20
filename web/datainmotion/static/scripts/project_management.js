@@ -270,6 +270,8 @@ function importCompleteBoard (impBoard) {
 }
 function importNode () {
   // Get a list of boards and render them as html
+  $('.import').css('display', 'block');
+  $('.import').css('z-index', '20');
   const boardId = $('.container').attr('board_id');
   fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/${boardId}/boards_nodes`)
     .then(function (resp) {
@@ -522,8 +524,21 @@ function createNodesMenu (position, menus) {
 	const nodeDesc = $('<div class="node_desc"></div>');
 	$(menu).append($(nodeDesc));
 	const opt = $(`<h2 import="true" desc="import from other boards">import_from_board</h2>`);
+	$(opt).css('cursor', 'pointer');
+	$(opt).css('margin-left', '20px');
+	$(opt).css('font-size', '16px');
+
+	$(opt).css('mousemove', function () {
+		$(this).css('background-color', 'grey');
+		$(this).css('color', 'white');
+	});
+	$(opt).css('mouseleave', function () {
+		$(this).css('background-color', 'white');
+		$(this).css('color', 'grey');
+	});
 	$(opt).on('click', function (evn) {
-		menu.css('visibility', 'visible');
+		menu.css('visibility', 'hidden');
+		importNode();
 	});
 	$(menu).append($(opt));
 	for (const men of menus) {

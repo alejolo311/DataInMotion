@@ -20,6 +20,9 @@ from multiprocessing import Process
 import multiprocessing
 import threading
 import uuid
+from selenium import webdriver
+from PIL import Image
+from io import BytesIO
 
 
 THREADS = []
@@ -177,6 +180,19 @@ def run_node(node_id):
         }), mimetype='application/json',
             status=200)
 
+class SessionRemote(webdriver.Remote):
+    """
+    Session Handler for Firefox drivers
+    """
+    def start_session(
+        self, desired_capabilities,
+        browser_profile=None):
+        """
+        Set minimun attributes
+        """
+        self.w3c = True
+
+
 @app_nodes.route('/test/<test_id>/stop',
                  methods=['GET'], strict_slashes=False)
 def stop_thread(test_id):
@@ -199,6 +215,39 @@ def stop_thread(test_id):
                 print('Alive?', str(thread.is_alive()))
             except Exception as e:
                 print(e)
+    try:
+        with open(
+            './api/running/{}.session'.format(
+                test_id), 'r') as session_file:
+            conf = json.loads(session_file.read())
+            print('getting selenium unclosed session')
+            driver = SessionRemote(
+                command_executor=conf['url'],
+                desired_capabilities={})
+            driver.session_id = conf['session_id']
+            # print(dir(driver))
+            # print(json.dumps(dict(driver.__dict__), indent=2))
+            # print('PID: ', driver.service.process.pid)
+            png = driver.get_screenshot_as_png()
+            im = Image.open(BytesIO(png))
+            #   im.save('./api/screenshots/stop_result.png')
+            driver.close()
+            # driver.quit()
+    except Exception as e:
+        traceback.print_exc()
+        print('Session closing failed:', e)
+    try:
+        file_src = './api/running/media/'
+        list_dir = os.listdir(file_src)
+        for direct in list_dir:
+            if test_id in direct:
+                try:
+                    os.remove('{}/{}'.format(file_src, direct))
+                    print('media removed')
+                except Exception as e:
+                    print("Can't remove png file {}".format(test_id), e)
+    except Exception as e:
+        print(e)
     print('*****************')
     print('Threadings Count:')
     # print('\t', threading.activeCount())

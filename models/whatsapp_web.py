@@ -72,6 +72,12 @@ class WebWhastapp():
         # --------------------------------------
         self.driver.set_window_position(0, 0)
         self.driver.set_window_size(1080, 592)
+        with open('./api/running/{}.session'.format(self.instance.instance_id), 'w') as session_file:
+            conf = {
+                'session_id': str(self.driver.session_id),
+                'url': str(self.driver.command_executor._url)
+            }
+            session_file.write(json.dumps(conf))
 
     def auth(self):
         """
@@ -152,37 +158,45 @@ class WebWhastapp():
                 # self.save_screenshot(name='contact_input')
                 traceback.print_exc()
                 print(e)
-        xpath = '//div[@class="eJ0yJ"]'
+        xpath = '//div[@aria-label="Search results."]'
         count = 0
         while True:
             try:
                 contacts = WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_all_elements_located((By.XPATH, xpath)))
+                    EC.presence_of_element_located((By.XPATH, xpath)))
                 # for cont in contacts:
                 #     self.driver.execute_script(
                 #         'arguments[0].style.backgroundColor = "blue";', cont)
-                contact = contacts[0]
+                c_xpath = '//div[contains(@class, "eJ0yJ")]'
+                contact = WebDriverWait(contacts, 10).until(
+                    EC.presence_of_element_located((By.XPATH, c_xpath)))
+                # print(contact.get_attribute('outerHTML').encode('utf-8'))
+                # contact = contacts[0]
                 self.remove_verify()
-                parent = contact.find_element_by_xpath('..')
-                parent = parent.find_element_by_xpath('..')
-                parent = parent.find_element_by_xpath('..')
-                parent = parent.find_element_by_xpath('..')
-                parent = parent.find_element_by_xpath('..')
+                # parent = contact.find_element_by_xpath('..')
+                # parent = parent.find_element_by_xpath('..')
+                # parent = parent.find_element_by_xpath('..')
+                # parent = parent.find_element_by_xpath('..')
+                # parent = parent.find_element_by_xpath('..')
                 self.driver.execute_script(
-                  'arguments[0].style.backgroundColor = "red";', parent)
-                parent.click()
-                print(parent.get_attribute('outerHTML'))
+                  'arguments[0].style.backgroundColor = "red";', contact)
+                contact.click()
+                # parent.click()
+                # print(contact.get_attribute('outerHTML').encode('utf-8'))
                 # self.save_screenshot(name='contact_selected')
                 time.sleep(2)
                 break
             except TimeoutException:
-                self.save_screenshot(name='waiting_contact')
+                # self.save_screenshot(name='waiting_contact')
                 print('trying again to get the contact')
                 if count > max_retries:
                     return {'error': "can not find the contact"}
                 count += 1
                 pass
             except Exception as e:
+                traceback.print_exc()
+                print('Failed to get the contact', e)
+                print(contacts.get_attribute('outerHTML').encode('utf-8'))
                 return {'error': "can not find the contact"}
         # parent = contact.find_element_by_xpath('..')
         # parent = parent.find_element_by_xpath('..')
@@ -224,6 +238,7 @@ class WebWhastapp():
         waits for admin to select media
         and send the media to the contact focused by search_contact
         """
+        # self.save_screenshot(name='init_gif')
         print("sending gif to {}".format(self.contact))
         self.instance.write_status(
             'sending',
@@ -288,7 +303,7 @@ class WebWhastapp():
                     self.video_urls.append([pos, src])
                     pos += 1
                 time.sleep(1)
-                # self.save_screenshot('video_url')
+                # # self.save_screenshot('video_url')
             except Exception as e:
                 print(e)
                 pass
@@ -346,6 +361,11 @@ class WebWhastapp():
         print('Video:\n', video.get_attribute('outerHTML'))
         self.driver.execute_script(
             'arguments[0].style.backgroundColor = "blue";', video)
+        new_url = '"https://media1.giphy.com/media/3o6EhOYMhOTANYgHMk/giphy-preview.mp4"'
+        self.driver.execute_script(
+            'arguments[0].src = {};'.format(new_url), video
+        )
+            
         # self.save_screenshot('before_video_clicked')
         self.driver.execute_script("arguments[0].focus();", par)
         # self.save_screenshot('after_focus')
@@ -385,6 +405,77 @@ class WebWhastapp():
                 return {'error': str(e)}
         return {}
 
+    def send_gif_from_file(self, filepath):
+        """
+        Upload a encoded file to Whatsapp
+        """
+        try:
+            span_xpath = '//span[@data-testid="clip"]'
+            span = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.XPATH, span_xpath))
+            )
+            print(span.get_attribute('outerHTML'))
+            span = span.find_element_by_xpath('..')
+            span.click()
+            time.sleep(2)
+            # self.save_screenshot('after_click_clip_span')
+            img_span_xpath = '//span[@data-testid="attach-image"]'
+            img_span = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.XPATH, img_span_xpath))
+            )
+            parent = span.find_element_by_xpath('..')
+            parent = span.find_element_by_xpath('..')
+            self.driver.execute_script('arguments[0].focus();', parent)
+            # self.save_screenshot('focus_attach_button')
+
+            media_input_xpath = '//input[contains(@accept, "video/mp4")]'
+            media_input = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.XPATH, media_input_xpath))
+            )
+            # print(media_input.get_attribute('outerHTML'))
+            # self.driver.execute_script('arguments[0].style.display = "block";', media_input)
+            media_input.send_keys(filepath)
+            # media_input_xpath = '//input[contains(@accept, "video/mp4")]'
+            # media_input = WebDriverWait(self.driver, 20).until(
+            #     EC.element_to_be_clickable((By.XPATH, media_input_xpath))
+            # )
+            # media_input.click()
+            action = ActionChains(self.driver)
+            action.move_to_element(img_span)
+            action.click().perform()
+
+
+            time.sleep(1)
+            # self.save_screenshot('after_click_media_input')
+            count = 0
+            while True:
+                try:
+                    # self.save_screenshot('waiting_buttonsend')
+                    btn_xpath = '//span[@data-testid = "send"]'
+                    button = WebDriverWait(self.driver, 20).until(
+                        EC.presence_of_element_located((By.XPATH, btn_xpath)))
+                    time.sleep(2)
+                    button = button.find_element_by_xpath('..')
+                    button.click()
+                    time.sleep(2)
+                    # self.save_screenshot('buttonsend_clicked')
+                    return {'success': 'gif sended'}
+                except TimeoutException:
+                    print('Timeout Send Button, trying again')
+                    if count == 3:
+                        break
+                    else:
+                        count += 1
+                except Exception as e:
+                    return {'error': str(e)}
+            return {}
+        except Exception as e:
+            print(e)
+            traceback.print_exc()
+            return {'error': str(e)}
+
+
+
     def close(self):
         """
         Closes Selenium Driver
@@ -392,7 +483,7 @@ class WebWhastapp():
         self.remove_verify()
         self.remove_conf()
         self.driver.close()
-        self.driver.quit()
+        # self.driver.quit()
 
     def remove_conf(self):
         """
@@ -414,6 +505,20 @@ class WebWhastapp():
         except Exception as e:
             print("Can't remove png file {}.png".format(self.instance.instance_id), e)
 
+    def remove_media(self):
+        """
+        Remove any saved gif or video for the instance
+        """
+        file_src = './api/running/media/'
+        list_dir = os.listdir(file_src)
+        for direct in list_dir:
+            if self.instance.instance_id in direct:
+                try:
+                    os.remove('{}/{}'.format(file_src, direct))
+                    print('media removed')
+                except Exception as e:
+                    print("Can't remove png file {}".format(self.instance.instance_id), e)
+
     def save_screenshot(self, name="screenshot"):
         """
         Save a screenshot
@@ -423,3 +528,6 @@ class WebWhastapp():
         im = Image.open(BytesIO(shot))
         im.save('./api/screenshots/{:0>4}-{}.png'
                 .format(len(dirs), name))
+
+
+# https://media.giphy.com/media/SpoV1pB4g7gXvWo3Up/source.mov

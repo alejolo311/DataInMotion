@@ -22,6 +22,7 @@ from models.auth import Auth
 from models.whatsapp_web import WebWhastapp
 from inspect import currentframe as ctf
 from inspect import getframeinfo as gfi
+from models.encode_gif import set_header
 
 auth = Auth()
 
@@ -526,6 +527,20 @@ class instancedNode():
             message = outData['content']
         else:
             return {'error_{}'.format(self.name): 'message content not found'}
+        # Check raw file
+        if 'raw' in outData:
+            print('Prepare to save the video file on Hard Disk')
+            bytes_string = outData['raw'].encode('ascii')
+            bytes_string = base64.decodebytes(bytes_string)
+            print(outData['headers']['Content-Type'])
+            extension = outData['headers']['Content-Type'].split('/')[1]
+            file_path = set_header(bytes_string, self.instance_id, extension)
+            print(bytes_string[:200])
+            print(file_path)
+            with open(file_path, 'rb') as saved_img:
+                print(saved_img.read()[:200])
+            # return {'state': 'saving video in disk'}
+
         data = outData['contacts_list']
         web = WebWhastapp(self.id, outData, self)
         if len(data) == 0:
@@ -553,8 +568,12 @@ class instancedNode():
                     self.write_status(
                         'sending', 'Sending message to {}'.format(contact))
                     pos += 1
-                print(gif)
-                if gif != '':
+                if file_path:
+                    print('send animated gif')
+                    print(file_path)
+                    web.send_gif_from_file(file_path)
+                elif gif != '':
+                    print(gif)
                     if url is None:
                         url = web.send_animated_gif(gif, select_random=False)
                     else:
