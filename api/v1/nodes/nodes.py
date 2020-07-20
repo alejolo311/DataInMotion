@@ -492,6 +492,7 @@ def copy_node_to_board(node_id, board_id):
             if type(val) == dict or type(val) == list:
                 val = json.dumps(val)
             setattr(new_node, key, val)
+    new_node.api_url = in_node.api_url
     new_node.innodes = json.dumps([])
     new_node.outnodes = json.dumps([])
     new_node.board_id = board_id

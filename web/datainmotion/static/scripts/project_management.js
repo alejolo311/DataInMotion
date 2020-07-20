@@ -231,7 +231,6 @@ function importTheNode (nId, reload) {
 	});
 }
 function importTheNodeOnByOne (node) {
-	console.log(node);
 	const boardId = $('.container').attr('board_id');
 	fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/add_node`,
 	  {
@@ -250,7 +249,6 @@ function importTheNodeOnByOne (node) {
 	});
 }
 function importCompleteBoard (impBoard) {
-	console.log(node);
 	const boardId = $('.container').attr('board_id');
 	fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/complete_board`,
 	  {
