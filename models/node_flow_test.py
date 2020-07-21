@@ -284,7 +284,7 @@ class instancedNode():
             print(pars.keys())
             print(self.name, self.data)
             for key in pars.keys():
-                patt = '*{}*'.format(key)eaders', 'this_year', 'month', '
+                patt = '*{}*'.format(key)
                 if patt in json.dumps(self.data):
                     if type(pars[key]) == str:
                         print(self.name, 'replacing', patt, 'for', pars[key])
