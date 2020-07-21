@@ -81,13 +81,13 @@ function getBoardView () {
           const height = window.outerHeight + 400;
           console.log(width, height);
           $('#canvas_connections').attr('width', width);
-          $('#canvas_connections').attr('height', height);
+          $('#canvas_connections').attr('height', height + 1000);
           $('#canvas_connections').css('width', width);
-          $('#canvas_connections').css('height', height);
+          $('#canvas_connections').css('height', height + 1000);
           $('#canvas_grid').attr('width', width);
-          $('#canvas_grid').attr('height', height);
+          $('#canvas_grid').attr('height', height + 1000);
           $('#canvas_grid').css('width', width);
-          $('#canvas_grid').css('height', height);
+          $('#canvas_grid').css('height', height + 1000);
           $('.container').css('width', width);
           $('.container').css('height', height);
           $('body').css('height', height);

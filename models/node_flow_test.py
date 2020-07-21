@@ -223,7 +223,7 @@ class instancedNode():
                     url_parts = pars['string'].split('?')
                 elif 'url' in pars.keys():
                     print(pars.keys())
-                    print(pars['url'])
+                    # print(pars['url'].decode('utf-8'))
                     url_parts = pars['url'].split('?')
                 if url_parts:
                     self.api_url = 'GET ' + url_parts[0]
@@ -279,20 +279,27 @@ class instancedNode():
             else:
                 # if the data is an string add it
                 # with the key content to pars
-                print(data)
+                # print(data)
                 pars['content'] = str(data)
             print(pars.keys())
             print(self.name, self.data)
             for key in pars.keys():
-                patt = '*{}*'.format(key)
-                if patt in json.dumps(self.data):
-                    if type(pars[key]) == str:
-                        print(self.name, 'replacing', patt, 'for', pars[key])
-                        # print(self.data)
-                        print('Data type:', type(self.data), self.data)
-                        self.data = json.loads(
-                            json.dumps(self.data).replace(patt, pars[key].replace('\n', ' ')))
-            print(self.name, self.data)
+                try:
+                    patt = '*{}*'.format(key)
+                    if patt in json.dumps(self.data):
+                        if type(pars[key]) == str:
+                            # print(self.name, 'replacing', patt, 'for', pars[key].encode('utf-8'))
+                            # print(self.data)
+                            # print('Data type:', type(self.data), self.data)
+                            self.data = json.loads(
+                                json.dumps(
+                                    self.data).replace(
+                                        patt, pars[key].replace(
+                                            '\n', ' ')).encode('utf-8'))
+                except Exception as e:
+                    print(e)
+                    traceback.print_exc()
+            # print(self.name, self.data)
             if need_auth:
                 heads = {}
                 heads['data'] = self.headers.copy()

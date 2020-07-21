@@ -1,7 +1,7 @@
 function setGrabbers() {
 	let nodeName = '';
 	let nodeId = '';
-	let offX = 15;
+	let offX = 100;
 	let offY = 115;
 	$(window).mousemove(function (evn) {
 		$('.x').text('x: ' + evn.pageX.toString());

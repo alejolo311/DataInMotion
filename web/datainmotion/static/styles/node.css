@@ -26,6 +26,7 @@ body {
 	user-select: none; /* Standard */
 	padding: 0;
 	margin: 0;
+	overflow-x: hidden;
 }
 .node_container {
 	top: 160;
@@ -138,8 +139,8 @@ process:active {
 }
 .outnodes {
 	position: absolute;
-	right: 8px;
-	top: -16px;
+	right: 50%;
+	bottom: 26px;
 	z-index: 6;
 }
 .out_expanded {
@@ -148,7 +149,8 @@ process:active {
 	border-radius: 12px;
 	/* background-color: var(--board_color); */
 	background-color: rgba(137, 43, 226, 0.445);
-	right: -20px;
+	right: 50%;
+	bottom: -80px;
 	height: 100px;
 	border: 1px solid rgba(255, 255, 255, 0.246);
 }
@@ -209,8 +211,8 @@ process:active {
 }
 .connections {
 	position: absolute;
-	left: -18px;
-	top: -18px;
+	left: 46%;
+	top: -40px;
 	display: block;
 	max-width: 18px;
 	max-height: 80px;
@@ -265,8 +267,8 @@ process:active {
 	display: flex;
 	max-width: 180px;
 	position: absolute;
-	top: -10px;
-	left: 18px;
+	top: 12px;
+	left: -10px;
 	max-height: 18px;
 	background-color: transparent;
 }
@@ -286,8 +288,8 @@ process:active {
 	background-color: rgba(128, 0, 128, 0.411);
 	border-radius: 12px;
 	border: 1px solid white;
-	top: -20px;
-	left: 0;
+	top: 20px;
+	left: -60px;
 	padding: 0px 8px 8px 8px;
 	margin: 0;
 	z-index: 20;
@@ -310,6 +312,7 @@ process:active {
 	border-radius: 50%;
 	outline: none;
 	cursor: pointer;
+	transform: rotate(90deg);
 	margin-bottom: 12px;
 }
 .innodes h2:hover {
@@ -539,10 +542,13 @@ hr {
 .outnode_settings {
 	background-color: rgba(45, 6, 46, 0.65);
 	position: absolute;
+	bottom: 0;
 	z-index: 10;
 	visibility: hidden;
 }
 .out_opts {
+	position: absolute;
+	bottom: 130px;
 	display: block;
 	background-color: var(--board_color);
 	border: 1px solid white;

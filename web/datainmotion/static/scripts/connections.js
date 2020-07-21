@@ -8,8 +8,8 @@ const drawLine = function (a, b, canvas, color) {
   
   contx.lineWidth = 3;
   contx.beginPath();
-  const offY = 132;
-  const offX = 2;
+  const offY = 136;
+  const offX = -80;
   contx.moveTo(a.x + offX, a.y - offY);
   contx.lineTo(b.x + offX, b.y - offY);
   contx.stroke();
@@ -21,7 +21,7 @@ function drawConnections () {
   // Draw outnodes conections
   // extract width and height from body, and apply them to the connections canvas
   const width = document.getElementsByTagName('body')[0].scrollWidth;
-  const height = document.getElementsByTagName('body')[0].scrollHeight;
+  const height = document.getElementsByTagName('body')[0].scrollHeight + 500;
   const contx = canvas.getContext('2d');
   contx.clearRect(0, 0, width, height);
   // Check the outnodes and link them to the respective connection
@@ -114,7 +114,8 @@ function setConnectionsListeners () {
     } else {
       $(obj).css('background-image', '');
       $(obj).css('background-color', 'yellow');
-      $(obj).css('margin-left', '0');
+	  // $(obj).css('margin-left', '0');
+	  console.log($(parent).css('top', '6px'));
     }
     drawConnections();
   };
@@ -214,7 +215,7 @@ function setConnectionsListeners () {
       $('.outnode_settings').attr('nod', parentId);
       $('.outnode_settings').attr('out', id);
       $('.outnode_settings').attr('type', 'out');
-      $('.outnode_settings').css('top', evn.pageY - 20);
+      $('.outnode_settings').css('top', evn.pageY + 200);
       $('.outnode_settings').css('left', evn.pageX - 20);
       $('.outnode_settings').css('z-index', 12);
     }
