@@ -61,22 +61,23 @@ class instancedNode():
         """
         Creates a copy from obj
         """
-        name = obj['name']
-        work_type = obj['work_type']
-        api_url = obj['url']
-        api_endpoint = obj['api_endpoint']
-        string = obj['string']
-        headers = obj['headers']
-        innodes = obj['innodes']
-        data = obj['data']
-        outnodes = obj['outnodes']
-        analisis_mode = obj['analisis_mode']
-        analisis_params = obj['analisis_params']
-        trigger = obj['trigger']
-        timeout = obj['timeout']
-        inner_connections = obj['inner_connections']
-        color = obj['color']
-        board_id = obj['board_id']
+        self.id = obj['id']
+        self.name = obj['name']
+        self.work_type = obj['work_type']
+        self.api_url = obj['api_url']
+        self.api_endpoint = obj['api_endpoint']
+        self.string = obj['string']
+        self.headers = obj['headers']
+        self.innodes = obj['innodes']
+        self.data = obj['data']
+        self.outnodes = obj['outnodes']
+        self.analisis_mode = obj['analisis_mode']
+        self.analisis_params = obj['analisis_params']
+        self.trigger = obj['trigger']
+        self.timeout = obj['timeout']
+        self.inner_connections = obj['inner_connections']
+        self.color = obj['color']
+        self.board_id = obj['board_id']
 
 
     def get(self, id):
@@ -283,7 +284,7 @@ class instancedNode():
             print(pars.keys())
             print(self.name, self.data)
             for key in pars.keys():
-                patt = '*{}*'.format(key)
+                patt = '*{}*'.format(key)eaders', 'this_year', 'month', '
                 if patt in json.dumps(self.data):
                     if type(pars[key]) == str:
                         print(self.name, 'replacing', patt, 'for', pars[key])
@@ -909,6 +910,15 @@ class instancedNode():
         #####
         if self.analisis_mode == 'contacts_list':
             return {'contacts_list': self.data}
+        if self.analisis_mode == 'list_ops':
+            res = 0
+            lis = params[0]['list']
+            op = params[0]['opt']
+            val = params[0]['value']
+            for el in response[lis]:
+                if val in el.keys():
+                    res = eval('{} {} {}'.format(res, op, el[val]))
+            return {'sum': res}
         if params and len(params) > 0 and self.analisis_mode == 'JSON':
             ######
             #

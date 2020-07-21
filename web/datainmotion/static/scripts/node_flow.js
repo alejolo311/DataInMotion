@@ -602,6 +602,22 @@ function newNodeFlow(node, id) {
 			reloadStatisticsParams();
 		}
 	});
+	// Detect input elements to analisis_params when analisis_mode is 
+	// list_ops
+	$('[mode=list_ops] button').on('click', function (evn) {
+		const key = $('[name="list_ops_key"]').val();
+		const value = $('[name="list_ops_value"]').val();
+		const op = $('[name="list_opt_sign"]').children("option:selected").val();
+		console.log(op);
+		if (key !== '' && value !== '' && op !== '') {
+			// console.log('store comparision params');
+			// console.log(key);
+			tmpAnPm.push({'list': key, 'value': value, 'opt': op});
+			reloadParams();
+			$('[name=list_ops_key]').val('');
+			$('[name=list_ops_value]').val('');
+		}
+	});
 	reloadData();
 }
 

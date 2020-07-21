@@ -315,6 +315,7 @@
 					<option value="media_player">media viewer</option>
 					<option value="media_twitter">Twitter media upload</option>
 					<option value="contacts_list">Contacts List</option>
+					<option value="list_ops">List ops</option>
 				</select>
 				<p content="analisis_mode"><span style="font-weight: bold;"> Mode info:</span></p>
 				<div class="node_back">
@@ -431,6 +432,21 @@
 						placeholder="key">
 					<input name="upd_path" style="margin-left: 12px; width: 30%; max-height: 38px;" type="text"
 						placeholder="path">
+					<button>add</button>
+				</div>
+				<div mode="list_ops" style="display: none;">
+					<input name="list_ops_key" style="margin-left: 10%; width: 20%; max-height: 38px;" type="text"
+						placeholder="List">
+					<input name="list_ops_value" style="margin-left: 12px; width: 20%; max-height: 38px;" type="text"
+						placeholder="value">
+					<select style="margin-left: 12px; margin-top: 10px;
+									width: 20%;
+									max-height: 38px;" name="list_opt_sign" id="">
+						<option value="+" selected>sum</option>
+						<option value="-">substract</option>
+						<option value="*">multiply</option>
+						<option value="/">divide</option>
+					</select>
 					<button>add</button>
 				</div>
 				<p content="analisis_info">
