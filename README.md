@@ -7,6 +7,10 @@ You will create your solution by assembling a distributed net of inputs and outp
 
 [![Build Status](https://travis-ci.com/alejolo311/DataInMotion.svg?branch=master)](https://travis-ci.com/alejolo311/DataInMotion)
 
+Top contributors
+----------------
+
+[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/0)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/0)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/1)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/1)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/2)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/2)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/3)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/3)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/4)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/4)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/5)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/5)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/6)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/6)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/7)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/7)
 
 ## Installation and Requirements
 
