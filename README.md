@@ -7,10 +7,25 @@ You will create your solution by assembling a distributed net of inputs and outp
 
 [![Build Status](https://travis-ci.com/alejolo311/DataInMotion.svg?branch=master)](https://travis-ci.com/alejolo311/DataInMotion)
 
+---
+
 Top contributors
 ----------------
 
 [![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/0)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/0)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/1)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/1)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/2)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/2)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/3)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/3)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/4)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/4)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/5)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/5)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/6)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/6)[![](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/images/7)](https://sourcerer.io/fame/Danucas/alejolo311/DataInMotion/links/7)
+
+---
+## Screenshots
+
+![](/screenshots/1.png)
+![](/screenshots/2.png)
+![](/screenshots/3.png)
+![](/screenshots/4.png)
+![](/screenshots/5.png)
+![](/screenshots/6.png)
+![](/screenshots/7.png)
+
+---
 
 ## Installation and Requirements
 
@@ -83,18 +98,18 @@ Now you can provide any data need for your task
 
 This step is important take care of your selection
 
-- Comparision
+- comparision:
 this mode will compare a value given by the "key" in the node input data, you can select between compare values
 or detect substrings in the data
 
-- Generate phrase
+- generate_phrase:
 this mode is used to create a string by giving a template with the wildcards "{}" to identify and replace with a value in the input node data.
 as an example:
 	data = "The sun is raising"
 	the template -> {data} and i feel alive
 	the result content -> "The sun is raising and i feel alive"
 
-- JSON
+- JSON:
 this mode allows you to extract a given key with a path at the node input data and return the value with your predefined key
 as an example:
 
@@ -113,7 +128,7 @@ return {key: value} -> {'Friend': 'Trudy'}
 # Notice that "random" takes any position on a list you can use this keyword while setting the analisis_params
 ```
 
-- text or HTML
+- HTML:
 this mode will perform an HTML scrapping, but first the backend clean the html-content by removing uneccesary spaces and new lines, in this option you have to set three values
 -- occurence:
 		a pattern to match in the html-content
@@ -136,13 +151,8 @@ I/O attibutes
 
 - outnodes: list of subsequence of task nodes, the node start a request to another node and waits for a response, then return the resulted data to the caller node
 
-  
-
-Terms:
-
 - connections: list of ids of the caller nodes, notes de difference with the innodes, the resulting data from this nodes will be returned to the actual caller connection, this term will be used for UX design purposes
 
-  
   
   
 
