@@ -419,7 +419,7 @@ class WebWhastapp():
             span.click()
             time.sleep(2)
             self.save_screenshot('after_click_clip_span')
-            img_span_xpath = '//span[@data-testid="attach-image"]'
+            img_span_xpath = '//span[@data-testid="attach-image-old"]'
             img_span = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, img_span_xpath))
             )
