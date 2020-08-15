@@ -418,7 +418,7 @@ class WebWhastapp():
             span = span.find_element_by_xpath('..')
             span.click()
             time.sleep(2)
-            # self.save_screenshot('after_click_clip_span')
+            self.save_screenshot('after_click_clip_span')
             img_span_xpath = '//span[@data-testid="attach-image"]'
             img_span = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, img_span_xpath))
@@ -426,7 +426,7 @@ class WebWhastapp():
             parent = span.find_element_by_xpath('..')
             parent = span.find_element_by_xpath('..')
             self.driver.execute_script('arguments[0].focus();', parent)
-            # self.save_screenshot('focus_attach_button')
+            self.save_screenshot('focus_attach_button')
 
             media_input_xpath = '//input[contains(@accept, "video/mp4")]'
             media_input = WebDriverWait(self.driver, 20).until(
