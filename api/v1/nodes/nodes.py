@@ -5,7 +5,7 @@ Index route for nodes api
 
 from api.v1.nodes import app_nodes
 from models import storage
-from flask import jsonify, Response, request, render_template
+from flask import jsonify, Response, request, render_template, send_file
 from models.custom import CustomNode
 from models.board import Board
 from models.logger import Logger
@@ -39,7 +39,6 @@ def nodes(node_id):
     resp = node.to_dict()
     # resp = json.dumps(resp)
     return Response(resp, mimetype='application/json')
-
 
 @app_nodes.route('/nodes/<node_id>/savecolor',
                  methods=['POST'], strict_slashes=False)

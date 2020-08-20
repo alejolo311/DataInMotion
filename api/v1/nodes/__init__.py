@@ -15,3 +15,4 @@ from api.v1.nodes.index import *
 from api.v1.nodes.users import *
 from api.v1.nodes.nodes import *
 from api.v1.nodes.boards import *
+from api.v1.nodes.medias import *
