@@ -562,46 +562,54 @@ class instancedNode():
             print(file_path)
             with open(file_path, 'rb') as saved_img:
                 print(saved_img.read()[:200])
-            # return {'state': 'saving video in disk'}
-
+        # Extract the contacts list
         data = outData['contacts_list']
         web = WebWhastapp(self.id, outData, self)
         if len(data) == 0:
             web.close()
         admin = self.data['admin']
-        gif = self.data['gif']
+        gif = self.data['gif']  
         
         number_list = [num for num in data.values()]
         print(number_list)
-        web.start_browser()
-        web.number = admin
-        if not web.auth():
-            web.close()
-            return {
-                'error': 'QRCode not found, may be the connection is loose'
-            }
-        self.write_status('verifying', 'Waiting for user to scan the code')
-        # web.send_twilio_message(admin, 'Message to send: {}'.format(message))
+        # web.start_browser()
+        # web.number = admin
+        # if not web.auth():
+        #     web.close()
+        #     return {
+        #         'error': 'QRCode not found, may be the connection is loose'
+        #     }
+        # self.write_status('verifying', 'Waiting for user to scan the code')
+        self.write_status('sending', 'Sending message to the distribution list')
         pos = 0
         url = None
         try:
             for contact in number_list:
-                web.search_contact(contact)
-                if pos == 0:
-                    self.write_status(
-                        'sending', 'Sending message to {}'.format(contact))
-                    pos += 1
+                # web.search_contact(contact)
+                # if pos == 0:
+                #     self.write_status(
+                #         'sending', 'Sending message to {}'.format(contact))
+                #     pos += 1
                 if file_path:
                     print('send animated gif')
                     print(file_path)
-                    web.send_gif_from_file(file_path)
+                    last = len(file_path.split('/'))
+                    web.send_twilio_message(
+                            contact,
+                            '',
+                            mediaUrl='https://dnart.tech/api/v1/gifs/{}'.format(file_path.split('/')[last - 1])
+                        )
+                    # web.send_gif_from_file(file_path)
                 elif gif != '':
                     print(gif)
                     if url is None:
-                        url = web.send_animated_gif(gif, select_random=False)
+                        pass
+                        # url = web.send_animated_gif(gif, select_random=False)
                     else:
-                        web.send_animated_gif(gif, select_random=False)
-                web.send_whatsapp_message(message)
+                        pass
+                        # web.send_animated_gif(gif, select_random=False)
+                # web.send_whatsapp_message(message)
+                web.send_twilio_message(contact, message)
                 self.write_status('sent', 'Message sent to {}'.format(contact))
         except Exception as e:
             web.close()
