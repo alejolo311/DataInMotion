@@ -19,6 +19,7 @@ import traceback
 import base64
 import random
 import json
+import models.credentials as mc
 from selenium.webdriver.common.keys import Keys
 paths = os.environ.get('PATH').split(':')
 exists = False
@@ -118,18 +119,6 @@ class WebWhastapp():
                 pass
         return False
 
-    def send_twilio_message(self, contact, message):
-        """
-        Send a message via twilio
-        """
-        # media_message = self.twilio_client.messages.create(
-        #     body=message,
-        #     from_='whatsapp:+' + str(self.twilio_credentials['from_sender']),
-        #     to='whatsapp:+' + str(contact)
-        # )
-        # return media_message
-        return True
-
     def search_contact(self, contact_number):
         """
         Search for a number and click it to focus the messaging view
@@ -198,13 +187,6 @@ class WebWhastapp():
                 print('Failed to get the contact', e)
                 print(contacts.get_attribute('outerHTML').encode('utf-8'))
                 return {'error': "can not find the contact"}
-        # parent = contact.find_element_by_xpath('..')
-        # parent = parent.find_element_by_xpath('..')
-        # parent = parent.find_element_by_xpath('..')
-        # parent = parent.find_element_by_xpath('..')
-        # parent = parent.find_element_by_xpath('..')
-        # print(parent.get_attribute('outerHTML'))
-        # self.save_screenshot('contact_selected')
 
     def send_whatsapp_message(self, message):
         """
@@ -228,9 +210,9 @@ class WebWhastapp():
         msg_box.send_keys(Keys.RETURN)
         time.sleep(2)
         # self.save_screenshot('message')
-        self.send_twilio_message(self.number,
-                                 'message and Gif sent to *{}*'
-                                 .format(self.contact))
+        # self.send_twilio_message(self.number,
+        #                          'message and Gif sent to *{}*'
+        #                          .format(self.contact))
 
     def send_animated_gif(self, search, select_random=False):
         """
@@ -365,8 +347,6 @@ class WebWhastapp():
         self.driver.execute_script(
             'arguments[0].src = {};'.format(new_url), video
         )
-            
-        # self.save_screenshot('before_video_clicked')
         self.driver.execute_script("arguments[0].focus();", par)
         # self.save_screenshot('after_focus')
         x_block = '//div[@class="_2vpZx"]'
@@ -432,26 +412,15 @@ class WebWhastapp():
             media_input = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, media_input_xpath))
             )
-            # print(media_input.get_attribute('outerHTML'))
-            # self.driver.execute_script('arguments[0].style.display = "block";', media_input)
             media_input.send_keys(filepath)
-            # media_input_xpath = '//input[contains(@accept, "video/mp4")]'
-            # media_input = WebDriverWait(self.driver, 20).until(
-            #     EC.element_to_be_clickable((By.XPATH, media_input_xpath))
-            # )
-            # media_input.click()
             self.driver.execute_script('arguments[0].scrollIntoView(true)', img_span)
             action = ActionChains(self.driver)
             action.move_to_element(parent)
             action.click().perform()
-
-
             time.sleep(1)
-            # self.save_screenshot('after_click_media_input')
             count = 0
             while True:
                 try:
-                    # self.save_screenshot('waiting_buttonsend')
                     btn_xpath = '//span[@data-testid = "send"]'
                     button = WebDriverWait(self.driver, 20).until(
                         EC.presence_of_element_located((By.XPATH, btn_xpath)))
@@ -459,7 +428,6 @@ class WebWhastapp():
                     button = button.find_element_by_xpath('..')
                     button.click()
                     time.sleep(2)
-                    # self.save_screenshot('buttonsend_clicked')
                     return {'success': 'gif sended'}
                 except TimeoutException:
                     print('Timeout Send Button, trying again')
@@ -474,8 +442,6 @@ class WebWhastapp():
             print(e)
             traceback.print_exc()
             return {'error': str(e)}
-
-
 
     def close(self):
         """
@@ -530,5 +496,27 @@ class WebWhastapp():
         im.save('./api/screenshots/{:0>4}-{}.png'
                 .format(len(dirs), name))
 
+    def set_twilio_client(self, fromNumber):
+        """
+        Set the client credentials
+        """
+        self.set_twilio_client = Client(mc.account_sid, mc.auth_token)
+        self.twilio_from = fromNumber
 
-# https://media.giphy.com/media/SpoV1pB4g7gXvWo3Up/source.mov
+    def send_twilio_message(self, contact, message, mediaUrl=None):
+        """
+        Send a message via twilio
+        """
+        media_message = self.twilio_client.messages.create(
+            body=message,
+            from_='whatsapp:+' + str(self.twilio_from),
+            to='whatsapp:+' + str(contact)
+        )
+        if mediaUrl:
+            media_message = self.twilio_client.messages.create(
+                body=message,
+                from_='whatsapp:+' + str(self.twilio_from),
+                to='whatsapp:+' + str(contact),
+                media_url=mediaUrl
+            )
+        return media_message
