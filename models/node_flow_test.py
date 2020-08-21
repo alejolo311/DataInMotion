@@ -597,7 +597,7 @@ class instancedNode():
                     web.send_twilio_message(
                             contact,
                             '',
-                            mediaUrl='https://dnart.tech/api/v1/gifs/{}'.format(file_path.split('/')[last - 1])
+                            mediaUrl=['https://dnart.tech/api/v1/media/{}'.format(file_path.split('/')[last - 1])]
                         )
                     # web.send_gif_from_file(file_path)
                 elif gif != '':
@@ -612,9 +612,9 @@ class instancedNode():
                 web.send_twilio_message(contact, message)
                 self.write_status('sent', 'Message sent to {}'.format(contact))
         except Exception as e:
-            web.close()
+            # web.close()
             return {'error', str(e)}
-        web.close()
+        # web.close()
         return dict({
             'sended_messages': {
                 'result': 'Succesfully send the messages to the distribution list',

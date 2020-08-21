@@ -500,23 +500,23 @@ class WebWhastapp():
         """
         Set the client credentials
         """
-        self.set_twilio_client = Client(mc.account_sid, mc.auth_token)
+        self.twilio_client = Client(mc.account_sid, mc.auth_token)
         self.twilio_from = fromNumber
 
     def send_twilio_message(self, contact, message, mediaUrl=None):
         """
         Send a message via twilio
         """
-        media_message = self.twilio_client.messages.create(
-            body=message,
-            from_='whatsapp:+' + str(self.twilio_from),
-            to='whatsapp:+' + str(contact)
-        )
         if mediaUrl:
             media_message = self.twilio_client.messages.create(
-                body=message,
                 from_='whatsapp:+' + str(self.twilio_from),
                 to='whatsapp:+' + str(contact),
                 media_url=mediaUrl
+            )
+        else:
+            media_message = self.twilio_client.messages.create(
+                body=message,
+                from_='whatsapp:+' + str(self.twilio_from),
+                to='whatsapp:+' + str(contact)
             )
         return media_message
