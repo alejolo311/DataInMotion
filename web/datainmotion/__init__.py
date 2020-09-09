@@ -5,7 +5,7 @@ Flask web server
 from flask import Flask
 from flask_cors import CORS
 from models import storage
-from flask import render_template, Response
+from flask import render_template, Response, request
 from models.custom import CustomNode
 from models.board import Board
 from models.user import User
@@ -38,6 +38,15 @@ def board(board_id):
     """
     board = json.loads(storage.get(Board, board_id).to_dict())
     return render_template('board.html', id=str(uuid.uuid4()), board=board)
+
+
+@app.route('/boards/<board_id>/lite', methods=['GET'], strict_slashes=False)
+def board_lite(board_id):
+    """
+    return a view for the board
+    """
+    board = json.loads(storage.get(Board, board_id).to_dict())
+    return render_template('board_lite.html', id=str(uuid.uuid4()), board=board)
 
 
 @app.route('/boards/<board_id>/nodes', methods=['GET'], strict_slashes=False)
@@ -75,9 +84,25 @@ def nodes(board_id):
                  '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
     cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af',
                  '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
-    template = render_template('node.html', nodes=parsed,
-                               id=str(uuid.uuid4()), colors=cols)
-    return template
+    # print('Is Lite', dict(request.__dict__)['environ']['QUERY_STRING'])
+    if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
+        cols = ['#fff200', '#e5d900', '#ccc100', '#b2a900',
+                 '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5']
+        nods = []
+        connections = {}
+        for nod in parsed:
+            connections[nod['id']] = {}
+            connections[nod['id']]['innodes'] = nod['innodes']
+            connections[nod['id']]['outnodes'] = nod['outnodes']
+            connections[nod['id']]['type'] = nod['type'];
+            template = render_template('lite/node.html', node=nod,
+                                       id=str(uuid.uuid4()), colors=cols)
+            connections[nod['id']]['template'] = template
+        return Response(json.dumps([nods, connections]), mimetype='application/json')
+    else:
+        template = render_template('node.html', nodes=parsed,
+                                id=str(uuid.uuid4()), colors=cols)
+    return Response(json.dumps({'nodes': template}), mimetype='application/json')
 
 
 @app.route('/nodes/<node_id>', methods=['GET'], strict_slashes=False)

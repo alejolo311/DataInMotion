@@ -1,11 +1,17 @@
 $(window).on('load', async function () {
   await checkOnReload();
   setProjectMenu();
-  drawGrid();
+  try {
+	drawGrid();
+  } catch (error) {
+	console.log('No grid');
+  }
   const boardId = $('.container').attr('board_id');
   // console.log(boardId);
+//   console.log(boardId);
   if (boardId !== undefined && boardId !== '') {
-    getBoardView();
+	//   console.log('getBoardVIew');
+      getBoardView();
   } else {
     getBoards();
   }
@@ -18,11 +24,11 @@ async function checkOnReload () {
 	const state = localStorage.getItem('running_test');
 	console.log(state === 'true');
 	if (state === 'true') {
-		console.log('reading pId');
+		console.log('reading PID');
 		const pId = localStorage.getItem('running_id');
 		console.log(pId);
-		const conf = confirm('There is a running process executing, press OK to open it in console, or cancel to stop it')
-		if (!conf) {
+		const conf = confirm('There is a running process executing, press OK to stop it, or cancel and wait to the process to end')
+		if (conf) {
 			await stopProcess(pId);
 		} else {
 			running_test(pId);

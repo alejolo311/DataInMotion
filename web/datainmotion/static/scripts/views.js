@@ -22,7 +22,10 @@ function goBack () {
   console.log('Go back', board);
   window.open('/user/' + board.user_id + '/boards', '_self');
 }
+
+
 let saving = false;
+
 function getBoardView () {
   const boardId = $('.container').attr('board_id');
   $('.container').css('width', $('html').css('width'));
@@ -57,55 +60,73 @@ function getBoardView () {
       }
     }
   });
+  let checkLite = window.location.href.indexOf('lite');
+  let lite = '';
+  if (checkLite !== -1) {
+	  lite = '?lite=true';
+  }
+//   console.log('Lite', lite !== '');
   $.ajax({
     url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/status`,
     success: function (data) {
       $.ajax({
-        url: `${global.prot}://${global.domain}/boards/${boardId}/nodes`,
+		url: `${global.prot}://${global.domain}/boards/${boardId}/nodes${lite}`,
+		contentType: 'application/json',
+		dataType: 'json',
         success: async function (nodes) {
-
-		  // console.log(nodes);
-		  // $('.container').empty();
-		  // console.log(nodes);
-		  unbindContainer();
-		  $('.container').append($(nodes));
-		  // await timeSleep(000);
-          popup();
-          setGrabbers();
-          loadPositions();
-          setNodeSettings();
-          setOpsListeners();
-          setConnectionsListeners();
-          setMediaPlayerListeners();
-          const width = window.outerWidth + 400;
-          const height = window.outerHeight + 400;
-          console.log(width, height);
-          $('#canvas_connections').attr('width', width);
-          $('#canvas_connections').attr('height', height + 1000);
-          $('#canvas_connections').css('width', width);
-          $('#canvas_connections').css('height', height + 1000);
-          $('#canvas_grid').attr('width', width);
-          $('#canvas_grid').attr('height', height + 1000);
-          $('#canvas_grid').css('width', width);
-          $('#canvas_grid').css('height', height + 1000);
-          $('.container').css('width', width);
-          $('.container').css('height', height);
-          $('body').css('height', height);
-          $('body').css('width', width);
-          const gradient = 'linear-gradient(to right, var(--board_color), var(--board_color_end))';
-          $('body').css('background-image', gradient);
-          drawGrid();
-          $('[action=user]').on('click', function () {
-            goBack();
-		  });
-		  const nods = $('[cont_node_id]');
-		  console.log($(nods).length);
-		  if (nods.length === 1) {
-			  console.log('Show walkthrought');
-			  console.log($($(nods)[0]).position().left, $($(nods)[0]).position().top);
-			  oneNodeWalkthrought($($(nods)[0]).attr('cont_node_id'));
-		  }
-          // console.log(nodes);
+			// console.log('Lite', lite);
+			if (lite !== '') {
+				// console.log('Lite');
+				setLiteView(nodes);
+				setNodeSettings();
+				setOpsListeners();
+				setConnectionsListeners();
+				$('#canvas_connections').attr('width', $('[grid="columns"]').css('width'));
+				$('#canvas_connections').attr('height', $('.container').css('height'));
+				$('#canvas_connections').css('width', $('[grid="columns"]').css('witdh'));
+				$('#canvas_connections').css('height', $('.container').css('height'));
+				drawConnections();
+			} else {
+				// console.log('No lite');
+				unbindContainer();
+				$('.container').append($(nodes.nodes));
+				// await timeSleep(000);
+				popup();
+				setGrabbers();
+				loadPositions();
+				setNodeSettings();
+				setOpsListeners();
+				setConnectionsListeners();
+				setMediaPlayerListeners();
+				const width = window.outerWidth + 400;
+				const height = window.outerHeight + 400;
+				console.log(width, height);
+				$('#canvas_connections').attr('width', width);
+				$('#canvas_connections').attr('height', height + 1000);
+				$('#canvas_connections').css('width', width);
+				$('#canvas_connections').css('height', height + 1000);
+				$('#canvas_grid').attr('width', width);
+				$('#canvas_grid').attr('height', height + 1000);
+				$('#canvas_grid').css('width', width);
+				$('#canvas_grid').css('height', height + 1000);
+				$('.container').css('width', width);
+				$('.container').css('height', height);
+				$('body').css('height', height);
+				$('body').css('width', width);
+				const gradient = 'linear-gradient(to right, var(--board_color), var(--board_color_end))';
+				$('body').css('background-image', gradient);
+				drawGrid();
+				$('[action=user]').on('click', function () {
+					goBack();
+				});
+				const nods = $('[cont_node_id]');
+				console.log($(nods).length);
+				if (nods.length === 1) {
+					console.log('Show walkthrought');
+					console.log($($(nods)[0]).position().left, $($(nods)[0]).position().top);
+					oneNodeWalkthrought($($(nods)[0]).attr('cont_node_id'));
+				}
+			}
         }
       });
     },

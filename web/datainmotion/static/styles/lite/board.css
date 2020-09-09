@@ -645,33 +645,33 @@ div[node="true"] {
 	top: 0px;
 	left: 0px;
 	z-index: 19;
-	padding-bottom: 40px;
 	background-color: rgba(0, 0, 0, 0.65);
 }
 h3[save="whatsapp"] {
 	position: absolute;
 	right: 12px;
 	top: 0px;
-	background-color: 	#c84d5d;
-	color: #ffffff;
+	background-color: white;
+	color: #00bfa5;
 	font-weight: bold;
-	font-size: 18px;
-	padding: 4px 18px;
+	font-size: 14px;
+	padding: 8px 16px;
 	cursor: pointer;
-	border-radius: 8px;
+	border-radius: 18px;
 }
 h3[save="whatsapp"]:hover {
-	background-color: 	#ee7a8a;
+	background-color: #049b86;
 	color: white;
 }
 h3[save="whatsapp"]:active {
-	background-color: 	#b90e25;
+	background-color: #4dc8b8;
 	color: white;
 }
 h3[close="whatsapp"] {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
+	background-color: white;
 	position: absolute;
 	top: -18px;
 	left: 0;
@@ -683,7 +683,7 @@ h3[close="whatsapp"] {
 	cursor: pointer;
 }
 h3[close="whatsapp"]:hover {
-	background-color: rgba(128, 128, 128, 0.274);
+	background-image: url(../images/close.png);
 }
 h3[close="whatsapp"]:active {
 	background-image: url(../images/close_white.png);
@@ -701,7 +701,7 @@ div[form="whatsapp_node"] {
 	padding: 40px 20px;
 	font-family: var(--font);
 	background-color: #00bfa5;
-	border-radius: 8px;
+	border-radius: 18px;
 }
 div[form="whatsapp_node"] h1 {
 	width: 100%;

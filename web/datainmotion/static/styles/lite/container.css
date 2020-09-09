@@ -1,0 +1,36 @@
+.container {
+	position: absolute;
+	width: auto;
+	margin-left: 0px;
+	height: calc(100% - 280px);
+	padding-bottom: 200px;
+	/* margin: 0; */
+	top: 128;
+	color: blue;
+	background-color: transparent;
+	z-index: 10;
+	/*background-image: linear-gradient(to right, #041530, #010b1b);*/
+}
+[grid="columns"] {
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(18, 180px);
+}
+[grid="columns"] li {
+	padding: 12px;
+	list-style: none;
+	height: 40px;
+	width: 140px;
+}
+[grid="rows"] {
+	padding: 0;
+	margin: 0;
+}
+[grid="rows"] li {
+	width: 100%;
+	margin: 20px 30px;
+	border: 1px dashed rgba(128, 128, 128, 0.199);
+	border-radius: 8px;
+	list-style: none;
+}

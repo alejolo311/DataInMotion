@@ -1,12 +1,12 @@
 :root {
 	--node_up_bar_height: 30px;
-	--radius: 20px;
+	--radius: 8px;
 	--letter_spacing: 0.01em;
 	--font: 'Mallanna', sans-serif;
-	--tag_radius: 14px;
-	--board_color: #350135;
+	--tag_radius: 4px;
+	--board_color: white
 	/* --board_color: #ffffff; */
-	--board_color_end: #310331;
+	--board_color_end: white
 	/* --board_color_end: #ffffff; */
 	
 	--node_font_color: #ffffff;
@@ -19,13 +19,14 @@
 }
 body {
 	/* background-color: var(--board_color); */
-	background-image: linear-gradient(to right, #041530, #010b1b);
+	background-color: white;
 	-webkit-user-select: none; /* Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
 	padding: 0;
 	margin: 0;
+	overflow-x: scroll;
 }
 .node_container {
 	top: 160;
@@ -34,7 +35,7 @@ body {
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
-	position: absolute;
+	position: relative;
 	cursor: pointer;
 	border-radius: var(--radius) var(--radius) var(--radius) var(--radius);
 	outline: none;
@@ -43,12 +44,11 @@ body {
 	padding-bottom: 0px;
 	border-width: 2px;
 	z-index: 4;
-	background-color: var(--board_color);
+	background-color: white;
 	box-shadow: inset 0px 0px 2px white;
+	width: 140px;
 }
-.node_container:hover {
-	box-shadow: inset 0px 0px 30px #b92eb991;
-}
+
 .node_up_bar {
 	border-radius: var(--radius) var(--radius);
 	height: var(--node_up_bar_height);
@@ -58,20 +58,20 @@ body {
 .tag_color {
 	width: 28px;
 	height: var(--node_up_bar_height);
-	border-radius: var(--tag_radius) var(--tag_radius);
+	border-radius: 0px var(--tag_radius) var(--tag_radius) 0px;
 	outline: none;
 }
 .tag_color:hover {
-	background-image: url(../images/dropper.png);
+	background-image: url(../../images/dropper.png);
 	background-position: center;
 	background-size: 16px;
 	background-repeat: no-repeat;
 }
 .up {
 	display: flex;
+	width: calc(100% - 28px);
 }
 .tag_name {
-	height: var(--node_up_bar_height);
 	font-size: 16px;
 	text-align: left;
 	padding: 0px 24px;
@@ -79,10 +79,12 @@ body {
 	height: 30px;
 	text-align: center;
 	outline: none;
-	border-radius: var(--radius) 0 0 var(--radius);
+	border-radius: var(--radius) var(--radius);
 	font-family: 'Mallanna', sans-serif;
 	letter-spacing: var(--letter_spacing);
-	color: var(--node_font_color);
+	color: rgb(133, 133, 133);
+	overflow: visible;
+	/* background-color: red; */
 }
 .work_toggle {
 	margin-top: 50px;
@@ -138,8 +140,8 @@ process:active {
 }
 .outnodes {
 	position: absolute;
-	right: 50%;
-	bottom: 26px;
+	right: 6px;
+	bottom: 44px;
 	z-index: 6;
 }
 .out_expanded {
@@ -167,8 +169,8 @@ process:active {
 	position: absolute;
 	width: 8px;
 	height: 8px;
-	background-color: #fffb00;
-	border: 4px solid var(--board_color);
+	background-color: grey;
+	border: 4px solid white;
 	cursor: pointer;
 	border-radius: 50%;
 	outline: none;
@@ -179,12 +181,13 @@ process:active {
 	background-size: 22px;
 }
 .show_outs:hover {
-	background-color: white;
+	background-color: rgb(63, 63, 63);
 	width: 14px;
 	height: 14px;
+	transform: translate(-2px, -4px);
 }
 .add_out {
-	background-image: url(../images/plus.png);
+	background-image: url(../../images/plus.png);
 	background-color: transparent;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -195,7 +198,7 @@ process:active {
 	height: 14px;
 }
 .add_out:active {
-	background-color: yellow;
+	background-color: gray;
 	width: 12px;
 	height: 12px;
 }
@@ -210,8 +213,8 @@ process:active {
 }
 .connections {
 	position: absolute;
-	left: 46%;
-	top: -40px;
+	left: -18px;
+	top: -28px;
 	display: block;
 	max-width: 18px;
 	max-height: 80px;
@@ -225,14 +228,14 @@ process:active {
 	width: 8px;
 	height: 8px;
 	margin-bottom: 8px;
-	background-color: var(--node_font_color);
-	border: 4px solid var(--board_color);
+	background-color: black;
+	border: 4px solid white;
 	border-radius: 50%;
 	outline: none;
 	cursor: pointer;
 }
 .connections h2:hover {
-	background-color: white;
+	background-color: rgb(0, 0, 0);
 	width: 14px;
 	height: 14px;
 	transform: translate(-4px, -4px);
@@ -256,7 +259,7 @@ process:active {
 	visibility: hidden;
 	border-radius: 50%;
 	cursor: grab;
-	background-image: url('../images/move.png');
+	background-image: url(../../images/move.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 18px;
@@ -266,7 +269,7 @@ process:active {
 	display: flex;
 	max-width: 180px;
 	position: absolute;
-	top: 12px;
+	top: 16px;
 	left: -10px;
 	max-height: 18px;
 	background-color: transparent;
@@ -294,7 +297,7 @@ process:active {
 	z-index: 20;
 }
 .add_in {
-	background-image: url(../images/plus.png);
+	background-image: url(../../images/plus.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 16px;
@@ -306,8 +309,8 @@ process:active {
 	position: absolute;
 	width: 8px;
 	height: 8px;
-	background-color:chartreuse;
-	border: 4px solid var(--board_color);
+	background-color:grey;
+	border: 4px solid white;
 	border-radius: 50%;
 	outline: none;
 	cursor: pointer;
@@ -315,9 +318,10 @@ process:active {
 	margin-bottom: 12px;
 }
 .innodes h2:hover {
-	background-color: white;
+	background-color: grey;
 	width: 14px;
 	height: 14px;
+	transform: translate(-2px, -4px);
 }
 .colors {
 	display: none;
@@ -493,7 +497,7 @@ hr {
 .test_button {
 	width: 20px;
 	height: 20px;
-	background-color: white;
+	background-color: rgb(32, 206, 113);
 	right: 38px;
 	margin-top: 4px; 
 	margin-right: 8px;
@@ -510,8 +514,9 @@ hr {
 .media_player {
 	width: 28px;
 	height: 28px;
-	background-color: white;
-	background-image: url(../images/document.png);
+	background-color: rgba(138, 138, 138, 0.397);
+	background-image: url(../../images/document.png);
+	filter: invert();
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 16px;
@@ -547,6 +552,7 @@ hr {
 }
 .out_opts {
 	position: absolute;
+	bottom: 130px;
 	display: block;
 	background-color: var(--board_color);
 	border: 1px solid white;
@@ -574,7 +580,7 @@ hr {
 	height: 22px;
 	cursor: pointer;
 	background-color: transparent;
-	background-image: url(../images/back_arrow.png);
+	background-image: url(../../images/back_arrow.png);
 	background-repeat: no-repeat;
 	background-size: 22px;
 	background-position: center;

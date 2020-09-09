@@ -396,7 +396,11 @@ class instancedNode():
                 for k in params[key]['acc-data'].keys():
                     pars[k] = params[key]['acc-data'][k]
             try:
-                data = self.web_whatsapp(pars)
+                print('testing web whatsapp data', self.data, type(self.data))
+                if self.data['test']:
+                    data = self.send_message(pars)
+                else:
+                    data = self.web_whatsapp(pars)
             except Exception as e:
                 traceback.print_exc()
                 print(e)
@@ -552,69 +556,58 @@ class instancedNode():
             return {'error_{}'.format(self.name): 'message content not found'}
         # Check raw file
         if 'raw' in outData:
-            print('Prepare to save the video file on Hard Disk')
+            # print('Prepare to save the video file on Hard Disk')
             bytes_string = outData['raw'].encode('ascii')
             bytes_string = base64.decodebytes(bytes_string)
-            print(outData['headers']['Content-Type'])
+            # print(outData['headers']['Content-Type'])
             extension = outData['headers']['Content-Type'].split('/')[1]
             file_path = set_header(bytes_string, self.instance_id, extension)
-            print(bytes_string[:200])
-            print(file_path)
-            with open(file_path, 'rb') as saved_img:
-                print(saved_img.read()[:200])
+            # print(bytes_string[:200])
+            # print(file_path)
+            # with open(file_path, 'rb') as saved_img:
+            #    print(saved_img.read()[:200])
         # Extract the contacts list
         data = outData['contacts_list']
         web = WebWhastapp(self.id, outData, self)
         if len(data) == 0:
             web.close()
         admin = self.data['admin']
-        gif = self.data['gif']  
-        web.set_twilio_client(admin)
+        gif = self.data['gif']
         number_list = [num for num in data.values()]
         print(number_list)
-        # web.start_browser()
-        # web.number = admin
-        # if not web.auth():
-        #     web.close()
-        #     return {
-        #         'error': 'QRCode not found, may be the connection is loose'
-        #     }
-        # self.write_status('verifying', 'Waiting for user to scan the code')
+        web.start_browser()
+        web.number = admin
+        if not web.auth():
+            web.close()
+            return {
+                'error': 'QRCode not found, may be the connection is loose'
+            }
+        self.write_status('verifying', 'Waiting for user to scan the code')
         self.write_status('sending', 'Sending message to the distribution list')
         pos = 0
         url = None
         try:
             for contact in number_list:
-                # web.search_contact(contact)
-                # if pos == 0:
-                #     self.write_status(
-                #         'sending', 'Sending message to {}'.format(contact))
-                #     pos += 1
+                web.search_contact(contact)
+                if pos == 0:
+                    self.write_status(
+                        'sending', 'Sending message to {}'.format(contact))
+                    pos += 1
                 if file_path:
-                    print('send animated gif')
-                    print(file_path)
                     last = len(file_path.split('/'))
-                    web.send_twilio_message(
-                            contact,
-                            '',
-                            mediaUrl=['https://dnart.tech/api/v1/media/{}'.format(file_path.split('/')[last - 1])]
-                        )
-                    # web.send_gif_from_file(file_path)
+                    web.send_gif_from_file(file_path)
                 elif gif != '':
-                    print(gif)
                     if url is None:
-                        pass
-                        # url = web.send_animated_gif(gif, select_random=False)
+                        url = web.send_animated_gif(gif, select_random=False)
                     else:
-                        pass
-                        # web.send_animated_gif(gif, select_random=False)
-                # web.send_whatsapp_message(message)
-                web.send_twilio_message(contact, message)
+                        url = web.send_animated_gif(gif, select_random=False)
+                web.send_whatsapp_message(message)
+                # web.send_twilio_message(contact, message)
                 self.write_status('sent', 'Message sent to {}'.format(contact))
         except Exception as e:
-            # web.close()
+            web.close()
             return {'error', str(e)}
-        # web.close()
+        web.close()
         return dict({
             'sended_messages': {
                 'result': 'Succesfully send the messages to the distribution list',
@@ -626,39 +619,43 @@ class instancedNode():
 
     def send_message(self, outData):
         """
-        parse the data in self and in out data and use that to send
+        parse the data in self and in outData and use that to send
         whatsapp mesagges
         """
-        headers = self.headers.copy()
-        data = self.data.copy()
-        content = data["message"]
-        content = self.parse_string(content, outData)
-        from twilio.rest import Client
-        account_sid = headers["account_ssid"]
-        auth_token = headers["auth_token"]
-        wppStatus = {}
-        client = Client(account_sid, auth_token)
-        number_list = json.loads(data["numbers_list"])
-        # content = '{}\n{}'.format(content, outData['url'])
-        for number in number_list:
-            if 'url' in outData.keys():
-                media_message = client.messages.create(
-                    from_='whatsapp:+' + str(data['from']),
-                    to='whatsapp:+' + str(number),
-                    media_url=[outData['url']]
-                )
-            message = client.messages.create(
-                body=content,
-                from_='whatsapp:+' + str(data['from']),
-                to='whatsapp:+' + str(number),
-            )
-            wppStatus[number] = {}
-            wppStatus[number]['status'] = message.status
-            wppStatus[number]['media'] = 'https://api.twilio.com' +\
-                                         message.subresource_uris['media']
-            wppStatus[number]['error'] = str(message.error_code) +\
-                ' , ' + str(message.error_message)
-        return wppStatus
+        if 'content' in outData.keys():
+            message = outData['content']
+        else:
+            return {'error_{}'.format(self.name): 'message content not found'}
+        # Check raw file
+        if 'raw' in outData:
+            # print('Prepare to save the video file on Hard Disk')
+            bytes_string = outData['raw'].encode('ascii')
+            bytes_string = base64.decodebytes(bytes_string)
+            # print(outData['headers']['Content-Type'])
+            extension = outData['headers']['Content-Type'].split('/')[1]
+            file_path = set_header(bytes_string, self.instance_id, extension)
+            # print(bytes_string[:200])
+            # print(file_path)
+            # with open(file_path, 'rb') as saved_img:
+            #     print(saved_img.read()[:200])
+        # Extract the contacts list
+        contacts = outData['contacts_list'].values()
+        admin = self.data['admin']
+        gif = self.data['gif']
+        web = WebWhastapp(self.id, outData, self)
+        web.set_twilio_client(admin)
+        for contact in contacts:
+            if gif != '':
+                web.send_twilio_message(contact, message, mediaUrl=gif)
+            web.send_twilio_message(contact, message)
+        return dict({
+            'sended_messages': {
+                'result': 'Succesfully send the messages to the distribution list',
+                'distributed_list': [c for c in contacts],
+                'message': message,
+                'gif': gif
+            }
+        })
 
     def request(self, data):
         """
@@ -959,7 +956,7 @@ class instancedNode():
                         index = int(path)
                         obj = obj[index]
                     except Exception as e:
-                        print(self.name, ':', e)
+                        # print(self.name, ':', e)
                         if type(obj) == dict and path in obj.keys():
                             obj = obj[path]
                         elif path == 'random' and type(obj) == list:
@@ -969,11 +966,11 @@ class instancedNode():
                                 pos = random.randint(0, le)
                                 obj = obj[pos]
                                 print(self.name, str(obj)[:50])
-                    try:
-                        print(path.encode('utf-8'))
-                        print(obj.encode('utf-8'))
-                    except Exception as e:
-                        print(e)
+                    # try:
+                    #     print(path.encode('utf-8'))
+                    #     print(obj.encode('utf-8'))
+                    # except Exception as e:
+                    #     print(e)
                 if last == i:
                     if obj is not None:
                         resp[param['key']] = obj
@@ -981,14 +978,12 @@ class instancedNode():
             if self.analisis_mode == 'get_updates':
                 # Checks a list or a dict
                 # and determines whatever is a new record in the data
+                # or there is no changes in records
                 obj = resp[param['key']]
                 count = self.data['count']
                 t = param['key'] + ' length is ' + str(len(obj))
                 self.logger.log(self.name, t)
                 if len(obj) > int(count):
-                    # print('there is a new record')
-                    # print(obj[len(obj) - 1])
-                    # TODO
                     # set the counter to the new value
                     data = self.data.copy()
                     data['count'] = int(len(obj)) - 1

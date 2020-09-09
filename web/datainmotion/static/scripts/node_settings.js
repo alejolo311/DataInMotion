@@ -22,7 +22,7 @@ const loadNode = function (id, evn) {
 		success: function (n) {
 			const node = n;
 			if (node.work_type === 'sender') {
-				WhatsAppFlow(node);
+				WhatsAppFlow(node, evn);
 			} else {
 				$('.new_node_cont').css('display', 'block');
 				setNodeView(node, evn);

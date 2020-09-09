@@ -63,7 +63,8 @@ def save_analisis_data(node_id):
     try:
         an_data = request.get_json()['params']
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
     node = storage.get(CustomNode, node_id)
     if node:
         node.analisis_params = json.dumps(an_data)
@@ -244,7 +245,8 @@ def stop_thread(test_id):
                     os.remove('{}/{}'.format(file_src, direct))
                     print('media removed')
                 except Exception as e:
-                    print("Can't remove png file {}".format(test_id), e)
+                    pass
+                    #print("Can't remove png file {}".format(test_id), e)
     except Exception as e:
         print(e)
     print('*****************')

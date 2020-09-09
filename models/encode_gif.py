@@ -35,26 +35,26 @@ def set_header(video=None, filename='new_video', vd_format='mp4'):
             './api/running/media/{}.{}'.format(
                 filename, vd_format), 'rb') as file_to:
             video_str = file_to.read()
-            print('original size', len(video_str))
+            # print('original size', len(video_str))
     # print(video_str[:2000])
     moov = get_moov_pos(video_str) - 4
-    print(moov)
+    # print(moov)
     stco = get_stco_pos(video_str)
 
     stco_size = struct.unpack('!L', video_str[stco - 4:stco])[0]
 
     # stco_size = int(video_str[stco - 4:stco], 2)
-    print(video_str[stco - 4:stco])
-    print(stco_size)
+    # print(video_str[stco - 4:stco])
+    # print(stco_size)
     add = True if len(wpp_header) > moov else False
     delta = len(wpp_header) - moov if len(wpp_header) > moov else moov - len(wpp_header)
     # print(delta)
     repeats = int((stco_size - 16) / 4)
-    print(repeats)
+    # print(repeats)
     new_video += video_str[moov:stco + 12]
     # print(new_video)
     # print(new_video[700:1200])
-    print(video_str[stco - 4: stco + stco_size - 4])
+    # print(video_str[stco - 4: stco + stco_size - 4])
     count = stco + 12
     for i in range(repeats):
         last_val = struct.unpack('!L', video_str[count:count + 4])[0]
@@ -63,9 +63,9 @@ def set_header(video=None, filename='new_video', vd_format='mp4'):
             new_val = last_val + delta
         else:
             new_val = last_val - delta
-        print(video_str[count:count + 4])
-        print('last', last_val)
-        print('new', new_val)
+        # print(video_str[count:count + 4])
+        # print('last', last_val)
+        # print('new', new_val)
         new_val = struct.pack('!L', new_val)
         # print(new_val)
         new_video += new_val

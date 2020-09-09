@@ -47,7 +47,7 @@ class WebWhastapp():
         self.instance = instance
         self.instance.write_status(
             'whatsapp_init',
-            'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
+            'Initializing Whatsapp messagging service')
         self.out_data = outData
         self.node_id = nodeId
         self.last_giphy_search = ''
@@ -84,6 +84,9 @@ class WebWhastapp():
         """
         Open web.whatsapp and checks for the QRcode canvas
         """
+        self.instance.write_status(
+            'whatsapp_init',
+            'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         try:
             self.driver.get('https://web.whatsapp.com')
             # self.save_screenshot('init_page')

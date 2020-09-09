@@ -19,7 +19,7 @@ def media(gifname):
             resp = make_response(
                 send_file(
                     io.BytesIO(byteFile.read()),
-                    as_attachment=True,
+                    as_attachment=False,
                     attachment_filename='media.mp4',
                     mimetype='video/mp4'
                 )

@@ -207,7 +207,7 @@ function newNode (type) {
     success: function (resp) {
       console.log(resp);
       if (resp.work_type === 'sender') {
-		WhatsAppFlow(resp);
+		WhatsAppFlow(resp, {'pageX': 140, 'pageY': 200});
 	  } else {
 		setNodeView(resp, {'pageX': 40, 'pageY': 200});
 	  }
@@ -525,12 +525,16 @@ function createNodesMenu (position, menus) {
 	$(opt).css('cursor', 'pointer');
 	$(opt).css('margin-left', '20px');
 	$(opt).css('font-size', '16px');
-
-	$(opt).css('mousemove', function () {
-		$(this).css('background-color', 'grey');
-		$(this).css('color', 'white');
+	$(opt).css('border', '1px solid black');
+	$(opt).css('border-radius', '12px');
+	$(opt).css('width', '200px');
+	$(opt).css('padding', '4px 16px');
+	$(opt).css('text-align', 'center');
+	$(opt).on('mousemove', function (evn) {
+		$(opt).css('background-color', 'grey');
+		$(opt).css('color', 'white');
 	});
-	$(opt).css('mouseleave', function () {
+	$(opt).on('mouseleave', function () {
 		$(this).css('background-color', 'white');
 		$(this).css('color', 'grey');
 	});

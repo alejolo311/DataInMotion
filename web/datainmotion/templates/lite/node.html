@@ -1,10 +1,10 @@
-{% for node in nodes %}
 <div class="node_container"
 	 name="{{ node.name }}_cont"
 	 node_id="{{ node.id }}"
 	 cont_node_id="{{ node.id }}"
-	tag_color="{{ node.color }}" 
-	style="border: 2px solid {{ node.color }};">
+
+	tag_color="grey" 
+	style="border: 3px solid grey;">
 	<div class="node_up_bar">
 		<div class="up" p_id="{{ node.id }}">
 			<h1 class="tag_name" p_id="{{ node.id }}">{{ node.name }}</h1>
@@ -22,10 +22,6 @@
 			{% else %}
 			style="display:none;"
 			{% endif %}
-		></div>
-		<div class="tag_color"
-			style="background-color: {{ node.color }}"
-			id="{{ node.id }}"
 		></div>
 	</div>
 	
@@ -68,4 +64,3 @@
 
 	</div>
 </div>
-{% endfor %}

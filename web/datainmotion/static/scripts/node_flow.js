@@ -692,7 +692,7 @@ async function loadContactsNodes() {
 	const conts_lists = await conts_lists_fetch.json();
 	return conts_lists;
 }
-async function WhatsAppFlow(node) {
+async function WhatsAppFlow(node, evn) {
 	const col = '#00bfa5';
 	let tmpGif = node.data.gif;
 	const reloadContactsView = function () {
@@ -752,6 +752,8 @@ async function WhatsAppFlow(node) {
 	// Display the container
 	const container = $('div[form="whatsapp_node"]');
 	$('.wpp_cont').css('display', 'block');
+	$(container).css('left', evn.pageX - 100);
+	$(container).css('top', evn.pageY - 180);
 	container.css('display', 'block');
 	if (node.data.gif !== '') {
 		$('[name="giphy"]').val(node.data.gif);
@@ -837,6 +839,8 @@ async function WhatsAppFlow(node) {
 	});
 	// Save Whatsapp Node
 	$('[save="whatsapp"]').on('click', function (evn) {
+		node.data.test = $('[id="twilio"]').is(':checked');
+		node.data.admin = $('[name="wpp_admin"]').val();
 		saveWhatsappNode(node, contacts_node, contact_list)
 	});
 	console.log(node);

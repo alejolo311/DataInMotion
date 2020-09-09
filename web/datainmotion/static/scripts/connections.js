@@ -145,6 +145,7 @@ function setConnectionsListeners () {
     // Shows a cross when tracking a new connection
     $('#canvas_connections').css('cursor', 'crosshair');
     $(window).mousemove(function (evn) {
+    //   console.log(evn);
       // Change the new connection tracker position
       // and reloads the canvas
       tmpObj.css('top', evn.pageY - 36);
@@ -215,7 +216,7 @@ function setConnectionsListeners () {
       $('.outnode_settings').attr('nod', parentId);
       $('.outnode_settings').attr('out', id);
       $('.outnode_settings').attr('type', 'out');
-      $('.outnode_settings').css('top', evn.pageY + 200);
+      $('.outnode_settings').css('top', evn.pageY);
       $('.outnode_settings').css('left', evn.pageX - 20);
       $('.outnode_settings').css('z-index', 12);
     }
@@ -242,7 +243,7 @@ function setConnectionsListeners () {
       $('.outnode_settings').attr('nod', parentId);
       $('.outnode_settings').attr('out', id);
       $('.outnode_settings').attr('type', 'in');
-      $('.outnode_settings').css('top', evn.pageY - 20);
+      $('.outnode_settings').css('top', evn.pageY );
       $('.outnode_settings').css('left', evn.pageX - 20);
       $('.outnode_settings').css('z-index', 12);
     }

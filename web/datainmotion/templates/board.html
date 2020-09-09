@@ -1,5 +1,4 @@
 <html lang="en">
-
 <head>
 	 <!-- Favicons -->
 	 <link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
@@ -40,6 +39,7 @@
 	<script type="text/javascript" src="/static/scripts/node_popup.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/views.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/tools.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/lite.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/node_settings.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/connections.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/operations.js?{{ id }}"></script>
@@ -513,9 +513,8 @@
 	</div>
 	<div class="wpp_cont">
 		<div form="whatsapp_node">
-
 			<h3 close="whatsapp"></h3>
-			<h3 save="whatsapp">save</h3>
+			<h3 save="whatsapp">SAVE</h3>
 			<h1>Whatsapp Sender</h1>
 			<label for="">Admin number:&nbsp;<input name="wpp_admin" type="text" placeholder="Number ex: 573176923716"></label>
 			<div select="gif">
@@ -541,6 +540,7 @@
 				<input name="contact_number" type="text" placeholder="ex: 3176923716">
 				<button>add Contact</button>
 			</div>
+			<label for="twilio">Twilio test</label><input type="checkbox" id="twilio">
 		</div>
 	</div>
 </body>
