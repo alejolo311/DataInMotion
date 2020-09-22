@@ -515,7 +515,7 @@ class instancedNode():
                         acc_data[self.name]),
                         logger, self.inner_connections,
                         self.nodes)
-                    # print('comparission result type', type(comp))
+                    print('comparission result type', type(comp))
                     print(comp, comp2)
                     if 'result' in comp.keys():
                         if comp['result'] is False:
