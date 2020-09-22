@@ -89,7 +89,7 @@ class WebWhastapp():
             'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         try:
             self.driver.get('https://web.whatsapp.com')
-            # self.save_screenshot('init_page')
+            self.save_screenshot('init_page')
         except Exception as e:
             return False
         retries = 4
@@ -109,10 +109,6 @@ class WebWhastapp():
                 im = im.crop((left, top, right, bottom))
                 im.save('./api/verification_images/{}.png'.format(self.instance.instance_id))
                 url = 'web_whatsapp_verify?id=' + self.instance.instance_id
-                # self.send_twilio_message(
-                #     self.number,
-                #     '*Scan with your phone ' + ' the QRcode in the link*')
-                # self.send_twilio_message(self.number, str(self.node_id))
                 return True
             except TimeoutException:
                 print('QRcode not found:')
@@ -128,7 +124,7 @@ class WebWhastapp():
         Notes: replace this logic with a new one
         ---the browser should search the contact in the search bar at the left
         """
-        # self.save_screenshot(name='before_contacts')
+        self.save_screenshot(name='before_contacts')
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
         max_retries = 10
@@ -147,7 +143,7 @@ class WebWhastapp():
                 time.sleep(2)
                 break
             except Exception as e:
-                # self.save_screenshot(name='contact_input')
+                self.save_screenshot(name='failed_input')
                 traceback.print_exc()
                 print(e)
         xpath = '//div[@aria-label="Search results."]'

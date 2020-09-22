@@ -384,7 +384,7 @@ class instancedNode():
             # End of request auth processing -----------------
             # ----------all this section should be moved to a single function
         #
-        # Sender Data Section
+        # Message Sender Data Section
         #
         if self.work_type == 'sender':
             pars = {}
