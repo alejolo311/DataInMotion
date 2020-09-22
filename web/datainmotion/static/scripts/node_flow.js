@@ -749,6 +749,23 @@ async function WhatsAppFlow(node, evn) {
 		console.log(contact_list);
 		showList();
 	}
+	const loadCSV = function () {
+		const files = this.files;
+		const reader = new FileReader();
+		reader.onload = function (evn) {
+			let csv_list = evn.target.result;
+			csv_list = csv_list.split('\n').slice(1, csv_list.length);
+			for (const cont of csv_list) {
+				const name = cont.split(',')[0];
+				const phone = cont.split(',')[1];
+				contact_list[name] = phone;
+			}
+			showList();
+		};
+		reader.readAsText(files[0]);
+	}
+	const loader = document.querySelector('[id="csv"]');
+	loader.addEventListener('change', loadCSV);
 	// Display the container
 	const container = $('div[form="whatsapp_node"]');
 	$('.wpp_cont').css('display', 'block');
