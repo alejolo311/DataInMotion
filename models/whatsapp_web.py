@@ -91,6 +91,7 @@ class WebWhastapp():
             self.driver.get('https://web.whatsapp.com')
             self.save_screenshot('init_page')
         except Exception as e:
+            print(e)
             return False
         retries = 4
         tries = 0
@@ -146,6 +147,8 @@ class WebWhastapp():
                 self.save_screenshot(name='failed_input')
                 traceback.print_exc()
                 print(e)
+        self.instance.write_status(
+                'sending', 'Sending message to {}'.format(contact_number))
         xpath = '//div[@aria-label="Search results."]'
         count = 0
         while True:

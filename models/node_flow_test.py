@@ -584,15 +584,13 @@ class instancedNode():
                 'error': 'QRCode not found, may be the connection is loose'
             }
         self.write_status('verifying', 'Waiting for user to scan the code')
-        self.write_status('sending', 'Sending message to the distribution list')
+        self.write_status('verifying', '')
         pos = 0
         url = None
         try:
             for contact in number_list:
                 web.search_contact(contact)
                 if pos == 0:
-                    self.write_status(
-                        'sending', 'Sending message to {}'.format(contact))
                     pos += 1
                 if file_path:
                     last = len(file_path.split('/'))
