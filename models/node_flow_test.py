@@ -782,6 +782,7 @@ class instancedNode():
                         self.logger.log(self.name, 'found ocurrence')
                         self.logger.log(self.name, json.dumps(el, indent=2))
                         occurr.append(el)
+            self.logger.log(self.name, val1, cond, val2)
             if val1 and type(val1) != dict and type(val1) != list:
                 if cond == 'in':
                     res = eval('"{}" {} "{}"'.format(val2, cond, val1))
