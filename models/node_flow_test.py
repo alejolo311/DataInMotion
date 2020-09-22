@@ -788,7 +788,7 @@ class instancedNode():
                     res = eval('"{}" {} "{}"'.format(val2, cond, val1))
                     occurr = val1
                 else:
-                    res = eval(val1 + ' ' + cond + ' ' + val2)
+                    res = eval('{} {} {}'.format(val1, cond, val2))
             self.logger.log(self.name, json.dumps([res, occurr]))
             return {'result': res, 'occurrences': occurr}
         #
