@@ -89,7 +89,7 @@ class WebWhastapp():
             'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         try:
             self.driver.get('https://web.whatsapp.com')
-            self.save_screenshot('init_page')
+            # self.save_screenshot('init_page')
         except Exception as e:
             print(e)
             return False
@@ -125,7 +125,7 @@ class WebWhastapp():
         Notes: replace this logic with a new one
         ---the browser should search the contact in the search bar at the left
         """
-        self.save_screenshot(name='before_contacts')
+        # self.save_screenshot(name='before_contacts')
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
         max_retries = 10
@@ -144,7 +144,7 @@ class WebWhastapp():
                 time.sleep(2)
                 break
             except Exception as e:
-                self.save_screenshot(name='failed_input')
+                # self.save_screenshot(name='failed_input')
                 traceback.print_exc()
                 print(e)
         self.instance.write_status(
