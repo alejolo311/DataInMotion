@@ -222,7 +222,7 @@ class instancedNode():
                 if ('string' in pars.keys() and 'http' in pars['string'][:8]):
                     url_parts = pars['string'].split('?')
                 elif 'url' in pars.keys():
-                    print(pars.keys())
+                    print(pars.keys(), pars['url'])
                     # print(pars['url'].decode('utf-8'))
                     url_parts = pars['url'].split('?')
                 if url_parts:
