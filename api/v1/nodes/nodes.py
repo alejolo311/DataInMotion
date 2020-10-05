@@ -320,23 +320,23 @@ def save_entire_node(node_id):
     if in_node['type'] == 'service':
         # Check for timing configuration on trigger node
         # settings = in_node['analisis_params']
-        print(in_node['date'])
-        setattr(node, 'analisis_params', json.dumps({'date': in_node['date']}))
-        res = updateCronTab(node, in_node['sync_date'])
+        if 'date' in in_node:
+            print(in_node['date'])
+            setattr(node, 'analisis_params', json.dumps({'date': in_node['date']}))
+            res = updateCronTab(node, in_node['sync_date'])
         # print('Saving trigger setup', settings)
-    else:
-        for key in sample_keys:
-            if key == 'analisis_mode':
-                if key not in in_node:
-                    setattr(node, key, '')
+    for key in sample_keys:
+        if key == 'analisis_mode':
             if key not in in_node:
-                # print('excluding', key)
-                continue
-            val = in_node[key]
-            if type(val) == dict or type(val) == list:
-                val = json.dumps(val)
-            setattr(node, key, val)
-        print('Saved node\n', node.to_dict())
+                setattr(node, key, '')
+        if key not in in_node:
+            # print('excluding', key)
+            continue
+        val = in_node[key]
+        if type(val) == dict or type(val) == list:
+            val = json.dumps(val)
+        setattr(node, key, val)
+    print('Saved node\n', node.to_dict())
     node.save()
     return Response(json.dumps({'id': node_id}), status=200,
                     mimetype='application/json')
