@@ -168,3 +168,70 @@
 	/*
 	grid-template-columns: repeat(3, 1fr); */
 }
+.add_user {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	backdrop-filter: blur(5px);
+	z-index: 50;
+}
+.add_user > [cont="add"]{
+	border-radius: 18px;
+	background-color: white;
+	padding: 24px;
+	position: absolute;
+	width: calc(50% - 4px);
+	top: 10%;
+	left: 25%;
+}
+[for="new_user"] {
+	font-family: var(--font);
+	color: grey;
+	font-weight: bold;
+}
+[name="new_user"] {
+	width: 100%;
+	font-size: 18px;
+	padding: 8px 12px;
+	border-radius: 12px;
+	outline: none;
+	border: 1px solid grey;
+	font-family: var(--font);
+}
+[cont="buttons"] {
+	margin-top: 24px;
+	display: grid;
+	grid-template-columns: 40% 20% 40%;
+	
+}
+.add_user button {
+	width: 100%;
+	border-radius: 8px;
+	outline: none;
+	cursor: pointer;
+	padding: 8px 12px;
+	font-size: 18px;
+	border: none;
+	font-weight: bold;
+}
+[close="true"] {
+	background-color: rgb(220, 220, 220);
+	color: grey;
+}
+[close="true"]:hover {
+	background-color: rgb(167, 50, 50);
+	color: white;
+}
+[add="true"] {
+	background-color: #165185;
+	color: white;
+}
+[add="true"]:hover {
+	filter: saturate(1.8);
+}
+[add="true"]:active {
+	filter: saturate(0.6);
+}

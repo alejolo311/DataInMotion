@@ -7,6 +7,9 @@ from api.v1.nodes import app_nodes
 from models import storage
 from flask import jsonify, Response, request
 from models.user import User
+from models.board import Board
+from models.custom import CustomNode
+from api.v1.auth import token_required
 import json
 
 
@@ -16,21 +19,28 @@ def users():
     Returns users
     """
     users = [u.to_dict() for u in storage.all(User).values()]
-    # users = json.dumps(users)
+    users = json.dumps(users)
     return Response(users, mimetype='application/json')
 
 
-@app_nodes.route('/users/<user_id>/boards', methods=['GET'],
+@app_nodes.route('/users/boards', methods=['GET'],
                  strict_slashes=False)
-def users_boards(user_id):
+@token_required
+def users_boards():
     """
     Returns users
     """
-    user = storage.get(User, user_id)
+    print('UserId from token and email', request.user)
+    user = storage.get(User, request.user)
     # print(user.boards)
     boards = []
     for board in user.boards:
         boards.append(json.loads(board.to_dict()))
+    all_boards = storage.all(Board).values()
+    for bo in all_boards:
+        users = bo.get_users
+        if user.email in users:
+            boards.append(json.loads(bo.to_dict()))
     return Response(json.dumps(boards), mimetype='application/json')
 
 
@@ -55,3 +65,84 @@ def check_user():
         user.email = email
         user.save()
     return Response(json.dumps({'id': user.id}), mimetype='application/json')
+
+@app_nodes.route('/users/<board_id>/boards_nodes', methods=['GET'],
+                 strict_slashes=False)
+def get_boards_nodes(board_id):
+    """
+    return a list of boards an its node ids
+    """
+    board = storage.get(Board, board_id)
+    user = storage.get(User, board.user_id)
+    boards = storage.all(Board)
+    bs = {}
+    for b in boards.values():
+        # print(b)
+        if b.user_id == user.id:
+            bs[b.id] = {}
+            bs[b.id]['nodes'] = []
+            # print(b.nodes)
+            for node in json.loads(b.nodes).keys():
+                print(node)
+                n = storage.get(CustomNode, node)
+                if n is not None:
+                    bs[b.id]['nodes'].append({'name': n.name, 'id': n.id})
+            bs[b.id]['name'] = b.name
+    # print(bs)
+    return Response(json.dumps(bs), mimetype='application/json', status=200)
+
+@app_nodes.route('/users/create_board',
+                 methods=['POST'], strict_slashes=False)
+@token_required
+def create_a_new_board():
+    """
+    Creates a new board appended to the user id
+    and the returns the id of the new board
+    """
+    user = storage.get(User, request.user)
+    user_id = user.id
+    # Create a new Board
+    board = Board()
+    board.nodes = '{}'
+    board.user_id = user_id
+    board.save()
+    # Create a service inside the board
+    d_service = CustomNode()
+    # Set the service settings
+    d_service.user_id = user_id
+    d_service.board_id = board.id
+    d_service.type = 'service'
+    d_service.work_type = 'process'
+    d_service.name = 'Result'
+    # store the service in the board
+    objects = json.loads(board.nodes)
+    objects[d_service.id] = {'x': 100, 'y': 100}
+    board.nodes = json.dumps(objects)
+    # Save the created instances
+    d_service.save()
+    board.save()
+    return Response(json.dumps({'board_id': board.id}),
+                    mimetype='application/json')
+
+@app_nodes.route('/users',
+            methods=['DELETE'],
+            strict_slashes=False)
+def delete_user():
+    """
+    delete user by email
+    """
+    email = request.get_json()['email']
+    users = storage.filter_by(User, 'email', email)
+    print(users)
+    for user in users:
+        boards = storage.all(Board).values()
+        for board in boards:
+            uss = board.get_users
+            try:
+                del uss[uss.index(user.email)]
+            except:
+                pass
+            board.set_users(uss)
+        storage.delete(user)
+        storage.save()
+    return 'success'

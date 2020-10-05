@@ -18,14 +18,8 @@ to get the container ip
 docker inspect <docker-container-name> | grep "IPAddress"
 -----------
 
-to open a shell
-in the container open the psql shell
-
------------
-psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
------------
-\dt -> to list the tables
-\d  -> describes a table
+then change the "host" variable in the DBEngine module to the container IP
+and run the alembic commands
 
 -------------------------
 alembic revision --autogenerate
@@ -34,6 +28,18 @@ alembic revision --autogenerate
 -------------------------
 alembic upgrade head
 -------------------------
+
+
+NOTE:
+
+to open a shell
+in the container open the psql shell
+
+-----------
+psql -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+-----------
+\dt -> to list the tables
+\d  -> describes a table
 
 Reload static volume
 ---------------------------------

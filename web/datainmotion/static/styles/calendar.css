@@ -1,0 +1,134 @@
+:root {
+	--today: #2fe49583;
+	--head: #28B87A;
+	--active: #7a28b8;
+	--unselected: grey;
+	--arrow: rgb(179, 219, 253);
+	--arrow-pressed: rgb(111, 181, 243);
+	--save-btn: rgb(214, 48, 247);
+}
+.calendar {
+	position: absolute;
+	background-color: white;
+	z-index: 100;
+	border-radius: 8px;
+	left: 20px;
+	top: 400px;
+}
+.calendar_head {
+	height: 48px;
+	border-radius: 8px 8px 0px 0px;
+	padding: 12px 24px 6px 24px;
+	background-color: var(--head);
+	display: grid;
+	grid-template-columns: repeat(5, 65px);
+}
+.calendar_head h1 {
+	grid-column-start: 2;
+	grid-column-end: 5;
+	text-align: center;
+	font-family: var(--font);
+	color: white;
+	margin-top: 0px;
+	font-size: 24px;
+}
+.calendar_head button{
+	height: 40px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	background-color: white;
+}
+.calendar_head button:hover{
+	background-color: var(--arrow);
+}
+.calendar_head button:active{
+	background-color: var(--arrow-pressed);
+}
+[nav="next"] {
+	clip-path: polygon(70% 10%, 100% 50%, 70% 90%);
+}
+[nav="prev"] {
+	clip-path: polygon(30% 10%, 0% 50%, 30% 90%);
+}
+.days {
+	padding: 0px;
+	margin: 24px 24px 0px 24px;
+	list-style: none;
+	display: grid;
+	gap: 4px;
+	grid-template-columns: repeat(7, 42px);
+	font-family: var(--font);
+	text-align: center;
+	font-weight: bold;
+}
+.days_selector {
+	padding: 0px;
+	margin: 24px;
+	list-style: none;
+	display: grid;
+	gap: 4px;
+	row-gap: 12px;
+	grid-template-columns: repeat(7, 42px);
+}
+.days_selector li {
+	font-size: 18px;
+	cursor: pointer;
+	border: 3px solid white;
+	border-radius: 50%;
+	font-family: var(--font);
+	text-align: center;
+	color: var(--unselected);
+	vertical-align: middle;
+	line-height: normal;
+	padding-top: 0px;
+}
+.day:hover {
+	border-color: var(--active);
+}
+.day:active {
+	background-color: var(--active);
+	color: white;
+}
+
+.time_selector {
+	margin-left: 24px;
+	display: grid;
+	grid-template-columns: 50px 25px 50px 60px 120px;
+	width: 325px;
+}
+.time_selector h1 {
+	text-align: center;
+	margin-top: 0;
+}
+.time_selector select {
+	border-radius: 8px;
+	background-color: rgb(217, 230, 235);
+	margin-top: 0px;
+	text-align: center;
+	height: 40px;
+	font-size: 18px;
+	border: none;
+	cursor: pointer;
+	outline: none;
+}
+.time_selector button {
+	border-radius: 8px;
+	border: none;
+	background-color: var(--save-btn);
+	font-size: 18px;
+	color: white;
+	cursor: pointer;
+	height: 40px;
+	margin-top: 0px;
+	margin-left: 50px;
+	outline: none;
+	filter: grayscale(50%);
+}
+.time_selector button:hover {
+	filter: grayscale(0%);
+}
+[name="noon"] {
+	margin-left: 10px;
+}

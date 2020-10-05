@@ -59,7 +59,6 @@
 		<!-- launch DEMO -->
 		<!-- <script type="text/javascript" src="/static/scripts/global.js?{{ id }}"></script> -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script type="text/javascript" src="/static/scripts/user.js?{{ id }}"></script>
 		<script type="text/javascript" src="/static/scripts/demo.js?{{ id }}"></script>
 		
     </head>
@@ -83,7 +82,7 @@
                                                         <span>Home</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <!-- <li>
                                                     <a href="#process">
                                                         <span>Process</span>
                                                     </a>
@@ -102,10 +101,15 @@
                                                     <a href="#contact">
                                                         <span>Contact</span>
                                                     </a>
-                                                </li>
+                                                </li> -->
                                                  <li id="loginButton">
-                                                    <a href="">
+                                                    <a href="/login">
                                                         <span>Login</span>
+                                                    </a>
+												</li>
+												<li id="registerButton">
+                                                    <a href="/register">
+                                                        <span>Sign Up</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -662,6 +666,16 @@
 				display: none;
 				z-index: 20;
 			}
+			#registerButton span{
+				background-color: rgb(148, 76, 206);
+				border-radius: 12px;
+				line-height: 60px;
+				vertical-align: middle;
+				color: white;
+			}
+			#registerButton span:hover {
+				background-color: rgb(100, 39, 150);
+			}
 		</style>
 
 
@@ -689,34 +703,11 @@
         <script src="/static/vendor/rs-plugin/js/extensions/revolution.extension.migration.min.js"></script>
         <script src="/static/vendor/rs-plugin/js/extensions/revolution.extension.parallax.min.js"></script>
 		<script>
+			// function closeLogin() {
+			// 	const loginform = document.querySelector('[name="login"]');
+			// 	loginform.remove();
+			// }
 			window.onload = function () {
-				const loginBtn = document.getElementById('loginButton');
-				loginBtn.addEventListener('click', async function (e) {
-					e.preventDefault();
-					const loginView = await getLoginView();
-					// console.log(loginView);
-					const cont = document.getElementsByClassName('loginContainer')[0];
-					cont.style.display = 'block';
-					cont.innerHTML = loginView;
-					const use = document.querySelector('[id="username"]');
-					use.addEventListener('click', function (evn) {
-						document.querySelector('[for="user"]').style.display = 'block';
-					});
-					use.addEventListener('keypress', function (evn) {
-						document.querySelector('[for="user"]').innerHTML = 'Username';
-						document.querySelector('[for="user"]').style.fontWeight = 'lighter';
-						document.querySelector('[for="user"]').style.color = 'grey';
-					});
-					const pass = document.querySelector('[type="password"]');
-					pass.addEventListener('click', function (evn) {
-						document.querySelector('[for="pass"]').style.display = 'block';
-					});
-					pass.addEventListener('keypress', function (evn) {
-						document.querySelector('[for="pass"]').innerHTML = 'Password';
-						document.querySelector('[for="pass"]').style.fontWeight = 'lighter';
-						document.querySelector('[for="pass"]').style.color = 'grey';
-					});
-				});
 				const demo = document.querySelector('[demo="true"]');
 				console.log(demo);
 				demo.addEventListener('click', function (evn) {
@@ -729,7 +720,34 @@
 					  window.open(`/user/${resp.id}/boards`, '_self');
 					});
 				});
-				
+				// const regBtn = document.getElementById('registerButton');
+								// const loginBtn = document.getElementById('loginButton');
+				// loginBtn.addEventListener('click', async function (e) {
+				// 	e.preventDefault();
+			// 		const loginView = await getLoginView();
+			// 		// console.log(loginView);
+			// 		const cont = document.getElementsByClassName('loginContainer')[0];
+			// 		cont.style.display = 'block';
+			// 		cont.innerHTML = loginView;
+			// 		const use = document.querySelector('[id="username"]');
+			// 		use.addEventListener('click', function (evn) {
+			// 			document.querySelector('[for="user"]').style.display = 'block';
+			// 		});
+			// 		use.addEventListener('keypress', function (evn) {
+			// 			document.querySelector('[for="user"]').innerHTML = 'Username';
+			// 			document.querySelector('[for="user"]').style.fontWeight = 'lighter';
+			// 			document.querySelector('[for="user"]').style.color = 'grey';
+			// 		});
+			// 		const pass = document.querySelector('[type="password"]');
+			// 		pass.addEventListener('click', function (evn) {
+			// 			document.querySelector('[for="pass"]').style.display = 'block';
+			// 		});
+			// 		pass.addEventListener('keypress', function (evn) {
+			// 			document.querySelector('[for="pass"]').innerHTML = 'Password';
+			// 			document.querySelector('[for="pass"]').style.fontWeight = 'lighter';
+			// 			document.querySelector('[for="pass"]').style.color = 'grey';
+			// 		});
+			// 	});
 			}
 		</script>
         <script>

@@ -7,6 +7,7 @@ from hashlib import sha1
 import hmac
 import random
 import re
+import sys
 import traceback
 import codecs
 import time
@@ -23,6 +24,7 @@ from models.whatsapp_web import WebWhastapp
 from inspect import currentframe as ctf
 from inspect import getframeinfo as gfi
 from models.encode_gif import set_header
+sys.path.append('/usr/src/app')
 
 auth = Auth()
 
@@ -104,12 +106,12 @@ class instancedNode():
         """
         test_file = {'messages': []}
         try:
-            with open('./api/running/{}.test'
+            with open('/usr/src/app/api/running/{}.test'
                       .format(self.instance_id), 'r') as test:
                 test_file = json.loads(test.read())
         except Exception as e:
             print(e)
-        with open('./api/running/{}.test'
+        with open('/usr/src/app/api/running/{}.test'
                   .format(self.instance_id), 'w') as test:
             test_file['node_id'] = str(self.id)
             test_file['status'] = status
@@ -407,6 +409,9 @@ class instancedNode():
                 data = {'error': str(e)}
                 pass
             # data = self.send_message(pars)
+        print(self.work_type)
+        if self.work_type == 'service':
+            print('Service Triggered')
         #
         # Proccess Data Section
         #

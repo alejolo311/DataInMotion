@@ -3,6 +3,7 @@
 Controls the ORM transactions using postgres db
 """
 
+from models.custom import CustomNode
 from models.base import BaseNode, Base
 from models.user import User
 from models.board import Board
@@ -20,7 +21,7 @@ class DBEngine:
         """
         user = 'data_im_dev'
         password = 'dim_passwd'
-        host = 'db'
+        host = '172.18.0.2'
         db = 'data_im_dev_db'
         self.__engine = create_engine('postgres://{}:{}@{}:5432/{}'.format(
             user, password, host, db
@@ -68,6 +69,16 @@ class DBEngine:
         """
         self.__session.remove()
 
+    def filter_by(self, cls, attr, value):
+        """
+        Return a dict with all the instances filtered by attr and value
+        """
+        query = {
+            attr: value
+        }
+        objs = self.__session.query(cls).filter_by(**query).all()
+        return objs
+
     def get(self, cls, id):
         """
         Resturn a record by class and id
@@ -83,3 +94,7 @@ class DBEngine:
         Deletes a record
         """
         self.__session.delete(obj)
+    
+    def cronjobs(self, cls):
+        objs = self.__session.query(cls).filter(cls.type == 'service').filter(cls.analisis_params != '[]').all()
+        return objs

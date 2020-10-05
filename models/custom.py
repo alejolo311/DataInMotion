@@ -31,7 +31,7 @@ class CustomNode(BaseNode, Base):
     This model stores the needed data for the nodes
     """
     __tablename__ = 'custom_nodes'
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
+    user_id = Column(String(60), nullable=True)
     name = Column(String(60))
     work_type = Column(String(20), default='request')
     api_url = Column(String(500), default='')
@@ -47,7 +47,7 @@ class CustomNode(BaseNode, Base):
     timeout = Column(Integer, default=0)
     inner_connections = Column(String(2000), default='')
     color = Column(String(16), default='#9bfa18')
-    board_id = Column(String(60), default='')
+    board_id = Column(String(64), ForeignKey('boards.id', ondelete="CASCADE"), nullable=True)
 
     def __init__(self, *args, **kwargs):
         """

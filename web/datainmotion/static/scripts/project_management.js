@@ -16,141 +16,158 @@ function createMenu (position, items) {
     $(this).css('visibility', 'hidden');
   });
 }
+
+
 let trackedBoard;
 const initial = {};
 let topColor;
+
+function drawDashboard(response) {
+	const cont = $('<div></div>');
+	$(cont).addClass('boards');
+	$(cont).css('margin-top', '40px');
+	let count = 1;
+	const addBoard = $('<div><h1>add a new Board</h1></div>');
+	$(addBoard).addClass('add_board');
+	$(addBoard).css('background-image', 'url(/static/images/plus.png)');
+	$(addBoard).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
+		function () { $(this).css('box-shadow', '0px 0px 0px white'); });
+	$(cont).append($(addBoard));
+	for (board of response) {
+		// console.log(board);
+		const a = $('<h1></h1>');
+		// console.log(board.name);
+		if (board.name === null) {
+			a.text('Board' + count);
+		} else {
+			a.text(board.name);
+		}
+		count++;
+		const b = $('<h2></h2>');
+		b.text(board.id);
+		const bc = $('<div></div>');
+		bc.append(a);
+		bc.append(b);
+		$(bc).attr('b_id', board.id);
+		$(bc).addClass('gradient');
+		$(bc).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
+			function () { $(this).css('box-shadow', '0px 0px 0px white'); });
+		cont.append(bc);
+	}
+	$('body').append($(cont));
+	$('.boards > div').on('mousedown', function () {
+		trackedBoard = $(this).attr('b_id');
+		initial.x = $(this).position().left;
+		initial.y = $(this).position().top;
+		// console.log('star tracking from ', initial);
+		topColor = $('.top_bar').css('background-color');
+		$(window).mousemove(function (evn) {
+			const board = $('[b_id=' + trackedBoard + ']');
+			$(board).css('position', 'absolute');
+			$(board).css('z-index', '30');
+			$(board).css('left', (evn.pageX - 200).toString());
+			$(board).css('top', (evn.pageY - 200).toString());
+			// console.log(evn.pageX, evn.pageY);
+			if (evn.pageY < 100) {
+				// console.log('bright upbar');
+				$('.top_bar').css('background-color', '#e7cee1');
+				$('.delete_sign').css('display', 'block');
+				$('.grab_message').css('display', 'none');
+			} else {
+				// console.log(topColor);
+				$('.top_bar').css('background-color', topColor);
+				$('.delete_sign').css('display', 'none');
+				$('.grab_message').css('display', 'block');
+			}
+		});
+	});
+	$('.boards > div').on('mouseup', function () {
+		$(window).unbind('mousemove');
+		// console.log($(this).position().top);
+		// console.log($(this).position().left);
+		const top = $(this).position().top;
+		if ($(this).attr('b_id') === trackedBoard) {
+			console.log(top);
+			if (top < -97) {
+				// console.log('remove');
+				trackedBoard = '';
+				const del = confirm("You are about to delete this board?\nThis can't be undone\nContinue");
+				if (del) {
+					fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/` + $(this).attr('b_id') + '/delete')
+					.then(function (response) {
+						console.log(response);
+						location.reload();
+					});
+				} else {
+					$(this).css('position', 'relative');
+					$(this).css('top', '0');
+					$(this).css('left', '0');
+					$('.top_bar').css('background-color', topColor);
+					$('.delete_sign').css('display', 'none');
+					$('.grab_message').css('display', 'block');
+					$(board).css('z-index', '10');
+				}
+			} else {
+				console.log(initial);
+				if (initial.x === $(this).position().left &&
+					initial.y === $(this).position().top) {
+					console.log('open', $(this).attr('b_id'));
+					const boardId = $(this).attr('b_id');
+					if (boardId !== undefined) {
+						window.open('/boards/' + $(this).attr('b_id'), '_self');
+					} else {
+						createBoard();
+					}
+				} else {
+					$(this).css('position', 'relative');
+					$(this).css('top', '0');
+					$(this).css('left', '0');
+					$(board).css('z-index', '10');
+				}
+			}
+		}
+	});
+}
+
 function getBoards () {
-  const userId = $('.container').attr('user_id');
-  // request the boards attached to the user
-  // and attach the view to the container
-  $.ajax({
-    url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/users/${userId}/boards`,
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (response) {
-      // console.log(response);
-      const cont = $('<div></div>');
-      $(cont).addClass('boards');
-      $(cont).css('margin-top', '40px');
-      let count = 1;
-      const addBoard = $('<div><h1>add a new Board</h1></div>');
-      $(addBoard).addClass('add_board');
-      $(addBoard).css('background-image', 'url(/static/images/plus.png)');
-      $(addBoard).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
-        function () { $(this).css('box-shadow', '0px 0px 0px white'); });
-      $(cont).append($(addBoard));
-      for (board of response) {
-        // console.log(board);
-        const a = $('<h1></h1>');
-        // console.log(board.name);
-        if (board.name === null) {
-          a.text('Board' + count);
-        } else {
-          a.text(board.name);
-        }
-        count++;
-        const b = $('<h2></h2>');
-        b.text(board.id);
-        const bc = $('<div></div>');
-        bc.append(a);
-        bc.append(b);
-        $(bc).attr('b_id', board.id);
-        $(bc).addClass('gradient');
-        $(bc).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
-          function () { $(this).css('box-shadow', '0px 0px 0px white'); });
-        cont.append(bc);
-      }
-      $('body').append($(cont));
-      $('.boards > div').on('mousedown', function () {
-        trackedBoard = $(this).attr('b_id');
-        initial.x = $(this).position().left;
-        initial.y = $(this).position().top;
-        // console.log('star tracking from ', initial);
-        topColor = $('.top_bar').css('background-color');
-        $(window).mousemove(function (evn) {
-          const board = $('[b_id=' + trackedBoard + ']');
-          $(board).css('position', 'absolute');
-          $(board).css('z-index', '30');
-          $(board).css('left', (evn.pageX - 200).toString());
-          $(board).css('top', (evn.pageY - 200).toString());
-          // console.log(evn.pageX, evn.pageY);
-          if (evn.pageY < 100) {
-            // console.log('bright upbar');
-            $('.top_bar').css('background-color', '#e7cee1');
-            $('.delete_sign').css('display', 'block');
-            $('.grab_message').css('display', 'none');
-          } else {
-            // console.log(topColor);
-            $('.top_bar').css('background-color', topColor);
-            $('.delete_sign').css('display', 'none');
-            $('.grab_message').css('display', 'block');
-          }
-        });
-      });
-      $('.boards > div').on('mouseup', function () {
-        $(window).unbind('mousemove');
-        // console.log($(this).position().top);
-        // console.log($(this).position().left);
-        const top = $(this).position().top;
-        if ($(this).attr('b_id') === trackedBoard) {
-          console.log(top);
-          if (top < -97) {
-            // console.log('remove');
-            trackedBoard = '';
-            const del = confirm("You are about to delete this board?\nThis can't be undone\nContinue");
-            if (del) {
-              fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/` + $(this).attr('b_id') + '/delete')
-                .then(function (response) {
-                  console.log(response);
-                  location.reload();
-                });
-            } else {
-              $(this).css('position', 'relative');
-              $(this).css('top', '0');
-              $(this).css('left', '0');
-              $('.top_bar').css('background-color', topColor);
-              $('.delete_sign').css('display', 'none');
-              $('.grab_message').css('display', 'block');
-              $(board).css('z-index', '10');
-            }
-          } else {
-            console.log(initial);
-            if (initial.x === $(this).position().left &&
-              initial.y === $(this).position().top) {
-              console.log('open', $(this).attr('b_id'));
-              const boardId = $(this).attr('b_id');
-              if (boardId !== undefined) {
-                window.open('/boards/' + $(this).attr('b_id'), '_self');
-              } else {
-                createBoard();
-              }
-            } else {
-              $(this).css('position', 'relative');
-              $(this).css('top', '0');
-              $(this).css('left', '0');
-              $(board).css('z-index', '10');
-            }
-          }
-        }
-      });
-    }
-  });
+  fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/boards`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token')
+			}
+		}
+	).then((res) => {
+		if (res.status === 200) {
+			return res.json();
+		} else {
+			localStorage.removeItem('token');
+			localStorage.removeItem('user');
+			window.location.replace('/login');
+		}
+	}).then(json => {
+		drawDashboard(json);
+	});
 }
 function createBoard () {
   console.log('Create a new board');
-  const userId = $('.container').attr('user_id');
-  // const userId = 'a74c74e5-3be5-420b-809a-592b0e65d76b';
-  $.ajax({
-    url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/users/${userId}/create_board`,
-    contentType: 'application/json',
-    dataType: 'json',
-    success: function (data) {
-      console.log(data);
-      window.open('/boards/' + data.board_id, '_self');
-    },
-    error: function (error) {
-      console.log(error);
-    }
+  fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/create_board`,
+	{
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': localStorage.getItem('token')
+		}
+	}
+  ).then((res) => {
+	if (res.status === 200) {
+		return res.json();
+	} else {
+		window.location.replace('/login');
+	}
+  }).then(json => {
+	window.open('/boards/' + json.board_id, '_self');
   });
 }
 function saveBoardName (name) {
@@ -510,6 +527,36 @@ function setProjectMenu () {
     items.push(['import file', importBoard]);
     items.push(['export file', exportBoard]);
     createMenu(evn.pageX, items);
+  });
+  $('[menu=users]').on('click', function () {
+	  $('.add_user').css('display', 'block');
+	  $('[close="true"]').on('click', function () {
+		$('.add_user').css('display', 'none');
+	  });
+	  $('[add="true"]').on('click', function () {
+		  if ($('[name="new_user"]').val()) {
+			  console.log($('[name="new_user"]').val());
+			  fetch (`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/users`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token')
+					},
+					body: JSON.stringify({
+						email: $('[name="new_user"]').val(),
+						board: $('.container').attr('board_id')
+					})
+				} 
+				).then(res => res.json())
+				.then(json => {
+				console.log(json);
+				$('.add_user').css('display', 'none');
+				})
+		  }
+			
+	  });
+	console.log('Add user to this board');
   });
 }
 function createNodesMenu (position, menus) {

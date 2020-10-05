@@ -21,7 +21,7 @@
 	 name="theme-color" content="#ffffff">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ board.name }} - Data in motion</title>
+	<title>Data in motion</title>
 	<link rel="stylesheet" href="/static/styles/node.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/side_bar.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/container.css?{{ id }}">
@@ -30,6 +30,7 @@
 	<link rel="stylesheet" href="/static/styles/menus.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/board.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/new_node.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/calendar.css?{{ id }}">
 	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" rel="stylesheet">
@@ -48,7 +49,8 @@
 	<script type="text/javascript" src="/static/scripts/init.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/node_flow.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/media_player.js?{{ id }}"></script>
-	<script type="text/javascript" src="/static/scripts/walkthroughts.js?{{ id }}"></script>
+	<!-- <script type="text/javascript" src="/static/scripts/walkthroughts.js?{{ id }}"></script> -->
+	<script type="text/javascript" src="/static/scripts/calendar.js?{{ id }}"></script>
 
 	<!-- Favicons -->
 	<link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
@@ -77,24 +79,21 @@
 			<ul class="utility_menu nav">
 				<li class="back"><h2 action="user"><i class="fas fa-chevron-left fa-lg" title="Back"></i> &nbsp;</h2></li>
 				<li>
-					<h1><a href="#"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion / Board id: {{ board.id }}" align="left"></a> &nbsp;</h1>
+					<h1><a href="#"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
 				</li>
 				<li>
 					<ul class="sub_nav">
 						<li><h2 menu="nodes"><i class="fas fa-sticky-note fa-lg" title="New Node"></i> New Node</h2></li>
 						<li><h2 menu="board"><i class="fas fa-sticky-note fa-lg" title="Board"></i> Board</h2></li>
 						<li><h2 class="save"><i class="fas fa-save fa-lg" title="Save this board"></i> Save Board</h2></li>
+						<li><h2 menu="users"><i class="fas fa-share fa-lg" title="Add new user"></i> Add new User</h2></li>
 					</ul>
 				</li>
 			</ul>
 		</div>
 		<div class="tools">
 			<h1 class="board_name" style="cursor: pointer; margin-left: 40px; margin-bottom: 0;">
-				{% if board.name != '' %}
-					{{ board.name }}
-				{% else %}
-					Board name
-				{% endif %}
+				{{ board.name }}
 				</h1>
 			<input name="board_name" class="b_name" type="text" placeholder="Board name">
 			<h2 class="trash_can"><i class="fas fa-trash fa-lg" title="Trash a node"></i>Grab a node here to delete it</h2>
@@ -105,7 +104,7 @@
 	<div class="coords">
 		<h2 class="x" style="width: 50px;"></h2>
 		<h2 class="y" style="width: 50px;"></h2>
-		<h2 class="selected" style="width: 300px;padding-top: 2px;">{{ board.id }}</h2>
+		<h2 class="selected" style="width: 300px;padding-top: 2px;"></h2>
 		<button class="toggle_console"></button>
 		<h2 class="console"><-- Click here to see the console output</h2>
 	</div>
@@ -475,6 +474,17 @@
 			
 		</ul>
 	</div>
+	<div class="add_user">
+		<div cont="add">
+			<label for="new_user">Add people</label>
+			<input name="new_user" id="new_user">
+			<div cont="buttons">
+				<button close="true">close</button>
+				<br>
+				<button add="true">add</button>
+			</div>
+		</div>
+	</div>
 	<div class="container" board_id="{{ board.id }}">
 	</div>
 	<canvas class="canvas" id="canvas_connections">
@@ -544,6 +554,8 @@
 			<label for="twilio">Twilio test</label><input type="checkbox" id="twilio">
 		</div>
 	</div>
+	<script>
+	</script>
 </body>
 
 </html>

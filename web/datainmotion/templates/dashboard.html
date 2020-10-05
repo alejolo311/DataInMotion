@@ -22,7 +22,7 @@
 
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ user.name }} - Data in motion</title>
+	<title>Data in motion</title>
 	<link rel="stylesheet" href="/static/styles/node.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/side_bar.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/container.css?{{ id }}">
@@ -43,7 +43,7 @@
 <body id="boards">
 	<div class="top_bar">
 		<div class="left_top">
-			<h1><a href="https://dnart.tech/"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
+			<h1><a href="/"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
 		</div>
 		<h1 class="grab_message" style="position: absolute;
 										top: 10;
@@ -54,17 +54,7 @@
 	</div>
 	<div class="side_bar">
 	</div>
-	<!--<div class="coords">
-		<h2 class="x" style="width: 50px;"></h2>
-		<h2 class="y" style="width: 50px;"></h2>
-		<h2 class="selected" style="width: 150px;padding-top: 2px;"></h2>
-		<button class="toggle_console"></button>
-		<h2 class="console">DataInMotion v1 > </h2>
-	</div>-->
-	<div class="container" style="top: 0;"
-	{% if user is not none %}
-	user_id="{{ user.id }}">
-	{% endif %}
+	<div class="container" style="top: 0;">
 	</div>
 	<canvas class="grid_canvas" id="canvas_grid">
 	</canvas>

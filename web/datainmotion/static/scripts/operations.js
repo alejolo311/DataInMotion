@@ -83,7 +83,27 @@ async function running_test(instanceId) {
 	}
 }
 
+function getDate() {
+	const time = new Date(Date.now());
+	const year = time.getFullYear();
+	const month = time.getMonth();
+	const day = time.getDate();
+	const hour = time.getHours();
+	const minute = time.getMinutes();
+	const second = time.getSeconds();
+	const mill = time.getMilliseconds();
+	return [year, month, day, hour, minute, second, mill];
+}
+
 function setOpsListeners() {
+	$('.trigger_button').on('click', async function (evn) {
+		const nodeId = $(this).attr('n_id');
+		// console.log(nodeId);
+		// console.log(getDate());
+		const cal = new Calendar(getDate(), nodeId);
+		await cal.build(evn.pageX, evn.pageY);
+		// console.log(evn.pageX, evn.pageY);
+	});
 	$('.test_button').on('click', function (evn) {
 		const nodeId = $(this).attr('n_id');
 		// The next wil send a GET request to DataInMotion AP

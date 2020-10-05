@@ -18,17 +18,12 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/user/<id>/boards', methods=['GET'], strict_slashes=False)
-def main_board(id):
+@app.route('/user/boards', methods=['GET'], strict_slashes=False)
+def main_board():
     """
     shows the main page to start creating a board
     """
-    user = storage.get(User, id)
-    print('User: ', id, '\n', user)
-    if user is None:
-        return Response({'error': 'User doesnt exists'}, status=404)
-    user = json.loads(user.to_dict())
-    return render_template('dashboard.html', id=str(uuid.uuid4()), user=user)
+    return render_template('dashboard.html', id=str(uuid.uuid4()))
 
 
 @app.route('/boards/<board_id>', methods=['GET'], strict_slashes=False)
@@ -49,33 +44,17 @@ def board_lite(board_id):
     return render_template('board_lite.html', id=str(uuid.uuid4()), board=board)
 
 
-@app.route('/boards/<board_id>/nodes', methods=['GET'], strict_slashes=False)
-def nodes(board_id):
+@app.route('/boards/nodes', methods=['POST'], strict_slashes=False)
+def nodes():
     """
     return a list of nodes
     by now it returns all the created nodes, it need to filter by board id
     """
-    # read the board file
-    nodes = []
-    boar = json.loads(storage.get(Board, board_id).to_dict())
-    for key in boar['nodes']:
-        node = storage.get(CustomNode, key)
-        nodes.append(node)
-    print('clossing , Boards.', board_id)
-    # THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
-    # IT JUST VALID FOR DEVELOPING PURPOSE
-    parsed = []
-    for node in nodes:
-        nd = json.loads(node.to_dict())
-        nd['connections'] = []
-        for n in nodes:
-            for inp in json.loads(n.innodes):
-                if inp == node.id:
-                    nd['connections'].append((inp, 'in'))
-            for inp in json.loads(n.outnodes):
-                if inp == node.id:
-                    nd['connections'].append((inp, 'out'))
-        parsed.append(nd)
+    nodes = request.get_json()
+    print(nodes)
+    # if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
+    #     return Response(json.dumps([nods, connections]), mimetype='application/json')
+    # else:
     cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900',
             '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
     cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900',
@@ -84,25 +63,57 @@ def nodes(board_id):
                  '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
     cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af',
                  '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
-    # print('Is Lite', dict(request.__dict__)['environ']['QUERY_STRING'])
-    if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
-        cols = ['#fff200', '#e5d900', '#ccc100', '#b2a900',
-                 '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5']
-        nods = []
-        connections = {}
-        for nod in parsed:
-            connections[nod['id']] = {}
-            connections[nod['id']]['innodes'] = nod['innodes']
-            connections[nod['id']]['outnodes'] = nod['outnodes']
-            connections[nod['id']]['type'] = nod['type'];
-            template = render_template('lite/node.html', node=nod,
-                                       id=str(uuid.uuid4()), colors=cols)
-            connections[nod['id']]['template'] = template
-        return Response(json.dumps([nods, connections]), mimetype='application/json')
-    else:
-        template = render_template('node.html', nodes=parsed,
-                                id=str(uuid.uuid4()), colors=cols)
+    template = render_template('node.html', nodes=nodes.values(),
+                               id=str(uuid.uuid4()), colors=cols)
     return Response(json.dumps({'nodes': template}), mimetype='application/json')
+    # read the board file
+    # nodes = []
+    # boar = json.loads(storage.get(Board, board_id).to_dict())
+    # for key in boar['nodes']:
+    #     node = storage.get(CustomNode, key)
+    #     nodes.append(node)
+    # print('clossing , Boards.', board_id)
+    # # THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
+    # # IT JUST VALID FOR DEVELOPING PURPOSE
+    # parsed = []
+    # for node in nodes:
+    #     nd = json.loads(node.to_dict())
+    #     nd['connections'] = []
+    #     for n in nodes:
+    #         for inp in json.loads(n.innodes):
+    #             if inp == node.id:
+    #                 nd['connections'].append((inp, 'in'))
+    #         for inp in json.loads(n.outnodes):
+    #             if inp == node.id:
+    #                 nd['connections'].append((inp, 'out'))
+    #     parsed.append(nd)
+    # cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900',
+    #         '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
+    # cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900',
+    #              '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5'])
+    # cols.extend(['#ff5724', '#ff784f', '#ff8965', '#ff9a7b',
+    #              '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
+    # cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af',
+    #              '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
+    # # print('Is Lite', dict(request.__dict__)['environ']['QUERY_STRING'])
+    # if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
+    #     cols = ['#fff200', '#e5d900', '#ccc100', '#b2a900',
+    #              '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5']
+    #     nods = []
+    #     connections = {}
+    #     for nod in parsed:
+    #         connections[nod['id']] = {}
+    #         connections[nod['id']]['innodes'] = nod['innodes']
+    #         connections[nod['id']]['outnodes'] = nod['outnodes']
+    #         connections[nod['id']]['type'] = nod['type'];
+    #         template = render_template('lite/node.html', node=nod,
+    #                                    id=str(uuid.uuid4()), colors=cols)
+    #         connections[nod['id']]['template'] = template
+    #     return Response(json.dumps([nods, connections]), mimetype='application/json')
+    # else:
+    #     template = render_template('node.html', nodes=parsed,
+    #                             id=str(uuid.uuid4()), colors=cols)
+    # return Response(json.dumps({'nodes': template}), mimetype='application/json')
 
 
 @app.route('/nodes/<node_id>', methods=['GET'], strict_slashes=False)
@@ -145,6 +156,22 @@ def login():
     """
     return render_template('login.html', id=str(uuid.uuid4()))
 
+@app.route('/register', methods=['GET'], strict_slashes=False)
+def register():
+    """
+    Register form
+    """
+    return render_template('register.html', id=str(uuid.uuid4()))
+
+@app.route('/check_mail', methods=['GET'], strict_slashes=False)
+def check_mail():
+    """
+    Chek your mail
+    """
+    # print(dir(request))
+    # print(request.base_url)
+    # print(request.host)
+    return render_template('check_mail.html', id=str(uuid.uuid4()))
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
@@ -165,6 +192,13 @@ def launch_demo():
         if user.email == 'test':
             us = user
     return Response(json.dumps({'id': us.id}), mimetype='application/json')
+
+@app.route('/calendar', methods=['GET'], strict_slashes=False)
+def calendar():
+    """
+    Return the calendar view
+    """
+    return render_template('calendar.html', id=str(uuid.uuid4()))
 
 
 if __name__ == '__main__':

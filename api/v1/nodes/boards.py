@@ -5,10 +5,12 @@ Index route for boards api
 
 from api.v1.nodes import app_nodes
 from models import storage
-from flask import jsonify, Response, request
+from flask import jsonify, Response, request, render_template
 from models.custom import CustomNode
 from models.user import User
 from models.board import Board
+from api.v1.auth import token_required
+from api.v1.auth.auth import send_email
 from api.v1.nodes.nodes import copy_node
 import json
 
@@ -23,38 +25,6 @@ def return_board(board_id):
     except Exception as e:
         print(e)
     return Response(json.dumps(board), mimetype='application/json')
-
-
-@app_nodes.route('/users/<user_id>/create_board',
-                 methods=['GET'], strict_slashes=False)
-def create_a_new_board(user_id):
-    """
-    Creates a new board appended to the user id
-    and the returns the id of the new board
-    """
-    user = storage.get(User, user_id)
-    # Create a new Board
-    board = Board()
-    board.nodes = '{}'
-    board.user_id = user_id
-    # Create a service inside the board
-    d_service = CustomNode()
-    # Set the service settings
-    d_service.user_id = user_id
-    d_service.board_id = board.id
-    d_service.type = 'service'
-    d_service.work_type = 'process'
-    d_service.name = 'Result'
-    # store the service in the board
-    objects = json.loads(board.nodes)
-    objects[d_service.id] = {'x': 100, 'y': 100}
-    board.nodes = json.dumps(objects)
-    # Save the created instances
-    d_service.save()
-    board.save()
-    return Response(json.dumps({'board_id': board.id}),
-                    mimetype='application/json')
-
 
 @app_nodes.route('/boards/<board_id>/', methods=['POST'], strict_slashes=False)
 def boards(board_id):
@@ -98,10 +68,64 @@ def nodes_board(board_id):
     storage.save()
     return Response('a todo dar wey', status=200)
 
+@app_nodes.route('/boards/<board_id>/nodes/view',
+                 methods=['GET'],
+                 strict_slashes=False)
+@token_required
+def nodes_views(board_id):
+    """
+    """
+    nodes = []
+    boar = json.loads(storage.get(Board, board_id).to_dict())
+    for key in boar['nodes']:
+        node = storage.get(CustomNode, key)
+        nodes.append(node)
+    print('clossing , Boards.', board_id)
+    # THIS BEHAVIOR SHOULD BE REMOVED FOR SECURITY REASONS
+    # IT JUST VALID FOR DEVELOPING PURPOSE
+    parsed = []
+    for node in nodes:
+        nd = json.loads(node.to_dict())
+        nd['connections'] = []
+        for n in nodes:
+            for inp in json.loads(n.innodes):
+                if inp == node.id:
+                    nd['connections'].append((inp, 'in'))
+            for inp in json.loads(n.outnodes):
+                if inp == node.id:
+                    nd['connections'].append((inp, 'out'))
+        parsed.append(nd)
+    cols = ['#9dff00', '#7dcc00', '#6db200', '#5e9900',
+            '#3e6600', '#a6ff19', '#baff4c', '#b07fff']
+    cols.extend(['#fff200', '#e5d900', '#ccc100', '#b2a900',
+                 '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5'])
+    cols.extend(['#ff5724', '#ff784f', '#ff8965', '#ff9a7b',
+                 '#ffbba7', '#ff4f7e', '#ffe4db', '#4fff78'])
+    cols.extend(['#69c5fa', '#5eb1e1', '#549dc8', '#4989af',
+                 '#3f7696', '#96d6fb', '#c3e7fd', '	#fa9e69'])
+    # print('Is Lite', dict(request.__dict__)['environ']['QUERY_STRING'])
+    if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
+        cols = ['#fff200', '#e5d900', '#ccc100', '#b2a900',
+                 '#999100', '#fff766', '#fffbb2', '#00fff2', '#00bfa5']
+        nods = []
+        connections = {}
+        for nod in parsed:
+            connections[nod['id']] = {}
+            connections[nod['id']]['innodes'] = nod['innodes']
+            connections[nod['id']]['outnodes'] = nod['outnodes']
+            connections[nod['id']]['type'] = nod['type'];
+            # template = render_template('lite/node.html', node=nod,
+            #                            id=str(uuid.uuid4()), colors=cols)
+            # connections[nod['id']]['template'] = template
+        return Response(json.dumps([nods, connections]), mimetype='application/json')
+    else:
+        return Response(json.dumps({'nodes': parsed}), mimetype='application/json')
+
 
 @app_nodes.route('/boards/<board_id>/nodes',
                  methods=['GET'],
                  strict_slashes=False)
+@token_required
 def remove_board(board_id):
     """
     Return the nodes for the board id
@@ -198,7 +222,7 @@ def add_complete_board(board_id):
     return Response('success', status=200)
 
 
-@app_nodes.route('boards/<boardId>/contacts_list',
+@app_nodes.route('/boards/<boardId>/contacts_list',
                  methods=['GET'],
                  strict_slashes=False)
 def get_contacts_lists(boardId):
@@ -213,3 +237,76 @@ def get_contacts_lists(boardId):
         if nod.analisis_mode == 'contacts_list':
             resp.append(json.loads(nod.to_dict()))
     return Response(json.dumps(resp), mimetype='application/json')
+
+@app_nodes.route('/boards/<board_id>/create_node', methods=['POST'],
+                 strict_slashes=False)
+def creates_new_node(board_id):
+    """
+    Creates a new node an likit to board id and user id
+    """
+    typo = request.get_json()['type']
+    board = storage.get(Board, board_id)
+    user_id = board.user_id
+    # print(user_id)
+    nodes = load_templates()
+    if typo in nodes['nodes'].keys():
+        js = request.get_json()
+        if 'data' in js.keys():
+            n_node = copy_node(board, nodes['nodes'][typo], js['data'])
+        else:
+            n_node = copy_node(board, nodes['nodes'][typo])
+        return Response(
+            json.dumps(json.loads(n_node.to_dict())),
+            mimetype='application/json', status=200)
+    new_node = CustomNode()
+    new_node.name = 'New'
+    new_node.user_id = user_id
+    new_node.board_id = board_id
+    if 'whatsapp' in typo:
+        new_node.work_type = 'sender'
+        new_node.name = typo
+    new_node.save()
+    nodes = json.loads(board.nodes)
+    nodes[new_node.id] = {'x': 20, 'y': 60}
+    board.nodes = json.dumps(nodes)
+    board.save()
+    # template = render_template('node.html',
+    # nodes=[json.loads(new_node.to_dict())], )
+    return Response(json.dumps(json.loads(new_node.to_dict())),
+                    mimetype='application/json', status=200)
+
+@app_nodes.route('/boards/users',
+                methods=['POST'],
+                strict_slashes=False)
+@token_required
+def add_user_to_board():
+    """
+    Add a new user to the board users list
+    """
+    data = request.get_json()
+    email = data['email']
+    board_id = data['board']
+    board = storage.get(Board, board_id)
+    users = board.get_users
+    us = storage.get(User, request.user)
+    if board.user_id != request.user:
+        if us.email not in users:
+            return jsonify(message="You are not the owner"), 403
+    # if email not in users:
+    if True:
+        users.append(email)
+        board.set_users(users)
+        subject = us.email.split('@')[0] + ' is inviting you to edit a board'
+        url = ':'.join(request.host_url.split(':')[:2]) + '/boards/' + board.id
+        template = render_template('invitation.html', board=board, url=url)
+        send_email(email, subject, template)
+        return jsonify(message="success")
+    return jsonify(message="unable to append this user")
+
+def load_templates():
+    """
+    load templates from .dim template file
+    """
+    with open('./api/node_templates/templates.dim', 'r') as templates:
+        temps = json.loads(templates.read())
+        return temps

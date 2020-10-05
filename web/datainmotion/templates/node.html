@@ -15,6 +15,9 @@
 				style="display:none;"
 				{% endif %}
 			></div>
+			{% if node.type == 'service' %}
+				 <img class="trigger_button" src="../static/svg/trigger.svg" n_id="{{ node.id }}">
+			{% endif %}
 		</div>
 		<div class="media_player" id="{{ node.id }}"
 			{% if node.analisis_mode == 'media_player' %}

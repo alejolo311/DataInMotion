@@ -672,7 +672,6 @@ body.nice-scroll:not(.layout-boxed) {
 #Sliding-top.active a.sliding-top-control .plus {
 	display: none;
 }
-
 /* 
 	#Sliding-top .widgets_wrapper .widget ul { margin: 0 0 15px 30px; line-height: 21px; }
 	#Sliding-top .widgets_wrapper .widget ul li { list-style:disc outside; padding: 3px 0; }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Log in</title>
+		<title>Verification</title>
 		<!-- Favicons -->
         <link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/static/theme/apple-icon-60x60.png">
@@ -38,17 +38,13 @@
 
 	</head>
 	<body>
-		<form name ="login" id="loginForm" action="javascript:login();">
-			<div><h1>Log in</h1></div>
-			<label for="user">Username</label>
-			<input type="text" id="username" placeholder="E-mail: example@email.com">
-			<label for="pass">Password</label>
-			<input type="password" placeholder="Password">
-			<input type="submit" value="Log in">
-			<h2 onclick="window.location = '/register'">Create a new account</h2>
-			<h2>Forget my password</h2>
-			
-		</form>
+		<div name ="login">
+			<div><h1>Verification</h1></div>
+			<p>Please check the confirmation mail we sent you
+			</p>
+			<h2 onclick="window.location = '/login'">back to login</h2>
+
+		</div>
 		<style>
 			:root {
 				--board_color: #350135;
