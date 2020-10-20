@@ -47,7 +47,9 @@ services:
     depends_on:
       - web
     networks:
-      - snap-net
+      default:
+        external:
+          name: snap-net
 #   certbot:
 #     image: certbot/certbot:latest
 # ##    command: certonly --force-renewal -n --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email danrodcastillo1994@gmail.com --agree-tos --no-eff-email -d 'dnart.tech' --test-cert
