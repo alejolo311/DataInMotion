@@ -167,7 +167,7 @@ async function drawNodes(nodes) {
 			if (nods.length === 1) {
 				console.log('Show walkthrought');
 				console.log($($(nods)[0]).position().left, $($(nods)[0]).position().top);
-				oneNodeWalkthrought($($(nods)[0]).attr('cont_node_id'));
+				// oneNodeWalkthrought($($(nods)[0]).attr('cont_node_id'));
 			}
 		}
 	});
