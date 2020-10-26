@@ -66,7 +66,17 @@ function getBoardView () {
 	if (checkLite !== -1) {
 		lite = '?lite=true';
 	}
-	fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/nodes${lite}`,
+	const now = new Date(Date.now());
+	const syncData = [
+		now.getFullYear(),
+		now.getMonth() + 1,
+		now.getDate(),
+		now.getHours(),
+		now.getMinutes(),
+		now.getSeconds(),
+		now.getMilliseconds(),
+	];
+	fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/nodes${lite}?sync_date="${syncData.join(' ')}"`,
 		{
 			method: 'GET',
 			headers: {
@@ -82,8 +92,11 @@ function getBoardView () {
 			localStorage.openboard = $('.container').attr('board_id');
 			window.location.replace('/login');
 		}
-	}).then(json => {
-		drawNodes(json);
+	}).then(async (json) => {
+		await drawNodes(json);
+		// if (localStorage.getItem('running_test')) {
+		// 	running_test(localStorage.getItem('running_id'));
+		// }
 	});
 }
 async function drawNodes(nodes) {
@@ -118,6 +131,7 @@ async function drawNodes(nodes) {
 		} else {
 			// console.log('No lite');
 			unbindContainer();
+			$('.container').empty();
 			$('.container').append($(nodes.nodes));
 			// await timeSleep(000);
 			popup();

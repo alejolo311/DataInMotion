@@ -1,4 +1,5 @@
 let tmpAnPm;
+
 function newNodeFlow(node, id) {
 	$('.node_next').html('');
 	$('.node_back').html('');
@@ -766,6 +767,10 @@ async function WhatsAppFlow(node, evn) {
 	}
 	const loader = document.querySelector('[id="csv"]');
 	loader.addEventListener('change', loadCSV);
+	const csvButton = document.querySelector('.csv-upload');
+	csvButton.addEventListener('click', function() {
+		loader.click();
+	});
 	// Display the container
 	const container = $('div[form="whatsapp_node"]');
 	$('.wpp_cont').css('display', 'block');
@@ -873,7 +878,8 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 			method: "POST",
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token')
 			},
 			body: JSON.stringify(contactsNode)
 		});
@@ -886,7 +892,8 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 			method: "POST",
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token')
 			},
 			body: JSON.stringify({
 				data: contacts_list,
@@ -900,7 +907,8 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 		method: "POST",
 		headers: {
 			'Accept': 'application/json',
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': localStorage.getItem('token')
 		},
 		body: JSON.stringify(node)
 	});

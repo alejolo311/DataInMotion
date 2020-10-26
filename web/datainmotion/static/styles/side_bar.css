@@ -41,8 +41,8 @@
 }
 .top_bar .utility_menu h2{
 	line-height: 16px;
-	font-size: 12px;
-	margin: 5px 0;
+	font-size: 16px;
+	margin: 5px 0px 5px 0px;
 }
 .top_bar .utility_menu > li:last-child{
 	clear: both;
@@ -163,7 +163,7 @@
 	background-color: transparent;
 	width: 200px;
 	padding: 12px;
-	margin-left: 40px;
+	margin-left: 0px;
 	margin-top: 12px;
 	display: none;
 }
@@ -186,7 +186,7 @@
 }
 .trash_can {
 	position: absolute;
-	width: 60%;
+	width: 50%;
 	height: calc(100% - 36px);
 	right: 0px;
 	margin-top: 0;

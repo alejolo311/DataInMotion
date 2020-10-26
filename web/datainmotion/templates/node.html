@@ -16,7 +16,18 @@
 				{% endif %}
 			></div>
 			{% if node.type == 'service' %}
-				 <img class="trigger_button" src="../static/svg/trigger.svg" n_id="{{ node.id }}">
+				 <img class="trigger_button"
+					  {% if node.elapsed %}
+					  	next="{{ node.elapsed }}"
+					  {% endif %}
+					 {% if node.analisis_params.active %}
+					 state="active"
+					 style="background-color: rgb(11, 213, 169);"
+					 {% else %}
+					 state="off"
+					 style="background-color: rgb(253, 253, 253);"
+					 {% endif %}
+				 n_id="{{ node.id }}">
 			{% endif %}
 		</div>
 		<div class="media_player" id="{{ node.id }}"

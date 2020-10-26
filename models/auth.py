@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """
-Simple auth signatures, key generation
-should be avoided
-and construct a more data dependent work
+Simple auth signatures for request nodes
 """
 
 

@@ -19,11 +19,15 @@ function getDaysInMonth(month, year) {
 }
 
 class Calendar {
-	constructor (date, nodeId) {
+	constructor (date, nodeId, root) {
 		// console.log(date);
 		// console.log(monthToText(date[1]));
 		this._nodeId = nodeId;
 		this._date = date;
+		this.root = root;
+	}
+	set context(value) {
+		this._context = value;
 	}
 	async build(x, y) {
 		const viewFetch = await fetch(`${global.prot}://${global.domain}/calendar`);
@@ -33,8 +37,9 @@ class Calendar {
 		html = html.body.firstChild;
 		html.style.left = x + 'px';
 		html.style.top = y + 'px';
-		document.body.appendChild(html);
-		html.querySelector('[nav="prev"]').addEventListener('click', function() {
+		this.root.appendChild(html);
+		const prev = html.querySelector('[nav="prev"]');
+		prev.addEventListener('click', function() {
 			if (cal._date[1] == 0) {
 				cal._date[1] = 11;
 				cal._date[0] = cal._date[0] - 1;
@@ -44,7 +49,9 @@ class Calendar {
 			cal.draw();
 		});
 		const cal = this;
-		html.querySelector('[nav="next"]').addEventListener('click', function() {
+		cal._date[5] = 0;
+		const next = html.querySelector('[nav="next"]');
+		next.addEventListener('click', function() {
 			if (cal._date[1] == 11) {
 				cal._date[1] = 0;
 				cal._date[0] = cal._date[0] + 1;
@@ -54,11 +61,15 @@ class Calendar {
 			cal.draw();
 		});
 		html.querySelector('[name="hour"]').addEventListener('change', function(evn) {
-			const hour = Number(evn.target.options[evn.target.selectedIndex].text);
+			const hour = Number(evn.target.options[evn.target.selectedIndex].value);
+			evn.target.text = hour;
 			cal._date[3] = hour;
+			console.log(cal._date);
 		});
 		html.querySelector('[name="minute"]').addEventListener('change', function(evn) {
-			cal._date[4] = Number(evn.target.options[evn.target.selectedIndex].text);
+			cal._date[4] = Number(evn.target.options[evn.target.selectedIndex].value);
+			evn.target.text = cal._date[4];
+			console.log(cal._date);
 		});
 		html.querySelector('[save="calendar"]').addEventListener('click', function(evn) {
 			cal.save();
@@ -77,6 +88,7 @@ class Calendar {
 		const dayUl = this._html.querySelector('.days_selector');
 		dayUl.innerHTML = '';
 		const cal = this;
+		cal._date[5] = 0;
 		const col_active = getComputedStyle(document.documentElement)
 											.getPropertyValue('--active');
 		const col_uns = getComputedStyle(document.documentElement)
@@ -103,6 +115,7 @@ class Calendar {
 			}
 			// console.log(newDay, cal);
 		}
+		// Draw the saved day
 		const toRemove = document.querySelectorAll('.days_selector li');
 		for (const li of toRemove) {
 			li.removeEventListener('click', setDay);
@@ -131,6 +144,18 @@ class Calendar {
 		} catch (err) {
 			console.log(err);
 		}
+		const hour = document.querySelector('[name="hour"]');
+		const noon = document.querySelector('[name="noon"]');
+		if (this._date[3] > 12) {
+			hour.value = this._date[3] - 12;
+			noon.value = 1;
+		} else {
+			hour.value = this._date[3];
+			noon.value = 0;
+		}
+		const minute = document.querySelector('[name="minute"]');	
+		minute.value = this._date[4];
+		
 	}
 	async save() {
 		const cal = this;
@@ -153,6 +178,13 @@ class Calendar {
 		const result = await cal.sendDate();
 		cal._html.remove();
 		console.log(result);
+		if (this._context) {
+			// this._context.data.analisis_params['date'] = cal._date;
+			const date = cal._date.map(e => Array.isArray(e) ? e.clone() : e);
+			date[1] -= 1;
+			this._context.data.analisis_params['date'] = cal._date;
+			this._context.printFormatedDate(this._context.triggerDateContainer, date);
+		}
 	}
 	async sendDate() {
 		const now = new Date(Date.now());
@@ -162,23 +194,29 @@ class Calendar {
 				method: 'POST',
 				headers: {
 					'Accept': 'application/json',
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Authorization': localStorage.getItem('token')
 				},
 				body: JSON.stringify({
 					type: 'service',
-					date: this._date,
-					sync_date: [
-						now.getFullYear(),
-						now.getMonth() + 1,
-						now.getDate(),
-						now.getHours(),
-						now.getMinutes(),
-						now.getSeconds(),
-						now.getMilliseconds(),
-					]
+					analisis_params: {
+						date: this._date,
+						sync_date: [
+							now.getFullYear(),
+							now.getMonth() + 1,
+							now.getDate(),
+							now.getHours(),
+							now.getMinutes(),
+							now.getSeconds(),
+							now.getMilliseconds(),
+						]
+					}
 				})
 			}
 		);
 		return await req.json();
+	}
+	close() {
+		this._html.remove();
 	}
 }

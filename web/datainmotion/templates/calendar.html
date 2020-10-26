@@ -16,18 +16,18 @@
 	<ul class="days_selector">
 	</ul>
 	<div class="time_selector">
-		<select name="hour" id="" value="1">
+		<select name="hour" id="">
 			{% for i in range(1, 13) %}
 			<option value="{{ i }}">{{ i }}</option>
 			{% endfor %}
 		</select>
 		<h1>:</h1>
-		<select name="minute" id="" value="0">
+		<select name="minute" id="">
 			{% for i in range(0, 60) %}
 			<option value="{{ i }}">{{ i }}</option>
 			{% endfor %}
 		</select>
-		<select name="noon" id="" value="0">
+		<select name="noon" id="">
 			<option value="0">am</option>
 			<option value="1">pm</option>
 		</select>

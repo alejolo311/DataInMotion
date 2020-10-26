@@ -6,7 +6,9 @@ Index route for nodes api
 import sys
 sys.path.append('/usr/src/app')
 from api.v1.nodes import app_nodes
+from api.v1.auth import token_required
 from api.v1.nodes.crontab_manager import updateCronTab
+from api.v1.auth import send_email
 from models import storage
 from flask import jsonify, Response, request, render_template, send_file
 from models.custom import CustomNode
@@ -165,7 +167,18 @@ def run_node(node_id):
     """
     node = storage.get(CustomNode, node_id)
     board_id = node.board_id
+
     nodes, starter = create_node_instances(board_id, node_id)
+    # Send email to board owner
+    board = storage.get(Board, board_id)
+    user = storage.get(User, board.user_id)
+    params = json.loads(node.analisis_params)
+    if 'active' in params and params['active']:
+        subject = 'The {} trigger in {} - is running now!!'.format(starter.name, board.name)
+        process_id = starter.instance_id
+        url = 'http://{}/boards/{}/?check_process=true&id={}'.format(request.host.split(':')[0], board.id, process_id)
+        template = render_template('confirm.html', url=url, board=board)
+        send_email(user.email, subject, template)
     print('*****************')
     print('Threadings Count:')
     print('*****************')
@@ -307,6 +320,7 @@ def delete_node(node_id):
 
 @app_nodes.route('/nodes/<node_id>/save', methods=['POST'],
                  strict_slashes=False)
+@token_required
 def save_entire_node(node_id):
     """
     saves the entire node object
@@ -320,10 +334,17 @@ def save_entire_node(node_id):
     if in_node['type'] == 'service':
         # Check for timing configuration on trigger node
         # settings = in_node['analisis_params']
-        if 'date' in in_node:
-            print(in_node['date'])
-            setattr(node, 'analisis_params', json.dumps({'date': in_node['date']}))
-            res = updateCronTab(node, in_node['sync_date'])
+        if 'date' in in_node['analisis_params']:
+            # print(in_node['date'])
+            newData = json.loads(node.analisis_params)
+            # print('setting for cront job', in_node)
+            if 'active' in in_node['analisis_params']:
+                newData['active'] = in_node['analisis_params']['active']
+            if 'frequency' in in_node['analisis_params']:
+                newData['frequency'] = in_node['analisis_params']['frequency']
+            newData['date'] = in_node['analisis_params']['date']
+            setattr(node, 'analisis_params', json.dumps(newData))
+            res = updateCronTab(node, in_node['analisis_params']['sync_date'])
         # print('Saving trigger setup', settings)
     for key in sample_keys:
         if key == 'analisis_mode':
@@ -336,7 +357,7 @@ def save_entire_node(node_id):
         if type(val) == dict or type(val) == list:
             val = json.dumps(val)
         setattr(node, key, val)
-    print('Saved node\n', node.to_dict())
+    # print('Saved node\n', node.to_dict())
     node.save()
     return Response(json.dumps({'id': node_id}), status=200,
                     mimetype='application/json')

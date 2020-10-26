@@ -503,25 +503,46 @@ hr {
 }
 .test_button:hover {
 	background-color: #4accce;
+	box-shadow: 0px 0px 10px white;
 }
 .test_button:active {
 	background-color: #1d7c7e;
 }
 .trigger_button {
 	border-radius: 50%;
-	width: 24px;
-	height: 24px;
+	/* padding: 2px; */
+	width: 18px;
+	height: 18px;
 	background-color: transparent;
+	/* background-size: 18px !important; */
 	right: 38px;
-	margin-top: 2px; 
+	margin-top: 4px; 
 	margin-right: 8px;
 	cursor: pointer;
+	border: none;
+	/* content: url("../svg/trigger.svg"); */
+}
+.body {
+	position: relative;
+}
+.hover_activate {
+	position: absolute;
+	background-color: black;
+	color: white;
+	font-family: var(--font);
+	font-size: 14px;
+	padding: 4px 18px;
+	border-radius: 10px;
+	z-index: 20;
+	box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.261);
 }
 .trigger_button:hover {
 	background-color: #307b7c82;
+	box-shadow: 0px 0px 10px white;
 }
 .trigger_button:active {
-	background-color: #1d7c7e;
+	filter: saturate(0.8);
+	box-shadow: 0px 0px 20px white;
 }
 .media_player {
 	width: 28px;

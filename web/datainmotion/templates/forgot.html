@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Log in</title>
+		<title>Reset Password</title>
 		<!-- Favicons -->
         <link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/static/theme/apple-icon-60x60.png">
@@ -24,9 +24,9 @@
 		
 
 		<link rel='stylesheet' href='/static/css/global.css?{{ id }}'>
-		<link rel='stylesheet' href='/static/styles/side_bar.css?{{ id }}'>
         <link rel='stylesheet' href='/static/theme/css/structure.css'>
-        <link rel='stylesheet' href='/static/theme/css/company4.css'>
+		<link rel='stylesheet' href='/static/theme/css/company4.css'>
+		<link rel='stylesheet' href='/static/styles/side_bar.css?{{ id }}'>
         <link
 		rel='stylesheet' href='/static/theme/css/custom.css'>
 		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
@@ -44,15 +44,13 @@
 				<h1><a href="/"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
 			</div>
 		</div>
-		<form name ="login" id="loginForm" action="javascript:login();">
-			<div><h1>Log in</h1></div>
-			<label for="user">Username</label>
+		<form name ="login" id="loginForm" action="javascript:forgotPassword();">
+			<div><h1>Forgot your password?</h1><p>Don't worry, just fill in your email and we'll send you a link to reset your password</p></div>
+			<label for="user">Email</label>
 			<input type="text" id="username" placeholder="E-mail: example@email.com">
-			<label for="pass">Password</label>
-			<input type="password" placeholder="Password">
-			<input type="submit" value="Log in">
-			<h2 onclick="window.location = '/register'">Create a new account</h2>
-			<h2 onclick="window.location = '/forgot'">Forget my password</h2>
+			<input type="submit" action="reset" value="Reset password">
+			<!-- <h2 onclick="window.location = '/register'">Create a new account</h2>
+			<h2>Forget my password</h2> -->
 			
 		</form>
 		<style>
@@ -62,8 +60,8 @@
 				--board_color_end: #310331;
 			}
 			body {
-				padding: 0;
 				margin: 0;
+				padding: 0;
 				background-color: var(--board_color);
 				min-height: 100vh;
 				overflow: hidden;
@@ -75,7 +73,7 @@
 			}
 			[name="login"] {
 				margin-left: calc(100vh - 240px);
-				margin-top: 40px;
+				margin-top: 80px;
 				z-index: 30;
 				background-color: white;
 				width: 400px;
@@ -83,6 +81,10 @@
 				padding: 40px;
 				display: block;
 				box-shadow: 0 0 10px rgba(0, 0, 0, 0.431);
+			}
+			[name="login"] h1 {
+				font-size: 24px;
+				font-weight: bold;
 			}
 			[name="login"] h2 {
 				font-size: 14px;
@@ -108,34 +110,18 @@
 				font-weight: normal !important;
 				color: #b3b3b3 !important;
 			}
-			[value="Log in"] {
+			[action="reset"] {
 				color: white !important;
 				width: 90px;
 				margin-top: 24px;
 				/* margin-left: calc(50% - 45px); */
 			}
-			[value="login"]:hover {
+			[action="reset"]:hover {
 				background-color: blue !important;
 			}
-			[value="login"]:active {
+			[action="reset"]:active {
 				background-color: rgb(20, 20, 161) !important;
 			}
 		</style>
-		<script>
-			
-			window.onload = async function () {
-				const token = localStorage.getItem('token');
-				if (token) {
-					const req = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/auth/confirm/${token}`);
-					const json = await req.json();
-					if (json.id) {
-						window.location.replace(`${global.prot}://${global.domain}/user/boards`);
-					} else {
-						localStorage.removeItem('user');
-						localStorage.removeItem('token');
-					}
-				}
-			}
-		</script>
 	</body>
 </html>

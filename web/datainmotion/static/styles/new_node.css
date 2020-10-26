@@ -7,6 +7,7 @@
 	top: 0;
 	left: 0;
 	display: none;
+	backdrop-filter: blur(5px);
 }
 .step {
 	background-color: white;

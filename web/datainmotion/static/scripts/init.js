@@ -23,7 +23,7 @@ async function checkOnReload () {
 	// localStorage.running_id = instanceId;
 	const state = localStorage.getItem('running_test');
 	console.log(state === 'true');
-	if (state === 'true') {
+	if (state && localStorage.getItem('running_id')) {
 		console.log('reading PID');
 		const pId = localStorage.getItem('running_id');
 		console.log(pId);
@@ -34,8 +34,14 @@ async function checkOnReload () {
 			running_test(pId);
 		}
 	} else {
-		localStorage.running_test = false;
-		localStorage.running_id = '';
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		if (urlParams.has('check_process')) {
+			running_test(urlParams.get('id'));
+		} else {
+			localStorage.running_test = false;
+			localStorage.running_id = '';
+		}
 	}
 }
 async function stopProcess (pId) {

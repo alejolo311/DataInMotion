@@ -235,3 +235,36 @@
 [add="true"]:active {
 	filter: saturate(0.6);
 }
+.menu-board {
+	width: 18px !important;
+	height: 18px !important;
+	background-size: cover !important;
+	background-image: url(../svg/board_button.svg) !important;
+	background-position: center;
+	filter: contrast(200%);
+}
+.menu-board-hover {
+	background-image: url(../svg/board_button_hover.svg) !important;
+}
+.menu-users {
+	width: 18px !important;
+	height: 18px !important;
+	background-size: cover !important;
+	background-image: url(../svg/add_user.svg) !important;
+	background-position: center;
+	filter: contrast(200%);
+}
+.menu-users-hover {
+	background-image: url(../svg/add_user_hover.svg) !important;
+}
+.menu-nodes {
+	width: 18px !important;
+	height: 18px !important;
+	background-size: cover !important;
+	background-image: url(../svg/add_node.svg) !important;
+	background-position: center;
+	filter: contrast(200%);
+}
+.menu-nodes-hover {
+	background-image: url(../svg/add_node_hover.svg) !important;
+}

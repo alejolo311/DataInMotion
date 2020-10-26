@@ -117,8 +117,8 @@ def check_running_node():
     try:
         with open('./api/running/{}.test'.format(node_id), 'r') as test:
             test_file = json.loads(test.read())
-            if test_file['status'] == 'completed':
-                os.remove('./api/running/{}.test'.format(node_id))
+            # if test_file['status'] == 'completed':
+            #     os.remove('./api/running/{}.test'.format(node_id))
             return Response(json.dumps(test_file), mimetype='application/json')
     except Exception as e:
         print(e)

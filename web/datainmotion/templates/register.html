@@ -25,6 +25,7 @@
 		name="theme-color" content="#ffffff">
 		
 		<link rel='stylesheet' href='/static/css/global.css?{{ id }}'>
+		<link rel='stylesheet' href='/static/styles/side_bar.css?{{ id }}'>
         <link rel='stylesheet' href='/static/theme/css/structure.css'>
         <link rel='stylesheet' href='/static/theme/css/company4.css'>
         <link
@@ -39,6 +40,11 @@
 
 	</head>
 	<body>
+		<div class="top_bar">
+			<div class="left_top">
+				<h1><a href="/"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
+			</div>
+		</div>
 		<form name ="register" id="registerForm" action="javascript:register();">
 			<h1>Sign up</h1>
 		<label for="user">Username</label>
@@ -57,6 +63,8 @@
 				--board_color_end: #310331;
 			}
 			body {
+				margin: 0;
+				padding: 0;
 				background-color: var(--board_color);
 				min-height: 100vh;
 				overflow: hidden;
@@ -64,11 +72,11 @@
 			form label {
 				font-size: 12px;
 				margin-bottom: 0;
-				font-weight: lighter;
+				color: rgb(196, 196, 196);
 			}
 			[name="register"] {
 				margin-left: calc(100vh - 240px);
-				margin-top: 40px;
+				margin-top: 20px;
 				z-index: 30;
 				background-color: white;
 				width: 400px;

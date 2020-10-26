@@ -8,7 +8,8 @@ function setNodeSettings () {
 			node_id = $(this).attr('p_id');
 		} else if (node_id === $(this).attr('p_id')) {
 			console.log(evn.pageX);
-			console.log(evn.pageY);
+			// console.log(evn.pageY);
+			// window.location.replace(`${global.prot}://${global.domain}/node_editor?id=${node_id}`);
 			loadNode($(this).attr('p_id'), evn);
 			node_id = '';
 		} else {
@@ -25,7 +26,11 @@ const loadNode = function (id, evn) {
 				WhatsAppFlow(node, evn);
 			} else {
 				$('.new_node_cont').css('display', 'block');
-				setNodeView(node, evn);
+				const root = document.getElementById('node_editor');
+				const editor = new NodeEditor(root, id);
+				editor.setpos(evn);
+				console.log(editor);
+				// setNodeView(node, evn);
 			}
 		}
 	});

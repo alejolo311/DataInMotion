@@ -31,8 +31,13 @@ def board(board_id):
     """
     return a view for the board
     """
+    # args = request.args.to_dict()
+    # print(args)
+    # process_id = None
+    # if 'check_process' in args:
+    #     process_id = args['check_process']
     board = json.loads(storage.get(Board, board_id).to_dict())
-    return render_template('board.html', id=str(uuid.uuid4()), board=board)
+    return render_template('board.html', id=str(uuid.uuid4()), board=board) # , pid=process_id)
 
 
 @app.route('/boards/<board_id>/lite', methods=['GET'], strict_slashes=False)
@@ -51,7 +56,7 @@ def nodes():
     by now it returns all the created nodes, it need to filter by board id
     """
     nodes = request.get_json()
-    print(nodes)
+    # print(nodes)
     # if 'lite' in dict(request.__dict__)['environ']['QUERY_STRING']:
     #     return Response(json.dumps([nods, connections]), mimetype='application/json')
     # else:
@@ -200,6 +205,34 @@ def calendar():
     """
     return render_template('calendar.html', id=str(uuid.uuid4()))
 
+@app.route('/forgot', methods=['GET'], strict_slashes=False)
+def forgot():
+    """
+    Return the forgot view
+    """
+    return render_template('forgot.html', id=str(uuid.uuid4()))
+
+
+@app.route('/change_password',
+            methods=['GET'],
+            strict_slashes=False)
+def change_password():
+    """
+    Change password view
+    """
+    token = request.args.get('token')
+    return render_template('change_password.html', id=str(uuid.uuid4()), token=token)
+
+
+@app.route('/node_editor',
+            methods=['GET'],
+            strict_slashes=False)
+def node_editor():
+    """
+    Node Editor View
+    """
+    node_id = request.args.get('id')
+    return render_template('node_editor.html', id=str(uuid.uuid4()), node=node_id)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port='8080')
+    app.run(host="0.0.0.0", port='8086')

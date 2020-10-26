@@ -5,7 +5,7 @@ Auth Flow
 
 from models import storage
 from itsdangerous import URLSafeTimedSerializer
-from api.v1.auth import app_auth
+from api.v1.auth import app_auth, token_required
 from flask import request, current_app, jsonify, render_template, redirect
 from models.user import User
 from datetime import datetime
@@ -96,6 +96,35 @@ def confirm_email(token):
         user[0].save()
         return redirect('http://' + request.host.split(':')[0] + '/user/boards')
     return redirect('')
+
+
+@app_auth.route('/forgot',
+                methods=['POST'])
+def forgot_pass():
+    """
+    forgot password
+    """
+    email = request.get_json()['email']
+    print('email to reset', email)
+    subject = 'Reset your password'
+    token = generate_token(email)
+    url = 'http://' + request.host.split(':')[0] + '/change_password?token=' + token
+    template = render_template('reset.html', url=url)
+    send_email(email, subject, template)
+    return jsonify(message="success")
+
+@app_auth.route('/reset',
+                methods=['POST'])
+@token_required
+def reset_pass():
+    """
+    reset password
+    """
+    passwd = request.get_json()['password']
+    user = storage.get(User, request.user)
+    user.password = passwd
+    user.save()
+    return jsonify(message="success")
 
 def send_email(to, subject, template):
     """

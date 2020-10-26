@@ -19,6 +19,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 import json
 import requests
 from models.auth import Auth
+from models.crontab_manager import get_next_job
 from models.whatsapp_web import WebWhastapp
 from inspect import currentframe as ctf
 from inspect import getframeinfo as gfi
@@ -60,6 +61,13 @@ class CustomNode(BaseNode, Base):
         CustomNode string representation
         """
         return json.dumps(self.__dict__)
+
+    def get_next_job(self, sync):
+        """
+        Checks all the cron jobs and get the remaining time
+        """
+        nextJob = get_next_job(self, sync)
+        return nextJob
 
     def set_caller_node(self, caller_id):
         """

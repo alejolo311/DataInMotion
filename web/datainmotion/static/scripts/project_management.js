@@ -212,7 +212,7 @@ function setNodeView(node, evn) {
 	newNodeFlow(node, node.id);
 }
 function newNode (type) {
-  console.log('Create a new node');
+  console.log('Create a new node of type', type);
   const boardId = $('.container').attr('board_id');
   $.ajax({
     url: `${global.prot}://${global.domain}${global.apiPort}/api/v1/boards/${boardId}/create_node`,
@@ -226,7 +226,10 @@ function newNode (type) {
       if (resp.work_type === 'sender') {
 		WhatsAppFlow(resp, {'pageX': 140, 'pageY': 200});
 	  } else {
-		setNodeView(resp, {'pageX': 40, 'pageY': 200});
+		$('.new_node_cont').css('display', 'block');
+		const root = document.getElementById('node_editor');
+		const editor = new NodeEditor(root, resp.id);
+		editor.setpos({'pageX': 40, 'pageY': 200});
 	  }
     },
     error: function (error) {
@@ -477,10 +480,16 @@ function setProjectMenu () {
 		<option value="media_player">media viewer</option>
 		<option value="media_twitter">Twitter media upload</option>
   */
-  $('[menu=nodes]').on('click', function (evn) {
-    $('.menus').empty();
-	const nodesMenu = [
-		{
+	$('[menu=nodes]').mousemove(function () {
+		$(this).find('i').addClass('menu-nodes-hover');
+	});
+	$('[menu=nodes]').mouseleave(function () {
+		$(this).find('i').removeClass('menu-nodes-hover');
+	});
+	$('[menu=nodes]').on('click', function (evn) {
+		$('.menus').empty();
+		const nodesMenu = [
+			{
 			'title': 'Data',
 			'description': 'This nodes are used to fetch or post data to any source',
 			'options': {
@@ -521,12 +530,24 @@ function setProjectMenu () {
 	]
     createNodesMenu(evn.pageX, nodesMenu);
   });
+  $('[menu=board]').mousemove(function () {
+	$(this).find('i').addClass('menu-board-hover');
+  });
+  $('[menu=board]').mouseleave(function () {
+	$(this).find('i').removeClass('menu-board-hover');
+  });
   $('[menu=board]').on('click', function (evn) {
     $('.menus').empty();
     const items = [];
     items.push(['import file', importBoard]);
     items.push(['export file', exportBoard]);
     createMenu(evn.pageX, items);
+  });
+  $('[menu=users]').mousemove(function () {
+	$(this).find('i').addClass('menu-users-hover');
+  });
+  $('[menu=users]').mouseleave(function () {
+	$(this).find('i').removeClass('menu-users-hover');
   });
   $('[menu=users]').on('click', function () {
 	  $('.add_user').css('display', 'block');

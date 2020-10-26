@@ -60,7 +60,7 @@ function setConnectionsListeners () {
     const parent = $(obj).parent();
     parent.toggleClass('in_expanded');
     let width = 40;
-	let expand;
+	let expand;trac
 	// measuring the correct width summing each connection
     for (const child of parent.find('h2').toArray()) {
       $(child).toggleClass('expanded');

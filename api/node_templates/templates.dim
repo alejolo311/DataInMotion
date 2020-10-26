@@ -61,7 +61,7 @@
 			"trigger": null,
 			"type": "custom",
 			"user_id": "aca072f0-e2ff-47bf-b26a-7c6d8f668497",
-			"work_type": "request"
+			"work_type": "process"
 		},
 		"statistics": {
 			"analisis_mode": "statistics",
@@ -263,7 +263,27 @@
 			"type": "custom",
 			"user_id": "",
 			"work_type": "request"
+		},
+		"StarWars": {
+			"analisis_mode": "",
+			"analisis_params": [],
+			"api_endpoint": "",
+			"api_url": "http://swapi.dev/api/planets/1/",
+			"board_id": "",
+			"color": "#00fff2",
+			"data": {},
+			"headers": {},
+			"id": "",
+			"inner_connections": "",
+			"innodes": [],
+			"name": "StarWars",
+			"outnodes": [],
+			"string": "",
+			"timeout": 0,
+			"trigger": null,
+			"type": "custom",
+			"user_id": "",
+			"work_type": "request"
 		}
-
 	}
 }

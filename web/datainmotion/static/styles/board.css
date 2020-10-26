@@ -63,6 +63,7 @@
 	z-index: 10;
 	background-color: rgba(0, 0, 0, 0.616);
 	padding: 2% 10%;
+	backdrop-filter: blur(5px);
 }
 .data_extractor {
 	font-family: var(--font);
@@ -222,6 +223,7 @@ div[node="true"] {
 	top: 0;
 	left: 0;
 	background-color: rgba(255, 255, 255, 0.856);
+	backdrop-filter: blur(5px);
 }
 .last_state {
 	width: 50%;
@@ -484,7 +486,8 @@ div[node="true"] {
 	left: 0;
 	width: 100vw;
 	height: 100vw;
-	background-color: rgba(0, 0, 0, 0.733);
+	background-color: rgba(106, 106, 106, 0.419);
+	backdrop-filter: blur(5px);
 }
 .file_cont {
 	z-index: 20;
@@ -646,7 +649,8 @@ div[node="true"] {
 	left: 0px;
 	z-index: 19;
 	padding-bottom: 40px;
-	background-color: rgba(0, 0, 0, 0.65);
+	background-color:  transparent;
+	backdrop-filter: blur(5px);
 }
 h3[save="whatsapp"] {
 	position: absolute;
@@ -658,7 +662,7 @@ h3[save="whatsapp"] {
 	font-size: 18px;
 	padding: 4px 18px;
 	cursor: pointer;
-	border-radius: 8px;
+	border-radius: 12px;
 }
 h3[save="whatsapp"]:hover {
 	background-color: 	#ee7a8a;
@@ -675,7 +679,7 @@ h3[close="whatsapp"] {
 	position: absolute;
 	top: -18px;
 	left: 0;
-	background-image: url(../images/close_white.png);
+	background-image: url(../images/close.png);
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 22px;
@@ -684,13 +688,14 @@ h3[close="whatsapp"] {
 }
 h3[close="whatsapp"]:hover {
 	background-color: rgba(128, 128, 128, 0.274);
+	background-image: url(../images/close_white.png);
 }
 h3[close="whatsapp"]:active {
-	background-image: url(../images/close_white.png);
+	background-image: url(../images/close.png);
 }
 div[form="whatsapp_node"] {
 	display: none;
-	color: white;
+	color: #00bfa5;
 	position: absolute;
 	top: 60px;
 	left: 28%;
@@ -700,7 +705,7 @@ div[form="whatsapp_node"] {
 	z-index: 20;
 	padding: 40px 20px;
 	font-family: var(--font);
-	background-color: #00bfa5;
+	background-color: white;
 	border-radius: 8px;
 }
 div[form="whatsapp_node"] h1 {
@@ -715,8 +720,25 @@ div[form="whatsapp_node"] label {
 div[form="whatsapp_node"] input {
 	padding: 12px;
 	border-radius: 12px;
-	border: none;
 	outline: none;
+	border: 1px solid rgb(196, 196, 196);
+}
+.csv-upload {
+	color: #5591a7;
+	margin-left: 10%;
+	border: 1px solid grey;
+	border-radius: 10px;
+	cursor: pointer;
+	outline: none;
+	background-color: white;
+	width: 80%;
+	padding: 6px 12px;
+	font-weight: bold;
+	font-size: 14px;
+}
+.csv-upload:hover {
+	background-color: #5591a7;
+	color: white;
 }
 div[form="whatsapp_node"] input::placeholder {
 	color: rgb(177, 177, 177);
@@ -733,6 +755,7 @@ div[select="contacts"] h2{
 	padding: 8px 12px;
 	background-color: #038d7b;
 	border-radius: 18px;
+	color: white;
 }
 div[select="contacts"] h2:hover{
 	background-color: #02685a;
@@ -741,13 +764,19 @@ div[select="contacts"] h2:active{
 	background-color: #249788;
 }
 h2[show="true"] {
+	width: fit-content;
+	padding: 12px 18px;
 	font-size: 16px;
 	line-height: 16px;
 	margin-left: 10%;
 	cursor: pointer;
+	color: white;
+	background-color: #02685a;
+	/* border: 3px solid black; */
+	border-radius: 12px;
 }
 .list_opts:hover {
-	text-decoration: underline;
+	filter: saturate(2.5);
 }
 div[select="gif"] {
 	display: flex;
@@ -778,22 +807,26 @@ div[contacts="true"] {
 div[contacts="true"] button{
 	width: 36%;
 	text-align: center;
-	font-size: 14px;
+	font-size: 16px;
 	color: white;
 	margin-left: 30%;
+	margin-right: 30%;
 	margin-top: 12px;
+	margin-bottom: 20px;
 	cursor: pointer;
-	padding: 8px 12px;
-	background-color: #038d7b;
-	border-radius: 18px;
+	padding: 8px 18px;
+	background-color: #d3a531;
+	border-radius: 12px;
 	outline: none;
 	border: none;
+	font-family: var(--font);
+	font-weight: bold;
 }
 div[contacts="true"] button:hover{
-	background-color: #02685a;
+	filter: saturate(2.4);
 }
 div[contacts="true"] button:active{
-	background-color: #249788;
+	filter: saturate(0.8);
 }
 div[contacts="true"] ul{
 	display: grid;
@@ -802,6 +835,8 @@ div[contacts="true"] ul{
 	grid-template-columns: repeat(3, 116px);
 }
 div[contacts="true"] li {
+	border: 2px solid rgb(197, 197, 197);
+	color: rgb(197, 197, 197);
 	text-overflow: ellipsis;
 	list-style: none;
 	margin: 4px 8px;
@@ -813,15 +848,15 @@ div[contacts="true"] li {
 	overflow: hidden;
 	hyphens: auto;
 	font-weight: bold;
+	padding: 1px 5px;
+	border-radius: 18px;
 }
 div[contacts="true"] li:hover{
+	border: 2px solid rgb(122, 102, 65);
 	overflow: hidden;
 	cursor: pointer;
 	color: rgb(122, 102, 65);
 	font-weight: bold;
-	border-radius: 18px;
-	border: 2px solid rgb(122, 102, 65);
-	padding: 1px 5px;
 }
 /* contacts list nodes */
 .contacts_lists {

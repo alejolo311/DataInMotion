@@ -86,6 +86,9 @@ def nodes_views(board_id):
     parsed = []
     for node in nodes:
         nd = json.loads(node.to_dict())
+        if node.type == 'service':
+            nd['elapsed'] = node.get_next_job()
+            print('Elapsed Time', nd['elapsed'])
         nd['connections'] = []
         for n in nodes:
             for inp in json.loads(n.innodes):
@@ -130,10 +133,17 @@ def remove_board(board_id):
     """
     Return the nodes for the board id
     """
+    sync_date = request.args.to_dict()
+    if 'sync_date' in sync_date:
+        sync_date = sync_date['sync_date']
     board = storage.get(Board, board_id)
     nodes = {}
     for node_id in json.loads(board.nodes):
         nodes[node_id] = json.loads(storage.get(CustomNode, node_id).to_dict())
+        if nodes[node_id]['type'] == 'service':
+            node = storage.get(CustomNode, node_id)
+            elapsed = node.get_next_job(sync_date)
+            nodes[node_id]['elapsed'] = str(elapsed)
     return Response(json.dumps(nodes), mimetype='application/json')
 
 

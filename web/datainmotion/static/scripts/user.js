@@ -108,3 +108,62 @@ async function getLoginView() {
 	const loginView = await loginFetch.text();
 	return loginView;
 }
+
+async function changePassword(event) {
+	const passWd = document.querySelector('[type="password"]').value;
+	const passConfirm = document.querySelector('[name="confirm"]').value;
+	if (passConfirm !== '' && passWd !== '' && passConfirm === passWd) {
+		const response = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/auth/reset`, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				'Authorization': localStorage.getItem('token')
+			},
+			body: JSON.stringify({
+				password: passWd
+			})
+		});
+		let json = await response.json();
+		if (!json.id) {
+			window.location.replace(`${global.prot}://${global.domain}/login`);
+		}
+		console.log(json);
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		window.location.replace(`${global.prot}://${global.domain}/login`);
+	} else if (passConfirm === '' && passWd !== ''){
+		document.querySelector('[for="confirm"]').innerHTML = 'Please confirm your password';
+		document.querySelector('[for="confirm"]').style.color = 'red';
+		document.querySelector('[for="confirm"]').style.fontWeight = 'bold';
+	} else if (passWd === '' && passConfirm !== ''){
+		document.querySelector('[for="pass"]').innerHTML = 'No password';
+		document.querySelector('[for="pass"]').style.color = 'red';
+		document.querySelector('[for="pass"]').style.fontWeight = 'bold';
+	}
+}
+
+async function forgotPassword(event) {
+	const userName = document.getElementById("username").value;
+	if (userName !== '') {
+		const response = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/auth/forgot`, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: userName
+			})
+		});
+		let json = await response.json();
+		console.log(json);
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+		window.location.replace(`${global.prot}://${global.domain}/check_mail`);
+	} else {
+		document.querySelector('[for="username"]').innerHTML = 'Provide an email';
+		document.querySelector('[for="username"]').style.color = 'red';
+		document.querySelector('[for="username"]').style.fontWeight = 'bold';
+	}
+}

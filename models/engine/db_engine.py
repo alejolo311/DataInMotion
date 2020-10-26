@@ -21,7 +21,7 @@ class DBEngine:
         """
         user = 'data_im_dev'
         password = 'dim_passwd'
-        host = '172.18.0.2'
+        host = 'db'
         db = 'data_im_dev_db'
         self.__engine = create_engine('postgres://{}:{}@{}:5432/{}'.format(
             user, password, host, db
