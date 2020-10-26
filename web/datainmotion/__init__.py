@@ -37,7 +37,8 @@ def board(board_id):
     # if 'check_process' in args:
     #     process_id = args['check_process']
     board = json.loads(storage.get(Board, board_id).to_dict())
-    return render_template('board.html', id=str(uuid.uuid4()), board=board) # , pid=process_id)
+    user = storage.get(User, board['user_id'])
+    return render_template('board.html', id=str(uuid.uuid4()), board=board, owner=user.email) # , pid=process_id)
 
 
 @app.route('/boards/<board_id>/lite', methods=['GET'], strict_slashes=False)
@@ -46,7 +47,9 @@ def board_lite(board_id):
     return a view for the board
     """
     board = json.loads(storage.get(Board, board_id).to_dict())
-    return render_template('board_lite.html', id=str(uuid.uuid4()), board=board)
+    user = storage.get(User, board['user_id'])
+    print(user, board)
+    return render_template('board_lite.html', id=str(uuid.uuid4()), board=board, owner=user.email)
 
 
 @app.route('/boards/nodes', methods=['POST'], strict_slashes=False)
