@@ -4,6 +4,7 @@ services:
   api:
     build: 
       context: .
+      shm_size: 4gb
       dockerfile: ./api/Dockerfile
     command: ./init_api
     env_file:
@@ -46,10 +47,6 @@ services:
       - 443:443
     depends_on:
       - web
-    networks:
-      default:
-        external:
-          name: snap-net
 #   certbot:
 #     image: certbot/certbot:latest
 # ##    command: certonly --force-renewal -n --webroot --webroot-path=/usr/share/nginx/html/letsencrypt --email danrodcastillo1994@gmail.com --agree-tos --no-eff-email -d 'dnart.tech' --test-cert
