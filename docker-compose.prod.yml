@@ -4,15 +4,15 @@ services:
   api:
     build: 
       context: .
-      shm_size: 4gb
+      shm_size: 2g
       dockerfile: ./api/Dockerfile
     command: ./init_api
     env_file:
       - ./.env.prod
     ports:
       - 8080:8080
-    volumes:
-      - /dev/shm:/dev/shm
+    # volumes:
+    #   - /dev/shm:/dev/shm
     depends_on: 
       - web
   web:
