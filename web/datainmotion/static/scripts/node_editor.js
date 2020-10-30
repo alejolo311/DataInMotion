@@ -155,7 +155,7 @@ class NodeEditor {
 				const d = new Date(Date.now());
 				date = [
 					d.getFullYear(),
-					d.getMonth() + 1,
+					d.getMonth(),
 					d.getDate(),
 					d.getHours(),
 					d.getMinutes(),
@@ -1072,8 +1072,8 @@ class NodeEditor {
 		).then(res => res.json)
 		.then(json => {
 			console.log(json);
-			// getBoardView();
-			// $('.new_node_cont').css('display', 'none');
+			getBoardView();
+			$('.new_node_cont').css('display', 'none');
 		})
 	}
 }
