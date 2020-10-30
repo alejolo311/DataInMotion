@@ -1,0 +1,69 @@
+:root {
+	--font: 'Mallanna', sans-serif;
+}
+#root {
+	z-index: 10;
+	top: 0;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	backdrop-filter: blur(5px);
+}
+.whatsapp_register {
+	z-index: 10;
+	position: absolute;
+	top: 10vh;
+	width: 50vw;
+	height: 80vh;
+	left: 25vw;
+	border-radius: 18px;
+	background-color: white;
+}
+.whatsapp_register h1, .whatsapp_register h2 {
+	font-family: var(--font);
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+}
+.whatsapp_register h2 {
+	font-size: 16px;
+	color: rgb(172, 69, 0);
+}
+.whatsapp_register p {
+	font-family: var(--font);
+	font-size: 18px;
+	line-height: 18px;
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	color: rgb(85, 85, 85);
+}
+.qrcode {
+	display: none;
+	margin-top: 10px;
+	width: 20vw;
+	height: 20vw;
+	margin-left: 15vw;
+	background-image: url(../images/wait.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+	border: none;
+}
+.register {
+	width: 20vw;
+	font-size: 22px;
+	cursor: pointer;
+	background-color: rgb(27, 150, 148);
+	padding: 8px 0px;
+	margin-left: 15vw;
+	color: white;
+	border-radius: 8px;
+	border: none;
+	outline: none;
+}
+.register:hover {
+	filter: saturate(1.6);
+	box-shadow: 1px 1px 3px rgba(48, 48, 48, 0.501);
+	transform: translate(-1px, -1px);
+}

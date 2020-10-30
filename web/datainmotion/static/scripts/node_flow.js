@@ -913,8 +913,17 @@ async function saveWhatsappNode(node, contacts_node, contacts_list) {
 		body: JSON.stringify(node)
 	});
 	const resp = await r_fetch.json();
+	console.log(resp);
 	$('.wpp_cont').css('display', 'none');
 	console.log(node, contacts_node, contacts_list);
 	unbindAll();
 	getBoardView();
+	if (resp.state && resp.state === 'unregistered') {
+		const root = document.getElementById('root');
+		DOMManager.render(
+			WhatsAppRegister,
+			root
+		)
+	}
+	
 }

@@ -32,6 +32,9 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y xdg-utils libxss1 libnss3 libnspr4 libgbm1 libappindicator3-1 fonts-liberation
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN dpkg -i google-chrome-stable_current_amd64.deb
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN google-chrome-stable --version
 
 
 # install dependencies
@@ -43,6 +46,7 @@ RUN GECKODRIVER_VERSION=`curl https://github.com/mozilla/geckodriver/releases/la
     tar -zxf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz -C /usr/bin/ && \
     chmod +x /usr/bin/geckodriver && \
     rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
+
 RUN FIREFOX_SETUP=firefox-setup.tar.bz2 && \
     apt-get purge -y firefox && \
     wget -O $FIREFOX_SETUP "https://download.mozilla.org/?product=firefox-latest&os=linux64" && \
@@ -57,7 +61,9 @@ RUN FIREFOX_SETUP=firefox-setup.tar.bz2 && \
 # for Chrome 84
 # RUN wget https://chromedriver.storage.googleapis.com/84.0.4147.30/chromedriver_linux64.zip
 # for Chrome 83
-RUN wget https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip
+# RUN wget https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip
+# Latest
+RUN wget https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip -d /usr/src/app/
 # RUN chmod 755 /usr/local/bin/geckodriver
 RUN pip install -r requirements.txt

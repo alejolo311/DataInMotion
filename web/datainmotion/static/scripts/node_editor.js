@@ -152,9 +152,24 @@ class NodeEditor {
 					date[1] = 0;
 				}
 			} else {
-				date = Date.now();
+				const d = new Date(Date.now());
+				date = [
+					d.getFullYear(),
+					d.getMonth() + 1,
+					d.getDate(),
+					d.getHours(),
+					d.getMinutes(),
+					d.getSeconds(),
+					d.getMilliseconds()
+				]
 			}
 			const cal = new Calendar(date, editor.data.id, document.body);
+			console.log(typeof editor.data.analisis_params);
+			console.log(editor.data.analisis_params);
+			if (Array.isArray(editor.data.analisis_params)) {
+				console.log('Change data to object');
+				editor.data.analisis_params = {};
+			}
 			cal.context = editor;
 			editor.calendar = cal;
 			const rect = evn.target.getBoundingClientRect();
@@ -216,6 +231,7 @@ class NodeEditor {
 			} else {
 				editor.data.analisis_params['active'] = true;
 			}
+			console.log(editor.data.analisis_params['active']);
 			drawActivationButton();
 		});
 		triggerOptions.appendChild(select);
@@ -259,6 +275,12 @@ class NodeEditor {
 		this.description.innerHTML = 'Use "GET" or "POST" at the begining followed by a space to specify the method to this request.';
 		const urlCont = document.createElement('div');
 		urlCont.innerHTML = `<label>URL</label><input type="text" placeholder="Ex. GET http://webpage.com" value="${this.data.api_url}">`;
+		const urlInput = urlCont.querySelector('input');
+		urlInput.addEventListener('change', function (evn) {
+			editor.data.api_url = evn.target.value;
+			console.log(editor.data.api_url);
+		});
+		console.log(urlInput);
 		const cont = document.getElementById('cont');
 		cont.innerHTML = '';
 		cont.appendChild(urlCont);
@@ -395,6 +417,7 @@ class NodeEditor {
 		editor.goNext = function () {
 			next.removeEventListener('click', editor.goNext);
 			back.removeEventListener('click', editor.goBack);
+
 			console.log(editor.data);
 			editor.renderProcess();
 		}
@@ -786,6 +809,7 @@ class NodeEditor {
 							inputKey.value = editor.data.analisis_params[i].key;
 							inputPath.value = editor.data.analisis_params[i].path;
 							inputKey.addEventListener('change', function (evn) {
+								console.log('change in key');
 								editor.data.analisis_params[i].key = evn.target.value;
 							});
 							inputPath.addEventListener('change', function (evn) {
@@ -794,6 +818,12 @@ class NodeEditor {
 						} else {
 							inputKey.addEventListener('change', function _func(evn) {
 								inputKey.removeEventListener('change', _func);
+								if (editor.data.analisis_params.length > 0) {
+									if (Object.keys(editor.data.analisis_params[0]).length === 0 ) {
+										editor.data.analisis_params = [];
+									}
+								}
+								console.log('change in key', editor.data.analisis_params);
 								editor.data.analisis_params.push({
 									key: evn.target.value,
 									path: ''
@@ -1041,8 +1071,9 @@ class NodeEditor {
 			}
 		).then(res => res.json)
 		.then(json => {
-			getBoardView();
-			$('.new_node_cont').css('display', 'none');
+			console.log(json);
+			// getBoardView();
+			// $('.new_node_cont').css('display', 'none');
 		})
 	}
 }

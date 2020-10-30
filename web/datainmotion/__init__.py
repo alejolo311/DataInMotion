@@ -11,10 +11,12 @@ from models.board import Board
 from models.user import User
 import uuid
 import json
+import os
 
 # libertad y whiskey
-
-app = Flask(__name__)
+print(os.getcwd())
+# app = Flask(__name__, template_folder='./prod_templates')
+app = Flask(__name__, template_folder='./templates')
 CORS(app)
 
 
@@ -186,6 +188,7 @@ def index():
     """
     A index page to redirect user to the board
     """
+    print(os.getcwd())
     return render_template('index.html', id=str(uuid.uuid4()))
 
 

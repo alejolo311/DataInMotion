@@ -41,14 +41,13 @@ def nodes(node_id):
     """
     node = storage.get(CustomNode, node_id)
     resp = node.to_dict()
-    # resp = json.dumps(resp)
     return Response(resp, mimetype='application/json')
 
 @app_nodes.route('/nodes/<node_id>/savecolor',
                  methods=['POST'], strict_slashes=False)
 def nodes_savecolor(node_id):
     """
-    Returns list of nodes by user_id
+    Save the color attribute to the node instance
     """
     node = storage.get(CustomNode, node_id)
     node.color = request.get_json()['color']
@@ -77,10 +76,14 @@ def save_analisis_data(node_id):
 def run_thread(node_id):
     """
     Run threaded node
+    - Creates a Logger instance to store the data through the processes
+    - Create a new test_file in api/running/{instance_id}.test to keep track of the processes status
+    - 
     """
     print('Start Threaded process')
     try:
         node = storage.get(CustomNode, node_id)
+        # Logger and Status file
         logger = Logger(node.user_id)
         test_file = {
             'status': 'started',
@@ -89,8 +92,11 @@ def run_thread(node_id):
         }
         with open('./api/running/{}.test'.format(node_id), 'w') as test:
             test.write(json.dumps(test_file))
+        # Run the first node on the flow,
+        # this node receives the logger instance and the main node_id
         resp = node.run_node_task(({}, {}), logger, node_id)
-        logger_content = str(logger)
+        # Load the Status File again, set the status to completed
+        # and save the file
         with open('./api/running/{}.test'.format(node_id), 'r') as test:
             test_file = json.loads(test.read())
         test_file['logger'] = dict(logger.json())
@@ -100,15 +106,10 @@ def run_thread(node_id):
             test.write(json.dumps(test_file))
         logger.reset()
         print('Finishing thread')
-        # thre = threading.currentThread()
         storage.close()
-        # threading.Event().set()
-        # Thread.join(thre, None)
     except Exception as e:
         print('Thread Fail:\n\t', e)
         traceback.print_exc()
-        # threading.currentThread().join()
-    # dict(logger.json())
 
 def create_node_instances(board_id, node_id):
     """
@@ -257,11 +258,10 @@ def del_connection(node_id):
 
 def copy_node(board, node, data=None, complete=False):
     """
-    Copy a node
+    Copy a node taking the in_node key by key and creating a new Custom instance
     """
     new_node = CustomNode()
     in_node = node
-    # print(in_node)
     del in_node['id']
     sample_keys = in_node.keys()
     for key in sample_keys:
@@ -324,6 +324,8 @@ def delete_node(node_id):
 def save_entire_node(node_id):
     """
     saves the entire node object
+    at the end checks if the node is a whatsapp module
+    and if the user is registered to the browsers sessions
     """
     in_node = request.get_json()
     node = storage.get(CustomNode, node_id)
@@ -338,12 +340,16 @@ def save_entire_node(node_id):
             # print(in_node['date'])
             newData = json.loads(node.analisis_params)
             # print('setting for cront job', in_node)
+            if type(newData) == list:
+                newData = {}
             if 'active' in in_node['analisis_params']:
                 newData['active'] = in_node['analisis_params']['active']
             if 'frequency' in in_node['analisis_params']:
                 newData['frequency'] = in_node['analisis_params']['frequency']
+            print("trigger service configuration", newData, in_node)
             newData['date'] = in_node['analisis_params']['date']
             setattr(node, 'analisis_params', json.dumps(newData))
+            node.save()
             res = updateCronTab(node, in_node['analisis_params']['sync_date'])
         # print('Saving trigger setup', settings)
     for key in sample_keys:
@@ -357,8 +363,15 @@ def save_entire_node(node_id):
         if type(val) == dict or type(val) == list:
             val = json.dumps(val)
         setattr(node, key, val)
-    # print('Saved node\n', node.to_dict())
     node.save()
+    # check the node type
+    if node.work_type == 'sender' and 'whats' in node.name:
+        with open('/usr/src/app/api/browsers/table') as table_browsers:
+            tb = json.loads(table_browsers.read())
+            if request.user in tb.keys():
+                session_file_path = tb[request.user]
+            else:
+                return Response(json.dumps({'id': node_id, 'state': 'unregistered'}))
     return Response(json.dumps({'id': node_id}), status=200,
                     mimetype='application/json')
 

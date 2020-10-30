@@ -45,7 +45,8 @@ function setGrabbers() {
 		$('.selected').text('Selected Node: ' + $(this).attr('parent'));
 			nodeId = $(this).attr('parent');
 			nodeName = $('[cont_node_id="' + nodeId + '"]').attr('name');
-			$(this).css('cursor', 'grabbing');
+			// evn.target.style.cursor = 'grabbing';
+			// 	$(this).css('cursor', 'grabbing');
 			$(this).css('z-index', '10');
 			const color = $('[cont_node_id="' + nodeId + '"]').attr('tag_color');
 			$('[cont_node_id="' + nodeId + '"]').css('z-index', '100');
@@ -67,7 +68,7 @@ function setGrabbers() {
 				}
 				autosave(null);
 			}
-			$(this).css('cursor', 'grab');
+			// $(this).css('cursor', 'grab');
 			$(this).css('z-index', '2');
 			$('[cont_node_id="' + nodeId + '"]').css('z-index', '1');
 			$('[cont_node_id="' + nodeId + '"]').css('box-shadow', 'none');

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Sign Up</title>
+
+
+		<!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/static/theme/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/static/theme/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/static/theme/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/static/theme/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/static/theme/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/static/theme/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/static/theme/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/static/theme/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="/static/theme/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/static/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta
+		name="theme-color" content="#ffffff">
+		
+		<link rel='stylesheet' href='/static/css/global.css?{{ id }}'>
+		<link rel='stylesheet' href='/static/styles/side_bar.css?{{ id }}'>
+        <link rel='stylesheet' href='/static/theme/css/structure.css'>
+        <link rel='stylesheet' href='/static/theme/css/company4.css'>
+        <link
+		rel='stylesheet' href='/static/theme/css/custom.css'>
+		<link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic,900'>
+        <link
+        rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins:100,300,400,400italic,500,700,700italic%7CQuicksand:100,300,400,400italic,500,700,700italic'>
+		<script type="text/javascript" src="/static/compressed/user.js?{{ id }}"></script>
+		<script type="text/javascript" src="/static/compressed/global.js?{{ id }}"></script>
+
+	</head>
+	<body>
+		<div class="top_bar">
+			<div class="left_top">
+				<h1><a href="/"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion" align="left"></a> &nbsp;</h1>
+			</div>
+		</div>
+		<form name ="register" id="registerForm" action="javascript:register();">
+			<h1>Sign up</h1>
+		<label for="user">Username</label>
+		<input type="text" id="username" placeholder="E-mail: example@email.com">
+		<label for="pass">Password</label>
+		<input type="password" placeholder="Password">
+		<label for="confirm">Confirm your password</label>
+		<input type="password" name="confirm" placeholder="Confirm Password">
+		<input type="submit" value="login">
+		<h2 onclick="window.location = '/login'">I have an account</h2>
+		</form>
+		<style>
+			:root {
+				--board_color: #350135;
+				/* --board_color: #ffffff; */
+				--board_color_end: #310331;
+			}
+			body {
+				margin: 0;
+				padding: 0;
+				background-color: var(--board_color);
+				min-height: 100vh;
+				overflow: hidden;
+			}
+			form label {
+				font-size: 12px;
+				margin-bottom: 0;
+				color: rgb(196, 196, 196);
+			}
+			[name="register"] {
+				margin-left: calc(100vh - 240px);
+				margin-top: 20px;
+				z-index: 30;
+				background-color: white;
+				width: 400px;
+				border-radius: 18px;
+				padding: 40px;
+				display: block;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.431);
+			}
+			[name="register"] h2 {
+				font-size: 14px;
+				line-height: 14px;
+				margin-top: 18px;
+				cursor: pointer;
+			}
+			[name="register"] h2:hover {
+				color: blue;
+			}
+			input {
+				padding: 8px 14px;
+				background-color: white;
+				border: 1px solid grey;
+				border-radius: 12px !important;
+				color: black !important;
+				font-weight: bold;
+				font-family: monospace;
+				outline: none !important;
+				width: 100% !important;
+			}
+			input::placeholder {
+				font-weight: normal !important;
+				color: #b3b3b3 !important;
+			}
+			[value="login"] {
+				color: white !important;
+				width: 90px;
+				/* margin-left: calc(50% - 45px); */
+			}
+			[value="login"]:hover {
+				background-color: blue !important;
+			}
+			[value="login"]:active {
+				background-color: rgb(20, 20, 161) !important;
+			}
+		</style>
+	</body>
+</html>

@@ -489,7 +489,14 @@ function setProjectMenu () {
 	$('[menu=nodes]').on('click', function (evn) {
 		$('.menus').empty();
 		const nodesMenu = [
-			{
+		{
+			'title': 'Services',
+			'description': 'This nodes are used to fetch or post data to any source',
+			'options': {
+				'service': 'New service'
+			}
+		},
+		{
 			'title': 'Data',
 			'description': 'This nodes are used to fetch or post data to any source',
 			'options': {
@@ -512,6 +519,8 @@ function setProjectMenu () {
 			'description': 'Create customizable messages using the Data (before or After processing, depends on how you connect the nodes)',
 			'options': {
 				'new_message': 'empty message',
+				'download_gif': 'download a gif from an input "url"',
+				'giphy': 'fetch data from giphy about an specific query'
 			}
 		},
 		{
@@ -578,6 +587,19 @@ function setProjectMenu () {
 			
 	  });
 	console.log('Add user to this board');
+  });
+  $('[menu=whatsapp_register]').mousemove(function () {
+	$(this).find('i').addClass('menu-users-hover');
+  });
+  $('[menu=whatsapp_register]').mouseleave(function () {
+	$(this).find('i').removeClass('menu-users-hover');
+  });
+  $('[menu=whatsapp_register]').on('click', function () {
+	const root = document.getElementById('root');
+	DOMManager.render(
+		WhatsAppRegister,
+		root
+	)
   });
 }
 function createNodesMenu (position, menus) {

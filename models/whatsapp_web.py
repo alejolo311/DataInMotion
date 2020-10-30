@@ -7,6 +7,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from PIL import Image
 from io import BytesIO
 from twilio.rest import Client
+# from api.v1.auth import send_email
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -18,6 +19,7 @@ import time
 import traceback
 import base64
 import random
+import shutil
 import json
 import models.credentials as mc
 from selenium.webdriver.common.keys import Keys
@@ -30,7 +32,8 @@ for pat in paths:
 if exists is False:
     os.environ['PATH'] = os.environ.get('PATH') + ':/usr/src/app/'
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from pyvirtualdisplay import Display
 
 print('Env:', os.environ['PATH'])
@@ -54,22 +57,49 @@ class WebWhastapp():
         self.remove_conf()
         self.remove_verify
 
+
+    def registry_user(self):
+        """
+        Start a new Session and store cookies and LocalStorage
+        """
+        self.start_browser()
+
     def start_browser(self):
         """
         Start the selenium Firefox driver
         """
         op = Options()
-        op.headless = True
-        op.set_preference('media.autoplay.default', 0)
-        op.set_preference('media.mp4.enabled', True)
+        path = f'/usr/src/app/api/browsers/{self.instance.instance_id}.selenium'
+        # op = webdriver.DesiredCapabilities.CHROME.copy()
+        op.add_argument('--headless')
+        op.add_argument('--no-sandbox')
+        op.add_argument('--disable-dev-shm-usage')
+        op.add_argument(f'user-data-dir={path}')
+        op.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36')
+        # op.set_preference('media.autoplay.default', 0)
+        # op.set_preference('media.mp4.enabled', True)
         # Executable paths
         gecko_path = '/usr/bin/geckodriver'
         chrome_path = '/usr/src/app/chromedriver'
         # Drivers-----------------------------
         # Firefox
-        self.driver = webdriver.Firefox(executable_path=gecko_path, options=op)
+        if not os.path.exists(path):
+            os.mkdir(path)
+        # user_profile = webdriver.FirefoxProfile(path)
+        # user_profile.set_preference('network.cookie.cookieBehavior', 0)
+        # user_profile.update_preferences()
+        # self.driver = webdriver.Firefox(
+        #     firefox_profile=user_profile,
+        #     executable_path=gecko_path,
+        #     options=op,
+        #     )
         # Chrome
-        # self.driver = webdriver.Chrome(options=options)
+        try:
+            self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
+        except:
+            os.environ['PATH'] = os.environ['PATH'] + f':{chrome_path}'
+            self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
+        print('Browser Version: GoogleChrome', self.driver.capabilities)
         # --------------------------------------
         self.driver.set_window_position(0, 0)
         self.driver.set_window_size(1080, 592)
@@ -80,16 +110,66 @@ class WebWhastapp():
             }
             session_file.write(json.dumps(conf))
 
+    def restore_browser(self, executor_url, session_id):
+        """
+        Restart the selenium Firefox driver
+        """
+        op = Options()
+        op.headless = True
+        op.set_preference('media.autoplay.default', 0)
+        op.set_preference('media.mp4.enabled', True)
+        # Executable paths
+        gecko_path = '/usr/bin/geckodriver'
+        chrome_path = '/usr/src/app/chromedriver'
+        # Drivers-----------------------------
+        # Firefox
+        
+        self.driver = webdriver.Remote(
+            command_executor=executor_url,
+            desired_capabilities={},
+            options=op
+        )
+        self.driver.session_id = session_id
+        # Chrome
+        # self.driver = webdriver.Chrome(options=options)
+        # --------------------------------------
+        self.driver.set_window_position(0, 0)
+        self.driver.set_window_size(1080, 592)
+
+    def open_whatsapp_web(self):
+        """
+
+        """
+        retries = 10
+        tries = 0
+        while tries < retries:
+            try:
+                self.driver.get('https://web.whatsapp.com')
+                self.save_screenshot('reload')
+                print('Selecting input to search contact')
+                box_xpath = '//div[@contenteditable = "true"]'
+                con_input_span = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
+                time.sleep(2)
+                self.save_screenshot('whatsapp_loaded')
+                return 'Success'
+            except Exception as e:
+                traceback.print_exc()
+                print('Open Browser:\n', e)
+        return None
+
     def auth(self):
         """
         Open web.whatsapp and checks for the QRcode canvas
         """
-        self.instance.write_status(
-            'whatsapp_init',
-            'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
+        print('Auth started')
+        # self.instance.write_status(
+        #     'whatsapp_init',
+        #     'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         try:
             self.driver.get('https://web.whatsapp.com')
-            # self.save_screenshot('init_page')
+            print('Web Whatsapp getted')
+            # self.save_screenshot('auth')
         except Exception as e:
             print(e)
             return False
@@ -97,7 +177,17 @@ class WebWhastapp():
         tries = 0
         while tries < retries:
             try:
-                canvas = WebDriverWait(self.driver, 3).until(
+                print('Pressing remember me')
+                self.save_screenshot('press_remember')
+                rm = '//input[@name = "rememberMe"]'
+                remember = WebDriverWait(self.driver, 4).until(
+                    EC.presence_of_element_located((By.XPATH, rm)))
+                pressed = self.driver.execute_script('return arguments[0].checked;', remember)
+                if not pressed:
+                    self.driver.execute_script('arguments[0].click();', remember)
+                # self.driver.execute_script('window.localStorage.setItem("remember-me", true);')
+                self.save_screenshot('remember_pressed')
+                canvas = WebDriverWait(self.driver, 4).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
                 location = canvas.location
                 size = canvas.size
@@ -110,7 +200,7 @@ class WebWhastapp():
                 im = im.crop((left, top, right, bottom))
                 im.save('./api/verification_images/{}.png'.format(self.instance.instance_id))
                 url = 'web_whatsapp_verify?id=' + self.instance.instance_id
-                return True
+                return url
             except TimeoutException:
                 print('QRcode not found:')
             except Exception as e:
@@ -118,6 +208,51 @@ class WebWhastapp():
                 retries += 1
                 pass
         return False
+
+    def wait_registration(self):
+        """
+        Send a registration message to the user and
+        """
+        box_xpath = '//div[@contenteditable = "true"]'
+        max_retries = 30
+        count = 0
+        while True:
+            try:
+                print('Selecting input to search contact')
+                con_input_span = WebDriverWait(self.driver, 10).until(
+                            EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
+                time.sleep(2)
+                # local_storage  = self.driver.execute_script( 
+                #                     "var ls = window.localStorage, keys = []; " 
+                #                     "for (var i = 0; i < ls.length; ++i) " 
+                #                     "  keys[i] = ls.key(i); " 
+                #                     "return keys;"
+                #                 )
+                # values = self.driver.execute_script( 
+                #             "var ls = window.localStorage, items = {}; " 
+                #             "for (var i = 0, k; i < ls.length; ++i) " 
+                #             "  items[k = ls.key(i)] = ls.getItem(k); " 
+                #             "return items; ")
+                # print('LocalStorage', json.dumps(values, indent=2))
+                # # Save the profile data from tmp file
+                # tmp = f'{self.driver.firefox_profile.path}'
+                # path = f'./api/browsers/{self.instance.instance_id}.selenium'
+                # storage_path = f'./api/browsers/{self.instance.instance_id}.storage'
+                # with open(storage_path, 'w') as st_file:
+                #     st_file.write(json.dumps(values))
+                # os.rmdir(path)
+                # shutil.copytree(tmp, path)
+                # # if os.system(f"cp -R {tmp}/* {path}"):
+                # #     print(f'the profile should be copied to {path} from {tmp}')
+                self.save_screenshot('init_page')
+                # print(self.driver.firefox_profile.path)
+                return 'Success'
+                break
+            except Exception as e:
+                time.sleep(2)
+                # traceback.print_exc()
+                print('Error: ', e)
+
 
     def search_contact(self, contact_number):
         """
@@ -128,12 +263,12 @@ class WebWhastapp():
         # self.save_screenshot(name='before_contacts')
         self.contact = contact_number
         box_xpath = '//div[@contenteditable = "true"]'
-        max_retries = 10
+        max_retries = 20
         count = 0
         while True:
             try:
                 print('Selecting input to search contact')
-                con_input_span = WebDriverWait(self.driver, 10).until(
+                con_input_span = WebDriverWait(self.driver, 4).until(
                             EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
                 con_input = con_input_span.find_element_by_xpath('..')
                 # con_input.click()
@@ -153,13 +288,13 @@ class WebWhastapp():
         count = 0
         while True:
             try:
-                contacts = WebDriverWait(self.driver, 10).until(
+                contacts = WebDriverWait(self.driver, 4).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
                 # for cont in contacts:
                 #     self.driver.execute_script(
                 #         'arguments[0].style.backgroundColor = "blue";', cont)
                 c_xpath = '//div[contains(@class, "eJ0yJ")]'
-                contact = WebDriverWait(contacts, 10).until(
+                contact = WebDriverWait(contacts, 4).until(
                     EC.presence_of_element_located((By.XPATH, c_xpath)))
                 # print(contact.get_attribute('outerHTML').encode('utf-8'))
                 # contact = contacts[0]
@@ -195,7 +330,7 @@ class WebWhastapp():
         Send a message to the contact focused by search_contact
         """
         # Focus the footer and store the input as msg_box
-        footer = WebDriverWait(self.driver, 10).until(
+        footer = WebDriverWait(self.driver, 4).until(
             EC.presence_of_element_located((By.TAG_NAME, 'footer')))
         footer.click()
         box_xpath = '//div[@contenteditable = "true"]'
@@ -400,20 +535,21 @@ class WebWhastapp():
             span = span.find_element_by_xpath('..')
             span.click()
             time.sleep(2)
-            # self.save_screenshot('after_click_clip_span')
-            img_span_xpath = '//span[@data-testid="attach-image-old"]'
+            self.save_screenshot('after_click_clip_span')
+            img_span_xpath = '//span[@data-testid="attach-image"]'
             img_span = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, img_span_xpath))
             )
             parent = span.find_element_by_xpath('..')
             parent = span.find_element_by_xpath('..')
             self.driver.execute_script('arguments[0].focus();', parent)
-            # self.save_screenshot('focus_attach_button')
+            self.save_screenshot('focus_attach_button')
 
             media_input_xpath = '//input[contains(@accept, "video/mp4")]'
             media_input = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, media_input_xpath))
             )
+            self.save_screenshot('media_input')
             media_input.send_keys(filepath)
             self.driver.execute_script('arguments[0].scrollIntoView(true)', img_span)
             action = ActionChains(self.driver)
@@ -452,6 +588,7 @@ class WebWhastapp():
         self.remove_verify()
         self.remove_conf()
         self.driver.close()
+        self.driver.quit()
         # self.driver.quit()
 
     def remove_conf(self):

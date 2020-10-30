@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	 <!-- Favicons -->
+	 <link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
+	 <link rel="apple-touch-icon" sizes="60x60" href="/static/theme/apple-icon-60x60.png">
+	 <link rel="apple-touch-icon" sizes="72x72" href="/static/theme/apple-icon-72x72.png">
+	 <link rel="apple-touch-icon" sizes="76x76" href="/static/theme/apple-icon-76x76.png">
+	 <link rel="apple-touch-icon" sizes="114x114" href="/static/theme/apple-icon-114x114.png">
+	 <link rel="apple-touch-icon" sizes="120x120" href="/static/theme/apple-icon-120x120.png">
+	 <link rel="apple-touch-icon" sizes="144x144" href="/static/theme/apple-icon-144x144.png">
+	 <link rel="apple-touch-icon" sizes="152x152" href="/static/theme/apple-icon-152x152.png">
+	 <link rel="apple-touch-icon" sizes="180x180" href="/static/theme/apple-icon-180x180.png">
+	 <link rel="icon" type="image/png" sizes="192x192" href="/static/theme/android-icon-192x192.png">
+	 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	 <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	 <link rel="manifest" href="/static/manifest.json">
+	 <meta name="msapplication-TileColor" content="#ffffff">
+	 <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	 <meta
+	 name="theme-color" content="#ffffff">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ board.name }} - Data in motion</title>
+	<link rel="stylesheet" href="/static/styles/lite/node.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/lite/side_bar.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/lite/container.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/lite/canvas.css?{{ id }}">
+	<!-- <link rel="stylesheet" href="/static/styles/slider.css?{{ id }}"> -->
+	<link rel="stylesheet" href="/static/styles/lite/menus.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/lite/board.css?{{ id }}">
+	<link rel="stylesheet" href="/static/styles/lite/new_node.css?{{ id }}">
+	<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<script type="text/javascript" src="/static/compressed/global.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/track_mouse.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/node_popup.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/views.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/tools.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/node_settings.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/lite.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/connections.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/operations.js?{{ id }}"></script>
+	<!-- <script type="text/javascript" src="/static/compressed/draw.js?{{ id }}"></script> -->
+	<script type="text/javascript" src="/static/compressed/project_management.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/init.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/node_flow.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/media_player.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/compressed/walkthroughts.js?{{ id }}"></script>
+	<!-- Favicons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/static/theme/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/static/theme/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/static/theme/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/static/theme/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/static/theme/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/static/theme/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/static/theme/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/static/theme/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/static/theme/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/static/theme/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="manifest" href="/static/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+	<meta
+	name="theme-color" content="#ffffff">
+</head>
+<body>
+	<div class="top_bar">
+		<div class="left_top">
+			<ul class="utility_menu nav">
+				<li class="back"><h2 action="user"><i class="fas fa-chevron-left fa-lg" title="Back"></i> &nbsp;</h2></li>
+				<li>
+					<h1><a href="#"><img class="logo" src="/static/images/logo.png?{{ id }}" alt="Data in Motion / Board id: {{ board.id }}" align="left"></a> &nbsp;</h1>
+				</li>
+				<li>
+					<ul class="sub_nav">
+						<li><h2 menu="nodes"><i class="fas fa-sticky-note fa-lg" title="New Node"></i> New Node</h2></li>
+						<li><h2 menu="board"><i class="fas fa-sticky-note fa-lg" title="Board"></i> Board</h2></li>
+						<li><h2 class="save"><i class="fas fa-save fa-lg" title="Save this board"></i> Save Board</h2></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="tools">
+			<h1 class="board_name" style="cursor: pointer; margin-left: 40px; margin-bottom: 0;">
+				{% if board.name != '' %}
+					{{ board.name }}
+				{% else %}
+					Board name
+				{% endif %}
+				</h1>
+			<input name="board_name" class="b_name" type="text" placeholder="Board name">
+			<h2 class="trash_can"><i class="fas fa-trash fa-lg" title="Trash a node"></i>Grab a node here to delete it</h2>
+		</div>
+	</div>
+	<div class="menus">
+		<ul grid="columns">
+			<li>
+				<ul grid="rows">
+					<li grid="cells"></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="container" board_id="{{ board.id }}">
+	</div>
+	<canvas class="canvas" id="canvas_connections">
+	</canvas>
+	<div class="console_cont">
+		<h1></h1>
+		<div class="data_extractor">
+		</div>
+	</div>
+	<div class="loading">
+		<button stop="true">STOP</button>
+		<div class="last_state">
+			<div class="loading_gif"></div>
+			<h1>Running node logic flow</h1>
+		</div>
+		<div class="qr">
+			<h2 class="close_qr"></h2>
+		</div>
+		<div class="html_viewer">
+		</div>
+		<ul>
+		</ul>
+	</div>
+</body>
+</html>

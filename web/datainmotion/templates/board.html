@@ -51,6 +51,7 @@
 	<script type="text/javascript" src="/static/scripts/node_flow.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/node_editor.js?{{ id }}"></script>
 	<script type="text/javascript" src="/static/scripts/media_player.js?{{ id }}"></script>
+	<script type="text/javascript" src="/static/scripts/WhatsappRegister.js?{{ id }}"></script>
 	<!-- <script type="text/javascript" src="/static/scripts/walkthroughts.js?{{ id }}"></script> -->
 	<script type="text/javascript" src="/static/scripts/calendar.js?{{ id }}"></script>
 
@@ -89,6 +90,7 @@
 						<li><h2 menu="board"><i class="fas menu-board fa-lg" title="Board"></i> Board</h2></li>
 						<!-- <li><h2 class="save"><i class="fas fa-save fa-lg" title="Save this board"></i> Save Board</h2></li> -->
 						<li><h2 menu="users"><i class="fas menu-users fa-lg" title="Add new user"></i> Add new User</h2></li>
+						<li><h2 menu="whatsapp_register"><i class="fas menu-users fa-lg" title="WhatsApp Register"></i>WhatsApp Register</h2></li>
 					</ul>
 				</li>
 			</ul>
@@ -190,12 +192,13 @@
 
 		</div>
 	</div>
+	<div id="root"></div>
 	<div class="wpp_cont">
 		<div form="whatsapp_node">
 			<h3 close="whatsapp"></h3>
 			<h3 save="whatsapp">save</h3>
 			<h1>WhatsApp Sender</h1>
-			<!-- <label for="">Admin number:&nbsp;<input name="wpp_admin" type="text" placeholder="Number ex: 573176923716"></label> -->
+			<!-- <label for="">Send from:&nbsp;<input name="wpp_admin" type="text" placeholder="Sender Phone number"></label> -->
 			<!-- <div select="gif">
 				<h2>GIF</h2>&nbsp;&nbsp; -->
 				<!-- <h2>JPG</h2>&nbsp;&nbsp;
@@ -214,14 +217,14 @@
 				<ul></ul>
 			</div>
 			<div contacts="true">
-				<input name="contact_name" type="text" placeholder="Name">
-				<input name="contact_number" type="text" placeholder="ex: 3176923716">
+				<input name="contact_name" type="text" placeholder="Contact Name">
+				<input name="contact_number" type="text" placeholder="Phone Number">
 				<button>add Contact</button>
 				<label style="color: #363636;" for="">Contacts in:</label>
 				<ul>
 				</ul>
 			</div>
-			<!-- <label for="twilio">Twilio test</label><input type="checkbox" id="twilio"> -->
+			<!-- <label for="twilio">USe Twilio?</label><input type="checkbox" id="twilio"> -->
 		</div>
 	</div>
 </body>

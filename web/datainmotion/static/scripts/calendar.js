@@ -49,6 +49,7 @@ class Calendar {
 			cal.draw();
 		});
 		const cal = this;
+		console.log(cal);
 		cal._date[5] = 0;
 		const next = html.querySelector('[nav="next"]');
 		next.addEventListener('click', function() {
@@ -188,6 +189,7 @@ class Calendar {
 	}
 	async sendDate() {
 		const now = new Date(Date.now());
+		console.log(this._date);
 		const req = await fetch(
 			`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${this._nodeId}/save`,
 			{
@@ -208,7 +210,7 @@ class Calendar {
 							now.getHours(),
 							now.getMinutes(),
 							now.getSeconds(),
-							now.getMilliseconds(),
+							now.getMilliseconds()
 						]
 					}
 				})

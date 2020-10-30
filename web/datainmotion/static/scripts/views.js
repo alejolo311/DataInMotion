@@ -84,7 +84,7 @@ function getBoardView () {
 				'Authorization': localStorage.getItem('token')
 			}
 		}
-	).then(res => {
+	).then(function (res) {
 		console.log(res);
 		if (res.status === 200) {
 			return res.json();
@@ -92,14 +92,14 @@ function getBoardView () {
 			localStorage.openboard = $('.container').attr('board_id');
 			window.location.replace('/login');
 		}
-	}).then(async (json) => {
-		await drawNodes(json);
+	}).then(function (json) {
+		drawNodes(json);
 		// if (localStorage.getItem('running_test')) {
 		// 	running_test(localStorage.getItem('running_id'));
 		// }
 	});
 }
-async function drawNodes(nodes) {
+function drawNodes(nodes) {
 	let checkLite = window.location.href.indexOf('lite');
 	let lite = '';
 	if (checkLite !== -1) {
@@ -113,8 +113,9 @@ async function drawNodes(nodes) {
 			},
 			body: JSON.stringify(nodes)
 		}
-	).then(res => res.json())
-	.then(nodes => {
+	).then(function (res) {
+		return res.json();
+	}).then(function (nodes) {
 		console.log(nodes);
 		// console.log('Lite', lite);
 		if (lite !== '') {

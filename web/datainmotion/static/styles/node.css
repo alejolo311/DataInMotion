@@ -255,7 +255,7 @@ process:active {
 	left: -10px;
 	visibility: hidden;
 	border-radius: 50%;
-	cursor: grab;
+	cursor: move;
 	background-image: url('../images/move.png');
 	background-position: center;
 	background-repeat: no-repeat;

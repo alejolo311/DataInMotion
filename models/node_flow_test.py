@@ -63,23 +63,28 @@ class instancedNode():
         """
         Creates a copy from obj
         """
-        self.id = obj['id']
-        self.name = obj['name']
-        self.work_type = obj['work_type']
-        self.api_url = obj['api_url']
-        self.api_endpoint = obj['api_endpoint']
-        self.string = obj['string']
-        self.headers = obj['headers']
-        self.innodes = obj['innodes']
-        self.data = obj['data']
-        self.outnodes = obj['outnodes']
-        self.analisis_mode = obj['analisis_mode']
-        self.analisis_params = obj['analisis_params']
-        self.trigger = obj['trigger']
-        self.timeout = obj['timeout']
-        self.inner_connections = obj['inner_connections']
-        self.color = obj['color']
-        self.board_id = obj['board_id']
+        try:
+            self.id = obj['id']
+            self.name = obj['name']
+            self.work_type = obj['work_type']
+            self.api_url = obj['api_url']
+            self.api_endpoint = obj['api_endpoint']
+            self.string = obj['string']
+            self.headers = obj['headers']
+            self.innodes = obj['innodes']
+            self.data = obj['data']
+            self.outnodes = obj['outnodes']
+            self.analisis_mode = obj['analisis_mode']
+            self.analisis_params = obj['analisis_params']
+            self.trigger = obj['trigger']
+            self.timeout = obj['timeout']
+            self.inner_connections = obj['inner_connections']
+            self.color = obj['color']
+            self.board_id = obj['board_id']
+            self.user_id = obj['user_id']
+
+        except Exception as e:
+            print(e)
 
 
     def get(self, id):
@@ -457,9 +462,14 @@ class instancedNode():
                         if self.work_type == 'request':
                             del pars['request_data']
                 else:
-                    print(self.name,
-                          'request response no processed',
-                          data.keys())
+                    try:
+                        print(self.name,
+                              'request response no processed',
+                              data.keys())
+                    except Exception as e:
+                        print('data from process pipeline', e)
+                    finally:
+                        print(data)
         except Exception as e:
             traceback.print_exc()
         if self.analisis_mode == 'comparision':
@@ -561,33 +571,37 @@ class instancedNode():
         else:
             return {'error_{}'.format(self.name): 'message content not found'}
         # Check raw file
+        file_path = None
         if 'raw' in outData:
             # print('Prepare to save the video file on Hard Disk')
             bytes_string = outData['raw'].encode('ascii')
             bytes_string = base64.decodebytes(bytes_string)
-            # print(outData['headers']['Content-Type'])
             extension = outData['headers']['Content-Type'].split('/')[1]
             file_path = set_header(bytes_string, self.instance_id, extension)
-            # print(bytes_string[:200])
-            # print(file_path)
-            # with open(file_path, 'rb') as saved_img:
-            #    print(saved_img.read()[:200])
         # Extract the contacts list
         data = outData['contacts_list']
-        web = WebWhastapp(self.id, outData, self)
+        session_path = f'/usr/src/app/api/browsers/table'
+        with open(session_path, 'r') as sessions_file:
+            session_id = json.loads(sessions_file.read())[self.user_id]
+        instance = instancedNode({
+            'id': session_id,
+            'user_id': self.user_id
+            }, session_id)
+        web = WebWhastapp(session_id, outData, instance)
         if len(data) == 0:
             web.close()
-        admin = self.data['admin']
+        # admin = self.data['admin']
         gif = self.data['gif']
         number_list = [num for num in data.values()]
         print(number_list)
         web.start_browser()
-        web.number = admin
-        if not web.auth():
-            web.close()
-            return {
-                'error': 'QRCode not found, may be the connection is loose'
-            }
+        # web.number = admin
+        web.open_whatsapp_web()
+        # if not web.auth():
+        #     web.close()
+        #     return {
+        #         'error': 'QRCode not found, may be the connection is loose'
+        #     }
         self.write_status('verifying', 'Waiting for user to scan the code')
         self.write_status('verifying', '')
         pos = 0
@@ -606,7 +620,6 @@ class instancedNode():
                     else:
                         url = web.send_animated_gif(gif, select_random=False)
                 web.send_whatsapp_message(message)
-                # web.send_twilio_message(contact, message)
                 self.write_status('sent', 'Message sent to {}'.format(contact))
         except Exception as e:
             web.close()

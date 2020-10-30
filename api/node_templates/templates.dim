@@ -1,5 +1,26 @@
 {
 	"nodes": {
+		"service": {
+			"analisis_mode": "",
+			"analisis_params": [],
+			"api_endpoint": "",
+			"api_url": "",
+			"board_id": "",
+			"color": "#00fff2",
+			"data": {},
+			"headers": {},
+			"id": "",
+			"inner_connections": "",
+			"innodes": [],
+			"name": "New Service",
+			"outnodes": [],
+			"string": "",
+			"timeout": 0,
+			"trigger": null,
+			"type": "service",
+			"user_id": "",
+			"work_type": "process"
+		},
 		"new_message": {
 			"analisis_mode": "replace",
 			"analisis_params": [],
@@ -165,11 +186,36 @@
 			"user_id": "aca072f0-e2ff-47bf-b26a-7c6d8f668497",
 			"work_type": "request"
 		},
+		"giphy": {
+			"analisis_mode": "",
+			"analisis_params": [],
+			"api_endpoint": "",
+			"api_url": "GET http://api.giphy.com/v1/gifs/search",
+			"board_id": "90b86fdb-07c6-4863-9dee-5622976dae4f",
+			"color": "#3f7696",
+			"data": {
+				"api_key": "Ip4RqhTTziaS9b5WTmGSFgTeYgYqjdy3",
+				"limit": "10",
+				"q": "love"
+			},
+			"headers": {},
+			"id": "",
+			"inner_connections": "",
+			"innodes": [],
+			"name": "giphy",
+			"outnodes": [],
+			"string": null,
+			"timeout": 0,
+			"trigger": null,
+			"type": "custom",
+			"user_id": "",
+			"work_type": "request"
+		},
 		"download_gif": {
 			"analisis_mode": "",
 			"analisis_params": [],
 			"api_endpoint": "",
-			"api_url": "",
+			"api_url": "input",
 			"board_id": "90b86fdb-07c6-4863-9dee-5622976dae4f",
 			"color": "#3f7696",
 			"data": {
