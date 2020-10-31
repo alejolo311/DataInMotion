@@ -8,7 +8,6 @@ const drawLine = function (a, b, canvas, color) {
   
   contx.lineWidth = 3;
   contx.beginPath();
-  const canvas = document.getElementById('canvas_connections');
   const rect = canvas.getBoundingClientRect();
   const offY = rect.top - 10 + window.pageYOffset;
   const offX = 10;
