@@ -1,13 +1,16 @@
+
 function setGrabbers() {
 	let nodeName = '';
 	let nodeId = '';
-	let offX = - 10;
-	const canvas = document.getElementById('canvas_connections');
-	const rect = canvas.getBoundingClientRect()
-	const offY = rect.top - 0;
+	
 	$(window).mousemove(function (evn) {
 		$('.x').text('x: ' + evn.pageX.toString());
 		$('.y').text('y: ' + evn.pageY.toString());
+		let offX = - 10;
+		const canvas = document.getElementById('canvas_connections');
+		const rect = canvas.getBoundingClientRect()
+		console.log(window.pageYOffset);
+		const offY = rect.top + 15 + window.pageYOffset;
 		if (nodeName !== '') {
 			let y = evn.pageY - offY;
 			let x = evn.pageX - offX;
