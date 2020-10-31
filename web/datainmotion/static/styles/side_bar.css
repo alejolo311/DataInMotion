@@ -29,6 +29,7 @@
 
 .top_bar .utility_menu, .top_bar .utility_menu ul{
 	list-style: none;
+	min-width: 80vw;
 	padding: 0;
 	margin: 0;
 }
