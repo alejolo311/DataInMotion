@@ -10,7 +10,7 @@ function setGrabbers() {
 		const canvas = document.getElementById('canvas_connections');
 		const rect = canvas.getBoundingClientRect()
 		console.log(window.pageYOffset);
-		const offY = rect.top + 15 + window.pageYOffset;
+		const offY = rect.top + window.pageYOffset;
 		if (nodeName !== '') {
 			let y = evn.pageY - offY;
 			let x = evn.pageX - offX;
