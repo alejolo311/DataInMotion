@@ -1,7 +1,7 @@
 .canvas {
 	position: absolute;
 	background-color: transparent;
-	margin-left: 80px;
+	margin-left: 0;
 	z-index: 1;
 }
 .grid_canvas {

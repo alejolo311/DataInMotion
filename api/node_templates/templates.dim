@@ -1,7 +1,7 @@
 {
 	"nodes": {
 		"service": {
-			"analisis_mode": "",
+			"analisis_mode": "none",
 			"analisis_params": [],
 			"api_endpoint": "",
 			"api_url": "",

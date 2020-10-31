@@ -1059,6 +1059,9 @@ class NodeEditor {
 	}
 	save() {
 		const editor = this;
+		if (editor.data.type === 'service') {
+			editor.data.analisis_mode = '';
+		}
 		console.log(editor.data);
 		fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${editor.data.id}/save`,
 			{

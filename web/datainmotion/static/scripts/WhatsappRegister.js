@@ -1,3 +1,6 @@
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
 const DOMManager  = {
 	render: function(html, root) {
 		const component = new html();
@@ -61,7 +64,13 @@ class WhatsAppRegister extends Component{
 	onMounted () {
 		console.log('Mounted Component');
 	}
-	async testService (evn, json) {
+	async testService (evn, json, phoneNumber) {
+		evn.target.style.display = 'none';
+		const img = this._root.querySelector('img');
+		img.src = 'url()';
+		img.style.display = 'block';
+		const p = this._root.querySelector('p');
+		p.innerHTML = 'You will receive a message from yourself initializing the service.';
 		const testReq = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/test_whatsapp_service`,
 			{
 				method: 'POST',
@@ -72,18 +81,25 @@ class WhatsAppRegister extends Component{
 				body: JSON.stringify(
 					{
 						instance_id: json.instance_id,
-						phone: '3176923716'
+						phone: phoneNumber
 					}
 				)
 			}
 		)
 		const response = await testReq.json();
 		console.log(response);
+		const h1 = this._root.querySelector('h1');
+		h1.innerHTML = 'Congrats!!';
+		p.innerHTML = 'Your are now registered to DataInMotion WhatsApp service, start sending your messages now!!'
+		img.style.display = 'none';
+		await sleep(4000);
 		this.close({});
 	}
 	async register (evn) {
 		console.log(evn);
 		evn.target.style.visibility = 'hidden';
+		const phoneNumber = document.querySelector('[name="phone_test"]').value;
+		document.querySelector('[name="phone_test"]').style.display = 'none';
 		console.log('Start Code Scanner status');
 		this._root.querySelector('img').style.display = 'block';
 		// Fetch QR from server
@@ -132,7 +148,7 @@ class WhatsAppRegister extends Component{
 			console.log(status);
 			this._root.querySelector('img').style.display = 'none';
 			// wait for the user to test the phon number
-			this._root.querySelector('p').innerHTML = 'Please add your number to the contacts list in your phone to test the registration.';
+			this._root.querySelector('p').innerHTML = 'Please add yourself to the contacts list in your phone to test the registration.';
 			this._root.querySelector('p').style.color = '#3277a8';
 			this._root.querySelector('h2').innerHTML = '';
 			evn.target.style.visibility = 'visible';
@@ -140,7 +156,7 @@ class WhatsAppRegister extends Component{
 			const register = this;
 			evn.target.addEventListener('click', function funct_ (evn) {
 				evn.target.removeEventListener('click', funct_);
-				register.testService(evn, json);
+				register.testService(evn, json, phoneNumber);
 			});
 		}
 	}
@@ -154,9 +170,11 @@ class WhatsAppRegister extends Component{
 			`
 			<div class="whatsapp_register">
 				<h1>WhatsApp Register</h1>
-				<p>Register to whatsapp to start sending your free messages, make sure you have your phone at hand to scan the QRCode</p>
+				<p>Register to whatsapp to start sending your free messages, provide your phone number,
+				 then open the "WhatsApp Web" option in your phone's app and press register to generate the QRCode.</p>
 				<h2></h2>
 				<img class="qrcode"/>
+				<input name="phone_test" placeholder="Your phone number"></input>
 				<button class="register" click="${ this.register.name }">register</button>
 			</div>
 			`

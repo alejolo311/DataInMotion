@@ -1,6 +1,6 @@
 # DataInMotion
-[Demo](http://159.65.38.228/user/728fb2db-4510-43f7-97ea-53ec6df9cfa7/boards)
-[landing page](http://159.65.38.228/)
+[Demo](https://dnart.tech)
+[landing page](https://dnart.tech)
 
 A visual programming based tool, focused on social engagement through Data changes in realtime
 You will create your solution by assembling a distributed net of inputs and outputs of processed data
@@ -24,9 +24,7 @@ $ sudo docker-compose up --build -d
 
 ```
 
-When you run the project in dev mode de Web is running in port 5000 and de api in port 8080
-
-  
+And check your localhost
 
 ### Run the project in production mode using docker
 
@@ -35,20 +33,6 @@ When you run the project in dev mode de Web is running in port 5000 and de api i
 $ sudo docker-compose -f docker-compose.prod.yml up --build -d
 
 ```
-
-When you run the project in production mode de Web is running in port 80 usign nginx and de api in port 8080
-
-  
-
-## Project docs
-
-  
-First week revision [revision 1](https://docs.google.com/document/d/1s13NnGAXOVwmD-erY1Dy5OWhkGxuqloVx7OwlUKXeqY/edit#https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
-
-Second week revision [revision 2](https://docs.google.com/document/d/1rcGtsBb7fb3BwmHuWrGGRu4bPG1egeiZwHPql2Q8Qh4)
-
-Third week revision [revision 3]()
-
 ## Usage
 
 You can check an info article about the newest features here [DataInMotion-v2.0](https://www.linkedin.com/pulse/data-motion-v20-daniel-rodriguez-castillo)

@@ -138,8 +138,8 @@ process:active {
 }
 .outnodes {
 	position: absolute;
-	right: 50%;
-	bottom: 26px;
+	right: 16px;
+	bottom: 28px;
 	z-index: 6;
 }
 .out_expanded {
@@ -148,7 +148,7 @@ process:active {
 	border-radius: 12px;
 	/* background-color: var(--board_color); */
 	background-color: rgba(137, 43, 226, 0.445);
-	right: 50%;
+	right: 0;
 	bottom: -80px;
 	height: 100px;
 	border: 1px solid rgba(255, 255, 255, 0.246);
@@ -210,7 +210,7 @@ process:active {
 }
 .connections {
 	position: absolute;
-	left: 46%;
+	left: 0;
 	top: -40px;
 	display: block;
 	max-width: 18px;
@@ -251,8 +251,8 @@ process:active {
 	height: 30px;
 	background-color: rgb(194, 193, 193);
 	position: absolute;
-	top: -30px;
-	left: -10px;
+	top: 0px;
+	left: -30px;
 	visibility: hidden;
 	border-radius: 50%;
 	cursor: move;
@@ -266,8 +266,8 @@ process:active {
 	display: flex;
 	max-width: 180px;
 	position: absolute;
-	top: 12px;
-	left: -10px;
+	top: 26px;
+	left: -6px;
 	max-height: 18px;
 	background-color: transparent;
 }
@@ -624,10 +624,10 @@ hr {
 	width: 160px;
 	height: 80px;
 	position: absolute;
-	top: 140px;
+	top: 150px;
 	left: 0;
 	background-color: rgba(240, 248, 255, 0.144);
-	border-radius: 0 0 20px 0;
+	border-radius: 20px 20px 20px 20px;
 	border: 1px solid white;
 	z-index: 0;
 }

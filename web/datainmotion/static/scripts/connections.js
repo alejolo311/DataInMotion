@@ -8,8 +8,11 @@ const drawLine = function (a, b, canvas, color) {
   
   contx.lineWidth = 3;
   contx.beginPath();
-  const offY = 136;
-  const offX = -80;
+
+  const rect = contx.canvas.getBoundingClientRect()
+  const offY = rect.top - 10;
+  const offX = 10;
+  
   contx.moveTo(a.x + offX, a.y - offY);
   contx.lineTo(b.x + offX, b.y - offY);
   contx.stroke();
@@ -29,7 +32,7 @@ function drawConnections () {
     if ($(child).attr('out_id') !== undefined) {
       const peer = $(child).attr('out_id');
       const offset = $(child).offset();
-      const a = { x: offset.left + 12, y: offset.top + 4 };
+      const a = { x: offset.left, y: offset.top + 4 };
       const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
       try {
 		  const b = { x: $(p[0]).offset().left + 0, y: $(p[0]).offset().top + 4 };
@@ -44,9 +47,9 @@ function drawConnections () {
     if ($(child).attr('in_id') !== undefined) {
       const peer = $(child).attr('in_id');
       const offset = $(child).offset();
-      const a = { x: offset.left + 8, y: offset.top };
+      const a = { x: offset.left, y: offset.top };
       const p = $('.connections').find('h2[con_id="' + peer + '"]').toArray();
-	  const b = { x: $(p[0]).offset().left + 8, y: $(p[0]).offset().top };
+	  const b = { x: $(p[0]).offset().left, y: $(p[0]).offset().top };
       drawLine(a, b, canvas, $(child).parent().parent().attr('tag_color'));
     }
   }
@@ -217,7 +220,7 @@ function setConnectionsListeners () {
       $('.outnode_settings').attr('out', id);
       $('.outnode_settings').attr('type', 'out');
       $('.outnode_settings').css('top', evn.pageY);
-      $('.outnode_settings').css('left', evn.pageX - 20);
+      $('.outnode_settings').css('left', evn.pageX);
       $('.outnode_settings').css('z-index', 12);
     }
   });
@@ -244,7 +247,7 @@ function setConnectionsListeners () {
       $('.outnode_settings').attr('out', id);
       $('.outnode_settings').attr('type', 'in');
       $('.outnode_settings').css('top', evn.pageY );
-      $('.outnode_settings').css('left', evn.pageX - 20);
+      $('.outnode_settings').css('left', evn.pageX);
       $('.outnode_settings').css('z-index', 12);
     }
   });

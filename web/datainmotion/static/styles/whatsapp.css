@@ -35,7 +35,7 @@
 	line-height: 18px;
 	width: 80%;
 	margin-left: 10%;
-	text-align: center;
+	text-align: justify;
 	color: rgb(85, 85, 85);
 }
 .qrcode {
@@ -56,6 +56,7 @@
 	cursor: pointer;
 	background-color: rgb(27, 150, 148);
 	padding: 8px 0px;
+	margin-top: 20px;
 	margin-left: 15vw;
 	color: white;
 	border-radius: 8px;
@@ -66,4 +67,16 @@
 	filter: saturate(1.6);
 	box-shadow: 1px 1px 3px rgba(48, 48, 48, 0.501);
 	transform: translate(-1px, -1px);
+}
+.register:active {
+	filter: saturate(1.6);
+	box-shadow: none;
+	transform: translate(0px, 0px);
+}
+[name="phone_test"] {
+	padding: 8px 10px;
+	width: calc(80% - 20px);
+	margin-left: 10%;
+	font-size: 22px;
+	border-radius: 8px;
 }

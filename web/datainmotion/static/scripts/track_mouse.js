@@ -1,18 +1,20 @@
 function setGrabbers() {
 	let nodeName = '';
 	let nodeId = '';
-	let offX = 100;
-	let offY = 115;
+	let offX = - 10;
+	const canvas = document.getElementById('canvas_connections');
+	const rect = canvas.getBoundingClientRect()
+	const offY = rect.top - 0;
 	$(window).mousemove(function (evn) {
 		$('.x').text('x: ' + evn.pageX.toString());
 		$('.y').text('y: ' + evn.pageY.toString());
 		if (nodeName !== '') {
 			let y = evn.pageY - offY;
 			let x = evn.pageX - offX;
-			let bar_height = Number($('.top_bar').css('height').slice(0, -2));
+			// let bar_height = Number($('.top_bar').css('height').slice(0, -2));
 			const trashCan = $('.trash_can');
 			const tX = $(trashCan).position().left;
-			const tY = $(trashCan).position().top;
+			// const tY = $(trashCan).position().top;
 			$('.trash_can').css('background-color', '#165185');
 			if ((x > tX) ||  y > 40) {
 				$('[cont_node_id="' + nodeId + '"]').css('top', (evn.pageY - offY).toString());

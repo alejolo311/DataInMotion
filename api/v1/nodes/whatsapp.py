@@ -91,6 +91,6 @@ def test_whatsapp():
     web_whatsapp.start_browser()
     web_whatsapp.open_whatsapp_web()
     web_whatsapp.search_contact('3176923716')
-    web_whatsapp.send_whatsapp_message('Testing Web WhatsApp messaging')
+    web_whatsapp.send_whatsapp_message('You are now registered to DataInMotion WhatsApp Service')
     web_whatsapp.close()
     return jsonify(message='your message was sent')
