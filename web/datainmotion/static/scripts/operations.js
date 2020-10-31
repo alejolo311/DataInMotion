@@ -153,10 +153,10 @@ function setOpsListeners() {
 	$('.trigger_button').mouseover(function (evn) {
 		if (!showingTag) {
 			showingTag = true;
-			console.log('hover activation button');
+			// console.log('hover activation button');
 			const hoverActivate = document.createElement('h1');
 			hoverActivate.className = 'hover_activate';
-			console.log(evn.pageX, evn.pageY);
+			// console.log(evn.pageX, evn.pageY);
 			const rect = evn.target.getBoundingClientRect();
 			hoverActivate.style.top = rect.top - 45 + document.body.scrollTop;
 			hoverActivate.style.left = rect.left + document.body.scrollLeft;

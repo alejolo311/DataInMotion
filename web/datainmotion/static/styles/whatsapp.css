@@ -1,6 +1,13 @@
 :root {
 	--font: 'Mallanna', sans-serif;
 }
+.close {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border: none;
+	outline: none;
+}
 #root {
 	z-index: 10;
 	top: 0;
@@ -55,13 +62,14 @@
 	font-size: 22px;
 	cursor: pointer;
 	background-color: rgb(27, 150, 148);
-	padding: 8px 0px;
-	margin-top: 20px;
+	padding: 18px 0px;
+	margin-top: 30px;
 	margin-left: 15vw;
 	color: white;
 	border-radius: 8px;
 	border: none;
 	outline: none;
+	font-weight: bold;
 }
 .register:hover {
 	filter: saturate(1.6);
@@ -74,9 +82,12 @@
 	transform: translate(0px, 0px);
 }
 [name="phone_test"] {
+	margin-top: 40px;
+	border: 1px solid grey;
 	padding: 8px 10px;
 	width: calc(80% - 20px);
 	margin-left: 10%;
 	font-size: 22px;
 	border-radius: 8px;
+	font-family: var(--font);
 }

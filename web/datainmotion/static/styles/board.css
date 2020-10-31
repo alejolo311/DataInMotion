@@ -106,6 +106,8 @@
 	margin-top: 0;
 	margin: 2px;
 	width: fit-content;
+	max-width: 90%;
+	word-wrap: break-word;
 	background-color: #3200FF;
 	color: white;
 	font-family: var(--font);
@@ -306,11 +308,10 @@ div[node="true"] {
 	background-color: grey;
 }
 .loading ul {
-	width: 48%;
-	min-height: 100px;
-	max-height: 400px;
+	width: 50vw;
+	height: calc(90vh - 120px);
 	position: absolute;
-	right: 0;
+	left: 25vw;
 	margin: 0;
 	top: 120px;
 	padding: 0;
@@ -327,7 +328,7 @@ div[node="true"] {
 	border-radius: 4px;
 }
 .loading li {
-	max-width: 60%;
+	max-width: 100%;
 	margin: 2px;
 	margin-top: 4px;
 	list-style: none;

@@ -10,7 +10,7 @@ function autosave (evn) {
       console.log(resp);
     },
     error: function (error) {
-      console.log(error);
+      // console.log(error);
     }
   });
 }

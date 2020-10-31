@@ -25,13 +25,13 @@ from multiprocessing import Process
 import multiprocessing
 import threading
 import uuid
+import shutil
 from selenium import webdriver
 from PIL import Image
 from io import BytesIO
 
 
 browsers = {}
-
 
 @app_nodes.route('/whatsapp_register')
 @token_required
@@ -58,7 +58,7 @@ def start_register():
 def check_register_status():
     """
     Create an instanced node
-    initializes a selenium browser and stores the cookies and LocalStorage
+    Check if the session is saved or not
     """
     instance_id = request.get_json()['instance_id']
     instance = instancedNode({'id': instance_id}, instance_id)
@@ -75,7 +75,45 @@ def check_register_status():
         table.write(json.dumps(tb))
         table.truncate()
     browsers[instance_id].close()
+    del browsers[instance_id]
     return jsonify(state=state, instance_id=instance_id)
+
+@app_nodes.route('/whatsapp_sessions',
+                methods=['GET'],
+                strict_slashes=False)
+@token_required
+def check_session():
+    """
+    """
+    path = '/usr/src/app/api/browsers'
+    with open(f'{path}/table', 'r') as table_file:
+        tb = json.loads(table_file.read())
+        if request.user in tb.keys():
+            return jsonify(state='true', session_id=tb[request.user].split('-')[0], os='Linux')
+        else:
+            return jsonify(state='false')
+
+@app_nodes.route('/whatsapp_session',
+                methods=['DELETE'],
+                strict_slashes=False)
+@token_required
+def remove_session():
+    """
+    """
+    path = '/usr/src/app/api/browsers'
+    with open(f'{path}/table', 'r') as table_file:
+        tb = json.loads(table_file.read())
+        if request.user in tb.keys():
+            session_id = tb[request.user]
+            try:
+                shutil.rmtree(f'{path}/{session_id}.selenium', ignore_errors=True)
+                del tb[request.user]
+            except Exception as e:
+                print(e)
+                return jsonify(error=e.args), 500
+    with open(f'{path}/table', 'w') as new_table_file:
+        new_table_file.write(json.dumps(tb))
+    return jsonify(message='session deleted')
 
 @app_nodes.route('/test_whatsapp_service',
                 methods=['POST'],
@@ -89,8 +127,12 @@ def test_whatsapp():
     instance = instancedNode({'id': instance_id}, instance_id)
     web_whatsapp = WebWhastapp(instance_id, {}, instance)
     web_whatsapp.start_browser()
-    web_whatsapp.open_whatsapp_web()
-    web_whatsapp.search_contact('3176923716')
-    web_whatsapp.send_whatsapp_message('You are now registered to DataInMotion WhatsApp Service')
+    if web_whatsapp.open_whatsapp_web() == 'failed':
+        # remove_session()
+        web_whatsapp.remove_session(request.user)
+        web_whatsapp.close()
+        return jsonify(error='failed to store the session')
+    web_whatsapp.search_contact(phone_number)
+    web_whatsapp.send_whatsapp_message('*You are now registered to DataInMotion WhatsApp Service*')
     web_whatsapp.close()
     return jsonify(message='your message was sent')

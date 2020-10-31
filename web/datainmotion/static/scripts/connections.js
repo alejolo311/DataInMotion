@@ -127,7 +127,7 @@ function setConnectionsListeners () {
     expandOuts(this);
   });
   $('.show_ins').on('click', function (evn) {
-    console.log('expand innodes');
+    // console.log('expand innodes');
     expandIns(this);
   });
   // This creates a new connection element in the DOM to track a new connection and draw in the canvas
@@ -234,7 +234,7 @@ function setConnectionsListeners () {
   // Display Innodes options
   // (Change index, remove)
   $('.innodes h2').on('click', function (evn) {
-    console.log('innodes options');
+    // console.log('innodes options');
     if ($(this).attr('in_id') !== undefined && !$(this).hasClass('add_in')) {
       console.log('display innode options');
       console.log(evn.pageX);

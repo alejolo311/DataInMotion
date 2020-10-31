@@ -9,8 +9,7 @@ function setGrabbers() {
 		let offX = - 10;
 		const canvas = document.getElementById('canvas_connections');
 		const rect = canvas.getBoundingClientRect()
-		console.log(window.pageYOffset);
-		const offY = rect.top + window.pageYOffset;
+		const offY = rect.top + 15 + window.pageYOffset;
 		if (nodeName !== '') {
 			let y = evn.pageY - offY;
 			let x = evn.pageX - offX;
@@ -26,10 +25,12 @@ function setGrabbers() {
 				$('.trash_can').css('background-color', 'purple');
 			}
 			if (nodeId !== '') {
-				board.nodes[nodeId] = {'x': evn.pageX - offX, 'y': evn.pageY - offY};
+				const width = $('[cont_node_id="' + nodeId + '"]').outerWidth();
+				board.nodes[nodeId] = {'x': evn.pageX - (width + 15), 'y': evn.pageY - offY};
 			}
 			if ((x > tX) && y < 40 || y > 40) {
-				$('[cont_node_id="' + nodeId + '"]').css('left', (evn.pageX - offX).toString());
+				const width = $('[cont_node_id="' + nodeId + '"]').outerWidth();
+				$('[cont_node_id="' + nodeId + '"]').css('left', (evn.pageX - (width + 15)).toString());
 			}
 			$('[cont_node_id="' + nodeId + '"]').find('.grabber').css('visibility', 'visible');
 			drawConnections();

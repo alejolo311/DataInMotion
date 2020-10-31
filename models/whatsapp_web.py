@@ -57,6 +57,25 @@ class WebWhastapp():
         self.remove_conf()
         self.remove_verify
 
+    def remove_session(self, user):
+        """
+        Remove itself from browsers table
+        """
+        path = f'/usr/src/app/api/browsers'
+        selenium = f'{path}/{self.instance.instance_id}.selenium'
+        try:
+            shutil.rmtree(selenium, ignore_errors=True)
+            with open(f'{path}/table', 'r') as tb_file:
+                tb = json.loads(tb_file.read())
+                for reg in tb.keys():
+                    if tb[reg] == self.instance.instance_id:
+                        del tb[reg]
+                        break
+            with open(f'{path}/table', 'w') as table_w:
+                table_w.write(json.dumps(tb))
+        except Exception as e:
+            return 'remove failed'
+        return 'session removed'
 
     def registry_user(self):
         """
@@ -152,10 +171,18 @@ class WebWhastapp():
                     EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
                 time.sleep(2)
                 self.save_screenshot('whatsapp_loaded')
-                return 'Success'
+                return 'success'
             except Exception as e:
-                traceback.print_exc()
-                print('Open Browser:\n', e)
+                try:
+                    canvas = WebDriverWait(self.driver, 4).until(
+                        EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
+                    return 'failed'
+                except Exception as second_e:
+                    print(second_e)
+                    pass
+                finally:
+                    traceback.print_exc()
+                    print('Open Browser:\n', e)
         return None
 
     def auth(self):
@@ -284,10 +311,11 @@ class WebWhastapp():
                 print(e)
         self.instance.write_status(
                 'sending', 'Sending message to {}'.format(contact_number))
-        xpath = '//div[@aria-label="Search results."]'
+        xpath = '//div[contains(@class, "-GlrD")]'
         count = 0
         while True:
             try:
+                self.save_screenshot('eJ0yJ')
                 contacts = WebDriverWait(self.driver, 4).until(
                     EC.presence_of_element_located((By.XPATH, xpath)))
                 # for cont in contacts:
@@ -296,6 +324,7 @@ class WebWhastapp():
                 c_xpath = '//div[contains(@class, "eJ0yJ")]'
                 contact = WebDriverWait(contacts, 4).until(
                     EC.presence_of_element_located((By.XPATH, c_xpath)))
+                print('Contact element: ', contact)
                 # print(contact.get_attribute('outerHTML').encode('utf-8'))
                 # contact = contacts[0]
                 self.remove_verify()
@@ -312,7 +341,8 @@ class WebWhastapp():
                 # self.save_screenshot(name='contact_selected')
                 time.sleep(2)
                 break
-            except TimeoutException:
+            except TimeoutException as tme:
+                print(tme)
                 # self.save_screenshot(name='waiting_contact')
                 print('trying again to get the contact')
                 if count > max_retries:

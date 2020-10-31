@@ -268,3 +268,18 @@
 .menu-nodes-hover {
 	background-image: url(../svg/add_node_hover.svg) !important;
 }
+
+.menu-whatsapp {
+	width: 18px !important;
+	height: 18px !important;
+	background-size: cover !important;
+	background-image: url(../images/whatsapp_white_logo.png) !important;
+	background-position: center;
+	filter: contrast(200%);
+}
+.menu-whatsapp-hover {
+	background-image: url(../images/whatsapp_orange_logo.png) !important;
+}
+.menu-whatsapp:hover {
+	background-image: url(../images/whatsapp_orange_logo.png) !important;
+}
