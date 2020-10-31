@@ -1,14 +1,3 @@
-
-let offX, offY;
-
-function setOffsets() {
-	const canvas = document.getElementById('canvas_connections');
-	const rect = canvas.getBoundingClientRect();
-	offY = rect.top - 10 + window.pageYOffset;
-	offX = 10;
-}
-
-
 const drawLine = function (a, b, canvas, color) {
   const contx = canvas.getContext('2d');
   if (color !== undefined && color !== null && color !== '') {
@@ -19,6 +8,10 @@ const drawLine = function (a, b, canvas, color) {
   
   contx.lineWidth = 3;
   contx.beginPath();
+  const canvas = document.getElementById('canvas_connections');
+  const rect = canvas.getBoundingClientRect();
+  const offY = rect.top - 10 + window.pageYOffset;
+  const offX = 10;
   
   contx.moveTo(a.x + offX, a.y - offY);
   contx.lineTo(b.x + offX, b.y - offY);
@@ -66,7 +59,6 @@ function drawConnections () {
 //
 function setConnectionsListeners () {
   // The Expand handlers
-  setOffsets();
   const expandIns = function (obj) {
     const parent = $(obj).parent();
     parent.toggleClass('in_expanded');
