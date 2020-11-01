@@ -249,7 +249,7 @@ class NodeEditor {
 			const now = new Date(Date.now());
 			editor.data.analisis_params['sync_date'] = [
 				now.getFullYear(),
-				now.getMonth() + 1,
+				now.getMonth(),
 				now.getDate(),
 				now.getHours(),
 				now.getMinutes(),
@@ -1058,12 +1058,25 @@ class NodeEditor {
 		return modes[mode]();
 	}
 	save() {
+		const now = new Date(Date.now());
 		const editor = this;
+		// This sync_date needs to sum 1 to the
+		// month to be used by python 
+		const sync_date = [
+			now.getFullYear(),
+			now.getMonth() + 1,
+			now.getDate(),
+			now.getHours(),
+			now.getMinutes(),
+			now.getSeconds(),
+			now.getMilliseconds()
+		]
 		if (editor.data.type === 'service') {
 			editor.data.analisis_mode = '';
-			editor.data.work_type = 'process'
+			editor.data.work_type = 'process';
+			editor.data.analisis_params.sync_date = sync_date;
 		}
-		console.log(editor.data);
+		console.log('Data to save from node editor:', editor.data);
 		fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${editor.data.id}/save`,
 			{
 				method: 'POST',

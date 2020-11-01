@@ -190,6 +190,16 @@ class Calendar {
 	async sendDate() {
 		const now = new Date(Date.now());
 		console.log(this._date);
+		const sync_date = [
+			now.getFullYear(),
+			now.getMonth(),
+			now.getDate(),
+			now.getHours(),
+			now.getMinutes(),
+			now.getSeconds(),
+			now.getMilliseconds()
+		]
+		console.log('Date from Calendar component: ', sync_date);
 		const req = await fetch(
 			`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${this._nodeId}/save`,
 			{
@@ -203,15 +213,7 @@ class Calendar {
 					type: 'service',
 					analisis_params: {
 						date: this._date,
-						sync_date: [
-							now.getFullYear(),
-							now.getMonth() + 1,
-							now.getDate(),
-							now.getHours(),
-							now.getMinutes(),
-							now.getSeconds(),
-							now.getMilliseconds()
-						]
+						sync_date: sync_date
 					}
 				})
 			}
