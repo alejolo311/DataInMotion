@@ -1,0 +1,15 @@
+body::-webkit-scrollbar {
+	width: 14px;
+}
+body::-webkit-scrollbar-thumb {
+	background-color: purple;
+	border-radius: 8px;
+}
+.main_banner {
+	width: 100%;
+}
+.main_banner img {
+	max-height: 80vh;
+	width: 100%;
+	object-fit: cover;
+}
