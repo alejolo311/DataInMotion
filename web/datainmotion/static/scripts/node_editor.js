@@ -15,9 +15,15 @@ class NodeEditor {
 	}
 	setpos (evn) {
 		this.root.style.top = evn.pageY - 100;
-		this.root.style.left = evn.pageX;
+		let computedRootWidth = window.getComputedStyle(this.root, null);
+		computedRootWidth = Number(computedRootWidth.width.slice(0, computedRootWidth.width.length - 2));
+		// window.screen.width
+		console.log(computedRootWidth / 2, window.screen.width / 2);
+		const xPos = (window.screen.width / 3) - (computedRootWidth / 2);
+		console.log('Node Editor container position: ', xPos);
+		this.root.style.left = xPos;
 		const close = document.querySelector('.close_node');
-		close.style.left = evn.pageX;
+		close.style.left = xPos;
 		close.style.top = evn.pageY - 110;
 	}
 	setClose () {
@@ -503,6 +509,23 @@ class NodeEditor {
 		}
 		cont.appendChild(label);
 		cont.appendChild(select);
+		const infoTag = document.createElement('h1');
+		infoTag.innerHTML = 'INFO';
+		infoTag.classList.add('info_tag');
+		const infoContent = document.createElement('p')
+		infoContent.innerHTML = info[mode];
+		infoContent.classList.add('info_content');
+		infoTag.addEventListener('click', function (evn) {
+			const computed = window.getComputedStyle(infoContent, null);
+			if (computed.display === 'block') {
+				infoContent.style.display = 'none';
+			} else {
+				infoContent.style.display = 'block';
+			}
+			
+		});
+		cont.appendChild(infoTag);
+		cont.appendChild(infoContent);
 		console.log(select);
 		const modes = {
 			"statistics": function() {
@@ -911,6 +934,8 @@ class NodeEditor {
 					}
 					row(undefined);
 				}
+				cont.appendChild(infoTag);
+				cont.appendChild(infoContent);
 				cont.appendChild(hTitle);
 				cont.appendChild(htmlCont);
 				drawHTMLFields();
@@ -1094,6 +1119,66 @@ class NodeEditor {
 		})
 	}
 }
+let info = {
+	comparision: `<span style="font-weight: bold; color:purple;">VALUE 1:</span><br>The key from the flow to use at the comparission
+				<br><br><span style="font-weight: bold; color:purple;">CONDITION:</span><br>The condition to compare against
+				<br><br><span style="font-weight: bold; color:purple;">VALUE 2:</span><br>A value to compare with VALUE 1`,
 
-// window.onload = function () {
-// }
+
+	JSON: `Use <span style="font-weight: bold; color:purple;">SAVE AS</span> to define the key to store the value.
+			<br>and <span style="font-weight: bold; color:purple;">PATH FROM FLOW</span> to define the route to extract the value from the stored data`,
+
+
+	HTML: `Scrappe an HTML or a text file to find the occurrencies and extract the values.
+			<br>
+			<br><span style="font-weight: bold; color:purple;">OCCURRENCE:</span>
+			<br>An HTML tag or any similarity to start extracting the value.
+			<br>
+			<br><span style="font-weight: bold; color:purple;">STOP SEQUENCE:</span>
+			<br>An stop character sequence to stop collecting and save the value.
+			<br>
+			<br><span style="font-weight: bold; color: blue;">Note:</span>
+			<br>You can use wildcards "*" to extract values from the 
+				previous nodes and put them in the occurrence pattern
+			<br>
+			<br><span style="font-weight: bold; color: green;">Example:</span>
+			<br><span style="font-weight: bold; color: orange;">my_url</span> = sponges
+			<br><br>if you apply the wildcard then the string:
+			<br><span style="font-weight: bold; color: #fc0356;">href="some/url/*my_url*</span>
+			<br>Becomes: <span style="font-weight: bold; color: #fc0356;">href="some/url/sponges</span>`,
+
+
+	replace: `
+				Write your message and use the format 
+				<span style="font-weight: bold; color: #fc0356;">{key}</span> to extract a value from the flow's data.
+				<br><br><span style="color: #6ad498; font-weight: bold;">Example: </span>
+				<br><span style="color: orange;">color</span> = 'red'
+				<br>My bike is <span style="color: orange;">{color}</span>, and I like it
+				<br>Becomes:
+				<br>My bike is <span style="color: orange;">red</span>, and I like it
+			`,
+
+
+	gen_signature: 'Uses the headers from the connection node and the keys stored in the data to create a HMAC-SHA1 signature',
+
+
+	'': 'When none is selected the node will return the data with no proccessing',
+
+
+	media_player: `When this option is selected, 
+					the caller node should pass a value with the key "url" 
+					in order to load the source file, if you connect this node with a download node, 
+					we will handle the media for you`,
+
+
+	get_updates: `set the key to store the extracted data, and the path to get the value
+					<br>this options finds if there is new records in the input data and 
+					extract the last one by checking the parameter counter stored in the 
+					node to use this option set the value "count" to 0 or whatever value 
+					you need in the previous section`,
+
+
+	statistics: `samples:
+				<br>parameters:<br>`
+
+}

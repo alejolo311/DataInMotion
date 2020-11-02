@@ -22,6 +22,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Data in motion</title>
+	<link rel="stylesheet" href="/static/styles/whatsapp_form.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/node_editor.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/node.css?{{ id }}">
 	<link rel="stylesheet" href="/static/styles/side_bar.css?{{ id }}">
@@ -219,10 +220,12 @@
 				<ul></ul>
 			</div>
 			<div contacts="true">
+				<label style="color: #363636;" for="">Contact Name:</label>
 				<input name="contact_name" type="text" placeholder="Contact Name">
+				<label style="color: #363636;" for="">Phone Number:</label>
 				<input name="contact_number" type="text" placeholder="Phone Number">
 				<button>add Contact</button>
-				<label style="color: #363636;" for="">Contacts in:</label>
+				<label style="color: #363636;" for="contacts">Contacts in:</label>
 				<ul>
 				</ul>
 			</div>

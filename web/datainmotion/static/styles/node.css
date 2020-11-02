@@ -17,16 +17,6 @@
 	*/
 	
 }
-body {
-	/* background-color: var(--board_color); */
-	background-image: linear-gradient(to right, #041530, #010b1b);
-	-webkit-user-select: none; /* Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+/Edge */
-	user-select: none; /* Standard */
-	padding: 0;
-	margin: 0;
-}
 .node_container {
 	top: 160;
 	left: 30;

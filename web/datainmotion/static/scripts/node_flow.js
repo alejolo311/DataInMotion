@@ -699,15 +699,17 @@ async function WhatsAppFlow(node, evn) {
 	const reloadContactsView = function () {
 		const ul = $('[contacts="true"] ul');
 		$(ul).empty();
+		console.log(contact_list);
 		for (cont in contact_list) {
-			const li = $(`<li>${cont}</li>`);
+			console.log(contact_list[cont]);
+			const li = $(`<li contact_name="${cont}">${cont}:${contact_list[cont]}</li>`);
 			$(li).on('click', function () {
 				const name = $('[name="contact_name"]');
 				const number = $('[name="contact_number"]');
-				const contact = contact_list[$(this).text()];
-				name.val($(this).text());
+				const contact = contact_list[$(this).attr('contact_name')];
+				name.val($(this).attr('contact_name'));
 				number.val(contact);
-				delete contact_list[$(this).text()];
+				delete contact_list[name.val()];
 				reloadContactsView();
 			});
 			$(ul).append($(li));
@@ -717,9 +719,9 @@ async function WhatsAppFlow(node, evn) {
 	const showList = function () {
 
 		if (contacts_node !== undefined) {
-			$('[contacts="true"] label').text(`Contacts in ${contacts_node.name}:`);	
+			$('[contacts="true"] label[for="contacts"]').text(`Contacts in ${contacts_node.name}:`);	
 		} else {
-			$('[contacts="true"] label').text('New Contacts List');	
+			$('[contacts="true"] label[for="contacts"]').text('New Contacts List');	
 		}
 		$('.contacts_lists').css('display', 'none');
 		$('[contacts="true"]').css('display', 'block');
@@ -774,7 +776,8 @@ async function WhatsAppFlow(node, evn) {
 	// Display the container
 	const container = $('div[form="whatsapp_node"]');
 	$('.wpp_cont').css('display', 'block');
-	$(container).css('left', evn.pageX - 100);
+	const xPos = (window.screen.width / 4);
+	$(container).css('left', xPos);
 	$(container).css('top', evn.pageY - 180);
 	container.css('display', 'block');
 	if (node.data.gif !== '') {
@@ -830,8 +833,9 @@ async function WhatsAppFlow(node, evn) {
 		$('.contacts_lists').css('display', 'block');
 		const ul = $('.contacts_lists ul');
 		$(ul).empty();
+		console.log(lists);
 		for (list of lists) {
-			const li = $(`<li contacts_id="${list.id}">${list.name}</li>`);
+			const li = $(`<li contacts_id="${list.id}">${list.name}: ${list}</li>`);
 			$(li).on('click', function (evn) {
 				console.log('click');
 				for (lis of lists) {

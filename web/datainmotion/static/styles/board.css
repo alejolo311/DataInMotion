@@ -1,7 +1,24 @@
 :root {
 	--font: 'Mallanna', sans-serif;
 }
-
+body {
+	/* background-color: var(--board_color); */
+	background-image: linear-gradient(to right, #041530, #010b1b);
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	padding: 0;
+	margin: 0;
+	overflow-x: hidden;
+}
+body::-webkit-scrollbar {
+	width: 14px;
+}
+body::-webkit-scrollbar-thumb {
+	background-color: rgb(199, 161, 255);
+	border-radius: 8px;
+}
 .boards {
 	position: absolute;
 	display: grid;
@@ -640,260 +657,4 @@ div[node="true"] {
 }
 .close:active {
 	box-shadow: 0 0 0px white;
-}
-.wpp_cont {
-	width: 100vw;
-	height: 100vw;
-	position: absolute;
-	display: none;
-	top: 0px;
-	left: 0px;
-	z-index: 19;
-	padding-bottom: 40px;
-	background-color:  transparent;
-	backdrop-filter: blur(5px);
-}
-h3[save="whatsapp"] {
-	position: absolute;
-	right: 12px;
-	top: 0px;
-	background-color: 	#c84d5d;
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 18px;
-	padding: 4px 18px;
-	cursor: pointer;
-	border-radius: 12px;
-}
-h3[save="whatsapp"]:hover {
-	background-color: 	#ee7a8a;
-	color: white;
-}
-h3[save="whatsapp"]:active {
-	background-color: 	#b90e25;
-	color: white;
-}
-h3[close="whatsapp"] {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	position: absolute;
-	top: -18px;
-	left: 0;
-	background-image: url(../images/close.png);
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 22px;
-	background-color: transparent;
-	cursor: pointer;
-}
-h3[close="whatsapp"]:hover {
-	background-color: rgba(128, 128, 128, 0.274);
-	background-image: url(../images/close_white.png);
-}
-h3[close="whatsapp"]:active {
-	background-image: url(../images/close.png);
-}
-div[form="whatsapp_node"] {
-	display: none;
-	color: #00bfa5;
-	position: absolute;
-	top: 60px;
-	left: 28%;
-	width: 30%;
-	min-width: 400px;
-	height: auto;
-	z-index: 20;
-	padding: 40px 20px;
-	font-family: var(--font);
-	background-color: white;
-	border-radius: 8px;
-}
-div[form="whatsapp_node"] h1 {
-	width: 100%;
-	text-align: center;
-}
-div[form="whatsapp_node"] label {
-	width: 80%;
-	margin-left: 10%;
-	font-weight: bold;
-}
-div[form="whatsapp_node"] input {
-	padding: 12px;
-	border-radius: 12px;
-	outline: none;
-	border: 1px solid rgb(196, 196, 196);
-}
-.csv-upload {
-	color: #5591a7;
-	margin-left: 10%;
-	border: 1px solid grey;
-	border-radius: 10px;
-	cursor: pointer;
-	outline: none;
-	background-color: white;
-	width: 80%;
-	padding: 6px 12px;
-	font-weight: bold;
-	font-size: 14px;
-}
-.csv-upload:hover {
-	background-color: #5591a7;
-	color: white;
-}
-div[form="whatsapp_node"] input::placeholder {
-	color: rgb(177, 177, 177);
-}
-div[select="contacts"] {
-	display: flex;
-}
-div[select="contacts"] h2{
-	width: 36%;
-	text-align: center;
-	font-size: 14px;
-	margin-left: 20px;
-	cursor: pointer;
-	padding: 8px 12px;
-	background-color: #038d7b;
-	border-radius: 18px;
-	color: white;
-}
-div[select="contacts"] h2:hover{
-	background-color: #02685a;
-}
-div[select="contacts"] h2:active{
-	background-color: #249788;
-}
-h2[show="true"] {
-	width: fit-content;
-	padding: 12px 18px;
-	font-size: 16px;
-	line-height: 16px;
-	margin-left: 10%;
-	cursor: pointer;
-	color: white;
-	background-color: #02685a;
-	/* border: 3px solid black; */
-	border-radius: 12px;
-}
-.list_opts:hover {
-	filter: saturate(2.5);
-}
-div[select="gif"] {
-	display: flex;
-	width: 80%;
-	margin-left: 10%;
-	margin-top: 8px;
-}
-div[select="gif"] h2{
-	font-size: 12px;
-	padding: 0px 6px;
-	background-color: transparent;
-	border: 2px solid white;
-	border-radius: 12px;
-	cursor: pointer;
-}
-div[select="gif"] h2:hover{
-	box-shadow: 0 0 10px white;
-}
-div[select="gif"] h2:active{
-	box-shadow: 0 0 10px rgb(121, 117, 117);
-}
-div[select="gif"] h2:active + input{
-	display: none;
-}
-div[contacts="true"] {
-	display: none;
-}
-div[contacts="true"] button{
-	width: 36%;
-	text-align: center;
-	font-size: 16px;
-	color: white;
-	margin-left: 30%;
-	margin-right: 30%;
-	margin-top: 12px;
-	margin-bottom: 20px;
-	cursor: pointer;
-	padding: 8px 18px;
-	background-color: #d3a531;
-	border-radius: 12px;
-	outline: none;
-	border: none;
-	font-family: var(--font);
-	font-weight: bold;
-}
-div[contacts="true"] button:hover{
-	filter: saturate(2.4);
-}
-div[contacts="true"] button:active{
-	filter: saturate(0.8);
-}
-div[contacts="true"] ul{
-	display: grid;
-	margin-left: -30px;
-	gap: 12px;
-	grid-template-columns: repeat(3, 116px);
-}
-div[contacts="true"] li {
-	border: 2px solid rgb(197, 197, 197);
-	color: rgb(197, 197, 197);
-	text-overflow: ellipsis;
-	list-style: none;
-	margin: 4px 8px;
-	padding: 2px 6px;
-	text-align: center;
-	max-height: 30px;
-	/* background-color: green; */
-	overflow-wrap: break-word;
-	overflow: hidden;
-	hyphens: auto;
-	font-weight: bold;
-	padding: 1px 5px;
-	border-radius: 18px;
-}
-div[contacts="true"] li:hover{
-	border: 2px solid rgb(122, 102, 65);
-	overflow: hidden;
-	cursor: pointer;
-	color: rgb(122, 102, 65);
-	font-weight: bold;
-}
-/* contacts list nodes */
-.contacts_lists {
-	display: none;
-}
-.contacts_lists ul{
-	display: grid;
-	margin-left: -30px;
-	gap: 12px;
-	grid-template-columns: repeat(3, 116px);
-}
-.contacts_lists li {
-	text-overflow: ellipsis;
-	list-style: none;
-	margin: 4px 8px;
-	padding: 2px 6px;
-	text-align: center;
-	max-height: 30px;
-	/* background-color: green; */
-	overflow-wrap: break-word;
-	overflow: hidden;
-	hyphens: auto;
-	border-radius: 18px;
-	font-weight: bold;
-	border: 2px solid rgb(255, 255, 255);
-}
-.contacts_lists li:hover{
-	width: fit-content;
-	overflow: hidden;
-	cursor: pointer;
-	color:  #f5ffbf;
-	font-weight: bold;
-	background-color: #049b86;
-	border: 2px solid #f2ffaa;
-	padding: 1px 5px;
-	overflow: visible;
-	overflow-wrap: normal;
-	z-index: 30;
 }

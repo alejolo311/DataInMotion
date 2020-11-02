@@ -11,6 +11,7 @@ from twilio.rest import Client
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.action_chains import ActionChains
 import os
@@ -303,8 +304,13 @@ class WebWhastapp():
                 con_input.click()
                 con_input_span.click()
                 con_input_span.send_keys(contact_number)
+                con_input_span.send_keys(Keys.ENTER)
                 time.sleep(2)
-                break
+                self.save_screenshot('input_contact_number')
+                self.instance.write_status(
+                'sending', 'Sending message to {}'.format(contact_number))
+                return
+                # break
             except Exception as e:
                 # self.save_screenshot(name='failed_input')
                 traceback.print_exc()
@@ -322,28 +328,41 @@ class WebWhastapp():
                 #     self.driver.execute_script(
                 #         'arguments[0].style.backgroundColor = "blue";', cont)
                 c_xpath = '//div[contains(@class, "eJ0yJ")]'
-                contact = WebDriverWait(contacts, 4).until(
-                    EC.presence_of_element_located((By.XPATH, c_xpath)))
-                print('Contact element: ', contact)
-                # print(contact.get_attribute('outerHTML').encode('utf-8'))
-                # contact = contacts[0]
+                # EC.presence_of_all_elements_located
+                contact = None
+                contacts = WebDriverWait(contacts, 6).until(
+                    EC.presence_of_all_elements_located((By.XPATH, c_xpath)))
+                if type(contacts) == list:
+                    contact = contacts[-1]
+                    # for cont in contacts:
+                    #     tag = "[dir='auto']"
+                    #     try:
+                    #         script = f'return arguments[0].querySelector("{tag}").getAttribute("title");'
+                    #         print(script)
+                    #         con_span = self.driver.execute_script(
+                    #             script,
+                    #             cont
+                    #         )
+                    #         print('\nFound contact info:', con_span, '\n')
+                    #         if  contact_number in con_span.replace(' ', '').replace('-', ''):
+                    #             contact = cont
+                    #             break
+                    #     except Exception as e:
+                    #         print('get attribute title failed', e)
+                print('ContactType Element: ', type(contacts))
+                print('Contact element: ', contacts)
+                print(dir(contacts))
                 self.remove_verify()
-                # parent = contact.find_element_by_xpath('..')
-                # parent = parent.find_element_by_xpath('..')
-                # parent = parent.find_element_by_xpath('..')
-                # parent = parent.find_element_by_xpath('..')
-                # parent = parent.find_element_by_xpath('..')
-                self.driver.execute_script(
-                  'arguments[0].style.backgroundColor = "red";', contact)
-                contact.click()
-                # parent.click()
-                # print(contact.get_attribute('outerHTML').encode('utf-8'))
-                # self.save_screenshot(name='contact_selected')
-                time.sleep(2)
+                if contact:
+                    self.driver.execute_script(
+                    'arguments[0].style.backgroundColor = "red";',
+                    contact
+                    )
+                    contact.click()
+                    time.sleep(2)
                 break
             except TimeoutException as tme:
                 print(tme)
-                # self.save_screenshot(name='waiting_contact')
                 print('trying again to get the contact')
                 if count > max_retries:
                     return {'error': "can not find the contact"}
@@ -354,6 +373,7 @@ class WebWhastapp():
                 print('Failed to get the contact', e)
                 print(contacts.get_attribute('outerHTML').encode('utf-8'))
                 return {'error': "can not find the contact"}
+
 
     def send_whatsapp_message(self, message):
         """

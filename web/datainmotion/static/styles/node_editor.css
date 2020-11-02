@@ -50,7 +50,25 @@
 #cont {
 	margin-top: 40px;
 }
-
+.info_tag {
+	font-size: 20px !important;
+	cursor: pointer;
+	color: orange;
+}
+.info_tag:hover {
+	color: rgb(192, 125, 0);
+}
+.info_content {
+	/* display: none; */
+	width: calc(80% - 40px);
+	padding: 20px;
+	margin-left: 10%;
+	border-radius: 12px;
+	background-color: rgb(245, 245, 245);
+	line-height: 18px;
+	text-align: justify;
+	color: grey !important;
+}
 #node_editor label {
 	font-size: 16px;
 	margin-left: calc(15% - 24px);
@@ -74,8 +92,8 @@
 	border-radius: 8px;
 	height: inherit;
 	outline: none;
-	min-width: 70% !important;
-	max-width: 70% !important;
+	min-width: 80% !important;
+	max-width: 80% !important;
 	margin-left: calc(15% - 24px);
 	font-size: 18px;
 	padding: 12px 24px;

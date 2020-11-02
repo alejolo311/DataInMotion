@@ -116,7 +116,7 @@
 	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.513);
 }
 .coords {
-	z-index: 4;
+	z-index: 10;
 	position: relative;
 	display: flex;
 	color: white;
@@ -158,7 +158,6 @@
 	color: purple !important;
 }
 .console_displayed {
-	z-index: 10 !important;
 	height: calc(100vh - 140px);
 	overflow: scroll;
 }
@@ -182,13 +181,16 @@
 }
 .toggle_console:hover {
 	/* background-color: rgb(216, 216, 216); */
-	background-color: rgb(192, 9, 146);
+	background-color: rgb(0, 211, 148);
 	color: white;
 	/* border: 3px solid rgb(115, 27, 158); */
-	box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.337);
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.761);
 }
 .toggle_console:active {
-	background-color: rgba(0, 0, 0, 0.116);
+	filter: saturate(0.8);
+	transform: translate(0px, 0px);
+	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.761);
 }
 .name_cont {
 	position: absolute;
