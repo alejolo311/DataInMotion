@@ -20,6 +20,7 @@ from models.node_flow_test import instancedNode
 import traceback
 import json
 import os
+import time
 from threading import Thread
 from multiprocessing import Process
 import multiprocessing
@@ -74,6 +75,7 @@ def check_register_status():
         table.seek(0)
         table.write(json.dumps(tb))
         table.truncate()
+    time.sleep(4)
     browsers[instance_id].close()
     del browsers[instance_id]
     return jsonify(state=state, instance_id=instance_id)
