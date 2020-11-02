@@ -187,23 +187,21 @@ class instancedNode():
             logger.log(self.name, 'Checking innodes')
             innodes = (self.innodes)
             node = self.get(innodes[0])
-            print('Innode conection')
-            print(self.name, '->', node.name)
-            print('acc_params', acc_data[self.name]['acc-params'].keys())
-            print('acc_data', acc_data[self.name]['acc-data'].keys())
-            print('acc_json', acc_data[self.name]['acc-json'].keys())
+            self.log('Innode conection')
+            self.log(f'->{node.name}')
+            acc_p = acc_data[self.name]['acc-params'].keys()
+            self.log(f'acc_params {acc_p}')
+            acc_d = acc_data[self.name]['acc-data'].keys()
+            self.log(f'acc_data {acc_d}')
+            acc_j = acc_data[self.name]['acc-json'].keys()
+            self.log(f'acc_json {acc_j}')
             data, json_log = node.run_node_task((data,
                                                  acc_data[self.name]),
                                                 logger, self.inner_connections,
                                                 self.nodes)
             if type(data) == dict:
                 for key in data:
-                    print(self.name,
-                          'appending ->',
-                          key,
-                          '<- from ',
-                          node.name,
-                          'output')
+                    self.log(f'appending -> {key} <- from {node.name} output')
                     acc_data[self.name]['acc-data'][key] = data[key]
             in_data.append(data)
         #
@@ -229,8 +227,8 @@ class instancedNode():
                 if ('string' in pars.keys() and 'http' in pars['string'][:8]):
                     url_parts = pars['string'].split('?')
                 elif 'url' in pars.keys():
-                    print(pars.keys(), pars['url'])
-                    # print(pars['url'].decode('utf-8'))
+                    self.log('Checking URL')
+                    self.log('{} {}'.format(pars.keys(), pars['url']))
                     url_parts = pars['url'].split('?')
                 if url_parts:
                     self.api_url = 'GET ' + url_parts[0]
@@ -288,8 +286,8 @@ class instancedNode():
                 # with the key content to pars
                 # print(data)
                 pars['content'] = str(data)
-            print(pars.keys())
-            print(self.name, self.data)
+            self.log(f'{pars.keys()}')
+            self.log(f'{self.data}')
             for key in pars.keys():
                 try:
                     patt = '*{}*'.format(key)
@@ -304,6 +302,7 @@ class instancedNode():
                                         patt, pars[key].replace(
                                             '\n', ' ')).encode('utf-8'))
                 except Exception as e:
+                    self.log(f'{e}')
                     print(e)
                     traceback.print_exc()
             # print(self.name, self.data)
@@ -381,7 +380,7 @@ class instancedNode():
             data, json_log = self.request(self.data)
             if type(data) == dict:
                 for key in data:
-                    print(self.name, 'saving', key, 'in Data')
+                    self.log(f'saving {key} in Data')
                     acc_data[self.name]['acc-data'][key] = data[key]
             # Restore the change data to the original state
             self.headers = tmp_headers
@@ -403,7 +402,7 @@ class instancedNode():
                 for k in params[key]['acc-data'].keys():
                     pars[k] = params[key]['acc-data'][k]
             try:
-                print('testing web whatsapp data', self.data, type(self.data))
+                self.log(f'testing web whatsapp data {self.data} {type(self.data)}')
                 if self.data['test']:
                     data = self.send_message(pars)
                 else:
@@ -414,9 +413,9 @@ class instancedNode():
                 data = {'error': str(e)}
                 pass
             # data = self.send_message(pars)
-        print(self.work_type)
+        self.log(f'{self.work_type}')
         if self.work_type == 'service':
-            print('Service Triggered')
+            self.log('Service Triggered')
         #
         # Proccess Data Section
         #
@@ -445,7 +444,7 @@ class instancedNode():
                 data = self.upload_media_twitter(pars)
             else:
                 logger.log(self.name, 'Proccess mode ' + self.analisis_mode)
-                print(self.name, params.keys())
+                self.log(f'{params.keys()}')
                 if self.analisis_mode == 'media_player':
                     if 'url' in pars.keys():
                         json_log['url'] = pars['url']
@@ -455,7 +454,7 @@ class instancedNode():
                     data = self.processResponse(pars)
                 elif self.analisis_mode and self.analisis_mode != '':
                     if self.analisis_mode != 'none':
-                        print(self.name, self.analisis_mode)
+                        self.log(f'{self.analisis_mode}')
                         if self.work_type == 'request':
                             pars['request_data'] = data
                         data = self.processResponse(pars)
@@ -463,9 +462,8 @@ class instancedNode():
                             del pars['request_data']
                 else:
                     try:
-                        print(self.name,
-                              'request response no processed',
-                              data.keys())
+                        self.log(
+                              f'request response no processed {data.keys()}')
                     except Exception as e:
                         print('data from process pipeline', e)
                     finally:
@@ -473,7 +471,7 @@ class instancedNode():
         except Exception as e:
             traceback.print_exc()
         if self.analisis_mode == 'comparision':
-            print('{:<80}'.format(json.dumps(data)[:200]))
+            self.log('{:<80}'.format(json.dumps(data)[:200]))
         if self.work_type == 'request':
             logger.log(self.name, str(type(data)))
             index = 0
@@ -505,7 +503,7 @@ class instancedNode():
                     if data['result'] is False:
                         return data, json_log
                     else:
-                        print('comparision true')
+                        self.log('comparision true')
                 except Exception as e:
                     print(e)
             outnodes = self.outnodes
@@ -530,17 +528,20 @@ class instancedNode():
                         acc_data[self.name]),
                         logger, self.inner_connections,
                         self.nodes)
-                    print('comparission result type', type(comp))
-                    print(comp, comp2)
+                    self.log('comparission result type', type(comp))
+                    self.log(f'{comp}, {comp2}')
                     if 'result' in comp.keys():
                         if comp['result'] is False:
                             pass
                 else:
-                    print('Outnode')
-                    print(self.name, '->', node.name)
-                    print(acc_data[self.name]['acc-data'].keys())
-                    print(acc_data[self.name]['acc-json'].keys())
-                    print(acc_data[self.name]['acc-params'].keys())
+                    self.log('Outnode')
+                    self.log(f'-> {node.name}')
+                    acc_d = acc_data[self.name]['acc-data'].keys()
+                    acc_j = acc_data[self.name]['acc-json'].keys()
+                    acc_p = acc_data[self.name]['acc-params'].keys()
+                    self.log(f'{acc_d}')
+                    self.log(f'{acc_j}')
+                    self.log(f'{acc_p}')
                     comp, comp2 = node.run_node_task((
                         data,
                         acc_data[self.name]),
@@ -550,21 +551,21 @@ class instancedNode():
                     if 'result' in comp.keys():
                         if comp['result'] is False:
                             pass
-                    print(node.name,
-                          'outnode run result',
-                          json.dumps(comp)[:50])
+                    print('outnode run result {}'.format(
+                        json.dumps(comp)[:50]
+                    ))
                     co = comp.copy()
                     for key in co.keys():
-                        print(node.name, key)
+                        self.log(f'{key}')
                         acc_data[self.name]['acc-params'][key] = co[key]
             # Outnodes cycle end
             if type(json_log) == dict:
-                print(self.name, json_log.keys())
+                self.log(f'{json_log.keys()}')
         return data, json_log
 
     def web_whatsapp(self, outData):
         """
-        Use selenium to send the QR code and then the messages
+        Entrypoint for the Selenium WebWhatsapp interface
         """
         if 'content' in outData.keys():
             message = outData['content']
@@ -573,16 +574,20 @@ class instancedNode():
         # Check raw file
         file_path = None
         if 'raw' in outData:
-            # print('Prepare to save the video file on Hard Disk')
+            # Prepare to save the video file on Hard Disk
             bytes_string = outData['raw'].encode('ascii')
             bytes_string = base64.decodebytes(bytes_string)
             extension = outData['headers']['Content-Type'].split('/')[1]
+            # set_header saves the video, store it on hard disk an return the path
+            # for the rendered video
             file_path = set_header(bytes_string, self.instance_id, extension)
         # Extract the contacts list
         data = outData['contacts_list']
+        # Extract the session id from browsers/table
         session_path = f'/usr/src/app/api/browsers/table'
         with open(session_path, 'r') as sessions_file:
             session_id = json.loads(sessions_file.read())[self.user_id]
+        # Creates an instance with the same session_id
         instance = instancedNode({
             'id': session_id,
             'user_id': self.user_id
@@ -590,29 +595,23 @@ class instancedNode():
         web = WebWhastapp(session_id, outData, instance)
         if len(data) == 0:
             web.close()
-        # admin = self.data['admin']
         gif = self.data['gif']
         number_list = [num for num in data.values()]
-        print(number_list)
+        self.log(f'{number_list}')
+        self.write_status('verifying', 'Opening Whatsapp Session')
         web.start_browser()
-        # web.number = admin
         web.open_whatsapp_web()
-        # if not web.auth():
-        #     web.close()
-        #     return {
-        #         'error': 'QRCode not found, may be the connection is loose'
-        #     }
-        self.write_status('verifying', 'Waiting for user to scan the code')
-        self.write_status('verifying', '')
         pos = 0
         url = None
         try:
             for contact in number_list:
+                self.write_status('verifying', f'Searching for {contact}')
                 web.search_contact(contact)
                 if pos == 0:
                     pos += 1
                 if file_path:
                     last = len(file_path.split('/'))
+                    self.write_status('verifying', f'Sending Gif to {contact}')
                     web.send_gif_from_file(file_path)
                 elif gif != '':
                     if url is None:
@@ -645,16 +644,13 @@ class instancedNode():
             return {'error_{}'.format(self.name): 'message content not found'}
         # Check raw file
         if 'raw' in outData:
-            # print('Prepare to save the video file on Hard Disk')
+            # Prepare to save the video file on Hard Disk
             bytes_string = outData['raw'].encode('ascii')
             bytes_string = base64.decodebytes(bytes_string)
-            # print(outData['headers']['Content-Type'])
             extension = outData['headers']['Content-Type'].split('/')[1]
+            # set_header saves the video, store it on hard disk an return the path
+            # for the rendered video
             file_path = set_header(bytes_string, self.instance_id, extension)
-            # print(bytes_string[:200])
-            # print(file_path)
-            # with open(file_path, 'rb') as saved_img:
-            #     print(saved_img.read()[:200])
         # Extract the contacts list
         contacts = outData['contacts_list'].values()
         admin = self.data['admin']
@@ -688,7 +684,7 @@ class instancedNode():
         else:
             protocol = 'GET'
             url = url_complete[0]
-        print(self.name, protocol, url)
+        self.log(f'{protocol}, {url}')
         headers = {}
         rp, response = None, None
         if self.headers != '{}':
@@ -747,6 +743,12 @@ class instancedNode():
         # print(type(rp))
         return rp, rp
 
+    def log(self, message):
+        """
+        Uses the Logger instance to store a message in it
+        """
+        self.logger.log(self.name, message)
+
     def processResponse(self, response):
         """
         Process the received result from request to
@@ -763,10 +765,10 @@ class instancedNode():
         # Analisis mode Comparision
         #
         if self.analisis_mode == 'comparision':
-            self.logger.log(self.name, 'Comparission mode')
-            self.logger.log(self.name, 'Cheking analisis_params\n')
-            self.logger.log(self.name, json.dumps(params))
-            print(self.name, response.keys())
+            self.log('Comparission mode')
+            self.log('Cheking analisis_params\n')
+            self.log(json.dumps(params))
+            # print(self.name, response.keys())
             cond = None
             val1 = None
             val2 = None
@@ -820,9 +822,13 @@ class instancedNode():
                   'html-content in response',
                   'html-content' in response.keys())
             if 'html-content' in response.keys():
+                self.log(f'analisis_params \n{params}')
+                self.log(f'{type(params)}')
+                occurrences = []
                 for conf in params:
                     # Extracting wildcards and replacing
                     # them in the conf occurrences
+                    self.log(f'{conf}')
                     conf['occurrence'] = conf['occurrence'].replace('*', '===')
                     f = '==='
                     occ = conf['occurrence']
@@ -858,7 +864,6 @@ class instancedNode():
                         conf = json.loads(conf)
                     else:
                         print(self.name, conf)
-                    occurrences = []
                     tmp = response['html-content']
                     tmp = tmp.replace('  ', '')
                     tmp = tmp.replace('><', '> <')
@@ -866,6 +871,7 @@ class instancedNode():
                     tmp = tmp.replace('  ', '')
                     tmp = tmp.replace('><', '> <')
                     occ = conf['occurrence']
+                    single_occ = []
                     indexes = [m.start() for m in re.finditer(occ, tmp)]
                     print(self.name, 'Occurrences indexes', indexes)
                     for index in indexes:
@@ -883,10 +889,11 @@ class instancedNode():
                             else:
                                 break
                         if buffer != '':
-                            occurrences.append(buffer)
-                    if len(occurrences) > 0:
-                        return {'occurrences': occurrences}
-                    return response
+                            single_occ.append(buffer)
+                    occurrences.append(single_occ)
+                if len(occurrences) > 0:
+                    return {'occurrences': occurrences}
+                return response
         #
         # Analisis mode Statistics
         #

@@ -16,6 +16,7 @@
 	line-height: 55px;
 }
 .top_bar {
+	height: 124px;
 	left: 0;
 	top: 0;
 	margin-top: 0;
@@ -45,6 +46,7 @@
 	margin: 5px 0px 5px 0px;
 }
 .top_bar .utility_menu > li:last-child{
+	margin-top: 10px;
 	clear: both;
 }
 .top_bar .utility_menu > li:last-child > ul > li{
@@ -83,7 +85,10 @@
 	display: flex;
 }
 .tools {
-	max-width: 50vw;
+	top: 0;
+	left: calc(50vw - 54px);
+	position: absolute;
+	width: 50vw;
 	background-color: transparent;
 	height: 80px;
 	padding-left: 20px;
@@ -117,36 +122,58 @@
 	color: white;
 	font-family: var(--font);
 	letter-spacing: var(--letter_spacing);
+	margin-top: 0px;
 	width: 100%;
 	height: 40px;
 	background-color: rgba(170, 170, 170, 0.316);
 }
 .coords h2 {
 	z-index: 0;
-	color: transparent !important;
+	color: transparent;
 	padding: 8px;
 	font-size: 10px;
 	letter-spacing: var(--letter_spacing);
 }
+.selected {
+	width: 0;
+}
 .console {
+	cursor: pointer;
 	margin-top: 0;
-	margin-left: 0;
-	padding-left: 0;
-	width: 100%;
+	margin-left: 24px;
+	padding-left: 24px !important;
+	width: calc(100vw - 380px - 200px - 48px);
 	height: 24px;
+	border-radius: 8px 8px 8px 8px;
 	background-color: aliceblue;
-	color: black;
+	color: rgb(160, 160, 160) !important;
 	font-family: var(--font);
-	font-size: 16px;
+	font-size: 14px !important;
+	overflow: hidden;
+}
+.console:hover {
+	color: black !important;
+}
+.console:active {
+	color: purple !important;
+}
+.console_displayed {
+	z-index: 10 !important;
+	height: calc(100vh - 140px);
+	overflow: scroll;
 }
 .toggle_console {
-	width: 60px;
-	height: 40px;
+	margin: 2px;
+	margin-left: 40px;
+	width: 200px !important;
+	font-size: 16px;
+	height: 36px;
 	cursor: pointer;
-	border-radius: 20px 0 0 20px;
-	background-color: grey;
+	border-radius: 12px;
+	background-color: rgb(216, 216, 216);
+	font-family: var(--font);
+	font-weight: bold;
 	border: none;
-	background-image: url('../images/right.png');
 	background-position: center;
 	background-size: 20px;
 	background-repeat: no-repeat;
@@ -154,10 +181,18 @@
 
 }
 .toggle_console:hover {
-	background-color: rgb(216, 216, 216);
+	/* background-color: rgb(216, 216, 216); */
+	background-color: rgb(192, 9, 146);
+	color: white;
+	/* border: 3px solid rgb(115, 27, 158); */
+	box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.337);
 }
 .toggle_console:active {
 	background-color: rgba(0, 0, 0, 0.116);
+}
+.name_cont {
+	position: absolute;
+	left: 280px;
 }
 .b_name {
 	border: 2px solid white;
@@ -170,6 +205,7 @@
 	display: none;
 }
 .board_name {
+	line-height: 40px !important;
 	padding: 0px 16px;
 	border-radius: 12px;
 }
@@ -178,10 +214,20 @@
 }
 .owner_tag {
 	z-index: 10;
-	font-size: 10px !important;
-	position: absolute !important;
-	top:100px !important;
-	left: 100px !important;
+	position: relative !important;
+	top:0px !important;
+	left: 20px !important;
+	text-align: left;
+}
+.owner_tag h2 {
+	margin: 0 !important;
+	width: 300px;
+	height: 40px;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	line-height: 40px;
+	font-size: 16px !important;
+	color: white !important;
 }
 .owner_tag:hover {
 	color: #855d7c;
@@ -197,9 +243,10 @@
 	display: none;
 }
 .trash_can {
+	border-radius: 12px;
 	position: absolute;
-	width: 50%;
-	height: calc(100% - 36px);
+	width: 100%;
+	height: calc(100% - 20px);
 	right: 0px;
 	margin-top: 0;
 	background-color: #165185;

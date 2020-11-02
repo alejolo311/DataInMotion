@@ -5,23 +5,24 @@
 }
 .menus {
 	position: absolute;
-	top: 100px;
+	top: 120px;
 	padding: 0px;
 	background-color: var(--menu_back);
 	z-index: 10;
 	font-family: 'Mallanna', sans-serif;
 	visibility: hidden;
-	max-height: 400px;
+	max-height: calc(100vh - 160px);
 	overflow-y: scroll;
 }
 .menus::-webkit-scrollbar {
-	width: 6px;
+	width: 16px;
 	height: 0px;
 	background-color: rgb(233, 239, 250);
 }
 .menus::-webkit-scrollbar-thumb {
-	background-color: #5d024e;
+	background-color: #ce7fc1;
 	border-radius: 4px;
+	cursor: pointer;
 }
 .menus ul {
 	margin: 0;
@@ -31,12 +32,10 @@
 .menus li {
 	list-style: none;
 	cursor: pointer;
-	
 	margin: 0;
 	padding: 8px 40px;
 	border: 1px solid rgba(128, 128, 128, 0.24);
-	color: white;
-
+	color:white;
 }
 .menus li:hover {
 	background-color: aquamarine;
@@ -261,7 +260,7 @@
 	width: 18px !important;
 	height: 18px !important;
 	background-size: cover !important;
-	background-image: url(../svg/add_node.svg) !important;
+	background-image: url(/static/svg/add_node.svg) !important;
 	background-position: center;
 	filter: contrast(200%);
 }

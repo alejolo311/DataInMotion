@@ -190,9 +190,11 @@ class Calendar {
 	async sendDate() {
 		const now = new Date(Date.now());
 		console.log(this._date);
+		// This sync_date needs to sum 1 to the
+		// month to be used by python 
 		const sync_date = [
 			now.getFullYear(),
-			now.getMonth(),
+			now.getMonth() + 1,
 			now.getDate(),
 			now.getHours(),
 			now.getMinutes(),

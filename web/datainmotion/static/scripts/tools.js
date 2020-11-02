@@ -435,4 +435,19 @@ $(window).on('load', function () {
   $('.toggle_console').on('click', function () {
     showConsole(undefined);
   });
+  const consoleLogger = document.getElementsByClassName('console')[0];
+  consoleLogger.addEventListener('click', function(evn) {
+	// const loading = document.querySelector('.loading ul');
+	evn.target.classList.toggle('console_displayed');
+	try {
+		let string = '';
+		for (const proc of processMessages) {
+			string += `${proc}<br>`;
+		}
+		evn.target.innerHTML = string;
+		console.log(processMessages);
+	} catch (err) {
+		console.log(err);
+	}
+  });
 });

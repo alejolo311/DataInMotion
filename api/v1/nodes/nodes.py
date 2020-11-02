@@ -177,7 +177,9 @@ def run_node(node_id):
     if 'active' in params and params['active']:
         subject = 'The {} trigger in {} - is running now!!'.format(starter.name, board.name)
         process_id = starter.instance_id
-        url = 'http://{}/boards/{}/?check_process=true&id={}'.format(request.host.split(':')[0], board.id, process_id)
+        host = 'https://dnart.tech'
+        # host = 'http://localhost'
+        url = '{}/boards/{}/?check_process=true&id={}'.format(host, board.id, process_id)
         template = render_template('confirm.html', url=url, board=board)
         send_email(user.email, subject, template)
     print('*****************')

@@ -1,4 +1,5 @@
 let stoped = false;
+let processMessages;
 async function running_test(instanceId) {
 	window.scrollTo(0, 0);
 	stoped = false;
@@ -34,6 +35,12 @@ async function running_test(instanceId) {
 			$('.last_state h1').html(json.messages[json.messages.length - 1]);
 		}
 		$('.loading ul').empty();
+		// Print the messages to the logger
+		if (json.messages.length > 0) {
+			processMessages = json.messages.slice(0, json.messages.length);
+			const console = document.getElementsByClassName('console')[0];
+			console.innerHTML = processMessages[0];
+		}
 		for (mess of json.messages.reverse()) {
 			const li = $(`<li>${mess}</li>`);
 			$('.loading ul').append($(li));
@@ -71,7 +78,8 @@ async function running_test(instanceId) {
 				$('.html_viewer').html(gifs);
 				$('.html_viewer').css('display', 'block');
 				choosing_gif = true;
-			}json.messages[len]
+			}
+			// json.messages[len]
 		} else if (json.status === 'error') {
 			$('.loading').css('display', 'none');
 			break;

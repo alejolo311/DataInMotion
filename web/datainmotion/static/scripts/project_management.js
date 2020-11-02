@@ -1,20 +1,26 @@
 let board = {};
+let menuTimeOut;
 
 function createMenu (position, items) {
-  const menu = $('.menus');
-  menu.css('visibility', 'visible');
-  menu.css('left', position - 40);
-  for (const item of items) {
-    let menuString = '';
-    // console.log(item);
-    menuString += '<li>' + item[0] + '</li>';
-    const option = $(menuString);
-    option.on('click', item[1]);
-    menu.append(option);
-  }
-  menu.mouseleave(function () {
-    $(this).css('visibility', 'hidden');
-  });
+	const menu = $('.menus');
+	menu.css('visibility', 'visible');
+	menu.css('left', position - 40);
+	for (const item of items) {
+		let menuString = '';
+		// console.log(item);
+		menuString += '<li>' + item[0] + '</li>';
+		const option = $(menuString);
+		option.on('click', item[1]);
+		menu.append(option);
+	}
+	menu.mousemove( function(evn) {
+		clearTimeout(menuTimeOut);
+	})
+	menu.mouseleave(function (evn) {
+		menuTimeOut = setTimeout(function () {
+			evn.target.style.visibility = 'hidden';
+		}, 3000);
+	});
 }
 
 
@@ -487,57 +493,66 @@ function setProjectMenu () {
 		$(this).find('i').removeClass('menu-nodes-hover');
 	});
 	$('[menu=nodes]').on('click', function (evn) {
-		$('.menus').empty();
-		const nodesMenu = [
-		{
-			'title': 'Services',
-			'description': 'This nodes are used to fetch or post data to any source',
-			'options': {
-				'service': 'New service'
-			}
-		},
-		{
-			'title': 'Data',
-			'description': 'This nodes are used to fetch or post data to any source',
-			'options': {
-				'custom': 'Select an empty request',
-				'StarWars': 'load the predefined StarWars'
-			}
-		},
-		{
-			'title': 'Process and Analysis',
-			'description': 'Choose how to process the Data, this allows you to extract and transform the values as you need to get the desired insights',
-			'options': {
-				'comparision': 'Compare values or determine if a value contains another one',
-				'HTML': 'Web scrapping, extract values from HTML plain text',
-				'JSON': 'Extracts values from the Data and store them with a custom key',
-				'media_player': 'Visualizes the Data in formats image/png, jpg, gif',
-			}
-		},
-		{
-			'title': 'Content creation',
-			'description': 'Create customizable messages using the Data (before or After processing, depends on how you connect the nodes)',
-			'options': {
-				'new_message': 'empty message',
-				'download_gif': 'download a gif from an input "url"',
-				'giphy': 'fetch data from giphy about an specific query'
-			}
-		},
-		{
-			'title': 'Social Media Channels',
-			'description': 'Choose where to share your Content',
-			'options': {
-				'contacts_list': 'A distribution list to send the Content',
-				'whatsapp_text': 'Send text messages to a selected contacts list',
-				'whatsapp_text_gif': 'Send gif and text message to a selected contacts list',
-				'whatsapp_gif': 'Send gif media to a selected contacts list',
-				'twitter_text': 'Send text update to Twitter',
-				'twitter_gif': '(cluster) Upload and post a media file to Twitter ',
-				'twitter_text_gif': '(cluster) Upload and post a media file and a customized message to Twitter',
-			}
+		const menus = document.getElementsByClassName('menus')[0];
+		const computedStyle = window.getComputedStyle(menus, null);
+		console.log(computedStyle['visibility'], computedStyle['display']);
+		if (computedStyle.visibility === 'visible') {
+			menus.style.visibility = 'hidden';
+			clearTimeout(menuTimeOut);
+			return;
+		} else {
+			$('.menus').empty();
+			const nodesMenu = [
+				{
+					'title': 'Services',
+					'description': 'This nodes are used to fetch or post data to any source',
+					'options': {
+						'service': 'New service'
+					}
+				},
+				{
+					'title': 'Data',
+					'description': 'This nodes are used to fetch or post data to any source',
+					'options': {
+						'custom': 'Select an empty request',
+						'StarWars': 'load the predefined StarWars'
+					}
+				},
+				{
+					'title': 'Process and Analysis',
+					'description': 'Choose how to process the Data, this allows you to extract and transform the values as you need to get the desired insights',
+					'options': {
+						'comparision': 'Compare values or determine if a value contains another one',
+						'HTML': 'Web scrapping, extract values from HTML plain text',
+						'JSON': 'Extracts values from the Data and store them with a custom key',
+						'media_player': 'Visualizes the Data in formats image/png, jpg, gif',
+					}
+				},
+				{
+					'title': 'Content creation',
+					'description': 'Create customizable messages using the Data (before or After processing, depends on how you connect the nodes)',
+					'options': {
+						'new_message': 'empty message',
+						'download_gif': 'download a gif from an input "url"',
+						'giphy': 'fetch data from giphy about an specific query'
+					}
+				},
+				{
+					'title': 'Social Media Channels',
+					'description': 'Choose where to share your Content',
+					'options': {
+						'contacts_list': 'A distribution list to send the Content',
+						'whatsapp_text': 'Send text messages to a selected contacts list',
+						'whatsapp_text_gif': 'Send gif and text message to a selected contacts list',
+						'whatsapp_gif': 'Send gif media to a selected contacts list',
+						'twitter_text': 'Send text update to Twitter',
+						'twitter_gif': '(cluster) Upload and post a media file to Twitter ',
+						'twitter_text_gif': '(cluster) Upload and post a media file and a customized message to Twitter',
+					}
+				}
+			]
+			createNodesMenu(evn.pageX, nodesMenu);
 		}
-	]
-    createNodesMenu(evn.pageX, nodesMenu);
   });
   $('[menu=board]').mousemove(function () {
 	$(this).find('i').addClass('menu-board-hover');
@@ -545,13 +560,22 @@ function setProjectMenu () {
   $('[menu=board]').mouseleave(function () {
 	$(this).find('i').removeClass('menu-board-hover');
   });
-  $('[menu=board]').on('click', function (evn) {
-    $('.menus').empty();
-    const items = [];
-    items.push(['import file', importBoard]);
-    items.push(['export file', exportBoard]);
-    createMenu(evn.pageX, items);
-  });
+	$('[menu=board]').on('click', function (evn) {
+		const menus = document.getElementsByClassName('menus')[0];
+		const computedStyle = window.getComputedStyle(menus, null);
+		console.log(computedStyle['visibility'], computedStyle['display']);
+		if (computedStyle.visibility === 'visible') {
+			menus.style.visibility = 'hidden';
+			clearTimeout(menuTimeOut);
+			return;
+		} else {
+			$('.menus').empty();
+			const items = [];
+			items.push(['import file', importBoard]);
+			items.push(['export file', exportBoard]);
+			createMenu(evn.pageX, items);
+		}
+	});
   $('[menu=users]').mousemove(function () {
 	$(this).find('i').addClass('menu-users-hover');
   });
@@ -589,10 +613,10 @@ function setProjectMenu () {
 	console.log('Add user to this board');
   });
   $('[menu=whatsapp_register]').mousemove(function () {
-	$(this).find('i').addClass('menu-users-hover');
+	$(this).find('i').addClass('menu-whatsapp-hover');
   });
   $('[menu=whatsapp_register]').mouseleave(function () {
-	$(this).find('i').removeClass('menu-users-hover');
+	$(this).find('i').removeClass('menu-whatsapp-hover');
   });
   $('[menu=whatsapp_register]').on('click', function () {
 	const root = document.getElementById('root');
@@ -608,7 +632,7 @@ function createNodesMenu (position, menus) {
 	menu.css('visibility', 'visible');
 	menu.css('left', position - 40);
 	menu.css('padding-top', '40px');
-	menu.css('background-color', 'white');
+	// menu.css('background-color', 'white');
 	const nodeDesc = $('<div class="node_desc"></div>');
 	$(menu).append($(nodeDesc));
 	const opt = $(`<h2 import="true" desc="import from other boards">import_from_board</h2>`);
@@ -620,6 +644,8 @@ function createNodesMenu (position, menus) {
 	$(opt).css('width', '200px');
 	$(opt).css('padding', '4px 16px');
 	$(opt).css('text-align', 'center');
+	$(opt).css('background-color', 'white');
+	$(opt).css('color', 'grey');
 	$(opt).on('mousemove', function (evn) {
 		$(opt).css('background-color', 'grey');
 		$(opt).css('color', 'white');
@@ -660,10 +686,17 @@ function createNodesMenu (position, menus) {
 	  $(category).append($(options));
 	  $(menu).append($(category));
 	}
-	$(menu).mouseleave(function () {
-	  $(this).css('visibility', 'hidden');
-	  menu.css('background-color', color);
-	  menu.css('padding-top', '0');
+	let menuTimeOut;
+	$(menu).mousemove(function () {
+		clearTimeout(menuTimeOut);
+	});
+	$(menu).mouseleave(function (evn) {
+		menuTimeOut = setTimeout(function () {
+			evn.target.style.visibility = 'hidden';
+		}, 3000);
+	//   $(this).css('visibility', 'hidden');
+	//   menu.css('background-color', color);
+	//   menu.css('padding-top', '0');
 	});
   }
   function createNewNode(type) {

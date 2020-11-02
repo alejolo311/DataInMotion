@@ -96,24 +96,26 @@
 			</ul>
 		</div>
 		<div class="tools">
+			<h2 class="trash_can"><i class="fas fa-trash fa-lg" title="Trash a node"></i>Grab here to delete</h2>
+		</div>
+		<div class="name_cont">
 			<h1 class="board_name" style="cursor: pointer; margin-left: 40px; margin-bottom: 0;">
 				{{ board.name }}
 				</h1>
 			<input name="board_name" class="b_name" type="text" placeholder="Board name">
-			<h2 class="trash_can"><i class="fas fa-trash fa-lg" title="Trash a node"></i>Grab here to delete</h2>
-		</div>
-		<div class="owner_tag">
-			<h2>Owner: {{ owner }}</h2>
 		</div>
 	</div>
 	<div class="side_bar">
 	</div>
 	<div class="coords">
-		<h2 class="x" style="width: 50px;"></h2>
+		<!-- <h2 class="x" style="width: 50px;"></h2>
 		<h2 class="y" style="width: 50px;"></h2>
-		<h2 class="selected" style="width: 300px;padding-top: 2px;"></h2>
-		<button class="toggle_console"></button>
-		<h2 class="console"><-- Click here to see the console output</h2>
+		<h2 class="selected" style="width: 300px;padding-top: 2px;"></h2> -->
+		<div class="owner_tag">
+			<h2>Owner: {{ owner }}</h2>
+		</div>
+		<button class="toggle_console">Last Run Result</button>
+		<h2 class="console">Console log...</h2>
 	</div>
 	<!--New Node form-->
 	<div class="new_node_cont">
