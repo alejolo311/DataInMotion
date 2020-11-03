@@ -7,7 +7,7 @@ import sys
 sys.path.append('/usr/src/app')
 from api.v1.nodes import app_nodes
 from api.v1.auth import token_required
-from api.v1.nodes.crontab_manager import updateCronTab
+from api.v1.nodes.crontab_manager import updateCronTab, list_cron_jobs, remove_orphan_jobs
 from api.v1.auth import send_email
 from models import storage
 from flask import jsonify, Response, request, render_template, send_file
@@ -289,7 +289,9 @@ def copy_node(board, node, data=None, complete=False):
     board.save()
     return new_node
 
-@app_nodes.route('/nodes/<node_id>', methods=['DELETE'], strict_slashes=False)
+@app_nodes.route('/nodes/<node_id>',
+                    methods=['DELETE'],
+                    strict_slashes=False)
 def delete_node(node_id):
     """
     Delete a node instance, recursively
@@ -315,6 +317,8 @@ def delete_node(node_id):
         board.nodes = json.dumps(nodes)
         board.save()
         storage.delete(node)
+        storage.save()
+        remove_orphan_jobs()
         return Response('deleted', status=200)
     except Exception as e:
         return Response(str(e), status=500)
@@ -351,8 +355,15 @@ def save_entire_node(node_id):
             print("trigger service configuration", newData, in_node)
             newData['date'] = in_node['analisis_params']['date']
             setattr(node, 'analisis_params', json.dumps(newData))
-            node.save()
-            res = updateCronTab(node, in_node['analisis_params']['sync_date'])
+            def_date = updateCronTab(node, in_node['analisis_params']['sync_date'])
+            print(f'storing def_date: {def_date} to', node.name)
+            newData['def_date'] = def_date
+            in_node['analisis_params']['def_date'] = def_date
+            node.analisis_params = json.dumps(newData)
+            # node.save()
+            print(node.analisis_params)
+            print('Saving job with id:',node.id)
+            list_cron_jobs()
         # print('Saving trigger setup', settings)
     for key in sample_keys:
         if key == 'analisis_mode':
@@ -486,6 +497,9 @@ def delete_orphans():
         else:
             board = storage.get(Board, node.board_id)
             if not board:
+                storage.delete(node)
+                storage.save()
+            elif not node.id in json.loads(board.to_dict())['nodes']:
                 storage.delete(node)
                 storage.save()
             else:
