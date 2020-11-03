@@ -9,9 +9,9 @@ from api.v1.nodes import app_nodes
 from api.v1.auth import app_auth
 from models import storage
 from models.custom import CustomNode
-from api.v1.nodes.crontab_manager import updateCronTab
+from api.v1.nodes.crontab_manager import updateCronTab, list_cron_jobs
 from datetime import datetime
-from models.credentials import mail_pass
+# from models.credentials import mail_pass
 from flask_mail import Mail
 
 
@@ -23,7 +23,7 @@ app.config.update(
     MAIL_PORT = 465,
     MAIL_USE_SSL = True,
     MAIL_USERNAME = 'datainmotion.cali@gmail.com',
-    MAIL_PASSWORD = mail_pass,
+    MAIL_PASSWORD = '1234',
 )
 CORS(app)
 app.register_blueprint(app_nodes)
@@ -71,6 +71,7 @@ def setupCronJobs():
     for node in all_nodes:
         print(node.analisis_params)
         updateCronTab(node)
+    list_cron_jobs()
     return 0
 
 

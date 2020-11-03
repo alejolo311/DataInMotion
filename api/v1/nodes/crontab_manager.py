@@ -1,5 +1,8 @@
 #!/usr/bin/python3
 
+from models import storage
+from models.custom import CustomNode
+from models.board import Board
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from crontab import CronTab
@@ -20,6 +23,7 @@ def updateCronTab(node, sync=None):
     """
     cal = json.loads(node.analisis_params)['date']
     params = json.loads(node.analisis_params)
+    sys_time = None
     if sync:
         sys_time = datetime.now()
         print('14: ', *cal, sync, sys_time)
@@ -33,7 +37,13 @@ def updateCronTab(node, sync=None):
                    timedelta(days=day_diff, hours=hour_diff) + \
                    relativedelta(months=month_diff)
     else:
-        def_time = datetime(*cal)
+        try:
+            print(params['def_date'].split('.')[0])
+            def_time = datetime.strptime(params['def_date'].split('.')[0].replace('-','/'), '%Y/%m/%d %H:%M:%S')
+        except Exception as e:
+            print(e)
+            print('def_date, not found in node')
+            def_time = datetime(*cal)
     cmd = '/usr/bin/python3 {}/api/v1/nodes/job.py {} > /usr/src/app/date_test.txt 2>&1'
     cmd = cmd.format(os.getcwd(), node.id)
     cron = CronTab(user='root')
@@ -41,6 +51,7 @@ def updateCronTab(node, sync=None):
     print('Parameters for the Cron Job')
     print(json.dumps(params, indent=2))
     print('Definitive Time', def_time)
+    print('System Time', sys_time)
     for job in cron:
         if job.comment == node.id:
             if 'active' not in params or params['active'] == False:
@@ -81,10 +92,40 @@ def updateCronTab(node, sync=None):
     cron.write()
     os.system('/etc/init.d/cron start')
     print(def_time)
-    return node.id
+    return str(def_time)
 
 def deleteCronTab(node, sync=None):
     """
     update crontab to remove the node services
     """
     return True
+
+def remove_orphan_jobs():
+    """
+    Check all service nodes and compares to the existing jobs in the system
+    """
+    cron = CronTab(user='root')
+    service_nodes = storage.filter_by(CustomNode, 'type', 'service')
+    print('All services')
+    comments = [job.comment for job in cron]
+    jobs = [node.id for node in service_nodes]
+    for i, comment in enumerate(comments):
+        if not comment in jobs:
+            cron.remove(cron[i])
+    # for service in services:
+    #     board = storage.get(Board, service.board_id)
+    #     print(service.name, service.id, board.name)
+    
+
+
+def list_cron_jobs():
+    """
+    List all cron jobs in the system
+    """
+    cron = CronTab(user='root')
+    print('--------------------------')
+    print('    Jobs in system for root\n')
+    for job in cron:
+        print('\t', job.comment)
+    print('--------------------------')
+    remove_orphan_jobs()

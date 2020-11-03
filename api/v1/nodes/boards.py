@@ -129,7 +129,7 @@ def nodes_views(board_id):
                  methods=['GET'],
                  strict_slashes=False)
 @token_required
-def remove_board(board_id):
+def get_board_nodes(board_id):
     """
     Return the nodes for the board id
     """

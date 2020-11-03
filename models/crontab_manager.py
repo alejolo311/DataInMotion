@@ -9,8 +9,8 @@ import os
 def get_next_job(node, sync=None):
     """
     Uses crontab to manage the service triggers
-    Found the job by Comment
-    and update the values
+    Find the job by Comment
+    and load the next sheduled date
     """
     sync = sync.split(' ')
     sys_time = datetime.now()

@@ -44,9 +44,13 @@ def token_required(f):
             email = confirm_token(token)
             if not email:
                 return jsonify(message='failed, unauthorized'), 401
-            user = storage.filter_by(User, 'email', email)[0]
-            request.user = user.id
-            return f(*args, **kwargs)
+            user = storage.filter_by(User, 'email', email)
+            if len(user) > 0:
+                request.user = user[0].id
+                return f(*args, **kwargs)
+            else:
+                return jsonify(message='failed, unauthorized'), 401
+
     return decorated
 
 
