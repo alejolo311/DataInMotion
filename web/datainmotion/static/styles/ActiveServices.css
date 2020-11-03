@@ -1,0 +1,110 @@
+:root {
+	--font: 'Mallanna', sans-serif;
+}
+/* Active Services section */
+.active_cont {
+	z-index: 10;
+	position: absolute;
+	width: calc(100vw - 240px - 240px - 240px - 100px);
+	background-color: rgba(255, 255, 255, 0.07);
+}
+.active_cont h1 {
+	font-size: 22px;
+	margin: 0;
+	margin-top: 12px;
+	padding: 0px 24px;
+	color: rgb(178, 250, 222);
+	font-family: var(--font);
+}
+[list="active_services"] {
+	overflow-y: scroll;
+	padding: 0;
+	padding-top: 12px;
+	margin: 0;
+	background-color: rgba(221, 106, 106, 0.344);
+	height: calc(100vh - 195px);
+}
+[list="active_services"]::-webkit-scrollbar {
+	width: 14px;
+	background-color: rgba(255, 255, 255, 0.556);
+}
+[list="active_services"]::-webkit-scrollbar-thumb {
+	background-color: blueviolet;
+}
+[list="active_services"] {
+	padding: 10px;
+	margin: 8px;
+	border-radius: 4px;
+	list-style: none;
+	font-family: var(--font);
+	background-color: rgba(255, 255, 255, 0.692);
+}
+
+.board_services {
+	border-radius: 10px;
+	margin: 18px 12px;
+	padding: 12px;
+	background-color: white;
+}
+.board_services ul {
+	background-color: white;
+	padding: 0;
+	margin: 0;
+	height: auto;
+}
+.board_services h2 {
+	font-size: 18px;
+	margin-top: 0;
+	padding-left: 24px;
+	color: rgb(160, 0, 160);
+}
+.board_services li {
+	margin: 0 !important;
+	list-style: none;
+	display: grid;
+	cursor: pointer;
+	border-radius: 8px;
+	background-color: rgb(228, 228, 228);
+	grid-template-columns: calc(40%) calc(60% - 100px) 100px;
+}
+.board_services li:hover {
+	background-color: rgb(0, 144, 157);
+	color: white;
+}
+.board_services li:active {
+	filter: saturate(0.2);
+}
+.board_services h3 {
+	line-height: 18px;
+	height: 18px;
+	border-radius: 8px;
+	/* background-color: red; */
+	margin: 0 !important;
+	margin-top: 4px !important;
+	font-size: 14px;
+	padding: 4px 12px;
+	text-align: left;
+}
+.board_services h4 {
+	line-height: 18px;
+	height: 18px;
+	border-radius: 8px;
+	/* background-color: red; */
+	margin: 0 !important;
+	margin-top: 4px !important;
+	font-size: 14px;
+	padding: 4px 12px;
+	text-align: left;
+}
+.board_services h5 {
+	overflow: hidden;
+	line-height: 18px;
+	height: 18px;
+	border-radius: 8px;
+	/* background-color: red; */
+	margin: 0 !important;
+	margin-top: 4px !important;
+	font-size: 14px;
+	padding: 4px 12px;
+	text-align: left;
+}

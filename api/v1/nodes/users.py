@@ -35,11 +35,22 @@ def users_boards():
     # print(user.boards)
     boards = []
     for board in user.boards:
-        boards.append(json.loads(board.to_dict()))
+        # print('Board to send', board.to_dict())
+        print('Nodes on board:', type(board.nodes), board.nodes)
+        nodes = json.loads(board.nodes)
+        ns = {}
+        for node in nodes:
+            instance = storage.get(CustomNode, node)
+            if instance.type == 'service':
+                ns[instance.id] = json.loads(instance.to_dict())
+        brd = json.loads(board.to_dict())
+        brd['nodes'] = ns
+        boards.append(brd)
     all_boards = storage.all(Board).values()
     for bo in all_boards:
         users = bo.get_users
         if user.email in users:
+            print('Board to send', bo.to_dict())
             boards.append(json.loads(bo.to_dict()))
     return Response(json.dumps(boards), mimetype='application/json')
 

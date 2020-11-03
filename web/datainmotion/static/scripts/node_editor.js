@@ -17,7 +17,6 @@ class NodeEditor {
 		this.root.style.top = evn.pageY - 100;
 		let computedRootWidth = window.getComputedStyle(this.root, null);
 		computedRootWidth = Number(computedRootWidth.width.slice(0, computedRootWidth.width.length - 2));
-		// window.screen.width
 		console.log(computedRootWidth / 2, window.screen.width / 2);
 		const xPos = (window.screen.width / 3) - (computedRootWidth / 2);
 		console.log('Node Editor container position: ', xPos);

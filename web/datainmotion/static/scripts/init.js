@@ -13,6 +13,7 @@ $(window).on('load', async function () {
 	//   console.log('getBoardVIew');
       getBoardView();
   } else {
+	  document.body.style.overflowY = 'hidden';
     getBoards();
   }
 });

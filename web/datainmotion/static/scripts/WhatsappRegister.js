@@ -1,45 +1,6 @@
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
-const DOMManager  = {
-	render: function(html, root) {
-		const component = new html();
-		const node = document.createElement('div');
-		root.appendChild(node);
-		root.style.visibility = 'visible';
-		node.outerHTML = component.render();
-		const clicks = root.querySelectorAll('[click]');
-		component.functions = {};
-		for (const el of clicks) {
-			console.log(el);
-			const func_ = function (evn) {
-				evn.target.removeEventListener('click', func_);
-				component[evn.target.getAttribute('click')](evn);
-			}
-			el.addEventListener('click', func_);
-			component.functions[el.getAttribute('click')] = func_;
-		}
-		console.log(root);
-		component.root(root);
-		console.log(component);
-		component.onMounted();
-	}
-}
-
-function uuid() {
-    var S4 = function() {
-       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
-    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
-}
-
-class Component {
-	constructor () {
-
-	}
-	onMounted () {
-	}
-}
 
 class WhatsAppRegister extends Component{
 	constructor () {
@@ -55,9 +16,6 @@ class WhatsAppRegister extends Component{
 			}
 		}
 		document.head.appendChild(link);
-	}
-	root(value) {
-		this._root = value;
 	}
 	testFunction (evn) {
 		console.log('clicking');

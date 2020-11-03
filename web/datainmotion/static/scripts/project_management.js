@@ -27,18 +27,20 @@ function createMenu (position, items) {
 let trackedBoard;
 const initial = {};
 let topColor;
-
+// Needs reallocation to Boards.js
 function drawDashboard(response) {
 	const cont = $('<div></div>');
 	$(cont).addClass('boards');
 	$(cont).css('margin-top', '40px');
 	let count = 1;
+	// draw the default add board
 	const addBoard = $('<div><h1>add a new Board</h1></div>');
 	$(addBoard).addClass('add_board');
 	$(addBoard).css('background-image', 'url(/static/images/plus.png)');
 	$(addBoard).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
 		function () { $(this).css('box-shadow', '0px 0px 0px white'); });
 	$(cont).append($(addBoard));
+	// Iterates the boards and draw the board pin
 	for (board of response) {
 		// console.log(board);
 		const a = $('<h1></h1>');
@@ -49,11 +51,23 @@ function drawDashboard(response) {
 			a.text(board.name);
 		}
 		count++;
-		const b = $('<h2></h2>');
-		b.text(board.id);
+		const p = $('<p></p>');
+		const nLength = Object.keys(board.nodes).length;
+		console.log(Object.keys(board.nodes).length);
+		if (board.nodes) {
+			p.text(`Services: ${nLength}`);
+		} else {
+			p.text(`Services: NaN`);
+		}
+		// const b = $('<h2></h2>');
+		// b.text(board.id);
+		const c = $('<h2></h2>');
+		c.text('turn off');
 		const bc = $('<div></div>');
 		bc.append(a);
-		bc.append(b);
+		bc.append(p)
+		// bc.append(b);
+		bc.append(c);
 		$(bc).attr('b_id', board.id);
 		$(bc).addClass('gradient');
 		$(bc).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
@@ -71,7 +85,13 @@ function drawDashboard(response) {
 			const board = $('[b_id=' + trackedBoard + ']');
 			$(board).css('position', 'absolute');
 			$(board).css('z-index', '30');
-			$(board).css('left', (evn.pageX - 200).toString());
+			console.log(board.get(0));
+			let pBoard = board.get(0).parentNode;
+			console.log(pBoard);
+			const computed = window.getComputedStyle(pBoard, null);
+			const leftMargin = Number(computed.left.slice(0, computed.left.length - 2));
+			console.log(leftMargin);
+			$(board).css('left', (evn.pageX - leftMargin - ($(board).width() / 2)).toString());
 			$(board).css('top', (evn.pageY - 200).toString());
 			// console.log(evn.pageX, evn.pageY);
 			if (evn.pageY < 100) {
@@ -133,8 +153,14 @@ function drawDashboard(response) {
 			}
 		}
 	});
+	// Draw the active service for each node
+	DOMManager.render(
+		ActiveService,
+		document.getElementsByClassName('active_cont')[0],
+		response
+	)
 }
-
+// Needs to be reallocated to Boards.js
 function getBoards () {
   fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/boards`,
 		{
@@ -156,6 +182,7 @@ function getBoards () {
 		drawDashboard(json);
 	});
 }
+
 function createBoard () {
   console.log('Create a new board');
   fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/create_board`,

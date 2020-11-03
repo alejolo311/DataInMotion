@@ -21,12 +21,27 @@ body::-webkit-scrollbar-thumb {
 }
 .boards {
 	position: absolute;
+	max-height: calc(100vh - 170px);
 	display: grid;
-	left: 60px;
+	left: calc(100vw - 240px - 240px - 240px - 100px);
 	grid-template-columns: 240px 240px 240px;
+	margin-top: 0px !important;
 	grid-gap: 20px;
+	padding: 20px;
 	grid-template-rows: 130px 130px;
+	background-color: rgba(255, 255, 255, 0.159);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border-radius: 0px;
 
+}
+.boards::-webkit-scrollbar {
+	width: 16px;
+	background-color: rgba(255, 255, 255, 0.576);
+}
+.boards::-webkit-scrollbar-thumb {
+	background-color: #7b469a;
+	border-radius: 4px;
 }
 .boards > div{
 	margin-top: 20px;
@@ -45,15 +60,40 @@ body::-webkit-scrollbar-thumb {
 	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.212);
 }
 .boards h1 {
-	font-size: 18px;
+	font-size: 20px;
+	margin: 0;
 	font-family: var(--font);
 	color: white;
 }
-.boards h2 {
-	font-size: 10px;
+.boards p {
+	width: fit-content;
+	font-size: 16px;
 	margin-top: 0;
+	padding: 2px 12px;
+	border-radius: 8px;
 	font-family: var(--font);
 	color: white;
+	font-weight: lighter;
+}
+
+.boards h2 {
+	position: absolute;
+	width: fit-content;
+	/* margin-left: auto; */
+	font-size: 16px;
+	/* margin-top: 0; */
+	padding: 2px 12px;
+	border-radius: 8px;
+	font-family: var(--font);
+	color: white;
+	right: 12px;
+	bottom: 0;
+	/* font-weight: lighter; */
+	background-color: rgba(0, 0, 0, 0.57);
+}
+.boards h2:hover {
+	color: rgb(255, 255, 255);
+	background-color: rgb(145, 9, 9);
 }
 .add_board {
 	background-image: url(/static/images/plus.png);
@@ -69,7 +109,29 @@ body::-webkit-scrollbar-thumb {
 	color: rgb(255, 255, 255);
 }
 
+/* Active Services section */
+.active_cont {
+	z-index: 10;
+	position: absolute;
+	width: calc(100vw - 240px - 240px - 240px - 100px);
+	background-color: rgba(255, 255, 255, 0.07);
+}
+.active_cont h1 {
+	font-size: 22px;
+	margin: 0;
+	margin-top: 12px;
+	padding: 0px 24px;
+	color: rgb(178, 250, 222);
+	font-family: var(--font);
+}
+.active_cont ul {
+	background-color: rgba(221, 106, 106, 0.344);
+	height: calc(100vh - 200px);
+}
 
+
+
+/* Data extractor section */
 .console_cont {
 	display: none;
 	top: 0;
