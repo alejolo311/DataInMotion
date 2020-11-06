@@ -19,7 +19,7 @@ async function login(event) {
 		}
 		console.log(json);
 		document.querySelector('[for="user"]').style.color = 'grey';
-		localStorage.user = json.id;
+		// localStorage.user = json.id;
 		localStorage.token = json.token;
 		localStorage.isLogged = true;
 		if (localStorage.openboard) {
@@ -69,7 +69,7 @@ async function register(event) {
 		}
 		console.log(json);
 		document.querySelector('[for="user"]').style.color = 'grey';
-		localStorage.user = json.id;
+		// localStorage.user = json.id;
 		localStorage.token = json.token;
 		if (localStorage.openboard) {
 			const opB = localStorage.openboard;

@@ -2,8 +2,10 @@ const DOMManager  = {
 	render: function(html, root, params) {
 		const component = new html();
 		const node = document.createElement('div');
+		root.innerHTML = '';
 		root.appendChild(node);
 		root.style.visibility = 'visible';
+		root.style.display = 'block';
 		node.outerHTML = component.render();
 		const clicks = root.querySelectorAll('[click]');
 		component.functions = {};
@@ -23,6 +25,9 @@ const DOMManager  = {
 		console.log('Mounted Component: ', component);
 		component.onMounted();
 	}
+}
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 class Component {
 	constructor () {

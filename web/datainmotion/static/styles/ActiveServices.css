@@ -33,7 +33,7 @@
 }
 [list="active_services"] {
 	padding: 10px;
-	margin: 8px;
+	margin: 0px;
 	border-radius: 4px;
 	list-style: none;
 	font-family: var(--font);
@@ -42,7 +42,7 @@
 
 .board_services {
 	border-radius: 10px;
-	margin: 18px 12px;
+	margin: 18px 12px !important;
 	padding: 12px;
 	background-color: white;
 }
@@ -60,51 +60,87 @@
 }
 .board_services li {
 	margin: 0 !important;
+	margin-top: 4px !important;
 	list-style: none;
 	display: grid;
 	cursor: pointer;
 	border-radius: 8px;
 	background-color: rgb(228, 228, 228);
-	grid-template-columns: calc(40%) calc(60% - 100px) 100px;
-}
-.board_services li:hover {
-	background-color: rgb(0, 144, 157);
-	color: white;
-}
-.board_services li:active {
-	filter: saturate(0.2);
+	grid-template-columns: calc(30%) calc(25% - 50px) calc(45% - 50px) 92px;
 }
 .board_services h3 {
+	color: rgb(135, 135, 135) !important;
 	line-height: 18px;
 	height: 18px;
 	border-radius: 8px;
 	/* background-color: red; */
 	margin: 0 !important;
 	margin-top: 4px !important;
-	font-size: 14px;
+	font-size: 12px;
 	padding: 4px 12px;
+	overflow: hidden;
 	text-align: left;
 }
+/* active Off button */
 .board_services h4 {
 	line-height: 18px;
 	height: 18px;
 	border-radius: 8px;
 	/* background-color: red; */
 	margin: 0 !important;
-	margin-top: 4px !important;
+	margin-top: 2px !important;
+	margin-left: 8px !important;
 	font-size: 14px;
 	padding: 4px 12px;
-	text-align: left;
+	text-align: center;
+	font-weight: bold !important;
+	color: white !important;
+}
+.board_services h4:hover {
+	filter: saturate(1.6);
+}
+.board_services h4:active {
+	filter: saturate(0.8);
 }
 .board_services h5 {
+	border-left: none;
 	overflow: hidden;
 	line-height: 18px;
 	height: 18px;
-	border-radius: 8px;
+	border-radius: 0px 8px 8px 0px;
 	/* background-color: red; */
 	margin: 0 !important;
-	margin-top: 4px !important;
-	font-size: 14px;
-	padding: 4px 12px;
-	text-align: left;
+	margin-top: 2px !important;
+	font-size: 12px;
+	padding: 4px 4px;
+	color: rgb(255, 255, 255) !important;
+	text-align: center !important;
+	background-color: rgba(123, 186, 161, 0.186);
+}
+.board_services h6 {
+	overflow: hidden;
+	border-right: none;
+	line-height: 18px;
+	height: 18px;
+	border-radius: 8px 0px 0px 8px;
+	/* background-color: red; */
+	margin: 0 !important;
+	margin-top: 2px !important;
+	font-size: 12px;
+	padding: 4px 4px;
+	text-align: center !important;
+	background-color: rgba(123, 186, 161, 0.186);
+	/* background-color: blue; */
+}
+.hour {
+	color: #4fab66;
+	padding: 0px 8px;
+	border-radius: 8px;
+	background-color: rgba(255, 255, 255, 0.618)
+}
+.hour:hover {
+	box-shadow: 0px 0px 6px white;
+}
+.hour:active {
+	box-shadow: 0px 0px 6px rgb(64, 118, 143);
 }

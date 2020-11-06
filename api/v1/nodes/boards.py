@@ -4,6 +4,7 @@ Index route for boards api
 """
 
 from api.v1.nodes import app_nodes
+from api.v1.nodes.log_manager import get_runs, get_log
 from models import storage
 from flask import jsonify, Response, request, render_template
 from models.custom import CustomNode
@@ -124,6 +125,28 @@ def nodes_views(board_id):
     else:
         return Response(json.dumps({'nodes': parsed}), mimetype='application/json')
 
+
+@app_nodes.route('/boards/<board_id>/logs',
+                methods=['GET'],
+                strict_slashes=False)
+def get_board_logs(board_id):
+    """
+    Get all stored logs for thie board
+    """
+    sync_date = request.args.to_dict()['sync_date']
+    print(sync_date)
+    logs = get_runs(board_id, sync_date)
+    return jsonify(logs=logs)
+
+@app_nodes.route('/logs/<log_id>',
+                methods=['GET'],
+                strict_slashes=False)
+def get_instance_log(log_id):
+    """
+    Get all stored logs for thie board
+    """
+    log = get_log(log_id)
+    return jsonify(log=log)
 
 @app_nodes.route('/boards/<board_id>/nodes',
                  methods=['GET'],

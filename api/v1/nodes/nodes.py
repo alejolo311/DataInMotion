@@ -19,6 +19,7 @@ from models.node_flow_test import instancedNode
 import traceback
 import json
 import os
+import glob
 from threading import Thread
 from multiprocessing import Process
 import multiprocessing
@@ -26,6 +27,7 @@ import threading
 import uuid
 from selenium import webdriver
 from PIL import Image
+from datetime import datetime
 from io import BytesIO
 
 
@@ -124,8 +126,6 @@ def create_node_instances(board_id, node_id):
         js = json.loads(storage.get(CustomNode, key).to_dict())
         nodes[key] = instancedNode(js, instance_id)
     return nodes, nodes[node_id]
-    
-
 
 def run_instanced_nodes(nodes, starter):
     """
@@ -134,11 +134,13 @@ def run_instanced_nodes(nodes, starter):
     try:
         logger = Logger(starter.id)
         resp = starter.run_node_task(({}, {}), logger, starter.id, nodes)
+        time = datetime.now()
         test_file = {
             'status': 'started',
             'node_id': starter.id,
             'instance': starter.instance_id,
-            'messages': []
+            'messages': [],
+            'date': [time.year, time.month, time.day, time.hour, time.minute, time.second, time.microsecond]
             }
         with open('/usr/src/app/api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
@@ -147,18 +149,24 @@ def run_instanced_nodes(nodes, starter):
         test_file['logger'] = dict(logger.json())
         test_file['status'] = 'completed'
         test_file['node_id'] = starter.id
+        test_file['node_name'] = starter.name,
         with open('/usr/src/app/api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
     except Exception as e:
         traceback.print_exc()
+        time = datetime.now()
         test_file = {
-            'status': 'completed',
-            'node_id': '1234',
-            'instance': '1234',
-            'messages': ['failed']
+            'status': 'failed',
+            'node_name': starter.name,
+            'node_id': starter.instance_id,
+            'instance': starter.instance_id,
+            'logger': dict(logger.json()),
+            'messages': ['failed'],
+            'date': [time.year, time.month, time.day, time.hour, time.minute, time.second, time.microsecond]
             }
         with open('/usr/src/app/api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
+
 
 @app_nodes.route('/nodes/<node_id>/run',
                  methods=['GET'], strict_slashes=False)
@@ -185,6 +193,8 @@ def run_node(node_id):
     print('*****************')
     print('Threadings Count:')
     print('*****************')
+    # append this instance to the board in api/logs/table
+    add_run_to_log(board.id, starter.instance_id)
     Process(name=starter.instance_id, target=run_instanced_nodes, args=(nodes, starter)).start()
     for thread in multiprocessing.active_children():
         print(thread.name)
@@ -194,6 +204,23 @@ def run_node(node_id):
         'instance': starter.instance_id
         }), mimetype='application/json',
             status=200)
+
+def add_run_to_log(board_id, instance_id):
+    """
+    put the new instance into the board table
+    and check for the latest 5 to keep that limit on stored logs
+    """
+    print('Saving:', instance_id, 'into:', board_id)
+    tb = None
+    with open('/usr/src/app/api/logs/table', 'r') as logs_file:
+        tb = json.loads(logs_file.read())
+        if not board_id in tb:
+            tb[board_id] = []
+        tb[board_id].append(instance_id)
+    with open('/usr/src/app/api/logs/table', 'w') as logs_file:
+        logs_file.write(json.dumps(tb))
+
+
 
 class SessionRemote(webdriver.Remote):
     """

@@ -25,6 +25,19 @@ class Calendar {
 		this._nodeId = nodeId;
 		this._date = date;
 		this.root = root;
+		// Add style link to head
+		var head = document.getElementsByTagName('head')[0];
+		const link = document.createElement('link');
+		link.href = `/static/styles/calendar.css?${uuid()}`;
+		link.rel = 'stylesheet';
+		link.setAttribute('name', 'calendar');
+		const links = document.head.querySelectorAll('link');
+		for (const link of links) {
+			if (link.getAttribute('name') === 'calendar') {
+				link.remove();
+			}
+		}
+		head.appendChild(link);
 	}
 	set context(value) {
 		this._context = value;
@@ -79,8 +92,8 @@ class Calendar {
 		this.draw();
 	}
 	draw() {
-		// console.log('Month', this._date[1]);
-		this._html.querySelector('.calendar_head h1').innerHTML = monthToText(this._date[1]) + ' - ' + this._date[0];
+		console.log('Month', this._date[1]);
+		this._html.querySelector('.calendar_head h1').innerHTML = monthToText(this._date[1] - 1) + ' - ' + this._date[0];
 		const dim = getDaysInMonth(this._date[1], this._date[0]);
 		const iPos = new Date(this._date[0], this._date[1], 1).getDay();
 		const days = Array.from({
@@ -190,6 +203,7 @@ class Calendar {
 	async sendDate() {
 		const now = new Date(Date.now());
 		console.log(this._date);
+		this._date[1] -= 1;
 		// This sync_date needs to sum 1 to the
 		// month to be used by python 
 		const sync_date = [

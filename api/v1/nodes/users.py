@@ -28,9 +28,12 @@ def users():
 @token_required
 def users_boards():
     """
-    Returns users
+    Return the list of user associated to the user
     """
     print('UserId from token and email', request.user)
+    sync_date = request.args.to_dict()
+    if 'sync_date' in sync_date:
+        sync_date = sync_date['sync_date']
     user = storage.get(User, request.user)
     # print(user.boards)
     boards = []
@@ -43,6 +46,11 @@ def users_boards():
             instance = storage.get(CustomNode, node)
             if instance.type == 'service':
                 ns[instance.id] = json.loads(instance.to_dict())
+                print('Sync Data:', sync_date, type(sync_date))
+                next_run = instance.get_next_job(sync_date.replace(',', ' '))
+                print('Next job on', next_run)
+                if type(ns[instance.id]['analisis_params']) == dict:
+                    ns[instance.id]['analisis_params']['next_run'] = next_run
         brd = json.loads(board.to_dict())
         brd['nodes'] = ns
         boards.append(brd)

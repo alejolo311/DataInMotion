@@ -1099,6 +1099,9 @@ class NodeEditor {
 			editor.data.analisis_mode = '';
 			editor.data.work_type = 'process';
 			editor.data.analisis_params.sync_date = sync_date;
+			for (let i = 0; i < editor.data.analisis_params.date.length; i++) {
+				editor.data.analisis_params.date[i] = Number(editor.data.analisis_params.date[i]);
+			}
 		}
 		console.log('Data to save from node editor:', editor.data);
 		fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${editor.data.id}/save`,

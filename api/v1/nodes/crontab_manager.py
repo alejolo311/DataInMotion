@@ -28,6 +28,8 @@ def updateCronTab(node, sync=None):
         sys_time = datetime.now()
         print('14: ', *cal, sync, sys_time)
         # check if the time to save is before the actual
+        print(type(cal[0]))
+        print(datetime(*cal))
         if datetime(*cal) < sys_time:
             print('You are saving a date before the actual')
         month_diff = sys_time.month - sync[1]

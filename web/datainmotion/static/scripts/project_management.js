@@ -61,13 +61,13 @@ function drawDashboard(response) {
 		}
 		// const b = $('<h2></h2>');
 		// b.text(board.id);
-		const c = $('<h2></h2>');
-		c.text('turn off');
+		// const c = $('<h2></h2>');
+		// c.text('turn off');
 		const bc = $('<div></div>');
 		bc.append(a);
 		bc.append(p)
 		// bc.append(b);
-		bc.append(c);
+		// bc.append(c);
 		$(bc).attr('b_id', board.id);
 		$(bc).addClass('gradient');
 		$(bc).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
@@ -83,6 +83,8 @@ function drawDashboard(response) {
 		topColor = $('.top_bar').css('background-color');
 		$(window).mousemove(function (evn) {
 			const board = $('[b_id=' + trackedBoard + ']');
+			const parent = board.parent();
+			parent.get(0).style.overflow = 'visible';
 			$(board).css('position', 'absolute');
 			$(board).css('z-index', '30');
 			console.log(board.get(0));
@@ -107,13 +109,16 @@ function drawDashboard(response) {
 			}
 		});
 	});
-	$('.boards > div').on('mouseup', function () {
+	$('.boards > div').on('mouseup', function (evn) {
 		$(window).unbind('mousemove');
+		
 		// console.log($(this).position().top);
 		// console.log($(this).position().left);
 		const top = $(this).position().top;
 		if ($(this).attr('b_id') === trackedBoard) {
 			console.log(top);
+			$(this).parent().css('overflowY', 'scroll');
+			$(this).parent().css('overflowX', 'hidden');
 			if (top < -97) {
 				// console.log('remove');
 				trackedBoard = '';
@@ -162,7 +167,21 @@ function drawDashboard(response) {
 }
 // Needs to be reallocated to Boards.js
 function getBoards () {
-  fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/boards`,
+	const now = new Date(Date.now());
+	let url = new URL(`${global.prot}://${global.domain}${global.apiPort}/api/v1/users/boards`);
+	let params = {
+		sync_date: [
+			now.getFullYear(),
+			now.getMonth() + 1,
+			now.getDate(),
+			now.getHours(),
+			now.getMinutes(),
+			now.getSeconds(),
+			now.getMilliseconds()
+		]
+	}
+	url.search = new URLSearchParams(params).toString();
+	fetch(url,
 		{
 			method: 'GET',
 			headers: {
@@ -532,9 +551,9 @@ function setProjectMenu () {
 			const nodesMenu = [
 				{
 					'title': 'Services',
-					'description': 'This nodes are used to fetch or post data to any source',
+					'description': 'This is a trigger node to schedule your jobs',
 					'options': {
-						'service': 'New service'
+						'service': 'Creates an scheduled job and you can select the date and time to run it.'
 					}
 				},
 				{

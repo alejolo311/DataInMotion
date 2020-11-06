@@ -18,10 +18,10 @@ function setGrabbers() {
 			const tX = $(trashCan).position().left;
 			// const tY = $(trashCan).position().top;
 			$('.trash_can').css('background-color', '#165185');
-			if ((x > tX) ||  y > 40) {
+			if ((x > tX) ||  y > 0) {
 				$('[cont_node_id="' + nodeId + '"]').css('top', (evn.pageY - offY).toString());
 			}
-			if ((x > tX) &&  y < 40) {
+			if ((x > tX) &&  y < 0) {
 				$('.trash_can').css('background-color', 'purple');
 			}
 			if (nodeId !== '') {
@@ -60,26 +60,27 @@ function setGrabbers() {
 	});
 	$('.grabber').mouseup( function() {
 		const y = $(this).parent().position().top;
-			let del = false;
-			if (y < 40) {
-				del = confirm("You are about to delete this node?\nThis can't be undone\nContinue");
+		let del = false;
+		if (y < 10) {
+			del = confirm("You are about to delete this node?\nThis can't be undone\nContinue");
+		}
+		if (del) {
+			console.log('Deleting Node');
+			deleteNode(nodeId);
+		} else {
+			if (y < 10) {
+				$(this).parent().css('top', y + 140);
+				board.nodes[nodeId].y = y + 140;
 			}
-			if (del) {
-				console.log('Deleting Node');
-				deleteNode(nodeId);
-			} else {
-				if (y < 40) {
-					$(this).parent().css('top', y + 160);
-					board.nodes[nodeId].y = y + 160;
-				}
-				autosave(null);
-			}
-			// $(this).css('cursor', 'grab');
-			$(this).css('z-index', '2');
-			$('[cont_node_id="' + nodeId + '"]').css('z-index', '1');
-			$('[cont_node_id="' + nodeId + '"]').css('box-shadow', 'none');
-			nodeName = '';
-			nodeId = '';
-			$('.selected').text('Selected Node: ');
+			autosave(null);
+		}
+		// $(this).css('cursor', 'grab');
+		$(this).css('z-index', '2');
+		$('[cont_node_id="' + nodeId + '"]').css('z-index', '1');
+		$('[cont_node_id="' + nodeId + '"]').css('box-shadow', 'none');
+		nodeName = '';
+		nodeId = '';
+		$('.selected').text('Selected Node: ');
+		drawConnections();
 	});
 };

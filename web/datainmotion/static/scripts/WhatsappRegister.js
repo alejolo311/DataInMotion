@@ -1,7 +1,3 @@
-function sleep(ms) {
-	return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 class WhatsAppRegister extends Component{
 	constructor () {
 		super();
