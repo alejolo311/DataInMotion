@@ -73,7 +73,7 @@ def get_runs(board_id, sync_date):
         for run in tb[board_id]:
             with open(f'/usr/src/app/api/running/{run}.test', 'r') as log:
                 logger = json.loads(log.read())
-                name = logger['node_name']
+                name = logger['node_name'] if 'node_name' in logger else 'unamed'
                 if type(name) == list:
                     name = name[0]
                 

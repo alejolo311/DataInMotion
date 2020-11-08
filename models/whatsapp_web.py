@@ -323,6 +323,9 @@ class WebWhastapp():
             msg_box.send_keys(char)
         msg_box.send_keys(Keys.RETURN)
         time.sleep(2)
+        return {
+            'success': 'Message sent to user'
+        }
 
 
     def send_animated_gif(self, search, select_random=False):

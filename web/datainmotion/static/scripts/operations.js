@@ -16,7 +16,7 @@ async function running_test(instanceId) {
 	$('.loading ul').empty();
 	$('.html_viewer').empty();
 	while (!stoped) {
-		await timeSleep(2000);
+		await timeSleep(6000);
 		const resp = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/check_response?id=${instanceId}`, {
 			method: "GET",
 			headers: {
@@ -29,8 +29,6 @@ async function running_test(instanceId) {
 			choosing_gif = false;
 		}
 		console.log(json.status);
-		// console.log(json.messages);
-		// console.log(json.messages[json.messages.length - 1]);
 		if (!stoped) {
 			$('.last_state h1').html(json.messages[json.messages.length - 1]);
 		}
@@ -52,42 +50,10 @@ async function running_test(instanceId) {
 			localStorage.removeItem('running_test');
 			showConsole(json.logger);
 			break;
-		} else if (json.status === 'verifying') {
-			if (verifying === false) {
-				const qrcode = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/web_whatsapp_verify?id=${instanceId}`, {
-					method: "GET"
-				});
-				const res_qrcode = await qrcode.text();
-				console.log(res_qrcode);
-				const qr_div = $(res_qrcode);
-				if (res_qrcode !== '' && res_qrcode !== 'Failed') {
-					verifying = true;
-				}
-				$('.qr').css('display', 'block');
-				$('.qr').append($(qr_div));
-				$('.close_qr').on('click', function (evn) {
-					$('.qr').css('display', 'none');
-				});
-			}
-		} else if (json.status === 'choose_gif') {
-			const len = json.messages.length - 1;
-			if (!choosing_gif) {
-				const gif_fetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/choose_gif?id=${instanceId}`);
-				const gifs = await gif_fetch.text();
-				$('.html_viewer').empty();
-				$('.html_viewer').html(gifs);
-				$('.html_viewer').css('display', 'block');
-				choosing_gif = true;
-			}
-			// json.messages[len]
 		} else if (json.status === 'error') {
 			$('.loading').css('display', 'none');
 			break;
 		}else {
-			$('.qr').empty();
-			$('.qr').css('display', 'none');
-			$('.html_viewer').empty();
-			$('.html_viewer').css('display', 'none');
 			continue;
 		}
 	}

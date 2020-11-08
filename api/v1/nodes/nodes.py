@@ -133,10 +133,10 @@ def run_instanced_nodes(nodes, starter):
     """
     try:
         logger = Logger(starter.id)
-        resp = starter.run_node_task(({}, {}), logger, starter.id, nodes)
         time = datetime.now()
         test_file = {
             'status': 'started',
+            'node_name': starter.name,
             'node_id': starter.id,
             'instance': starter.instance_id,
             'messages': [],
@@ -144,6 +144,7 @@ def run_instanced_nodes(nodes, starter):
             }
         with open('/usr/src/app/api/running/{}.test'.format(starter.instance_id), 'w') as test:
             test.write(json.dumps(test_file))
+        resp = starter.run_node_task(({}, {}), logger, starter.id, nodes)
         with open('/usr/src/app/api/running/{}.test'.format(starter.instance_id), 'r') as test:
             test_file = json.loads(test.read())
         test_file['logger'] = dict(logger.json())
@@ -447,6 +448,7 @@ def copy_node_to_board(node_id, board_id):
 
 @app_nodes.route('/test/<test_id>/stop',
                  methods=['GET'], strict_slashes=False)
+@token_required
 def stop_thread(test_id):
     """
     run the node proccesses and conections
@@ -477,14 +479,7 @@ def stop_thread(test_id):
                 command_executor=conf['url'],
                 desired_capabilities={})
             driver.session_id = conf['session_id']
-            # print(dir(driver))
-            # print(json.dumps(dict(driver.__dict__), indent=2))
-            # print('PID: ', driver.service.process.pid)
-            png = driver.get_screenshot_as_png()
-            im = Image.open(BytesIO(png))
-            #   im.save('./api/screenshots/stop_result.png')
-            driver.close()
-            # driver.quit()
+            driver.quit()
     except Exception as e:
         traceback.print_exc()
         print('Session closing failed:', e)
@@ -498,12 +493,10 @@ def stop_thread(test_id):
                     print('media removed')
                 except Exception as e:
                     pass
-                    #print("Can't remove png file {}".format(test_id), e)
     except Exception as e:
         print(e)
     print('*****************')
     print('Threadings Count:')
-    # print('\t', threading.activeCount())
     print('*****************')
     for thread in multiprocessing.active_children():
         print(thread.name)

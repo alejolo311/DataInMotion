@@ -46,7 +46,15 @@ async function checkOnReload () {
 	}
 }
 async function stopProcess (pId) {
-	const stopFetch = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/test/${pId}/stop`)
+	const stopFetch = await fetch(
+		`${global.prot}://${global.domain}${global.apiPort}/api/v1/test/${pId}/stop`,
+		{
+			method: 'GET',
+			headers: {
+				'Authorization': localStorage.getItem('token')
+			}
+		}
+		)
 	const result = await stopFetch.text();
 	console.log(result);
 	localStorage.running_test = false;
