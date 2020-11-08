@@ -70,7 +70,21 @@
 	border-radius: 0px;
 	border-bottom: 1px solid rgba(128, 128, 128, 0.193);
 	background-color: rgb(243, 243, 243);
-	grid-template-columns: calc(30%) calc(25% - 50px) calc(45% - 50px) 92px;
+	grid-template-columns: calc(30% - 20px) 20px calc(25% - 50px) calc(45% - 50px) 92px;
+}
+.board_services i {
+	cursor: pointer;
+	margin-top: 6px;
+	width: 20px;
+	height: 20px;
+	background-color: rgb(18, 197, 209);
+	clip-path: polygon(0 0, 100% 50%, 0 100%, 0 0);
+}
+.board_services i:hover {
+	filter: saturate(2.8);
+}
+.board_services i:active {
+	filter: saturate(1.4);
 }
 .board_services h3 {
 	color: rgb(135, 135, 135) !important;

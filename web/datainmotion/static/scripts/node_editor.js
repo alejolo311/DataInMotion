@@ -1,4 +1,13 @@
+/**
+ * NodeEditor - This class render a flow to modify a node object
+ * by comparing the type and mode it render the views dinamically
+ */
 class NodeEditor {
+	/**
+	 * constructor - defines the root and the close behavior
+	 * @param {HTML node} root the container
+	 * @param {String} nodeId 
+	 */
 	constructor(root, nodeId) {
 		this.root = root;
 		const canvas = document.querySelector('#canvas_connections');
@@ -13,6 +22,10 @@ class NodeEditor {
 		this.title = document.querySelector('.title');
 		this.description = document.querySelector('.description');
 	}
+	/**
+	 * setpos - defines where to draw the node editor
+	 * @param {Object} evn the caller node used to get the position on the page
+	 */
 	setpos (evn) {
 		this.root.style.top = evn.pageY - 100;
 		let computedRootWidth = window.getComputedStyle(this.root, null);
@@ -25,6 +38,9 @@ class NodeEditor {
 		close.style.left = xPos;
 		close.style.top = evn.pageY - 110;
 	}
+	/**
+	 * setClose - define the close button behavior
+	 */
 	setClose () {
 		const editor = this;
 		const close = document.querySelector('.close_node');
@@ -33,6 +49,9 @@ class NodeEditor {
 			editor.close();
 		});
 	}
+	/**
+	 * close - remove the view from the main DOM
+	 */
 	close () {
 		console.log('close');
 		if (this.calendar) {
@@ -44,6 +63,9 @@ class NodeEditor {
 		back.removeEventListener('click', this.goBack);
 		this.root.parentNode.style.display = 'none';
 	}
+	/**
+	 * Get the data to display the stored configuration
+	 */
 	getData() {
 		const url = `${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${this.id}`;
 		fetch(url,
@@ -65,14 +87,20 @@ class NodeEditor {
 				this.renderNodeName();
 			});
 	}
+	/**
+	 * renderNodeName - Draw the name input
+	 */
 	renderNodeName() {
+		// Draw title and description
 		this.title.innerHTML = 'Node name'
 		this.description.innerHTML = 'Give your node the name that describes it the best!';
 		const nameCont = document.createElement('div');
+		// Draw the input element
 		nameCont.innerHTML = `<label>Node name</label><input type="text" placeholder="Node name" value="${this.data.name}">`;
 		const cont = document.getElementById('cont');
 		cont.innerHTML = '';
 		cont.appendChild(nameCont);
+		// Define the navigation buttons
 		const next = document.querySelector('.next');
 		const back = this.root.querySelector('.back');
 		next.innerHTML = 'next';
@@ -99,15 +127,6 @@ class NodeEditor {
 		}
 		next.addEventListener('click', editor.goNext);
 		back.addEventListener('click', editor.goBack);
-
-		// const cont = document.createElement('div');
-		// for (const attr in this.data) {
-		// 	const view = document.createElement('div');
-		// 	view.innerHTML = `<h1>${attr}</h1><h2>${this.data[attr]}</h2>`;
-		// 	cont.appendChild(view);
-		// }
-		// this.root.innerHTML = '';
-		// this.root.appendChild(cont);
 	}
 	renderServiceOptions () {
 
@@ -129,6 +148,9 @@ class NodeEditor {
 		][date[1]];
 		node.innerHTML = `${month} ${date[2]} ${date[0]}<br>${date[3]}:${date[4]}`;
 	}
+	/**
+	 * renderCalendar - Draw the Date configuration component
+	 */
 	renderCalendar () {
 		const editor = this;
 		console.log(editor.data);
@@ -143,16 +165,18 @@ class NodeEditor {
 		const dateText = document.createElement('h1');
 		dateText.style.textAlign = 'center';
 		editor.triggerDateContainer = dateText;
+		// Defines the date if the node has one
 		if (editor.data.analisis_params['date']) {
 			const date = editor.data.analisis_params['date'].map(e => Array.isArray(e) ? e.clone() : e);
 			date[1] -= 1;
 			editor.printFormatedDate(dateText, date);
 		}
+		// Set the click on the date selector to render the calendar
 		selectDate.addEventListener('click', function (evn) {
 			let date = editor.data.analisis_params.date;
 			if (date) {
 				if (date[1] > 0) {
-					date[1] = date[1] - 1;	
+					date[1] = date[1];
 				} else {
 					date[1] = 0;
 				}
@@ -168,6 +192,7 @@ class NodeEditor {
 					d.getMilliseconds()
 				]
 			}
+			// Render Calendar component
 			const cal = new Calendar(date, editor.data.id, document.body);
 			console.log(typeof editor.data.analisis_params);
 			console.log(editor.data.analisis_params);
@@ -183,6 +208,7 @@ class NodeEditor {
 				cal._html.style.position = 'absolute';
 			});
 		});
+		// Draw the frequency configuration
 		const triggerOptions = document.createElement('div');
 		const actDiv = document.createElement('div');
 		triggerOptions.appendChild(actDiv);
@@ -212,6 +238,10 @@ class NodeEditor {
 		actDiv.appendChild(actStatus);
 		actDiv.appendChild(activeButton);
 		activeButton.classList.add('activation_slide');
+		/**
+		 * drawActivationButton - helper to draw a toggle button
+		 * for the active state manipulator
+		 */
 		function drawActivationButton () {
 			if (editor.data.analisis_params['active']) {
 				actStatus.innerHTML = 'Active';
@@ -274,46 +304,61 @@ class NodeEditor {
 		back.addEventListener('click', editor.goBack);
 
 	}
+	/**
+	 * renderUrl - draw the tool to store the url, headers and query parameters into a node
+	 */
 	renderUrl () {
 		const editor = this;
+		// Draw the title and description
 		this.title.innerHTML = 'Request Configuration'
 		this.description.innerHTML = 'Use "GET" or "POST" at the begining followed by a space to specify the method to this request.';
 		const urlCont = document.createElement('div');
+		// Draw the URL input and set the change listener
 		urlCont.innerHTML = `<label>URL</label><input type="text" placeholder="Ex. GET http://webpage.com" value="${this.data.api_url}">`;
 		const urlInput = urlCont.querySelector('input');
 		urlInput.addEventListener('change', function (evn) {
 			editor.data.api_url = evn.target.value;
 			console.log(editor.data.api_url);
 		});
-		console.log(urlInput);
 		const cont = document.getElementById('cont');
 		cont.innerHTML = '';
 		cont.appendChild(urlCont);
+		// Draw the headers tool
 		const headersCont = document.createElement('div');
 		headersCont.className = 'head_cont';
 		const hTitle = document.createElement('p');
 		hTitle.innerHTML = 'HEADERS';
 		cont.appendChild(hTitle);
 		let focus = [0, 0];
+		/**
+		 * drawHeaders - helper to recreate and refresh the headers view
+		 */
 		function drawHeaders() {
+			// Draw the tags
 			let headsHTML = `<div class="fields"><h1>KEY</h1><h1>VALUE</h1></div>`;
 			let count = 0;
+			// Draw the inputs for each stored value
 			for (const head in editor.data.headers) {
 				// one row creation
 				headsHTML += `<div name="row" index="${count}" class="row"><input type="text" placeholder="Key" value="${head}">`;
 				headsHTML += `<input type="text" placeholder="Value" value='${editor.data.headers[head]}'></div>`;
 				count++;
 			}
+			// Draw the last empty input
+			// this one is used to create new values in the headers
 			headsHTML += `<div class="row"><input name="new" type="text" placeholder="Key" value="">`;
 			headsHTML += `<input type="text" placeholder="Value" value=""></div>`;
 			headersCont.innerHTML = headsHTML;
 			const allRows = document.querySelectorAll('[name="row"]');
+			// Defines the listeners to keep track on value changes
 			allRows.forEach(row => {
 				const inputs = row.querySelectorAll('input');
 				if (Number(row.getAttribute('index')) === focus[0]) {
 						inputs[focus[1]].focus();
 						inputs[focus[1]].selectionStart = inputs[focus[1]].selectionEnd = inputs[focus[1]].value.length;
 				}
+				// inputs makes references to both inputs in each row
+				// inputs[0] checks for delete actions in order to mantain the object clean
 				inputs[0].addEventListener('input', function _func(evn) {
 					inputs[0].removeEventListener('input', _func);
 					focus = [Number(row.getAttribute('index')), 0];
@@ -350,15 +395,18 @@ class NodeEditor {
 			});
 		}
 		cont.appendChild(headersCont);
+		// Call to draw the stored headers
 		drawHeaders();
-
-		// draw the query data
+		// Draw the query data
 		const queryCont = document.createElement('div');
 		queryCont.className = 'query_cont';
 		const qTitle = document.createElement('p');
 		qTitle.innerHTML = 'QUERY DATA';
 		cont.appendChild(qTitle);
 		let focus_q = [0, 0];
+		/**
+		 * drawQuery - render helper to refresh the query values
+		 */
 		function drawQuery() {
 			let headsHTML = `<div class="fields"><h1>KEY</h1><h1>VALUE</h1></div>`;
 			let count = 0;
@@ -414,8 +462,9 @@ class NodeEditor {
 			});
 		}
 		cont.appendChild(queryCont);
+		// Draw the stored query parameters
 		drawQuery();
-
+		// Define back and next listeners
 		const next = document.querySelector('.next');
 		next.innerHTML = 'next';
 		const back = this.root.querySelector('.back');
@@ -435,8 +484,13 @@ class NodeEditor {
 		next.addEventListener('click', editor.goNext);
 		back.addEventListener('click', editor.goBack);
 	}
+	/**
+	 * renderProcess - Draw a process list and defines the listener
+	 * to keep track of the mode change and call to getProcessView on each change
+	 */
 	renderProcess () {
 		const editor = this;
+		// draw a title and a description
 		this.title.innerHTML = 'Process Configuration'
 		this.description.innerHTML = 'Setup the "process mode" and check the "info" tag to get a "how to do" about the choosed mode';
 		const selectMode = document.createElement('select');
@@ -453,6 +507,8 @@ class NodeEditor {
 			"contacts_list",
 			"list_ops",
 		]
+		// creates an option for each mode
+		// and append it to the select list
 		for (const mode of modes) {
 			const md = document.createElement('option');
 			md.setAttribute('value', mode);
@@ -472,7 +528,9 @@ class NodeEditor {
 			editor.data.analisis_params = [{}];
 			editor.getProcessView(editor.data.analisis_mode);
 		});
+		// Draw the view for the actual analisis_mode
 		editor.getProcessView(editor.data.analisis_mode);
+		// Define back and next listeners
 		const next = document.querySelector('.next');
 		const back = this.root.querySelector('.back');
 		next.innerHTML = 'save and exit';
@@ -497,6 +555,11 @@ class NodeEditor {
 		next.addEventListener('click', editor.goNext);
 		back.addEventListener('click', editor.goBack);
 	}
+	/**
+	 * getProcessView - Return a tool view containing the required fields
+	 * depending on the mode
+	 * @param {String} mode - the type of tool to return
+	 */
 	getProcessView(mode) {
 		const editor = this;
 		const cont = document.getElementById('cont');
@@ -560,17 +623,6 @@ class NodeEditor {
 							input.setAttribute('index', pos);
 							input.value = samp;
 							rightColumn.append(input);
-							// input.addEventListener('input', function _func(evn) {
-							// 	samps[pos] = evn.target.value;
-							// 	const nSp = {};
-							// 	for (const sp of samps) {
-							// 		if (sp !== '') {
-							// 			nSp[sp] = true;
-							// 		}
-							// 	}
-							// 	editor.data.analisis_params[0]['samples'] = nSp;
-							// 	focus = [pos > 0 ? pos - 1 : 0, 1];
-							// });
 							input.addEventListener('change', function(evn) {
 								if (evn.target.value === '') {
 									console.log('deleting');
@@ -625,17 +677,6 @@ class NodeEditor {
 							input.setAttribute('index', pos);
 							input.value = par;
 							leftColumn.append(input);
-							// input.addEventListener('input', function _func(evn) {
-							// 	pars[pos] = evn.target.value;
-							// 	const nPr = {};
-							// 	for (const pr of pars) {
-							// 		if (pr !== '') {
-							// 			nPr[pr] = true;
-							// 		}
-							// 	}
-							// 	focus = [pos > 0 ? pos - 1 : 0, 1];
-							// 	editor.data.analisis_params[0]['parameters'] = nPr;
-							// });
 							input.addEventListener('change', function(evn) {
 								if (evn.target.value === '') {
 									delete pars[evn.target.getAttribute('index')];

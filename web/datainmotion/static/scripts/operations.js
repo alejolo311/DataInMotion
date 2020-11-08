@@ -1,63 +1,6 @@
 let stoped = false;
 let processMessages;
-async function running_test(instanceId) {
-	window.scrollTo(0, 0);
-	stoped = false;
-	$('[stop="true"]').on('click', async function () {
-		stoped = true;
-		$('.last_state h1').html('Stopping process ...');
-		await stopProcess(instanceId);
-		$('.loading').css('display', 'none');
-	});
-	localStorage.running_test = true;
-	localStorage.running_id = instanceId;
-	let verifying = false;
-	let choosing_gif = false;
-	$('.loading ul').empty();
-	$('.html_viewer').empty();
-	while (!stoped) {
-		await timeSleep(6000);
-		const resp = await fetch(`${global.prot}://${global.domain}${global.apiPort}/api/v1/check_response?id=${instanceId}`, {
-			method: "GET",
-			headers: {
-				'Accept': 'application/json',
-			},
-		});
-		let json = await resp.json();
-		// Display gif choose jus once
-		if (json.status !== 'choose_gif') {
-			choosing_gif = false;
-		}
-		console.log(json.status);
-		if (!stoped) {
-			$('.last_state h1').html(json.messages[json.messages.length - 1]);
-		}
-		$('.loading ul').empty();
-		// Print the messages to the logger
-		if (json.messages.length > 0) {
-			processMessages = json.messages.slice(0, json.messages.length);
-			const console = document.getElementsByClassName('console')[0];
-			console.innerHTML = processMessages[0];
-		}
-		for (mess of json.messages.reverse()) {
-			const li = $(`<li>${mess}</li>`);
-			$('.loading ul').append($(li));
-		}
-		if (json.status === 'completed') {
-			console.log('Test Completed');
-			$('.loading').css('display', 'none');
-			localStorage.removeItem('running_id');
-			localStorage.removeItem('running_test');
-			showConsole(json.logger);
-			break;
-		} else if (json.status === 'error') {
-			$('.loading').css('display', 'none');
-			break;
-		}else {
-			continue;
-		}
-	}
-}
+
 
 function getDate() {
 	const time = new Date(Date.now());
@@ -165,7 +108,7 @@ function setOpsListeners() {
 			},
 			success: function (data) {
 				console.log(data);
-				running_test(data.instance);
+				showConsole(data.instance);
 			},
 			error: function (error) {
 				console.log(error);

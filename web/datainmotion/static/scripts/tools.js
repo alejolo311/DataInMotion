@@ -14,7 +14,6 @@ function autosave (evn) {
     }
   });
 }
-
 function loadRuns () {
 	console.log('LoadRuns');
 	showConsole(undefined);
@@ -23,14 +22,13 @@ function loadRuns () {
 	// and the on click will call showConsole
 
 }
-
 /**
- * showConsole - Draw a Run view creating a visual tree
+ * showConsole - Entrypoint to render the TestRunner Component
  * 
  * @param {Object} output - contains the data from the run
  */
 function showConsole (output) {
-	// Add Calendar script to head
+	// Add the Logger script to head
 	// remove previous script node
 	const scripts = document.head.querySelectorAll('script');
 	for (const script of scripts) {
@@ -45,12 +43,14 @@ function showConsole (output) {
 		console.log(some);
 		console.log('render Logger');
 		const boardId = $('.container').attr('board_id');
+
 		console.log('loading', boardId);
 		DOMManager.render(
 			LoggerManager,
 			document.getElementsByClassName('console_cont')[0],
 			{
-				'boardId': boardId
+				'boardId': boardId,
+				'log': output
 			}
 		);
 	}
@@ -72,6 +72,7 @@ function copyToClipboard (value) {
 	document.body.removeChild(inp);
 	console.log('The node value was copied to clipboard');
 }
+// Definer the log button
 $(window).on('load', function () {
 	$('.save').on('click', autosave);
 	$('.toggle_console').on('click', function () {

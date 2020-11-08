@@ -34,6 +34,7 @@ class ActiveService extends Component {
 			`;
 			boardLi.innerHTML = stringHTML;
 			const boardUl = boardLi.querySelector('ul');
+			// Render the service nodes
 			for (const node in board.nodes) {
 				const n = board.nodes[node];
 				if (n.analisis_params.length === 0) {
@@ -76,6 +77,7 @@ class ActiveService extends Component {
 				// Define to render or not
 				const renderedNode = `
 								<h3>${n.name}</h3>
+								<i></i>
 								<h6>Next run</h6>
 								<h5>${time}</h5>
 								${active}`;
@@ -92,11 +94,38 @@ class ActiveService extends Component {
 					timeEdit.removeEventListener('click', func_);
 					comp.changeTime(board.nodes[node]);
 				})
-				
+				// Define the run listener
+				const run = nodeLi.querySelector('i');
+				run.addEventListener('click', function () {
+					console.log('run', n.id);
+					comp.runTest(n.id);
+				})
 			}
 			// Add listeners to all
 			ul.appendChild(boardLi);
 		}
+	}
+	runTest (nodeId) {
+		const scripts = document.head.querySelectorAll('script');
+		for (const script of scripts) {
+			if (script.getAttribute('name') === 'runner_script') {
+				script.remove();
+			}
+		}
+		let script = document.createElement('script');
+		script.setAttribute('name', 'runner_script');
+		script.type = 'text/javascript';
+		script.onload = function(some) {
+			DOMManager.render(
+				TestRunner,
+				document.getElementsByClassName('loading')[0],
+				{
+					'nodeId': nodeId
+				}
+			);
+		}
+		script.src = `/static/scripts/TestRunner.js?${uuid()}`;
+		document.head.appendChild(script);
 	}
 	activeService (node) {
 		const now = new Date(Date.now());

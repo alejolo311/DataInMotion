@@ -68,44 +68,46 @@ class LoggerManager extends Component {
 		cont.innerHTML = '<h4>Last runned nodes</h4>';
 		cont.appendChild(ul);
 	}
-	async drawConsole (logId) {
-		const now = new Date(Date.now());
-		let url = new URL(`${global.prot}://${global.domain}${global.apiPort}/api/v1/logs/${logId}`);
-		let params = {
-			sync_date: [
-				now.getFullYear(),
-				now.getMonth() + 1,
-				now.getDate(),
-				now.getHours(),
-				now.getMinutes(),
-				now.getSeconds(),
-				now.getMilliseconds()
-			]
-		}
-		url.search = new URLSearchParams(params).toString();
-		const logsList = await fetch(
-			url,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': localStorage.getItem('token')
-				}
+	async drawConsole (logId, log) {
+		let logger;
+		if (logId) {
+			const now = new Date(Date.now());
+			let url = new URL(`${global.prot}://${global.domain}${global.apiPort}/api/v1/logs/${logId}`);
+			let params = {
+				sync_date: [
+					now.getFullYear(),
+					now.getMonth() + 1,
+					now.getDate(),
+					now.getHours(),
+					now.getMinutes(),
+					now.getSeconds(),
+					now.getMilliseconds()
+				]
 			}
-		)
-		const result = await logsList.json();
+			url.search = new URLSearchParams(params).toString();
+			const logsList = await fetch(
+				url,
+				{
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': localStorage.getItem('token')
+					}
+				}
+			)
+			const logger = await logsList.json().log.logger;
+		} else {
+			logger = log;
+		}
 		const cont = this._root.querySelector('.data_extractor');
 		cont.innerHTML = '';
-		this._tmpOut = result.log.logger;
+		this._tmpOut = logger;
 		const ul = document.createElement('ul');
 		for (const key in this._tmpOut) {
 			const li = this.drawLoggerObject(this._tmpOut[key], key, undefined);
 			ul.appendChild(li);
 		}
 		cont.appendChild(ul);
-		// deep(undefined, undefined);
-		console.log(result);
-		console.log(logId);
 	}
 	drawLoggerObject (obj, path, parent) {
 		const colors = [
@@ -200,7 +202,14 @@ class LoggerManager extends Component {
 			closeBtn.removeEventListener('click', func_);
 			comp.close();
 		});
-		this.drawRunsList();
+		if (this._props.log) {
+			console.log(
+				this._props.log
+			);
+			this.drawConsole(undefined, this._props.log);
+		} else {
+			this.drawRunsList();
+		}
 	}
 	close () {
 		this._root.innerHTML = '';

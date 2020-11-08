@@ -37,7 +37,7 @@ function drawDashboard(response) {
 	const addBoard = $('<div><h1>add a new Board</h1></div>');
 	$(addBoard).addClass('add_board');
 	$(addBoard).css('background-image', 'url(/static/images/plus.png)');
-	$(addBoard).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
+	$(addBoard).hover(function () { $(this).css('box-shadow', '0px 0px 10px white'); },
 		function () { $(this).css('box-shadow', '0px 0px 0px white'); });
 	$(cont).append($(addBoard));
 	// Iterates the boards and draw the board pin
@@ -70,7 +70,7 @@ function drawDashboard(response) {
 		// bc.append(c);
 		$(bc).attr('b_id', board.id);
 		$(bc).addClass('gradient');
-		$(bc).hover(function () { $(this).css('box-shadow', '0px 0px 30px #ffffffa1'); },
+		$(bc).hover(function () { $(this).css('box-shadow', '0px 0px 10px white'); },
 			function () { $(this).css('box-shadow', '0px 0px 0px white'); });
 		cont.append(bc);
 	}
