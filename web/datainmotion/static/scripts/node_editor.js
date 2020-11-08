@@ -1095,7 +1095,7 @@ class NodeEditor {
 			now.getSeconds(),
 			now.getMilliseconds()
 		]
-		if (editor.data.type === 'service') {
+		if (editor.data.type === 'service' && editor.data.analisis_params.date) {
 			editor.data.analisis_mode = '';
 			editor.data.work_type = 'process';
 			editor.data.analisis_params.sync_date = sync_date;

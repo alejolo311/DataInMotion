@@ -90,36 +90,23 @@ class WebWhastapp():
         """
         op = Options()
         path = f'/usr/src/app/api/browsers/{self.instance.instance_id}.selenium'
-        # op = webdriver.DesiredCapabilities.CHROME.copy()
         op.add_argument('--headless')
         op.add_argument('--no-sandbox')
         op.add_argument('--disable-dev-shm-usage')
         op.add_argument(f'user-data-dir={path}')
         op.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36')
-        # op.set_preference('media.autoplay.default', 0)
-        # op.set_preference('media.mp4.enabled', True)
-        # Executable paths
         gecko_path = '/usr/bin/geckodriver'
         chrome_path = '/usr/src/app/chromedriver'
-        # Drivers-----------------------------
-        # Firefox
         if not os.path.exists(path):
             os.mkdir(path)
-        # user_profile = webdriver.FirefoxProfile(path)
-        # user_profile.set_preference('network.cookie.cookieBehavior', 0)
-        # user_profile.update_preferences()
-        # self.driver = webdriver.Firefox(
-        #     firefox_profile=user_profile,
-        #     executable_path=gecko_path,
-        #     options=op,
-        #     )
-        # Chrome
         try:
             self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
         except:
             os.environ['PATH'] = os.environ['PATH'] + f':{chrome_path}'
             self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
-        print('Browser Version: GoogleChrome', self.driver.capabilities)
+        b_name = self.driver.capabilities['browserName']
+        b_version = self.driver.capabilities['browserVersion']
+        print(f'Browser Version: {b_name} {b_version}')
         # --------------------------------------
         self.driver.set_window_position(0, 0)
         self.driver.set_window_size(1080, 592)
@@ -158,7 +145,7 @@ class WebWhastapp():
 
     def open_whatsapp_web(self):
         """
-
+        Open the browser and search for the web whats app URL
         """
         retries = 10
         tries = 0
@@ -166,24 +153,27 @@ class WebWhastapp():
             try:
                 self.driver.get('https://web.whatsapp.com')
                 self.save_screenshot('reload')
-                print('Selecting input to search contact')
+                print('Checking open session')
                 box_xpath = '//div[@contenteditable = "true"]'
-                con_input_span = WebDriverWait(self.driver, 10).until(
+                con_input_span = WebDriverWait(self.driver, 4).until(
                     EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
-                time.sleep(2)
                 self.save_screenshot('whatsapp_loaded')
+                print('Session loaded succesfully')
                 return 'success'
             except Exception as e:
+                tries += 1
                 try:
                     canvas = WebDriverWait(self.driver, 4).until(
                         EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
+                    print('No session open, creating new one...')
+                    print('QR Code detected')
                     return 'failed'
                 except Exception as second_e:
-                    print(second_e)
+                    print('Session not found, trying again')
+                    print(f'Retry {tries}/{retries}')
+                    # print(second_e)
                     pass
-                finally:
-                    traceback.print_exc()
-                    print('Open Browser:\n', e)
+                time.sleep(4)
         return None
 
     def auth(self):
@@ -191,9 +181,6 @@ class WebWhastapp():
         Open web.whatsapp and checks for the QRcode canvas
         """
         print('Auth started')
-        # self.instance.write_status(
-        #     'whatsapp_init',
-        #     'Prepare to Scan the QRCode with the Whatsapp Aplication in you Phone')
         try:
             self.driver.get('https://web.whatsapp.com')
             print('Web Whatsapp getted')
@@ -205,7 +192,6 @@ class WebWhastapp():
         tries = 0
         while tries < retries:
             try:
-                print('Pressing remember me')
                 self.save_screenshot('press_remember')
                 rm = '//input[@name = "rememberMe"]'
                 remember = WebDriverWait(self.driver, 4).until(
@@ -214,9 +200,11 @@ class WebWhastapp():
                 if not pressed:
                     self.driver.execute_script('arguments[0].click();', remember)
                 # self.driver.execute_script('window.localStorage.setItem("remember-me", true);')
+                print('Remember me enabled')
                 self.save_screenshot('remember_pressed')
                 canvas = WebDriverWait(self.driver, 4).until(
                     EC.presence_of_element_located((By.TAG_NAME, 'canvas')))
+                print('QR Code detected')
                 location = canvas.location
                 size = canvas.size
                 qrcode = self.driver.get_screenshot_as_png()
@@ -227,59 +215,41 @@ class WebWhastapp():
                 bottom = location['y'] + size['height']
                 im = im.crop((left, top, right, bottom))
                 im.save('./api/verification_images/{}.png'.format(self.instance.instance_id))
+                print('QR Code saved')
                 url = 'web_whatsapp_verify?id=' + self.instance.instance_id
                 return url
             except TimeoutException:
-                print('QRcode not found:')
+                print('QR code not found')
+                pass
             except Exception as e:
                 print('\t', e)
-                retries += 1
                 pass
+            finally:
+                retries += 1
+                print(f'Retry {tries}/{retries}')
         return False
 
     def wait_registration(self):
         """
-        Send a registration message to the user and
+        Wait until the search input appear
         """
         box_xpath = '//div[@contenteditable = "true"]'
         max_retries = 30
         count = 0
         while True:
             try:
-                print('Selecting input to search contact')
+                print('Waiting register confirmation...')
                 con_input_span = WebDriverWait(self.driver, 10).until(
                             EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
-                time.sleep(2)
-                # local_storage  = self.driver.execute_script( 
-                #                     "var ls = window.localStorage, keys = []; " 
-                #                     "for (var i = 0; i < ls.length; ++i) " 
-                #                     "  keys[i] = ls.key(i); " 
-                #                     "return keys;"
-                #                 )
-                # values = self.driver.execute_script( 
-                #             "var ls = window.localStorage, items = {}; " 
-                #             "for (var i = 0, k; i < ls.length; ++i) " 
-                #             "  items[k = ls.key(i)] = ls.getItem(k); " 
-                #             "return items; ")
-                # print('LocalStorage', json.dumps(values, indent=2))
-                # # Save the profile data from tmp file
-                # tmp = f'{self.driver.firefox_profile.path}'
-                # path = f'./api/browsers/{self.instance.instance_id}.selenium'
-                # storage_path = f'./api/browsers/{self.instance.instance_id}.storage'
-                # with open(storage_path, 'w') as st_file:
-                #     st_file.write(json.dumps(values))
-                # os.rmdir(path)
-                # shutil.copytree(tmp, path)
-                # # if os.system(f"cp -R {tmp}/* {path}"):
-                # #     print(f'the profile should be copied to {path} from {tmp}')
+                print('Session started')
+                time.sleep(6)
                 self.save_screenshot('init_page')
-                # print(self.driver.firefox_profile.path)
                 return 'Success'
                 break
             except Exception as e:
                 time.sleep(2)
-                # traceback.print_exc()
-                print('Error: ', e)
+                print('Confirmation Error: ', e)
+                print(f'Retry {count}/{max_retries}')
 
 
     def search_contact(self, contact_number):
@@ -295,96 +265,53 @@ class WebWhastapp():
         count = 0
         while True:
             try:
-                print('Selecting input to search contact')
-                con_input_span = WebDriverWait(self.driver, 4).until(
+                print('Selecting search input')
+                con_input_span = WebDriverWait(self.driver, 10).until(
                             EC.presence_of_all_elements_located((By.XPATH, box_xpath)))[0]
                 con_input = con_input_span.find_element_by_xpath('..')
-                # con_input.click()
                 con_input = con_input.find_element_by_xpath('..')
+                print('Input selected')
                 con_input.click()
                 con_input_span.click()
+                print('Searching contact')
                 con_input_span.send_keys(contact_number)
                 con_input_span.send_keys(Keys.ENTER)
                 time.sleep(2)
                 self.save_screenshot('input_contact_number')
                 self.instance.write_status(
                 'sending', 'Sending message to {}'.format(contact_number))
+                print('Contact selected')
                 return
                 # break
             except Exception as e:
+                count += 1
                 # self.save_screenshot(name='failed_input')
-                traceback.print_exc()
-                print(e)
+                # traceback.print_exc()
+                print('Selecting search input failed, trying again')
+                print(f'Retry {count}/{max_retries}')
         self.instance.write_status(
                 'sending', 'Sending message to {}'.format(contact_number))
-        xpath = '//div[contains(@class, "-GlrD")]'
-        count = 0
-        while True:
-            try:
-                self.save_screenshot('eJ0yJ')
-                contacts = WebDriverWait(self.driver, 4).until(
-                    EC.presence_of_element_located((By.XPATH, xpath)))
-                # for cont in contacts:
-                #     self.driver.execute_script(
-                #         'arguments[0].style.backgroundColor = "blue";', cont)
-                c_xpath = '//div[contains(@class, "eJ0yJ")]'
-                # EC.presence_of_all_elements_located
-                contact = None
-                contacts = WebDriverWait(contacts, 6).until(
-                    EC.presence_of_all_elements_located((By.XPATH, c_xpath)))
-                if type(contacts) == list:
-                    contact = contacts[-1]
-                    # for cont in contacts:
-                    #     tag = "[dir='auto']"
-                    #     try:
-                    #         script = f'return arguments[0].querySelector("{tag}").getAttribute("title");'
-                    #         print(script)
-                    #         con_span = self.driver.execute_script(
-                    #             script,
-                    #             cont
-                    #         )
-                    #         print('\nFound contact info:', con_span, '\n')
-                    #         if  contact_number in con_span.replace(' ', '').replace('-', ''):
-                    #             contact = cont
-                    #             break
-                    #     except Exception as e:
-                    #         print('get attribute title failed', e)
-                print('ContactType Element: ', type(contacts))
-                print('Contact element: ', contacts)
-                print(dir(contacts))
-                self.remove_verify()
-                if contact:
-                    self.driver.execute_script(
-                    'arguments[0].style.backgroundColor = "red";',
-                    contact
-                    )
-                    contact.click()
-                    time.sleep(2)
-                break
-            except TimeoutException as tme:
-                print(tme)
-                print('trying again to get the contact')
-                if count > max_retries:
-                    return {'error': "can not find the contact"}
-                count += 1
-                pass
-            except Exception as e:
-                traceback.print_exc()
-                print('Failed to get the contact', e)
-                print(contacts.get_attribute('outerHTML').encode('utf-8'))
-                return {'error': "can not find the contact"}
 
 
     def send_whatsapp_message(self, message):
         """
         Send a message to the contact focused by search_contact
         """
+
         # Focus the footer and store the input as msg_box
-        footer = WebDriverWait(self.driver, 4).until(
-            EC.presence_of_element_located((By.TAG_NAME, 'footer')))
-        footer.click()
-        box_xpath = '//div[@contenteditable = "true"]'
-        msg_box = footer.find_elements_by_xpath(box_xpath)[1]
+        try:
+            print('Sending message')
+            footer = WebDriverWait(self.driver, 4).until(
+                EC.presence_of_element_located((By.TAG_NAME, 'footer')))
+            footer.click()
+            box_xpath = '//div[@contenteditable = "true"]'
+            msg_box = footer.find_elements_by_xpath(box_xpath)[1]
+            print('Message input found')
+        except Exception as e:
+            print(e)
+            return {
+                'error': 'contact not found'
+            }
         msg_parent = msg_box.find_element_by_xpath('..')
         msg_parent.send_keys('')
         msg_parent = msg_parent.find_element_by_xpath('..')
@@ -396,10 +323,7 @@ class WebWhastapp():
             msg_box.send_keys(char)
         msg_box.send_keys(Keys.RETURN)
         time.sleep(2)
-        # self.save_screenshot('message')
-        # self.send_twilio_message(self.number,
-        #                          'message and Gif sent to *{}*'
-        #                          .format(self.contact))
+
 
     def send_animated_gif(self, search, select_random=False):
         """

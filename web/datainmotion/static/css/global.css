@@ -105,8 +105,29 @@ h5 {
 h6 {
 	margin-bottom: 15px;
 }
+.what_is {
+	width: 100% !important;
+}
+.what_is h3 {
+	margin-top: 40px;
+	text-align: center;
+	font-size: 40px;
+	color: rgb(79, 1, 79);
+}
+.what_is p{
+	text-align: center;
+	color: rgb(138, 138, 138);
+	margin-top: 30px;
+	width: 70% !important;
+	margin-left: 15%;
+	font-size: 28px;
+	padding: 0 !important;
+	margin-bottom: 40px;
+	font-family: 'Mallanna', sans-serif;
+}
 p {
 	margin: 0 0 15px;
+	text-align: justify;
 }
 em, i {
 	font-style: italic;
@@ -15382,6 +15403,7 @@ div.dark_rounded #pp_full_res .pp_inline, div.dark_square #pp_full_res .pp_inlin
 	transition: all .3s ease-in-out;
 }
 .style-simple a.icon_bar span.b {
+	border-radius: 50% !important;
 	-webkit-transform: translate3d(0, 0, 0);
 	-moz-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);

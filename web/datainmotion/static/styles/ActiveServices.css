@@ -16,34 +16,36 @@
 	color: rgb(178, 250, 222);
 	font-family: var(--font);
 }
-[list="active_services"] {
-	overflow-y: scroll;
-	padding: 0;
-	padding-top: 12px;
-	margin: 0;
-	background-color: rgba(221, 106, 106, 0.344);
-	height: calc(100vh - 195px);
-}
 [list="active_services"]::-webkit-scrollbar {
 	width: 14px;
-	background-color: rgba(255, 255, 255, 0.556);
+	background-color: rgb(238, 238, 238);
 }
 [list="active_services"]::-webkit-scrollbar-thumb {
 	background-color: blueviolet;
 }
 [list="active_services"] {
-	padding: 10px;
+	height: calc(100vh - 178px) !important;
+	padding: 0px;
 	margin: 0px;
-	border-radius: 4px;
+	border-radius: 0px;
 	list-style: none;
 	font-family: var(--font);
-	background-color: rgba(255, 255, 255, 0.692);
+	overflow-y: scroll;
+	background-color: rgb(255, 255, 255);
 }
+/* [list="active_services"] {
+	overflow-y: scroll;
+	padding: 0;
+	padding-top: 12px;
+	margin: 0;
+	background-color: rgba(221, 106, 106, 0.344);
+	
+} */
 
 .board_services {
-	border-radius: 10px;
-	margin: 18px 12px !important;
-	padding: 12px;
+	border-radius: 0px;
+	margin: 0px 0px !important;
+	padding: 0px;
 	background-color: white;
 }
 .board_services ul {
@@ -54,18 +56,20 @@
 }
 .board_services h2 {
 	font-size: 18px;
-	margin-top: 0;
+	margin-top: 0px;
+	padding-top: 12px !important;
 	padding-left: 24px;
 	color: rgb(160, 0, 160);
 }
 .board_services li {
 	margin: 0 !important;
-	margin-top: 4px !important;
+	margin-top: 0px !important;
 	list-style: none;
 	display: grid;
 	cursor: pointer;
-	border-radius: 8px;
-	background-color: rgb(228, 228, 228);
+	border-radius: 0px;
+	border-bottom: 1px solid rgba(128, 128, 128, 0.193);
+	background-color: rgb(243, 243, 243);
 	grid-template-columns: calc(30%) calc(25% - 50px) calc(45% - 50px) 92px;
 }
 .board_services h3 {
@@ -115,7 +119,7 @@
 	padding: 4px 4px;
 	color: rgb(255, 255, 255) !important;
 	text-align: center !important;
-	background-color: rgba(123, 186, 161, 0.186);
+	background-color: transparent;
 }
 .board_services h6 {
 	overflow: hidden;
@@ -128,8 +132,8 @@
 	margin-top: 2px !important;
 	font-size: 12px;
 	padding: 4px 4px;
-	text-align: center !important;
-	background-color: rgba(123, 186, 161, 0.186);
+	text-align: right !important;
+	background-color: transparent;
 	/* background-color: blue; */
 }
 .hour {
@@ -139,7 +143,7 @@
 	background-color: rgba(255, 255, 255, 0.618)
 }
 .hour:hover {
-	box-shadow: 0px 0px 6px white;
+	box-shadow: 0px 0px 6px rgb(169, 169, 169);
 }
 .hour:active {
 	box-shadow: 0px 0px 6px rgb(64, 118, 143);

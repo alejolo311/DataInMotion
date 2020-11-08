@@ -63,10 +63,6 @@ def check_register_status():
     """
     instance_id = request.get_json()['instance_id']
     instance = instancedNode({'id': instance_id}, instance_id)
-    with open('./api/running/{}.session'.format(instance_id), 'r') as session_file:
-        # 'session_id'
-        # 'url'
-        session_data = json.loads(session_file.read())
     state = browsers[instance_id].wait_registration()
     path = f'./api/browsers/table'
     with open(path, 'r+') as table:
@@ -129,12 +125,16 @@ def test_whatsapp():
     instance = instancedNode({'id': instance_id}, instance_id)
     web_whatsapp = WebWhastapp(instance_id, {}, instance)
     web_whatsapp.start_browser()
-    if web_whatsapp.open_whatsapp_web() == 'failed':
+    open_status = web_whatsapp.open_whatsapp_web()
+    if open_status == 'failed' or not open_status:
         # remove_session()
         web_whatsapp.remove_session(request.user)
         web_whatsapp.close()
-        return jsonify(error='failed to store the session')
+        return jsonify(error='failed to store the session'), 404
     web_whatsapp.search_contact(phone_number)
-    web_whatsapp.send_whatsapp_message('*You are now registered to DataInMotion WhatsApp Service*')
+    send_status = web_whatsapp.send_whatsapp_message('*You are now registered to DataInMotion WhatsApp Service*')
+    if 'error' in send_status:
+        web_whatsapp.close()
+        return jsonify(error=send_status['error']), 503
     web_whatsapp.close()
     return jsonify(message='your message was sent')

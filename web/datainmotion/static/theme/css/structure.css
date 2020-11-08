@@ -4412,10 +4412,10 @@ html, body {
 	overflow-x: hidden;
 }
 
-/*																								> 1240
+/* /*																								> 1240
 ===================================================================================================== */
 
-@media only screen and (min-width: 1240px) {
+@media only screen and (min-width: 701px) {
 	body:not(.header-simple) #Top_bar #menu {
 		display: block !important;
 	}
@@ -4963,7 +4963,7 @@ html, body {
 /* 																								< 1240
 ===================================================================================================== */
 
-@media only screen and (max-width: 1239px) {
+@media only screen and (max-width: 700px) {
 	/* Header */
 	#Top_bar #menu {
 		display: none;
@@ -7620,4 +7620,4 @@ html, body {
 	html.ios, .ios .section.bg-cover {
 		background-attachment: scroll!important
 	}
-}
+} */

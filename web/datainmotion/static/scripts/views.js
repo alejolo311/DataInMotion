@@ -94,9 +94,19 @@ function getBoardView () {
 		}
 	}).then(function (json) {
 		drawNodes(json);
-		// if (localStorage.getItem('running_test')) {
-		// 	running_test(localStorage.getItem('running_id'));
+		// let script = document.createElement('script');
+		// script.type = 'text/javascript';
+		// script.onload = function() {
+		// 	DOMManager.render(
+		// 		MenuHelper,
+		// 		document.getElementById('helper')
+		// 	);
 		// }
+		// script.src = `/static/scripts/Helper.js?${uuid()}`;
+		// document.head.appendChild(script);
+		// // if (localStorage.getItem('running_test')) {
+		// // 	running_test(localStorage.getItem('running_id'));
+		// // }
 	});
 }
 function drawNodes(nodes) {

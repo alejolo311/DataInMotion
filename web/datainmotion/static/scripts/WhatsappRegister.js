@@ -89,7 +89,7 @@ class WhatsAppRegister extends Component{
 			}
 		)
 		const response = await testReq.json();
-		if (response.error) {
+		if (response.error && testReq.status === 404) {
 			console.log(response);
 			const comp = this;
 			h1.innerHTML = 'Oops!!';

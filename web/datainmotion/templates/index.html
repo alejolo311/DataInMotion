@@ -40,7 +40,8 @@
         <meta
         name="theme-color" content="#ffffff">
 
-        <!-- FONTS -->
+		<!-- FONTS -->
+		<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:100,300,400,400italic,700'>
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Patua+One:100,300,400,400italic,700'>
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic,900'>
@@ -78,11 +79,11 @@
                                     <div class="menu_wrapper">
                                         <nav id="menu">
                                             <ul id="menu-menu" class="menu menu-main">
-                                                <li>
+                                                <!-- <li>
                                                     <a href="#Header_wrapper">
                                                         <span>Home</span>
                                                     </a>
-                                                </li>
+                                                </li> -->
                                                  <li id="loginButton">
                                                     <a href="/login">
                                                         <span>Login</span>
@@ -104,38 +105,30 @@
                         </div>
 					</div>
 					<div class="main_banner">
-						<img src="/static/svg/main_banner.svg">
+						<img class="banner" src="/static/svg/main_banner.svg">
+						<div class="features">
+							<ul>
+								<li>
+									<img src="/static/svg/code.svg">
+									<a href="#zero_coding">Zero coding</a>
+								</li>
+								<li>
+									<img src="/static/svg/hand_bold.svg">
+									<a href="#easy_to_learn">Easy to learn!</a>
+								</li>
+								<li>
+									<img src="/static/svg/trigger.svg">
+									<a href="#schedule_jobs">Schedule jobs</a>
+								</li>
+								<li>
+									<img src="/static/images/whatsapp_white_logo.png">
+									<a href="#whatsapp_automation">Whatsapp Automation</a>
+								</li>
+							</ul>
+						</div>
 					</div>
-                    <!-- <div class="mfn-main-slider" id="mfn-rev-slider">
-                        <div id="rev_slider_1_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-source="gallery" style="margin:0px auto;background:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
-                            <div id="rev_slider_1_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.8.2">
-                                <ul>
-                                    <li data-index="rs-1" data-transition="fade" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="Slide" data-param1 data-param2 data-param3 data-param4 data-param5 data-param6 data-param7 data-param8 data-param9 data-param10 data-description>
-
-                                        <div class="tp-caption tp-resizeme" id="slide-1-layer-1" data-x="left" data-hoffset data-y data-width="['none','none','none','none']" data-height="['none','none','none','none']" data-type="image" data-responsive_offset="on" data-frames='[{"delay":10,"speed":300,"frame":"0","from":"opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]' data-textalign="['inherit','inherit','inherit','inherit']" data-paddingtop="[50,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 5;"><img src="/static/theme/images/hero-intro.png" alt data-ww="776px" data-hh="623" data-no-retina>
-                                        </div>
-
-                                        <div class="tp-caption tp-resizeme" id="slide-1-layer-3" data-x="850" data-y="280" data-width="['auto']" data-height="['auto']" data-type="text" data-responsive_offset="on" data-frames='[{"delay":10,"speed":300,"frame":"0","from":"opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]' data-textalign="['inherit','inherit','inherit','inherit']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 7; white-space: nowrap; font-size: 16px; line-height: 22px; font-weight: 400; color: #F2E205; letter-spacing: 2px;font-family:Quicksand;">
-                                            Data in Motion
-                                        </div>
-                                        <div class="tp-caption tp-resizeme" id="slide-1-layer-4" data-x="850" data-y="300" data-width="['auto']" data-height="['auto']" data-type="text" data-responsive_offset="on" data-frames='[{"delay":10,"speed":300,"frame":"0","from":"opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]' data-textalign="['inherit','inherit','inherit','inherit']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 8; white-space: nowrap; font-size: 46px; line-height: 54px; font-weight: 400; color: #FFFFFF; letter-spacing: 0px;font-family:Quicksand;">
-                                            Data insights
-                                            <br/>
-                                            in realtime
-                                        </div>
-                                        <div class="tp-caption rev-btn" id="slide-1-layer-7" data-x="850" data-y="420" data-width="['auto']" data-height="['auto']" data-type="button" data-actions='[{"event":"click","action":"scrollbelow","offset":"px","delay":"300","speed":"600","ease":"Linear.easeNone"}]' data-responsive_offset="on" data-frames='[{"delay":0,"speed":300,"frame":"0","from":"opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"},{"frame":"hover","speed":"0","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:rgb(55,129,239);bs:solid;bw:0 0 0 0;"}]' data-textalign="['inherit','inherit','inherit','inherit']" data-paddingtop="[21,21,21,21]" data-paddingright="[21,21,21,21]" data-paddingbottom="[20,20,20,20]" data-paddingleft="[21,21,21,21]" style="z-index: 9; white-space: nowrap; font-size: 17px; line-height: 17px; font-weight: bold; color: #2F0459; letter-spacing: px;font-family:Roboto;background-color:#D98E04;outline:none;box-shadow:none;box-sizing:border-box;border-radius:20px;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;">
-                                            Learn more
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
-                            </div>
-                        </div>
-                    </div> -->
                 </header>
 			</div>
-
-
             <div id="Content">
                 <div class="content_wrapper clearfix">
                     <div class="sections_group">
@@ -144,14 +137,9 @@
                                 <div class="section_wrapper mcb-section-inner">
                                     <div class="wrap mcb-wrap mcb-wrap-p966kob13 one valign-top clearfix" style="padding:0 1%">
                                         <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-kvvp2xc0y three-fifth column_column">
-                                                <div class="column_attr clearfix" style>
-                                                    <h3>What is DataInMotion?</h3>
-                                                </div>
-                                                <div class="colum_attr clearfix">
-                                                    <p>Data in Motion is a service tool that provides you social media interactions services,
-														driven by the metrics you define to extract the best insights from your Data.</p>
-                                                </div>
+                                            <div class="what_is">
+                                                    <h3>DataInMotion is...</h3>
+                                                    <p>The right tool to create your automation flows, it can interact with data, process it and deliver it by communicating with other services on the internet.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -190,9 +178,9 @@
                                                     <p class="themecolor">
                                                         Actions
                                                     </p>
-                                                    <h4>Schedule your flows</h4>
+                                                    <h4>Test and interact</h4>
                                                     <p>
-														Automate your actions by saving proccesses at the time you need, keep track of them and take control over your own time.
+														Check the data in realtime, interact with it and create more complex services.
                                                     </p>
                                                 </div>
                                             </div>
@@ -213,7 +201,7 @@
                                                     </p>
                                                     <h4>Distribute it</h4>
                                                     <p>
-                                                        Set a target, a custom message and a distribution list on Twitter, WhatsApp, Email so the people you want to reach are aware of these important contents you created form the data.
+                                                        Set a target, a custom message and a distribution list on Twitter, WhatsApp, Email so the people you want to reach are aware of these important contents you created from the data.
                                                     </p>
                                                 </div>
                                             </div>
@@ -235,343 +223,126 @@
 
 
 							<!-- Services Section -->
-							<!-- Distribution Channels and plans -->
-                            <div class="section mcb-section mcb-section-orwcy7jr9" id="offer" style="padding-top:0px; padding-bottom:0px; background-color: transparent">
-                                <div class="section_wrapper mcb-section-inner">
-                                    <div class="wrap mcb-wrap mcb-wrap-vaq08a0p1 one valign-top clearfix" style="padding:75px 7%; background-color:#f4f6f6">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-8teaxqbpd four-fifth column_column">
-                                                <div class="column_attr clearfix" style>
-                                                    <h2>Service
-                                                        <br/>
-                                                        something
-                                                        <span class="themecolor">important</span>
-                                                    </h2>
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-9yv7t9d0l one column_divider">
-                                                <hr class="no_line" style="margin: 0 auto 40px;">
-                                            </div>
-                                            <div class="column mcb-column mcb-item-79a81v0wu one column_offer_thumb">
-                                                <div class="offer_thumb bottom">
-                                                    <ul class="offer_thumb_ul">
-                                                        <li class="offer_thumb_li id_1">
-                                                            <div class="image_wrapper"><img src="/static/images/whatsapp_logo.png" class="scale-with-grid wp-post-image" alt>
-                                                            </div>
-                                                            <div class="desc_wrapper align_left no-link">
-                                                                <div class="title">
-                                                                    <h3>WhatsApp Service</h3>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <hr class="no_line" style="margin: 0 auto 20px;">
-                                                                    <p>
-                                                                        Send messages
-                                                                    </p>
-                                                                    <p>
-                                                                        <hr class="no_line" style="margin: 0 auto 1px;">
-                                                                        <br/>
-                                                                        <a class="button scroll button_size_2 button_dark button_js" href="#contact">
-                                                                            <span class="button_label">start now</span>
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="thumbnail" style="display:none"><img src="/static/images/whatsapp_logo.png" class="scale-with-grid">
-                                                            </div>
-                                                        </li>
-                                                        <li class="offer_thumb_li id_2">
-                                                            <div class="image_wrapper"><img src="/static/theme/images/company4-offer2.png" class="scale-with-grid wp-post-image" alt>
-                                                            </div>
-                                                            <div class="desc_wrapper align_left no-link">
-                                                                <div class="title">
-                                                                    <h3>For Developers</h3>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <hr class="no_line" style="margin: 0 auto 20px;">
-                                                                    <p>
-                                                                        We create a system that developers can integrate on existing solutions, through API rest calls.
-                                                                                                                                                Any app can integrate data triggered messages or additional features activating people or other remote process (you decide).
-                                                                    </p>
-                                                                    <p>
-                                                                        <hr class="no_line" style="margin: 0 auto 1px;">
-                                                                        <br/>
-                                                                        <a class="button scroll button_size_2 button_dark button_js" href="#contact">
-                                                                            <span class="button_label">Questions? Call us</span>
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="thumbnail" style="display:none"><img src="/static/theme/images/company4-offer2.png" class="scale-with-grid">
-                                                            </div>
-                                                        </li>
-                                                        <li class="offer_thumb_li id_3">
-                                                            <div class="image_wrapper"><img src="/static/theme/images/company4-offer3.png" class="scale-with-grid wp-post-image" alt>
-                                                            </div>
-                                                            <div class="desc_wrapper align_left no-link">
-                                                                <div class="title">
-                                                                    <h3>For agencies</h3>
-                                                                </div>
-                                                                <div class="desc">
-                                                                    <hr class="no_line" style="margin: 0 auto 20px;">
-                                                                    <p>
-                                                                        Smart campaings can be triggered using data, we know the power of communication on the right moment and channel,
-                                                                                                                                                want to activate a promo based on realtime marketing data?, want to reach the perfect target based on tools that you already have?
-                                                                                                                                                Connect all this datasources with the trends and insights that you already have and start send targeting communication to them on the right moment.
-                                                                    </p>
-                                                                    <p>
-                                                                        <hr class="no_line" style="margin: 0 auto 1px;">
-                                                                        <br/>
-                                                                        <a class="button scroll button_size_2 button_dark button_js" href="#contact">
-                                                                            <span class="button_label">Questions? Call us</span>
-                                                                        </a>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="thumbnail" style="display:none"><img src="/static/theme/images/company4-offer3.png" class="scale-with-grid">
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="slider_pagination"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-							<!-- Developers -->
-                            <div class="section mcb-section mcb-section-gvalmmv5b" id="about" style="padding-top:120px; padding-bottom:120px; background-color: transparent">
-                                <div class="section_wrapper mcb-section-inner">
-                                    <div class="wrap mcb-wrap mcb-wrap-oaw2zod7i one valign-top clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-3zk5t1ml3 two-third column_column">
-                                                <div class="column_attr clearfix" style>
-                                                    <h2>Few words about us
-                                                        <br/>
-                                                        and our crew</h2>
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-01uu2xy1g one column_divider">
-                                                <hr class="no_line" style="margin: 0 auto 40px;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap mcb-wrap mcb-wrap-i1nb04x5i one-third valign-top clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-i6jsl4ll1 one column_image">
-                                                <div class="image_frame image_item no_link scale-with-grid no_border">
-                                                    <div class="image_wrapper"><img class="scale-with-grid" src="/static/theme/images/placeholder-profile.jpg">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-iiqz8mojz one column_column">
-                                                <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                    <p class="big themecolor">
-                                                        Backend developer
-                                                    </p>
-                                                    <h5>Alejandro Lopez</h5>
-                                                    <p>
-                                                        Software Developer continuously working on find ways to problem-solving
-                                                        using creativity and self-learning.
-                                                    </p>
-                                                </div>
-                                                <div class="column mcb-column mcb-item-iiqz8mojz one column_column">
-                                                    <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                        <a href="#" class="icon_bar icon_bar_github icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_twitter icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_linkedin icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap mcb-wrap mcb-wrap-s8dti4567 one-third valign-top clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-xd8i2rq3m one column_image">
-                                                <div class="image_frame image_item no_link scale-with-grid no_border">
-                                                    <div class="image_wrapper"><img class="scale-with-grid" src="/static/theme/images/placeholder-profile.jpg">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-sf6fdqqna one column_column">
-                                                <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                    <p class="big themecolor">
-                                                        Backend Developer
-                                                    </p>
-                                                    <h5>Daniel Rodriguez</h5>
-                                                    <p>
-                                                        A Doer who likes to be involved in challenging projects, thinking, and creating out of the box solutions motivated by collaborative work.
-                                                    </p>
-                                                </div>
-                                                <div class="column mcb-column mcb-item-iiqz8mojz one column_column">
-                                                    <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                        <a href="#" class="icon_bar icon_bar_github icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_twitter icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_linkedin icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap mcb-wrap mcb-wrap-s8dtiab22 one-third valign-top clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-xd8i2rq3m one column_image">
-                                                <div class="image_frame image_item no_link scale-with-grid no_border">
-                                                    <div class="image_wrapper"><img class="scale-with-grid" src="/static/theme/images/placeholder-profile.jpg">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-sf6fdqqna one column_column">
-                                                <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                    <p class="big themecolor">
-                                                        Frontend Developer
-                                                    </p>
-                                                    <h5>Victor Hernandez</h5>
-                                                    <p>
-                                                        A creative person converting ideas to reality, searching for new ways to use, and empower technology to the people.
-                                                    </p>
-                                                </div>
-                                                <div class="column mcb-column mcb-item-iiqz8mojz one column_column">
-                                                    <div class="column_attr clearfix" style=" padding:0 4%;">
-                                                        <a href="#" class="icon_bar icon_bar_github icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-github-circled"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_twitter icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-twitter"></i>
-                                                            </span>
-                                                        </a>
-                                                        <a href="#" class="icon_bar icon_bar_linkedin icon_bar_small">
-                                                            <span class="t">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                            <span class="b">
-                                                                <i class="icon-linkedin"></i>
-                                                            </span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+							<div id="zero_coding" class="about_section left">
+								<div class="section_content">
+									<h2>Zero coding
+									</h2>
+									<p>You don't need to be a 
+										<span style="color: rgb(192, 2, 91);">programmer </span>to start.
+										<br><br> Actually you can use DataInMotion to learn more about the internet, check our tutorial on how to create your first 
+										<span style="color: rgb(22, 189, 133);">Service</span>
+										<br><br>Challenge <span style="color: rgb(233, 160, 24);">yourself!!.</span>
+									</p>
+										
+								</div>
+								<div class="section_content_box">
+									<img src="/static/svg/zero_coding.svg">
+									<button>tutorial</button>
+								</div>
 							</div>
-							<!-- Contact Area -->
-                            <!-- <div class="section mcb-section mcb-section-wa4c3qo34 equal-height-wrap full-width" style="padding-top:0px; padding-bottom:0px; background-color: transparent">
-                                <div class="section_wrapper mcb-section-inner">
-                                    <div class="wrap mcb-wrap mcb-wrap-nsm1es1qo one-second valign-middle clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-rsmin9kpy one column_placeholder">
-                                                <div class="placeholder">
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+							<div id="easy_to_learn" class="about_section left">
+								<div class="section_content_box">
+									<img src="/static/svg/easy_to_learn.svg">
+									<button>try demo</button>
+								</div>
+								<div class="section_content">
+									<h2>Easy to learn
+									</h2>
+									<p>Access a 
+										<span style="color: rgb(192, 2, 91);">complete</span>
+										 platform to design your services, edit your flows and make tests in the same interface, discover the results much faster and get the best from your data.</p>
+								</div>
+							</div>
+							<div id="schedule_jobs" class="about_section right">
+								<div class="section_content">
+									<h2>Schedule Jobs
+									</h2>
+									<p>
+										<span style="color: rgb(163, 73, 181);">Run</span> 
+										and
+										<span style="color: rgb(163, 73, 181);">deliver</span> 
+										at the right time.
+										<br><br>Automate services by telling your flow when to run and how often.
+										<br><br>Take control of your <span style="color: rgb(233, 160, 24);">time!!.</span>
+									</p>
+								</div>
+								<div class="section_content_box">
+									<img src="/static/svg/schedule_jobs.svg">
+								</div>
+							</div>
+							<div id="whatsapp_automation" class="about_section right">
+								<div class="section_content_box">
+									<img src="/static/svg/whatsapp_automation.svg">
+								</div>
+								<div class="section_content">
+									<h2>WhatsApp Automation
+									</h2>
+									<p>
+										Deliver 
+										<span style="color: rgb(4, 157, 129);">automated </span>
+										 messages to attract an audience or report them about your insights, and reach the highest impact levels on your strategies.
+										 <br><br>Take control of your 
+										 <span style="color: rgb(233, 160, 24);">goals!!.</span>
+									</p>
+								</div>
+							</div>
+
+							<!-- Developers -->
+
+							<div developers="about">
+								<h1>DataInMotion Team</h1>
+								<ul>
+									<li>
+										<img src="/static/images/alejo.png">
+									</li>
+									<li>
+										<img src="/static/images/victor.png">
+									</li>
+									<li>
+										<img src="/static/images/daniel.png">
+									</li>
+								</ul>
+								<div info="crew">
+									<h5></h5>
+									<p></p>
+									<div info="links">
+										<a href="#" target="_blank" class="social_button github">
+										</a>
+										<a href="#" target="_blank" class="social_button twitter">
+										</a>
+										<a href="#" target="_blank" class="social_button linkedin">
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<!-- Customers -->
+							<!-- <div customers="about">
+								<h1>Our clients</h1>
+								<ul>
+									<li>
+										<img src="/static/images/alejo.png">
+									</li>
+									<li>
+										<img src="/static/images/victor.png">
+									</li>
+									<li>
+										<img src="/static/images/daniel.png">
+									</li>
+								</ul>
+								<div info="crew">
+									<h5></h5>
+									<p></p>
+									<div info="links">
+										<a href="#" target="_blank" class="social_button github">
+										</a>
+										<a href="#" target="_blank" class="social_button twitter">
+										</a>
+										<a href="#" target="_blank" class="social_button linkedin">
+										</a>
+									</div>
+								</div>
 							</div> -->
-							
-                            <!-- <div class="section mcb-section mcb-section-yxmgbsmhl dark equal-height-wrap full-screen bg-cover" id="contact" style="padding-top:0px; padding-bottom:0px; background-image:url(/static/theme/images/dim_meet.jpg); background-repeat:no-repeat; background-position:center; background-attachment:fixed; background-size:cover; -webkit-background-size:cover">
-                                <div class="section_wrapper mcb-section-inner">
-                                    <div class="wrap mcb-wrap mcb-wrap-zdu9hql0j one-second valign-top clearfix" style="padding:70px 5% 50px; background-color:#505564">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-v334irr1j one column_column">
-                                                <div class="column_attr clearfix" style>
-                                                    <p class="big">
-                                                        CONTACT
-                                                    </p>
-                                                    <h1>Get in touch
-                                                        <br/>
-                                                        with us</h1>
-                                                    <hr class="no_line" style="margin: 0 auto 30px;">
-                                                    <p>
-                                                        <i class="icon-call" style="color:#2c313e;"></i>
-                                                        +57 (305) 4001859
-                                                    </p>
-                                                    <p>
-                                                        <i class="icon-mail" style="color:#2c313e;"></i>
-                                                        <a href="mailto:info@datainmotion.co">info@datainmotion.co</a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="wrap mcb-wrap mcb-wrap-q1bqh7n68 one-second valign-bottom clearfix">
-                                        <div class="mcb-wrap-inner">
-                                            <div class="column mcb-column mcb-item-jooy24zx7 one-fifth column_placeholder">
-                                                <div class="placeholder">
-                                                    &nbsp;
-                                                </div>
-                                            </div>
-                                            <div class="column mcb-column mcb-item-9a5dighah four-fifth column_column">
-                                                <div class="column_attr clearfix" style=" background-color:#45bc69; padding:40px;">
-                                                    <h3 style="font-weight:300;">Location</h3>
-                                                    <hr class="no_line" style="margin: 0 auto 10px;">
-                                                    <p>
-                                                        <i class="icon-location" style="color:#2c313e; font-size:20px;"></i>
-                                                        ZONAMERICA
-                                                        <br/>
-                                                        <i class="icon-location" style="opacity:0;font-size:20px;"></i>
-                                                        Calle 36 nro. 128-321
-                                                        <br/>
-                                                        <i class="icon-location" style="opacity:0;font-size:20px;"></i>
-                                                        Via Jamundi 760026. Cali - Colombia
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
 
                         </div>
                     </div>
@@ -586,8 +357,8 @@
                                     <div style="text-align:center;">
                                         <img src="/static/theme/images/logo-footer.png">
                                         <hr class="no_line" style="margin: 0 auto 30px;">
-                                        <p>
-                                            Data in Motion is an automated publishing service for social engagement, based on changes in important data.
+                                        <p style="text-align: center;">
+                                            Share the best from your data.
                                         </p>
                                     </div>
                                 </div>
@@ -663,18 +434,76 @@
 			// 	loginform.remove();
 			// }
 			window.onload = function () {
-				const demo = document.querySelector('[demo="true"]');
-				console.log(demo);
-				demo.addEventListener('click', function (evn) {
-					evn.preventDefault();
-					console.log('Launch Demo');
-					fetch('/launch_demo').then(function (resp) {
-					return resp.json();
-					}).then(function (resp) {
-					console.log(resp);
-					  window.open(`/user/${resp.id}/boards`, '_self');
+				// const demo = document.querySelector('[demo="true"]');
+				// console.log(demo);
+				// demo.addEventListener('click', function (evn) {
+				// 	evn.preventDefault();
+				// 	console.log('Launch Demo');
+				// 	fetch('/launch_demo').then(function (resp) {
+				// 	return resp.json();
+				// 	}).then(function (resp) {
+				// 	console.log(resp);
+				// 	  window.open(`/user/${resp.id}/boards`, '_self');
+				// 	});
+				// });
+				const team = [
+					{ 
+						name: 'Alejandro Lopez',
+						description: 
+						`
+						Software Developer continuously working on find ways to problem-solving
+						using creativity and self-learning.
+						`,
+						github: 'https://github.com/alejolo311',
+						linkedin: 'https://www.linkedin.com/in/alejolo311/',
+						twitter: 'https://twitter.com/Alejolo311'
+					},
+					{ 
+						name: 'Victor Hernandez',
+						description: 
+						`
+						A creative person converting ideas to reality, 
+						searching for new ways to use, and empower technology to the people.
+						`,
+						github: 'https://github.com/vik407',
+						linkedin: 'https://www.linkedin.com/in/victorhernandezduran/',
+						twitter: 'https://twitter.com/vik407'
+					},
+					{ 
+						name: 'Daniel Rodriguez',
+						description: 
+						`
+						A Doer who likes to be involved in challenging projects, thinking,
+						and creating out of the box solutions motivated by collaborative work.
+						`,
+						github: 'https://github.com/Danucas',
+						linkedin: 'https://www.linkedin.com/in/Danucas',
+						twitter: 'https://twitter.com/Danucas1'
+
+
+					}
+					
+				]
+				const crew = document.querySelector('[developers="about"] ul');
+				let index = 0;
+				for (const member of crew.querySelectorAll('li')) {
+					const i = index;
+					member.addEventListener('mouseover', function (evn) {
+						const infoTag = crew.parentNode.querySelector('[info="crew"] p');
+						infoTag.innerHTML = team[i].description;
+						const nameTag = crew.parentNode.querySelector('[info="crew"] h5');
+						nameTag.innerHTML = team[i].name;
+						for (const mm of crew.querySelectorAll('li')){
+							mm.style.borderBottom = 'none';
+						}
+						const links = document.querySelectorAll('[info="links"] a')
+						links[0].href = team[i].github;
+						links[1].href = team[i].twitter;
+						links[2].href = team[i].linkedin;
+						member.style.borderBottom = '6px solid #c1adc4';
 					});
-				});
+					index++;
+				}
 			}
 		</script>
         <script>

@@ -1,4 +1,4 @@
-@media only screen and (min-width: 1240px) {
+@media only screen and (min-width: 701px) {
 	body:not(.header-simple) #Top_bar #menu {
 		display: block !important
 	}
