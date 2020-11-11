@@ -24,7 +24,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - static_volume:/home/app/web/datainmotion/static
+      - static_volume:/home/app/web/datainmotion/routes/static
     env_file:
       - ./.env.prod
     command: gunicorn -w 2 -b :8000 manage:app
@@ -40,7 +40,7 @@ services:
     build: ./nginx
     restart: always
     volumes:
-      - static_volume:/home/app/web/datainmotion/static
+      - static_volume:/home/app/web/datainmotion/routes/static
       - ./public_html:/public_html
 #      - ./conf.d:/etc/nginx/conf.d/
       - ./dhparam:/etc/nginx/dhparam
