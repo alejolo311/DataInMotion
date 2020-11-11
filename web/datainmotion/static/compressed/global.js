@@ -1,1 +1,0 @@
-const global={prot:"http",domain:"localhost",apiPort:":8080"};
