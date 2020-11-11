@@ -1,0 +1,168 @@
+body {
+	/* background-color: var(--board_color); */
+	background-color: #180324;
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+.boards {
+	position: absolute;
+	max-height: calc(100vh - 160px);
+	min-height: calc(100vh - 160px);
+	display: grid;
+	left: calc(100vw - 240px - 240px - 240px - 100px);
+	grid-template-columns: 241px 241px 241px;
+	margin-top: 0px !important;
+	grid-gap: 20px;
+	padding: 20px;
+	padding-bottom: 60px !important;
+	z-index: 5;
+	grid-template-rows: 130px 130px;
+	background-color: rgba(255, 255, 255, 0.159);
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border-radius: 0px;
+
+}
+.boards::-webkit-scrollbar {
+	width: 16px;
+	background-color: rgba(255, 255, 255, 0.576);
+}
+.boards::-webkit-scrollbar-thumb {
+	background-color: #7b469a;
+	border-radius: 4px;
+}
+.boards > div{
+	margin-top: 20px;
+	position: relative;
+	/* background-image: linear-gradient(to right, rgb(46, 65, 126), rgb(8, 39, 90));*/
+	min-width: 200px;
+	z-index: 20;
+	cursor: pointer;
+	padding: 18px;
+	border-radius: 12px;
+}
+.boards >div:hover {
+	box-shadow: 0px 0px 20px rgba(92, 37, 114, 0.568);
+}
+.boards >div:active {
+	box-shadow: 0px 0px 0px rgba(255, 255, 255, 0.212);
+}
+.boards h1 {
+	font-size: 20px;
+	margin: 0;
+	font-family: var(--font);
+	color: white;
+}
+.boards p {
+	width: fit-content;
+	font-size: 16px;
+	margin-top: 0;
+	padding: 2px 12px;
+	border-radius: 8px;
+	font-family: var(--font);
+	color: white;
+	font-weight: lighter;
+}
+
+.boards h2 {
+	position: absolute;
+	width: fit-content;
+	/* margin-left: auto; */
+	font-size: 16px;
+	/* margin-top: 0; */
+	padding: 2px 12px;
+	border-radius: 8px;
+	font-family: var(--font);
+	color: white;
+	right: 12px;
+	bottom: 0;
+	/* font-weight: lighter; */
+	background-color: rgba(0, 0, 0, 0.57);
+}
+.boards h2:hover {
+	color: rgb(255, 255, 255);
+	background-color: rgb(145, 9, 9);
+}
+.add_board {
+	background-image: url(/static/images/plus.png);
+	background-position: 180px 60px;
+	background-repeat: no-repeat;
+	background-size: 30px 30px;
+	background-color: rgb(91, 142, 187);
+}
+.add_board:hover {
+	box-shadow: 0px 0px 40px white;
+}
+.add_board h2 {
+	color: rgb(255, 255, 255);
+}
+.board_nodes {
+	background-color: white;
+	margin: 40px;
+	padding: 20px 40px;
+	border-radius: 20px;
+	display: grid;
+	grid-template-columns: 260px 260px 260px 260px;
+	grid-gap: 20px;
+
+}
+.board_node {
+	border-radius: 20px;
+	background-color: white;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.157);
+	padding: 10px 20px;
+
+}
+.gradient div:hover {
+	box-shadow: 0 0 60px #ffffffa1;
+}
+
+.gradient {
+	background: -moz-radial-gradient(53deg,#7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* ff3.6+ */
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #7b469a), color-stop(60%, #9c75b3), color-stop(100%, #b88dbb)); /* safari4+,chrome */
+	background: -webkit-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* safari5.1+,chrome10+ */
+	background: -o-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* opera 11.10+ */
+	background: -ms-radial-gradient(53deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* ie10+ */
+	background: radial-gradient(37deg, #7b469a 0%, #9c75b3 60%, #b88dbb 100%); /* w3c */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b88dbb', endColorstr='#7b469a',GradientType=0 ); /* ie6-9 */
+	background-size: 200% 200%;
+	-webkit-animation: gradient_animation 1.7s ease infinite;
+	-moz-animation: gradient_animation 1.7s ease infinite;
+	animation: gradient_animation 1.7s ease infinite;
+}
+@keyframes gradient_animation {
+	0% {
+	  background-position: 0% 50%; }
+	5% {
+	  background-position: 100% 50%; }
+	100% {
+	background-position: 0% 50%; } }
+
+@-webkit-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+5% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }
+
+@-moz-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+5% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }
+
+@-ms-keyframes gradient_animation {
+0% {
+	background-position: 0% 50%; }
+10% {
+	background-position: 100% 50%; }
+100% {
+	background-position: 0% 50%; } }

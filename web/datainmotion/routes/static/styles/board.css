@@ -1,0 +1,9 @@
+#board {
+	border-radius: 0px !important;
+	position: absolute;
+	top: 120px;
+	left: 0vw;
+	width: 100vw;
+	height: calc(100vh - 120px);
+	overflow: hidden;
+}

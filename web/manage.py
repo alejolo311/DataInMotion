@@ -1,4 +1,4 @@
-from datainmotion import app
+from datainmotion.routes import app
 from flask.cli import FlaskGroup
 
 cli = FlaskGroup(app)

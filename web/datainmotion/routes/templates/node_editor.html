@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="../static/scripts/node_editor.js?{{ id }}"></script>
+		<script src="../static/scripts/global.js?{{ id }}"></script>
+
+		<!-- Fonts-->
+		<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="/static/styles/node_editor.css?{{ id }}">
+	</head>
+	<body>
+		<div id="node_editor">
+			<button class="back">back</button>
+			<button class="next">next</button>
+			<ul class="progress_bar">
+				<li>
+					data
+				</li>
+			</ul>
+			<h1 class="title">Title</h1>
+			<p class="description"></p>
+			<div id="cont">
+			</div>
+		</div>
+		<script>
+			let nodeId = '{{ node }}';
+		</script>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+#Top_bar {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 88px;
+	background-color: transparent !important;
+}
+.index_menu {
+	display: flex;
+	width: fit-content;
+	height: 48px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 20;
+	padding: 20px;
+}
+.index_menu li{
+	border-radius: 12px;
+	width: fit-content;
+	height: 48px;
+	text-align: center;
+	margin-right: 30px;
+	padding: 0px 24px;
+	cursor: pointer;
+	
+}
+.index_menu a {
+	color: white !important;
+	text-decoration: none;
+	padding: 0;
+	height: 48px;
+	line-height: 48px;
+	font-size: 18px;
+}
+.index_menu li:hover {
+	background-color: rgb(99, 213, 178);
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 4px rgb(158, 158, 158);
+}
+#signOut {
+	background-color: rgb(230, 107, 119);
+}
+#signOut h2 {
+	color: white !important;
+	text-decoration: none;
+	padding: 0;
+	height: 48px;
+	line-height: 48px;
+	font-size: 18px;
+}
+#registerButton {
+	background-color: rgb(163, 153, 225);
+}
+#registerButton:hover {
+	background-color: rgb(163, 153, 225) !important;
+}

@@ -1,0 +1,66 @@
+<div class="node_container"
+	 name="{{ node.name }}_cont"
+	 node_id="{{ node.id }}"
+	 cont_node_id="{{ node.id }}"
+
+	tag_color="grey" 
+	style="border: 3px solid grey;">
+	<div class="node_up_bar">
+		<div class="up" p_id="{{ node.id }}">
+			<h1 class="tag_name" p_id="{{ node.id }}">{{ node.name }}</h1>
+			<div class="test_button" n_id="{{ node.id }}"
+				{% if node.type == 'service' %}
+				style="display: block;"
+				{% else %}
+				style="display:none;"
+				{% endif %}
+			></div>
+		</div>
+		<div class="media_player" id="{{ node.id }}"
+			{% if node.analisis_mode == 'media_player' %}
+			style="display:block;"
+			{% else %}
+			style="display:none;"
+			{% endif %}
+		></div>
+	</div>
+	
+	<!--all the floating views-->
+
+		<div class="connections">
+		<h2 con_id="{{ node.id }}"></h2>
+	</div>
+	<div class="grabber" parent="{{ node.id }}">
+
+	</div>
+	<div class="innodes">
+		<h2 class="show_ins" style="z-index: 16;"></h2>
+		{% for inno in node.innodes %}
+		<h2 in_id="{{ inno }}" father="{{ node.id }}"></h2>	
+		{% endfor %}
+		<h2 add_in_id="{{ node.id }}" class="add_in" style="z-index: 10;"></h2>
+	</div>
+	<div class="outnodes">
+		<h2 class="show_outs" style="z-index: 16;"></h2>
+		{% for outno in node.outnodes %}
+		<h2 out_id="{{ outno }}" father="{{ node.id }}"></h2>
+		{% endfor %}
+		<h2 add_out_id="{{ node.id }}" class="add_out" style="z-index: 10;"></h2>
+	</div>
+	<div class="colors">
+		{% for col in colors%}
+		<button style="background-color: {{ col }};"
+	
+			color="{{ col }}"
+			tag_id="{{ node.id }}"
+			></button>
+		{% endfor %}
+		<h2 n_id="{{ node.id }}">save</h2>
+	</div>
+	<div class="media_cont" style="background-color: {{ node.color }};">
+		{% if node.analisis_mode == 'media_player' %}
+		<img src="../static/images/giphy.gif">
+		{% endif %}
+
+	</div>
+</div>

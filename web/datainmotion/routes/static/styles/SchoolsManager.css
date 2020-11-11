@@ -1,0 +1,380 @@
+#admin {
+	-webkit-user-select: none; /* Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
+	width: 100vw;
+	height: 100vh;
+	background-color: grey;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-family: 'Mallanna', sans-serif;
+}
+
+/* MENU SECTION */
+.menu_schools {
+	width: 80px;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: rgb(46, 0, 46);
+}
+.home {
+	width: 60px;
+	height: 60px;
+	margin-top: 10px;
+	margin-left: 10px;
+	cursor: pointer;
+	background-image: url(/static/images/home.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 80%;
+}
+.home:hover {
+	background-size: 90%;
+}
+.home:active {
+	background-size: 85%;
+}
+.admin {
+	border-radius: 8px;
+	background-image: url(/static/svg/teacher.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 80%;
+	position: absolute;
+	top: calc(50vh - 125px);
+	left: 10px;
+	width: 60px;
+	cursor: pointer;
+	height: 60px;
+	background-color: rgb(63, 16, 155);
+}
+.admin h1 {
+	color: white;
+	font-size: 16px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: -36px;
+}
+.admin:hover{
+	filter: saturate(1.8);
+}
+.student:hover {
+	filter: saturate(1.8);
+}
+.admin:active{
+	filter: saturate(0.6);
+}
+.student:active {
+	filter: saturate(0.6);
+}
+.student {
+	cursor: pointer;
+	border-radius: 8px;
+	background-image: url(/static/svg/student.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 80%;
+	position: absolute;
+	top: calc(50vh - 30px);
+	left: 10px;
+	width: 60px;
+	height: 60px;
+	background-color: rgb(63, 16, 155);
+}
+.student h1 {
+	color: white;
+	font-size: 16px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: -36px;
+}
+
+
+
+/* SCHOOL LIST SECTION */
+
+.schools_list {
+	position: absolute;
+	left: 80px;
+	width: calc(400px);
+	height: 100vh;
+	background-color: white;
+}
+.schools_list h1 {
+	padding-left: 24px;
+	font-size: 22px;
+	color: grey;
+}
+.school_ul {
+	margin: 0;
+	padding: 0;
+	height: calc(100vh - 160px);
+	overflow-y: scroll;
+}
+.school_ul ul::-webkit-scrollbar {
+	width: 10px;
+	background-color: rgb(216, 216, 216);
+}
+.school_ul ul::-webkit-scrollbar-thumb {
+	background-color: purple;
+	border-radius: 4px;
+}
+.school_ul li {
+	position: relative;
+	margin: 20px;
+	background-color: white;
+	list-style: none;
+	cursor: pointer;
+	padding: 16px 24px;
+	box-shadow: 0px 0px 10px rgba(61, 61, 61, 0.59);
+	border-radius: 12px;
+}
+.school_ul li:hover {
+	background-color:  rgb(228, 236, 236);
+}
+.school_ul li:active {
+	transform: scale(0.99);
+	background-color: rgb(211, 237, 237);
+}
+.school_ul h1 {
+	padding-left: 0;
+	font-size: 20px;
+	line-height: 20px;
+}
+.school_ul p {
+	font-size: 16px;
+	line-height: 16px;
+}
+.school_ul h2 {
+	font-size: 16px;
+	line-height: 16px;
+}
+.school_ul img {
+	width: 80px;
+	height: 80px;
+	position: absolute;
+	top: 30px;
+	right: 20px;
+	border: 0;
+}
+.add_school {
+	border-radius: 6px;
+	color: white;
+	text-align: center;
+	padding: 6px 0px;
+	width: 60%;
+	font-size: 22px;
+	position: absolute;
+	bottom: 20px;
+	left: 20%;
+	outline: none;
+	cursor: pointer;
+	background-color: rgb(143, 74, 192);
+}
+.add_school:hover {
+	filter: saturate(1.4);
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 4px rgba(43, 43, 43, 0.727);
+}
+.add_school:active {
+	transform: translate(0px, 0px);
+	box-shadow: none;
+}
+
+/* SCHOOL INFO */
+
+.school_info {
+	overflow-y: scroll;
+	background-color: rgb(255, 255, 255);
+	width: calc(100vw - 426px - 140px);
+	height: calc(100vh - 80px);
+	padding: 40px;
+	position: absolute;
+	top: 0;
+	left: 480px;
+	border-left: 6px solid rgba(192, 192, 192, 0.412);
+
+}
+.school_info h1 {
+	font-size: 28px;
+	margin: 0;
+}
+.school_info p {
+	margin-top: 12px;
+}
+.admins {
+	position: absolute;
+	top: 40px;
+	border-radius: 8px;
+	right: 40px;
+	padding: 12px 24px;
+	background-color: rgb(208, 208, 208);
+	cursor: pointer;
+	color: white;
+	font-weight: bold;
+}
+.admins:hover {
+	background-color: orange;
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.186);
+}
+.admins:active {
+	background-color: rgb(197, 128, 0);
+	transform: translate(0px, 0px);
+	box-shadow: none;
+}
+
+/* MODULES COURSES SECTION */
+
+.modules {
+	margin-top: 24px;
+	border-radius: 12px;
+	left: 0;
+	width: 100%;
+	height: 50px;
+	padding: 0;
+	background-color: grey;
+}
+
+.modules ul{
+	border-radius: 8px;
+	display: flex;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	background-color: rgb(242, 242, 242);
+	flex-wrap: wrap;
+	padding-bottom: 12px;
+}
+.add_module {
+	background-color: rgb(192, 6, 93) !important;
+	color: white !important;
+}
+.add_module:hover {
+	filter: saturate(1.8) !important;
+	transform: translate(-1px, -1px);
+}
+.add_module:active {
+	filter: saturate(0.8) !important;
+	transform: translate(0px, 0px);
+}
+.modules li {
+	width: fit-content;
+	list-style: none;
+	background-color: white;
+	padding: 0px 24px;
+	margin-top: 12px;
+	margin-left: 12px;
+	border-radius: 4px;
+	cursor: pointer;
+	font-weight: bold;
+	box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.172);
+}
+.modules li:hover {
+	background-color: rgb(185, 165, 201);
+	color: white;
+}
+
+/* COURSES SECTION */
+.add_course {
+	background-color: rgb(169, 169, 169) !important;
+	color: white;
+}
+.add_course:hover {
+	transform: translate(-1px, -1px);
+	background-color: rgb(110, 95, 112) !important;
+}
+.add_course:active {
+	transform: translate(0px, 0px);
+	background-color: rgb(28, 21, 29) !important;
+}
+.add_course h1{
+	width: 90%;
+	margin-left: 5%;
+	text-align: center;
+	margin-top: 12px !important;
+}
+.add_course h3 {
+	margin-bottom: 0;
+	background-color: transparent !important;
+	background-image: url(/static/images/plus.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	display: block;
+	width: 60px !important;
+	height: 60px !important;
+	margin-left: calc(50% - 30px);
+	margin-top: 40px;
+	margin-bottom: 0 !important;
+}
+.add_course p{
+	width: 80%;
+	margin-left: 10% !important;
+	text-align: center;
+
+}
+
+.courses {
+	margin-top: 50px;
+}
+.courses ul {
+	padding: 0;
+	margin: 0;
+	display: grid;
+	column-gap: 4%;
+	grid-template-columns: repeat(2, 46%);
+}
+.courses li {
+	margin-top: 24px;
+	position: relative;
+	border-radius: 12px;
+	cursor: pointer;
+	padding: 0;
+	padding-bottom: 12px;
+	list-style: none;
+	background-color: white;
+	box-shadow: 0px 0px 10px rgba(77, 77, 77, 0.672);
+}
+.options {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 0;
+	cursor: pointer;
+	right: 0;
+	border-radius: 50%;
+	background-image: url(/static/svg/config.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 60%;
+}
+.options:hover {
+	background-color: rgba(206, 206, 206, 0.254);
+	filter: saturate(1.8);
+}
+.options:active {
+	background-color: rgba(104, 104, 104, 0.254);
+	filter: saturate(1.8);
+}
+.courses img {
+	border-radius: 12px 12px 0px 0px;
+	width: 100%;
+	height: 120px;
+	background-color: rebeccapurple;
+}
+.courses h1 {
+	font-size: 18px;
+	margin: 0;
+	margin-left: 18px;
+}
+.courses p {
+	margin: 0;
+	line-height: 16px;
+	margin-left: 18px;
+}

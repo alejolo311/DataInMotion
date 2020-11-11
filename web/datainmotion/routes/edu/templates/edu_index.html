@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<head>
+	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/scripts/global.js?{{id}}"></script>
+	<script type="text/javascript" src="/static/scripts/DOMManager.js?{{id}}"></script>
+	<script type="text/javascript" src="/static/scripts/SchoolsManager.js?{{id}}"></script>
+</head>
+<html>
+	<body>
+		<div id="menu"></div>
+		<div id="admin">
+		</div>
+		<div id="student">
+		</div>
+	</body>
+	<script>
+		window.onload = function () {
+			DOMManager.render(
+				SchoolsManager,
+				document.getElementById('admin')
+			);
+		};
+	</script>
+</html>
