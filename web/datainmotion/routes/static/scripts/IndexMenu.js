@@ -32,7 +32,7 @@ class IndexMenu extends Component {
 				<ul class="index_menu">
 					<li id="eduButton" style="display: none;">
 						<a href="/edu/">
-							<span>Educational</span>
+							<span>Education</span>
 						</a>
 					</li>
 					<li id="boardsButton" style="display: none;">
@@ -72,12 +72,30 @@ class IndexMenu extends Component {
 		)
 		if (req.status !== 200) {
 			console.log('No logged');
+			const login = comp._root.querySelector('#loginButton');
+			login.addEventListener('click', function (evn) {
+				evn.target.querySelector('a').click();
+			});
+			comp._root.querySelector('#registerButton').addEventListener('click', function (evn) {
+				evn.target.querySelector('a').click();
+			});
 		} else {
-			comp._root.querySelector('#loginButton').style.display = 'none';
+			const login = comp._root.querySelector('#loginButton');
+			login.style.display = 'none';
 			comp._root.querySelector('#registerButton').style.display = 'none';
 			comp._root.querySelector('#boardsButton').style.display = 'block';
+			comp._root.querySelector('#boardsButton').addEventListener('click', function (evn) {
+				evn.target.querySelector('a').click();
+			});
 			comp._root.querySelector('#eduButton').style.display = 'block';
 			comp._root.querySelector('#signOut').style.display = 'block';
+			comp._root.querySelector('#eduButton').addEventListener('click', function (evn) {
+				evn.target.querySelector('a').click();
+			});
+			comp._root.querySelector('#signOut').style.display = 'block';
+			comp._root.querySelector('#signOut').addEventListener('click', function () {
+				evn.target.querySelector('a').click();
+			});
 			console.log('logged');
 		}
 	}

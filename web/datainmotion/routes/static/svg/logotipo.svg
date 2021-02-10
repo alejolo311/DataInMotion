@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="942.70081"
+   height="400"
+   viewBox="0 0 249.42242 105.83334"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (1.0.1+r73)"
+   sodipodi:docname="logotipo.svg"
+   inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+   inkscape:export-xdpi="51"
+   inkscape:export-ydpi="51">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="426.40371"
+     inkscape:cy="192.26799"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     units="px"
+     inkscape:snap-global="false"
+     inkscape:window-width="1325"
+     inkscape:window-height="713"
+     inkscape:window-x="41"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:19.8196px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#300458;fill-opacity:1;stroke:#30045b;stroke-width:0.619361;stroke-opacity:1"
+       x="0.86775368"
+       y="32.067368"
+       id="text835"
+       inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+       inkscape:export-xdpi="51"
+       inkscape:export-ydpi="51"><tspan
+         sodipodi:role="line"
+         id="tspan833"
+         x="0.86775368"
+         y="32.067368"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:39.6391px;font-family:Quicksand;-inkscape-font-specification:'Quicksand Bold';fill:#300458;fill-opacity:1;stroke:#30045b;stroke-width:0.619361;stroke-opacity:1">data</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20.8155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#30045a;fill-opacity:1;stroke:#300458;stroke-width:0.650485;stroke-opacity:1"
+       x="130.48312"
+       y="50.011757"
+       id="text839"
+       inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+       inkscape:export-xdpi="51"
+       inkscape:export-ydpi="51"><tspan
+         sodipodi:role="line"
+         id="tspan837"
+         x="130.48312"
+         y="50.011757"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.631px;font-family:Quicksand;-inkscape-font-specification:'Quicksand Bold';fill:#30045a;fill-opacity:1;stroke:#300458;stroke-width:0.650485;stroke-opacity:1">otion</tspan></text>
+    <g
+       id="g987"
+       transform="translate(-24.591533,-26.383219)"
+       inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+       inkscape:export-xdpi="51"
+       inkscape:export-ydpi="51">
+      <path
+         style="opacity:1;fill:none;stroke:#f2c335;stroke-width:9.265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 120.9379,59.654879 6.31115,-22.673522"
+         id="path889"
+         sodipodi:nodetypes="cc" />
+      <path
+         style="opacity:1;fill:none;stroke:#f29a2e;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 132.29686,67.10204 8.41599,-28.765803"
+         id="path889-1"
+         sodipodi:nodetypes="cc"
+         inkscape:transform-center-x="-2.6159592"
+         inkscape:transform-center-y="1.1761637" />
+      <path
+         style="opacity:1;fill:none;stroke:#f28d77;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 143.62774,74.895862 154.41397,39.005141"
+         id="path889-1-0"
+         sodipodi:nodetypes="cc"
+         inkscape:transform-center-x="-2.6159592"
+         inkscape:transform-center-y="1.1761637" />
+      <g
+         id="g1074">
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="M 149.46414,55.30657 140.71285,38.336237"
+           id="path889-3"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 135.75984,55.926751 4.95301,-17.590514"
+           id="path889-3-0"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           d="m 149.46414,55.30657 4.94983,-16.301429"
+           id="path889-3-0-4"
+           sodipodi:nodetypes="cc" />
+      </g>
+      <g
+         id="g1074-4"
+         transform="translate(-0.31472454,1.3673168)"
+         style="stroke:#5c12a6;stroke-opacity:0.0931127">
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.0931127"
+           d="M 149.46414,55.30657 140.71285,38.336237"
+           id="path889-3-9"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.0931127"
+           d="m 135.75984,55.926751 4.95301,-17.590514"
+           id="path889-3-0-9"
+           sodipodi:nodetypes="cc" />
+        <path
+           style="opacity:1;fill:none;stroke:#5c12a6;stroke-width:9.26499;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.0931127"
+           d="m 149.46414,55.30657 4.94983,-16.301429"
+           id="path889-3-0-4-9"
+           sodipodi:nodetypes="cc" />
+      </g>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20.8155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:none;fill-opacity:1;stroke:#300458;stroke-width:1.85000012;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="159.44713"
+       y="84.162712"
+       id="text839-5"
+       inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+       inkscape:export-xdpi="51"
+       inkscape:export-ydpi="51"><tspan
+         sodipodi:role="line"
+         id="tspan837-9"
+         x="159.44713"
+         y="84.162712"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6311px;font-family:Quicksand;-inkscape-font-specification:'Quicksand Bold';fill:none;fill-opacity:1;stroke:#300458;stroke-width:1.85000012;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">Edu</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:20.8155px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.85;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       x="159.40152"
+       y="84.08667"
+       id="text839-5-4"
+       inkscape:export-filename="/home/dan/Documents/DataInMotion/web/datainmotion/routes/static/images/dim_logo.png"
+       inkscape:export-xdpi="51"
+       inkscape:export-ydpi="51"><tspan
+         sodipodi:role="line"
+         id="tspan837-9-8"
+         x="159.40152"
+         y="84.08667"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.6311px;font-family:Quicksand;-inkscape-font-specification:'Quicksand Bold';fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.85;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">Edu</tspan></text>
+  </g>
+</svg>

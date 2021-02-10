@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <head>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Mallanna&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/static/scripts/global.js?{{id}}"></script>
 	<script type="text/javascript" src="/static/scripts/DOMManager.js?{{id}}"></script>
+	<script type="text/javascript" src="/static/scripts/SchoolEditor.js?{{id}}"></script>
+	<script type="text/javascript" src="/static/scripts/YesNoDialog.js?{{id}}"></script>
 	<script type="text/javascript" src="/static/scripts/SchoolsManager.js?{{id}}"></script>
+	<script type="text/javascript" src="/static/scripts/Edu.js?{{id}}"></script>
 </head>
 <html>
 	<body>
-		<div id="menu"></div>
+		<div id="root"></div>
 		<div id="admin">
 		</div>
 		<div id="student">
@@ -18,8 +23,8 @@
 	<script>
 		window.onload = function () {
 			DOMManager.render(
-				SchoolsManager,
-				document.getElementById('admin')
+				Edu,
+				document.getElementById('root')
 			);
 		};
 	</script>

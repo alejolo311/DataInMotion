@@ -4,11 +4,12 @@ Edu Courses
 """
 from flask import jsonify, Response, request, render_template, send_file
 from models import storage
+from models.edu_modules import EduModule
 from models.course import Course
 from api.v1.edu import app_edu
 import json
 
-@app_edu.route('/courses/<course_id>',
+@app_edu.route('/courses/<module_id>',
                 methods=['GET'],
                 strict_slashes=False)
 def course(course_id):

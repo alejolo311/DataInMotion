@@ -38,6 +38,13 @@ class BaseNode:
         models.storage.new(self)
         models.storage.save()
 
+    def delete(self):
+        """
+        Deletes the instance
+        """
+        models.storage.delete(self)
+        models.storage.save()
+
     def to_dict(self):
         """
         Returns the dict representation

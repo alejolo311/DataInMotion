@@ -1,3 +1,9 @@
+/**
+ * DOMManager - it mounts a component based on a constructor extending Component
+ * takes the html representation from render method and apply it to
+ * a new node created by document
+ * and wraps the root element with the html 
+ */
 const DOMManager  = {
 	render: function(html, root, params) {
 		const component = new html();

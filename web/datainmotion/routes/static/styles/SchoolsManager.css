@@ -104,7 +104,7 @@
 	left: 80px;
 	width: calc(400px);
 	height: 100vh;
-	background-color: white;
+	background-color: rgb(240, 240, 240);
 }
 .schools_list h1 {
 	padding-left: 24px;
@@ -117,11 +117,11 @@
 	height: calc(100vh - 160px);
 	overflow-y: scroll;
 }
-.school_ul ul::-webkit-scrollbar {
+.school_ul::-webkit-scrollbar {
 	width: 10px;
 	background-color: rgb(216, 216, 216);
 }
-.school_ul ul::-webkit-scrollbar-thumb {
+.school_ul::-webkit-scrollbar-thumb {
 	background-color: purple;
 	border-radius: 4px;
 }
@@ -136,7 +136,7 @@
 	border-radius: 12px;
 }
 .school_ul li:hover {
-	background-color:  rgb(228, 236, 236);
+	background-color:  rgb(243, 243, 243);
 }
 .school_ul li:active {
 	transform: scale(0.99);
@@ -148,12 +148,14 @@
 	line-height: 20px;
 }
 .school_ul p {
+	width: calc(100% - 100px);
 	font-size: 16px;
 	line-height: 16px;
 }
 .school_ul h2 {
 	font-size: 16px;
 	line-height: 16px;
+	width: calc(100% - 100px);
 }
 .school_ul img {
 	width: 80px;
@@ -201,23 +203,76 @@
 	border-left: 6px solid rgba(192, 192, 192, 0.412);
 
 }
-.school_info h1 {
+.school_info::-webkit-scrollbar {
+	width: 10px;
+	background-color: rgb(216, 216, 216);
+}
+.school_info::-webkit-scrollbar-thumb {
+	background-color: purple;
+	border-radius: 4px;
+}
+.name_editor, .description_editor {
+	display: flex;
+	position: relative;
+}
+.name_editor h1 {
 	font-size: 28px;
+
 	margin: 0;
 }
+.name_editor input, .description_editor input {
+	display: none;
+	border: 1px solid rgb(197, 197, 197);
+	border-radius: 8px;
+	opacity: 1;
+	left: 0;
+	height: 100%;
+	position: absolute;
+	padding-left: 12px;
+	font-size: 28px;
+	outline: none;
+}
+.name_editor button, .description_editor button {
+	margin-top: 12px;
+	margin-left: 12px;
+	width: 30px;
+	border: none;
+	border-radius: 50%;
+	height: 30px;
+	background-image: url(/static/svg/pen.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 70%;
+	outline: none;
+	cursor: pointer;
+	background-color: rgba(232, 232, 232, 0.426);
+}
+.name_editor button:hover, .description_editor button:hover {
+	background-color: rgba(201, 201, 201, 0.7);
+}
+.name_editor button:active, .description_editor button:active {
+	background-color: rgb(240, 203, 228);
+}
 .school_info p {
+	max-width: 50%;
+	line-height: 18px;
 	margin-top: 12px;
 }
-.admins {
+.info_options {
 	position: absolute;
 	top: 40px;
-	border-radius: 8px;
 	right: 40px;
+}
+.info_options button {
+	outline: none;
+	border-radius: 8px;
 	padding: 12px 24px;
 	background-color: rgb(208, 208, 208);
 	cursor: pointer;
 	color: white;
 	font-weight: bold;
+	border: none;
+	margin-right: 20px;
 }
 .admins:hover {
 	background-color: orange;
@@ -230,6 +285,17 @@
 	box-shadow: none;
 }
 
+.delete:hover {
+	background-color: rgb(255, 0, 98);
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.186);
+}
+.delete:active {
+	background-color: rgb(216, 1, 84);
+	transform: translate(0px, 0px);
+	box-shadow: none;
+}
+
 /* MODULES COURSES SECTION */
 
 .modules {
@@ -237,11 +303,103 @@
 	border-radius: 12px;
 	left: 0;
 	width: 100%;
-	height: 50px;
 	padding: 0;
-	background-color: grey;
 }
-
+.module_info {
+	width: 100%;
+	position: relative;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+.module_info .delete_module {
+	position: absolute;
+	top: 32px;
+	right: 24px;
+	cursor: pointer;
+	outline: none;
+	padding: 12px 24px;
+	border-radius: 8px;
+	font-size: 12px;
+	font-weight: bold;
+	border: none;
+	color: white;
+	background-color: rgb(208, 208, 208);;
+}
+.module_info .delete_module:hover {
+	transform: translate(-1px, -1px);
+	background-color: rgb(199, 2, 2);
+	box-shadow: 1px 1px 4px rgba(99, 99, 99, 0.563);
+}
+.module_info .delete_module:active {
+	transform: translate(0px, 0px);
+	background-color: rgb(146, 0, 0);
+	box-shadow: none;
+}
+.modules .name {
+	max-width: 50%;
+	width: fit-content;
+	font-size: 20px;
+	margin-top: 20px;
+}
+.modules .description {
+	width: fit-content;
+	max-width: 50%;
+	font-size: 16px;
+	margin-top: 0px;
+	margin-bottom: 0;
+}
+.module_info [editor="name"], .module_info [editor="description"] {
+	display: flex;
+	position: relative;
+}
+.module_info [editor="name"] input, .module_info [editor="description"] input {
+	position: absolute;
+	border: 1px solid rgb(187, 187, 187);
+	border-radius: 12px;
+	outline: none;
+	padding-left: 12px;
+	font-size: 20px;
+	top: 0;
+	left: 0;
+	height: 48px;
+	display: none;
+}
+.module_info [editor="name"] button {
+	margin-top: 24px;
+	margin-left: 12px;
+	width: 30px;
+	border: none;
+	border-radius: 50%;
+	height: 30px;
+	background-image: url(/static/svg/pen.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 70%;
+	outline: none;
+	cursor: pointer;
+	background-color: rgba(232, 232, 232, 0.426);
+}
+.module_info [editor="description"] button {
+	margin-top: 0px;
+	margin-left: 12px;
+	width: 30px;
+	border: none;
+	border-radius: 50%;
+	height: 30px;
+	background-image: url(/static/svg/pen.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 70%;
+	outline: none;
+	cursor: pointer;
+	background-color: rgba(232, 232, 232, 0.426);
+}
+.module_info [editor="name"] button:hover, .module_info [editor="description"] button:hover {
+	background-color: rgba(201, 201, 201, 0.7);
+}
+.module_info [editor="name"] button:active, .module_info [editor="description"] button:active {
+	background-color: rgb(240, 203, 228);
+}
 .modules ul{
 	border-radius: 8px;
 	display: flex;
@@ -280,6 +438,10 @@
 	background-color: rgb(185, 165, 201);
 	color: white;
 }
+.module_selected {
+	background-color: rgb(22, 152, 199) !important;
+	color: white;
+}
 
 /* COURSES SECTION */
 .add_course {
@@ -314,14 +476,15 @@
 	margin-bottom: 0 !important;
 }
 .add_course p{
-	width: 80%;
+	width: 80% !important;
+	max-width: 80% !important;
 	margin-left: 10% !important;
 	text-align: center;
 
 }
 
 .courses {
-	margin-top: 50px;
+	position: relative !important;
 }
 .courses ul {
 	padding: 0;
@@ -340,6 +503,9 @@
 	list-style: none;
 	background-color: white;
 	box-shadow: 0px 0px 10px rgba(77, 77, 77, 0.672);
+}
+.courses li:hover {
+	box-shadow: 0px 0px 30px rgba(77, 77, 77, 0.672);
 }
 .options {
 	position: absolute;

@@ -1,0 +1,134 @@
+#root {
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	font-family:  'Mallanna', sans-serif;
+}
+.edu_banner {
+	width: 100%;
+	height: 100%;
+	background-image: url(/static/svg/edu_banner.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+/* LOGO SECTION */
+
+.logo {
+	position: absolute;
+	left: 180px;
+	bottom: 220px;
+}
+.highlight {
+	color: purple;
+	font-weight: bold;
+}
+
+.logo h1 {
+	width: 380px;
+	background-image: url(/static/images/dim_logo.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 150px;
+}
+.logo h2 {
+	margin-top: -40px;
+	font-size: 24px;
+	line-height: 24px;
+}
+.logo p {
+	line-height: 22px;
+	font-size: 20px;
+}
+
+
+/* MENU */
+
+.edu_home {
+	position: absolute;
+	width: 60px;
+	height: 60px;
+	top: 10px;
+	left: 10px;
+	cursor: pointer;
+	background-image: url(/static/images/home.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 80%;
+	background-color: rgb(58, 0, 58);
+	border-radius: 50%;
+}
+.edu_home:hover {
+	background-size: 90%;
+	background-color: rgb(107, 0, 107);
+}
+.edu_home:active {
+	background-color: rgb(58, 0, 58);
+	background-size: 85%;
+}
+
+#menu {
+	position: absolute;
+	display: flex;
+	bottom: 100px;
+	left:180px;
+}
+
+.edu_admin {
+	position: relative;
+	border-radius: 8px;
+	background-image: url(/static/svg/teacher.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 80%;
+	width: 80px;
+	cursor: pointer;
+	height: 80px;
+	background-color: rgb(63, 16, 155);
+}
+.edu_admin h1 {
+	color: rgb(63, 16, 155);
+	font-size: 16px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: -36px;
+}
+.edu_admin:hover{
+	filter: saturate(1.8);
+}
+.edu_student:hover {
+	filter: saturate(1.8);
+}
+.edu_admin:active{
+	filter: saturate(0.6);
+}
+.edu_student:active {
+	filter: saturate(0.6);
+}
+.edu_student {
+	position: relative;
+	margin-left: 120px;
+	cursor: pointer;
+	border-radius: 8px;
+	background-image: url(/static/svg/student.svg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 80%;
+	width: 80px;
+	height: 80px;
+	background-color: rgb(63, 16, 155);
+}
+.edu_student h1 {
+	color: rgb(63, 16, 155);
+	font-size: 16px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: -36px;
+}

@@ -18,13 +18,13 @@
 	<div class="time_selector">
 		<select name="hour" id="">
 			{% for i in range(1, 13) %}
-			<option value="{{ i }}">{{ i }}</option>
+			<option value="{{ i }}">{{ "%02d" | format(i) }}</option>
 			{% endfor %}
 		</select>
 		<h1>:</h1>
 		<select name="minute" id="">
 			{% for i in range(0, 60) %}
-			<option value="{{ i }}">{{ i }}</option>
+			<option value="{{ i }}">{{ "%02d" | format(i) }}</option>
 			{% endfor %}
 		</select>
 		<select name="noon" id="">

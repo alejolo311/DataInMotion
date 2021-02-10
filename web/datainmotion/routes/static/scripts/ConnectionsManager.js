@@ -149,16 +149,21 @@ class ConnectionsManager {
 		});
 		// This listener cleans the new connection if the user doesn't click any node
 		$('#canvas_connections').on('click', function (evn) {
-			$(this).css('z-index', 1);
-			const tmpObj = document.querySelector('[con_id="temporal_con"]');
-			// const parent = document.querySelector(`${tmpObj.getAttribute('parent')}`);
-			const outId = tmpObj.getAttribute('parent');
-			const type = tmpObj.getAttribute('type');
-			const outnode = $('[add_' + type + '_id=' + outId + ']');
-			outnode.removeAttr(type + '_id');
-			tmpObj.remove();
-			$(this).css('cursor', 'default');
-			comp.board.drawConnections();
+			try {
+				$(this).css('z-index', 1);
+				const tmpObj = document.querySelector('[con_id="temporal_con"]');
+				// const parent = document.querySelector(`${tmpObj.getAttribute('parent')}`);
+				const outId = tmpObj.getAttribute('parent');
+				const type = tmpObj.getAttribute('type');
+				const outnode = $('[add_' + type + '_id=' + outId + ']');
+				outnode.removeAttr(type + '_id');
+				tmpObj.remove();
+				$(this).css('cursor', 'default');
+				comp.board.drawConnections();
+			} catch (err) {
+				console.log(err);
+			}
+			
 		});
 		// detects a new connection incoming from another node
 		// bind the outnode sending the id to connections

@@ -6,6 +6,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask import render_template
 from api.v1.nodes import app_nodes
+from api.v1.edu import app_edu
 from api.v1.auth import app_auth
 from models import storage
 from models.custom import CustomNode
@@ -28,6 +29,7 @@ app.config.update(
 CORS(app)
 app.register_blueprint(app_nodes)
 app.register_blueprint(app_auth)
+app.register_blueprint(app_edu)
 
 
 @app.teardown_appcontext

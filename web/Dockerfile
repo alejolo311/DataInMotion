@@ -2,7 +2,7 @@
 FROM python:3.8.1-slim-buster
 
 # set work directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/web
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -14,15 +14,15 @@ RUN apt-get update && apt-get install -y netcat
 # RUN npm install -g npm@latest
 
 # copy project
-COPY . /usr/src/app/
+COPY . /usr/src/web/
 
 # RUN npm install -g remove-console-logs uglify-es
 # RUN node compress.js
 
 # install dependencies
 RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/src/app/requirements.txt
+COPY ./requirements.txt /usr/src/web/requirements.txt
 RUN pip install -r requirements.txt
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/web/entrypoint.sh"]

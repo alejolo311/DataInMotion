@@ -6,7 +6,6 @@ services:
       context: .
       shm_size: 4gb
       dockerfile: ./api/Dockerfile
-      shm_size: 4gb
     command: ./init_api
     env_file:
       - ./.env.dev
@@ -14,11 +13,13 @@ services:
       - 8080:8080
     depends_on: 
       - web
+    volumes:
+      - browsers:/usr/src/app/api/browsers
   web:
     build: ./web
     command: python manage.py run -h 0.0.0.0
     volumes:
-      - ./web/:/usr/src/app/
+      - ./web/:/usr/src/web/
     ports:
       - 80:5000
     env_file:
@@ -36,3 +37,4 @@ services:
 
 volumes:
   postgres_data:
+  browsers:

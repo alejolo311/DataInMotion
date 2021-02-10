@@ -302,7 +302,13 @@ function deleteNode (id) {
     success: function (response) {
       console.log(response);
       $('[node_id=' + id + ']').remove();
-	  unbindAll();
+	  // unbindAll();
+	  try {
+		unbindContainer();
+	  } catch (err) {
+		console.log(err);
+	  }
+	  
 	  getBoardView();
     },
     error: function (error) {

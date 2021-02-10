@@ -33,6 +33,16 @@ def confirm_token(token, expiration=3600):
         return False
     return email
 
+@app_auth.route('/',
+                methods=['GET'],
+                strict_slashes=False)
+@token_required
+def check_status():
+    """
+    Check the credentials for this user
+    """
+    return jsonify(success='OK'), 200
+
 @app_auth.route('/register',
             methods=['POST'],
             strict_slashes=False)

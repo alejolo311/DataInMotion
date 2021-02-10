@@ -778,7 +778,7 @@ async function WhatsAppFlow(node, evn) {
 	$('.wpp_cont').css('display', 'block');
 	const xPos = (window.screen.width / 4);
 	$(container).css('left', xPos);
-	$(container).css('top', evn.pageY - 180);
+	$(container).css('top', 0);
 	container.css('display', 'block');
 	if (node.data.gif !== '') {
 		$('[name="giphy"]').val(node.data.gif);

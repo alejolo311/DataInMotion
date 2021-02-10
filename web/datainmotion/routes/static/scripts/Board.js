@@ -78,6 +78,9 @@ class Board extends Component {
 						<div id="cont">
 						</div>
 					</div>
+					<div id="calendar">
+							<div class="calendar"></div>
+					</div>
 					<div class="node_nav">
 						<button class="back">back</button>
 						<button class="next">next</button>
@@ -94,6 +97,8 @@ class Board extends Component {
 						<h2>Landing Zone</h2>
 					</div>
 				</div>
+				<div id="wpp_cont">
+				</div>
 			`
 		);
 	}
@@ -101,7 +106,10 @@ class Board extends Component {
 		const comp = this;
 		const menuComponent = DOMManager.render(
 			Menu,
-			document.getElementsByClassName('menus')[0]
+			document.getElementsByClassName('menus')[0],
+			{
+				parent: comp
+			}
 		);
 		comp.menu = menuComponent;
 		document.getElementsByClassName('menus')[0].style.visibility = 'hidden';
@@ -578,8 +586,6 @@ class Board extends Component {
 				comp.node_id = $(this).attr('p_id');
 			} else if (comp.node_id === $(this).attr('p_id')) {
 				console.log(evn.pageX);
-				// console.log(evn.pageY);
-				// window.location.replace(`${global.prot}://${global.domain}/node_editor?id=${node_id}`);
 				comp.loadNode($(this).attr('p_id'), evn);
 				comp.node_id = '';
 			} else {
@@ -588,12 +594,13 @@ class Board extends Component {
 		});
 	};
 	loadNode (id, evn) {
+		const comp = this;
 		$.ajax({
 			url:`${global.prot}://${global.domain}${global.apiPort}/api/v1/nodes/${id}`,
 			success: function (n) {
 				const node = n;
 				if (node.work_type === 'sender') {
-					WhatsAppFlow(node, evn);
+					comp.loadWhatsappNode(node);
 				} else {
 					$('.new_node_cont').css('display', 'block');
 					const root = document.getElementById('node_editor');
@@ -603,6 +610,38 @@ class Board extends Component {
 				}
 			}
 		});
+	}
+	loadWhatsappNode (node) {
+		const comp = this;
+		console.log(window['WhatsappNode']);
+		if (window['WhatsappNode']) {
+			console.log('Script Already loaded');
+			DOMManager.render(
+				WhatsappNode,
+				comp._root.querySelector('#wpp_cont'),
+				{
+					parent: comp,
+					node: node
+				}
+			);
+		} else {
+			let script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.onload = function () {
+				window['WhatsappNode'] = WhatsappNode;
+				console.log(WhatsappNode);
+				DOMManager.render(
+					WhatsappNode,
+					comp._root.querySelector('#wpp_cont'),
+					{
+						node: node,
+						parent: comp
+					}
+				);
+			};
+			script.src = `/static/scripts/WhatsappNode.js?${uuid()}`;
+			document.head.appendChild(script);
+		}
 	}
 	setOpsListeners() {
 		const comp = this;

@@ -14,8 +14,9 @@ function monthToText(month) {
 		"December"];
 	return months[month];
 }
+
 function getDaysInMonth(month, year) {
-	return new Date(year, month + 1, 0).getDate();
+	return new Date(year, month, 0).getDate();
 }
 
 class Calendar {
@@ -93,7 +94,7 @@ class Calendar {
 	}
 	draw() {
 		console.log('Month', this._date[1]);
-		this._html.querySelector('.calendar_head h1').innerHTML = monthToText(this._date[1] - 1) + ' - ' + this._date[0];
+		this._html.querySelector('.calendar_head h1').innerHTML = monthToText(this._date[1]) + ' - ' + this._date[0];
 		const dim = getDaysInMonth(this._date[1], this._date[0]);
 		const iPos = new Date(this._date[0], this._date[1], 1).getDay();
 		const days = Array.from({
@@ -181,6 +182,7 @@ class Calendar {
 		const noon = cal._html.querySelector('[name="noon"]');
 		const noonValue = Number(noon.options[noon.selectedIndex].value);
 		console.log(noon, noonValue);
+		// configure hour if noon or morning
 		if (noonValue == 1) {
 			if (cal._date[3] == 12) {
 				cal._date[3] = 0;
@@ -188,22 +190,20 @@ class Calendar {
 				cal._date[3] = cal._date[3] + 12;
 			}
 		}
-		cal._date[1] += 1;
-		const result = await cal.sendDate();
 		cal._html.remove();
-		console.log(result);
+		cal.root.style.display = 'none';
 		if (this._context) {
 			// this._context.data.analisis_params['date'] = cal._date;
 			const date = cal._date.map(e => Array.isArray(e) ? e.clone() : e);
-			date[1] -= 1;
 			this._context.data.analisis_params['date'] = cal._date;
 			this._context.printFormatedDate(this._context.triggerDateContainer, date);
 		}
+		const result = await cal.sendDate();
 	}
 	async sendDate() {
 		const now = new Date(Date.now());
 		console.log(this._date);
-		this._date[1] -= 1;
+		this._date[1] += 1;
 		// This sync_date needs to sum 1 to the
 		// month to be used by python 
 		const sync_date = [

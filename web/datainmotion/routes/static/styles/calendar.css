@@ -6,19 +6,41 @@
 	--arrow: rgb(179, 219, 253);
 	--arrow-pressed: rgb(111, 181, 243);
 	--save-btn: rgb(214, 48, 247);
+	--root-background: rgb(51, 0, 51);
+}
+#calendar {
+	z-index: 40;
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: calc(100%);
+	overflow: hidden;
+	background-color: var(--root-background);
 }
 .calendar {
 	position: absolute;
 	background-color: white;
-	z-index: 100;
-	border-radius: 8px;
-	left: 20px;
-	top: 400px;
+	max-height: calc(100%);
+	border-radius: 0px;
+	left: 0px;
+	width: 380px;
+	height: calc(100%);
+	top: 0px;
+	overflow-y: scroll;
+	overflow-x: scroll;
 	box-shadow: 0px 0px 10px rgb(130, 130, 130);
+}
+.calendar::-webkit-scrollbar {
+	width: 10px;
+}
+.calendar::-webkit-scrollbar-thumb {
+	background-color: purple;
 }
 .calendar_head {
 	height: 48px;
-	border-radius: 8px 8px 0px 0px;
+	border-radius: 0px 0px 0px 0px;
 	padding: 12px 24px 6px 24px;
 	background-color: var(--head);
 	display: grid;

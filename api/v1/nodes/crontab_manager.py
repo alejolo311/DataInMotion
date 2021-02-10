@@ -63,7 +63,11 @@ def updateCronTab(node, sync=None):
                 job.setall(def_time)
                 if 'frequency' in params:
                     print(params['frequency'])
-                    if params['frequency'] == 'hourly':
+                    if params['frequency'] == 'minute':
+                        job.minute.every(10)
+                        job.hour.every(1)
+                        job.day.every(1)
+                    elif params['frequency'] == 'hourly':
                         job.hour.every(1)
                         job.day.every(1)
                     elif params['frequency'] == 'daily':
@@ -80,7 +84,11 @@ def updateCronTab(node, sync=None):
         job.setall(def_time)
         if 'frequency' in params:
             print(params['frequency'])
-            if params['frequency'] == 'hourly':
+            if params['frequency'] == 'minute':
+                job.minute.every(10)
+                job.hour.every(1)
+                job.day.every(1)
+            elif params['frequency'] == 'hourly':
                 job.hour.every(1)
                 job.day.every(1)
             elif params['frequency'] == 'daily':

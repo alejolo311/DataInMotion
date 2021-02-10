@@ -17,20 +17,20 @@ class SchoolsManager extends Component {
 		window.location.replace('/');
 	}
 	onMounted () {
-		console.log('Fetch Schools');
+		// console.log('Fetch Schools');
 		const btn = this._root.querySelector('.admin');
 		const comp = this;
-		btn.addEventListener('click', function () {
-			comp.loadSchoolList();
-		});
+		comp.loadSchoolList();
 		const addSchool = this._root.querySelector('.add_school');
-		addSchool.addEventListener('click', function () {
-			comp.createSchool()
+		addSchool.addEventListener('click', async function () {
+			await comp.createSchool();
+			comp.loadSchoolList();
 		});
 	}
 	async loadSchoolList (evn) {
-		console.log('load School');
+		console.log('Load School list');
 		this.showSchoolList();
+		const comp = this;
 		const req = await fetch(
 			`${global.prot}://${global.domain}${global.apiPort}/api/v1/edu/schools`,
 			{
@@ -43,11 +43,63 @@ class SchoolsManager extends Component {
 		)
 		if (req.status === 200) {
 			const resp = await req.json();
-			console.log(resp);
-		} else {
+			// console.log(resp);
+			comp.drawSchoolList(resp.reverse());
+		} else if (req.status === 401) {
+			window.location.replace(`${global.prot}://${global.domain}/login`);
 			console.log('Error', await req.json());
 		}
 	}
+	drawSchoolList (schools) {
+		// Sets the actualSchoolIndex to 0 if the list is not empty
+		// to undefined when there is no schools created
+		const comp = this;
+		const list = this._root.querySelector('.schools_list ul');
+		list.innerHTML = '';
+		let pos = 0;
+		for (const school of schools) {
+			const li = document.createElement('li');
+			const h1 = document.createElement('h1');
+			h1.innerHTML = school.name;
+			li.appendChild(h1);
+			const p = document.createElement('p');
+			p.innerHTML = school.description;
+			li.appendChild(p);
+			const h2 = document.createElement('h2');
+			h2.innerHTML = `creator: ${school.admin}`;
+			li.appendChild(h2);
+			const img = document.createElement('img');
+			li.appendChild(img);
+			list.appendChild(li);
+			li.addEventListener('click', function (evn) {
+				comp.actualSchool = school.id;
+				comp.actualSchoolIndex = pos;
+				comp.school = school;
+				document.querySelector('.school_info').innerHTML = '';
+				DOMManager.render(
+					SchoolEditor,
+					document.querySelector('.school_info'),
+					{
+						parent: comp
+					}
+				);
+				// comp.renderSchool(evn, school);
+			});
+			pos++;
+		}
+		if (comp.actualSchoolIndex !== undefined) {
+			console.log('no actualIndex');
+			// list.querySelectorAll('li')[comp.actualSchoolIndex].click();
+		} else {
+			try {
+				list.querySelectorAll('li')[0].click();
+				comp.actualSchoolIndex = 0;
+			} catch (err) {
+				console.log('modules empty');
+			}
+		}
+	}
+	// Controls the show and hidde behavior
 	showSchoolList () {
 		if (this.scinfo) {
 			const sclist = this._root.querySelector('.schools_list');
@@ -61,7 +113,7 @@ class SchoolsManager extends Component {
 		}
 		
 	}
-	hideSchoolList () {
+	hiddeSchoolList () {
 		const sclist = this._root.querySelector('.schools_list');
 		const scinfo = this._root.querySelector('.school_info');
 		const computed = window.getComputedStyle(sclist, null);
@@ -81,9 +133,10 @@ class SchoolsManager extends Component {
 		const courses = this._root.querySelector('.courses ul');
 		courses.style.gridTemplateColumns = 'repeat(3, 30%)';
 	}
+	// Call the API to create a new record
 	async createSchool (evn) {
 		console.log('Create a new School');
-		this.hideSchoolList();
+		// this.hiddeSchoolList();
 		const req = await fetch(
 			`${global.prot}://${global.domain}${global.apiPort}/api/v1/edu/schools`,
 			{
@@ -93,85 +146,37 @@ class SchoolsManager extends Component {
 					'Authorization': localStorage.getItem('token')
 				},
 				body: JSON.stringify({
-					name: 'Test School',
-					description: 'Test description for the test school Enjoy!!'
+					name: 'New School',
+					description: 'Description for this New School Enjoy it!!'
 				})
 			}
 		)
 		if (req.status === 200) {
 			const resp = await req.json();
 			console.log(resp);
-		} else {
+		} else if (req.status === 401) {
+			window.location.replace(`${global.prot}://${global.domain}/login`);
 			console.log('Error', await req.json());
 		}
 	}
-	renderSchool (evn) {
-		console.log(evn.target.getAttribute('school_id'));
+	close (evn) {
+		this._root.innerHTML = '';
+		this._root.style.display = 'none';
 	}
 	render () {
 		return (
 			`
 				<div>
 					<div class="menu_schools">
-						<div class="home" click="${ this.backHome.name }"></div>
-						<div class="admin"><h1>Admin</h1></div>
-						<div class="student" click=""><h1>Student</h1></div>
+						<div class="home" click="${ this.close.name }"></div>
 					</div>
 					<div class="schools_list">
 						<h1>Schools you manage</h1>
 						<ul class="school_ul">
-							<li>
-								<h1>School name</h1>
-								<p>short school description</p>
-								<h2>Creator for the school</h>
-								<img>
-								
-							</li>
 						</ul>
 						<div class="add_school">Create new School</div>
 					</div>
 					<div class="school_info">
-						<h1>School Name</h1>
-						<p>school description</p>
-						<div class="admins">
-							CREATORS
-						</div>
-						<div class="modules">
-							<ul>
-								<li class="add_module">create new module</li>
-								<li>Nasa fetcher</li>
-								<li>Labs</li>
-								<li>Gif Workers</li>
-								<li>Mail Services</li>
-								<li>Whatsapp Automation</li>
-								<li>Services</li>
-								<li>Credentials</li>
-								<li>Connections</li>
-							</ul>
-						</div>
-						<div class="courses">
-							<ul>
-								<li class="add_course">
-									<h3></h3>
-									<h1>Add new Course</h1>
-									<p>create a new course in "module_name"</p>
-								</li>
-								<li>
-									<div class="options">
-									</div>
-									<img>
-									<h1>Course Title</h1>
-									<p>description</p>
-								</li>
-								<li>
-									<div class="options">
-									</div>
-									<img>
-									<h1>Course Title</h1>
-									<p>description</p>
-								</li>
-							</ul>
-						</div>
 					</div>
 				</div>
 			`

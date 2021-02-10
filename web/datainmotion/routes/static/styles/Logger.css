@@ -8,19 +8,27 @@
 	position: absolute;
 	z-index: 10;
 	background-color: rgba(0, 0, 0, 0.616);
-	padding: 2% 10%;
+	padding: 20px 10%;
 	backdrop-filter: blur(5px);
 	overflow-y: scroll;
 }
 .data_extractor {
+	overflow-x: hidden;
+	max-height: calc(100% - 200px);
 	font-family: var(--font);
 	color: black;
 	padding: 20px;
 	background-color: white;
 	border: none;
-	border-radius: 12px;
 	line-height: 14px;
 	cursor: pointer;
+	overflow-y: scroll;
+}
+.data_extractor::-webkit-scrollbar {
+	width: 10px;
+}
+.data_extractor::-webkit-scrollbar-thumb {
+	background-color: purple;
 }
 div[node="true"] {
 	display: flex;
@@ -29,6 +37,7 @@ div[node="true"] {
 	margin: 0;
 }
 .console_cont h1 {
+	margin: 10px;
 	width: 40px;
 	height: 40px;
 	background-color: white;

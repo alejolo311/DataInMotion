@@ -1,0 +1,63 @@
+#dialog {
+	width: 50%;
+	height: auto;
+	
+	backdrop-filter: blur(5px);
+}
+.dialog_card {
+	border: 1px solid rgba(128, 128, 128, 0.159);
+	background-color: rgba(240, 240, 240, 0.481);
+	border-radius: 12px;
+	padding: 12px;
+}
+.dialog_card h1 {
+	color: rgb(250, 143, 29);
+	font-size: 22px;
+	width: 80%;
+	margin-left: 10%;
+	text-align: center;
+	margin-top: 24px;
+}
+.dialog_card p {
+	color: rgb(157, 157, 157);
+	font-size: 18px;
+	width: 80%;
+	margin-top: 0;
+	line-height: 20px;
+	margin-left: 10%;
+	text-align: center;
+}
+.buttons {
+	margin-left: 10%;
+	width: 80%;
+	display: grid;
+	column-gap: 20%;
+	grid-template-columns: repeat(2, 40%);
+}
+.dialog_card button {
+	outline: none;
+	border: none;
+	font-size: 16px;
+	padding: 12px 24px;
+	background-color: grey;
+	cursor: pointer;
+	border-radius: 8px;
+	color: white;
+}
+.dialog_card button:hover {
+	filter: saturate(1.8);
+	transform: translate(-1px, -1px);
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.385);
+}
+
+.dialog_card button:active {
+	filter: saturate(0.8);
+	transform: translate(0px, 0px);
+	box-shadow: none;
+}
+.buttons button:first-child {
+	background-color: rgb(187, 0, 0);
+}
+.buttons button:last-child {
+	background-color: rgb(4, 184, 160);
+}

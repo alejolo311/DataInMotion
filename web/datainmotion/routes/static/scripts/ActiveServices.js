@@ -170,7 +170,9 @@ class ActiveService extends Component {
 		script.type = 'text/javascript';
 		script.onload = function() {
 			console.log('Change time to ', node.name);
-			const cal = new Calendar(node.analisis_params.date, node.id, document.body);
+			const date = node.analisis_params.date;
+			date[1] -= 1;
+			const cal = new Calendar(date, node.id, document.body);
 			if (Array.isArray(node.analisis_params)) {
 				console.log('Change data to object');
 				node.analisis_params = {};

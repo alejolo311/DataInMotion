@@ -286,6 +286,7 @@ def del_connection(node_id):
     node.save()
     return Response({'state': 'Connection removed'}, status=200)
 
+
 def copy_node(board, node, data=None, complete=False):
     """
     Copy a node taking the in_node key by key and creating a new Custom instance

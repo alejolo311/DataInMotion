@@ -115,6 +115,7 @@ class Menu extends Component {
 		});
 	}
 	newNode (type) {
+		const comp = this;
 		console.log('Create a new node of type', type);
 		const boardId = document.getElementById('board').getAttribute('board_id');
 		$.ajax({
@@ -127,7 +128,8 @@ class Menu extends Component {
 		  success: function (resp) {
 			console.log(resp);
 			if (resp.work_type === 'sender') {
-			  WhatsAppFlow(resp, {'pageX': 140, 'pageY': 200});
+				comp._props.parent.loadWhatsappNode(resp);
+				// WhatsAppFlow(resp, {'pageX': 140, 'pageY': 200});
 			} else {
 			  $('.new_node_cont').css('display', 'block');
 			  const root = document.getElementById('node_editor');
@@ -342,12 +344,12 @@ const nodesMenu = [
 		'description': 'Choose where to share your Content',
 		'options': {
 			'contacts_list': 'A distribution list to send the Content',
-			'whatsapp_text': 'Send text messages to a selected contacts list',
-			'whatsapp_text_gif': 'Send gif and text message to a selected contacts list',
-			'whatsapp_gif': 'Send gif media to a selected contacts list',
-			'twitter_text': 'Send text update to Twitter',
-			'twitter_gif': '(cluster) Upload and post a media file to Twitter ',
-			'twitter_text_gif': '(cluster) Upload and post a media file and a customized message to Twitter',
+			'whatsapp_text': 'Send text messages to a selected contacts list'
+			// 'whatsapp_text_gif': 'Send gif and text message to a selected contacts list',
+			// 'whatsapp_gif': 'Send gif media to a selected contacts list',
+			// 'twitter_text': 'Send text update to Twitter',
+			// 'twitter_gif': '(cluster) Upload and post a media file to Twitter ',
+			// 'twitter_text_gif': '(cluster) Upload and post a media file and a customized message to Twitter',
 		}
 	}
 ]

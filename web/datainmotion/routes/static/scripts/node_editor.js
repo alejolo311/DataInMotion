@@ -39,7 +39,7 @@ class NodeEditor {
 	 * @param {Object} evn the caller node used to get the position on the page
 	 */
 	setpos (evn) {
-		this.root.style.height = document.getElementById('board').clientHeight - 200;
+		this.root.style.height = document.getElementById('board').clientHeight - 146;
 		evn.pageY = 0;
 		this.root.style.top = evn.pageY;
 		let computedRootWidth = window.getComputedStyle(this.root, null);
@@ -146,6 +146,7 @@ class NodeEditor {
 
 	}
 	printFormatedDate (node, date) {
+		console.log(date);
 		const month = [
 			"January",
 			"February",
@@ -160,7 +161,19 @@ class NodeEditor {
 			"November",
 			"December"
 		][date[1]];
-		node.innerHTML = `${month} ${date[2]} ${date[0]}<br>${date[3]}:${date[4]}`;
+		let hour;
+		let minute;
+		if (date[3] < 10) {
+			hour = `0${date[3]}`;
+		} else {
+			hour = `${date[3]}`;
+		}
+		if (date[4] < 10) {
+			minute = `0${date[4]}`;
+		}else {
+			minute = `${date[4]}`;
+		}
+		node.innerHTML = `${month} ${date[2]} ${date[0]}<br>${hour}:${minute}`;
 	}
 	/**
 	 * renderCalendar - Draw the Date configuration component
@@ -187,13 +200,11 @@ class NodeEditor {
 		}
 		// Set the click on the date selector to render the calendar
 		selectDate.addEventListener('click', function (evn) {
+			// const calCont = 
+			// check inf the node has a date
 			let date = editor.data.analisis_params.date;
 			if (date) {
-				if (date[1] > 0) {
-					date[1] = date[1];
-				} else {
-					date[1] = 0;
-				}
+				date[1] -= 1;
 			} else {
 				const d = new Date(Date.now());
 				date = [
@@ -207,7 +218,11 @@ class NodeEditor {
 				]
 			}
 			// Render Calendar component
-			const cal = new Calendar(date, editor.data.id, document.body);
+			const cal = new Calendar(
+				date,
+				editor.data.id,
+				editor.root.parentNode.querySelector('#calendar')
+			);
 			console.log(typeof editor.data.analisis_params);
 			console.log(editor.data.analisis_params);
 			if (Array.isArray(editor.data.analisis_params)) {
@@ -217,7 +232,9 @@ class NodeEditor {
 			cal.context = editor;
 			editor.calendar = cal;
 			const rect = evn.target.getBoundingClientRect();
-			cal.build(rect.left - 40 + document.body.scrollLeft, evn.pageY - 150)
+			console.log(editor.root.querySelector('#calendar'));
+			editor.root.parentNode.querySelector('#calendar').style.display = 'block';
+			cal.build(0, 0)
 			.then(() => {
 				cal._html.style.position = 'absolute';
 			});
@@ -230,6 +247,7 @@ class NodeEditor {
 		triggerOptions.appendChild(selectDate);
 		triggerOptions.appendChild(parser.parseFromString(`<label>FREQUENCY</label>`, 'text/html').body.firstChild);
 		const options = [
+			'minute',
 			'hourly',
 			'daily',
 			'weekly',
@@ -286,6 +304,7 @@ class NodeEditor {
 		triggerOptions.appendChild(select);
 		cont.innerHTML = '';
 		cont.appendChild(triggerOptions);
+
 
 		// Navigation Listeners
 		const next = document.querySelector('.next');
