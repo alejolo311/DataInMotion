@@ -24,6 +24,10 @@ from models.user import User
 from models.board import Board
 from models.custom import CustomNode
 from models.base import BaseNode, Base
+from models.school import EduSchool
+from models.edu_modules import EduModule
+from models.course import Course
+from models.edu_board import EduBoard
 target_metadata = Base.metadata
 
 
