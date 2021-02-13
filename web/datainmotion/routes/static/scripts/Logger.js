@@ -135,7 +135,7 @@ class LoggerManager extends Component {
 		$(optsCont).addClass('logger_obj_options');
 		const objKey = path.split('/')[path.split('/').length - 1];
 		let link;
-		if (typeof obj === typeof 'string') {
+		if (typeof obj === typeof 'string' || typeof obj === typeof true || typeof obj === typeof 123) {
 			link = $(`<h2>${objKey}: ${obj}</h2>`);
 			$(copy).css('display', 'block');
 			$(link).css('background-color', 'white');

@@ -63,7 +63,7 @@ RUN FIREFOX_SETUP=firefox-setup.tar.bz2 && \
 # for Chrome 83
 # RUN wget https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip
 # Latest
-RUN wget https://chromedriver.storage.googleapis.com/85.0.4183.87/chromedriver_linux64.zip
+RUN wget https://chromedriver.storage.googleapis.com/88.0.4324.96/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip -d /usr/src/app/
 # RUN chmod 755 /usr/local/bin/geckodriver
 RUN pip install -r requirements.txt

@@ -103,7 +103,12 @@ class WebWhastapp():
             self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
         except:
             os.environ['PATH'] = os.environ['PATH'] + f':{chrome_path}'
-            self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
+            try:
+                self.driver = webdriver.Chrome(executable_path=chrome_path, options=op)
+            except Exception as e:
+                print(e)
+                print(os.system('google-chrome-stable --version'))
+                return
         b_name = self.driver.capabilities['browserName']
         b_version = self.driver.capabilities['browserVersion']
         print(f'Browser Version: {b_name} {b_version}')

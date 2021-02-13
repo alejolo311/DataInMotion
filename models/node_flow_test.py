@@ -578,7 +578,7 @@ class instancedNode():
             bytes_string = outData['raw'].encode('ascii')
             bytes_string = base64.decodebytes(bytes_string)
             extension = outData['headers']['Content-Type'].split('/')[1]
-            # set_header saves the video, store it on hard disk an return the path
+            # set_header saves the video, store it on hard disk and return the path
             # for the rendered video
             file_path = set_header(bytes_string, self.instance_id, extension)
         # Extract the contacts list
@@ -762,16 +762,17 @@ class instancedNode():
         else:
             params = self.analisis_params
         #
-        # Analisis mode Comparision
+        # Analisis mode: Comparision
         #
         if self.analisis_mode == 'comparision':
             self.log('Comparission mode')
-            self.log('Cheking analisis_params\n')
+            self.log('Checking analisis_params\n')
             self.log(json.dumps(params))
-            # print(self.name, response.keys())
             cond = None
             val1 = None
             val2 = None
+            occurr = []
+            res = False
             for par in params:
                 if par is None:
                     continue
@@ -781,35 +782,22 @@ class instancedNode():
                     val2 = par['comp']
                 if 'cond' in par:
                     cond = par['cond']
-            self.logger.log(self.name, '{} {} {}'.format(val1, val2, cond))
-            self.logger.log(self.name, 'val1 type {}'.format(type(val1)))
-            val1 = response[val1]
-            self.logger.log(self.name,
-                            'Comparision Object type\n{}'.format(type(val1)))
-            self.logger.log(self.name, '{}'.format(val1))
-            index = None
-            occurr = []
-            res = False
-            if type(val1) == dict:
-                lis = json.dumps(list(val1.keys()))
-                res = eval('"{}" {} {}'.format(val2, cond, lis))
-            elif type(val1) == list:
-                for el in val1:
-                    if val2.lower() in json.dumps(el).lower():
-                        res = True
-                        self.logger.log(self.name, 'found ocurrence')
-                        self.logger.log(self.name, json.dumps(el, indent=2))
-                        occurr.append(el)
-            # self.logger.log(self.name, '{} {} {}'.format(val1, cond, val2))
-            if val1 and type(val1) != dict and type(val1) != list:
-                if cond == 'in':
-                    res = eval('"{}" {} "{}"'.format(val2, cond, val1))
-                    occurr = val1
-                else:
-                    res = eval('{} {} {}'.format(val1, cond, val2))
-                    occurr = val1
-            # self.logger.log(self.name, json.dumps([res, occurr]))
-            return {'result': res, 'occurrences': occurr}
+                try:
+                    val1 = response[val1]
+                except:
+                    return {'result': False, 'message': f'Missing object {val1}'}
+                self.logger.log(self.name, 'Checking condition {} {} {}'.format(val1, cond, val2))
+                if '(' in val1 or ')' in val1 or '(' in val2 or ')' in val2:
+                    return {'result': False, 'message': 'Security risk, posible code injection'}
+                if type(val1) == str:
+                    if cond == 'contains':
+                        res = eval(f'"{val2.lower()}" in "{val1.lower()}"')
+                    else:
+                        res = eval(f'"{val1}" {cond} "{val2}"')
+                elif type(val1) == int:
+                    res = eval(f'{val1} {cond} {val2}')
+                occurr.append({'condition': f'{val1} {cond} {val2}', 'result': res})
+            return {'result': all([c['result'] for c in occurr]), f'checked_conditions_{self.id[:4]}': occurr}
         #
         # Analisis mode HTML
         #

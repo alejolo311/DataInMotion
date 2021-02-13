@@ -764,7 +764,7 @@ class NodeEditor {
 						"==",
 						"<",
 						">",
-						"in"
+						"contains"
 					];
 					function rowString(cond) {
 						let input = '';
