@@ -212,6 +212,7 @@ process:active {
 	border-radius: 4px;
 }
 .connections {
+    appearance: none;
 	position: absolute;
 	left: -18px;
 	top: -28px;
@@ -221,10 +222,10 @@ process:active {
 	background-color: rgba(114, 114, 114, 0);
 	padding-left: 8px;
 	padding-top: 8px;
-	overflow-y: scroll;
 	z-index: 2;
 }
 .connections h2 {
+    appearance: none;
 	width: 8px;
 	height: 8px;
 	margin-bottom: 8px;

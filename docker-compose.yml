@@ -34,6 +34,8 @@ services:
       - POSTGRES_USER=data_im_dev
       - POSTGRES_PASSWORD=dim_passwd
       - POSTGRES_DB=data_im_dev_db
+    # ports:
+    #   - 5433:5432
 
 volumes:
   postgres_data:

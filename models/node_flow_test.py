@@ -796,7 +796,8 @@ class instancedNode():
                         res = eval(f'"{val1}" {cond} "{val2}"')
                 elif type(val1) == int:
                     res = eval(f'{val1} {cond} {val2}')
-                occurr.append({'condition': f'{val1} {cond} {val2}', 'result': res})
+                key = par['key']
+                occurr.append({'condition': f'<span style="color: #6206b8;">{key}</span> {val1} <span style="color: #06b84d;">{cond}</span> {val2}', 'result': res})
             return {'result': all([c['result'] for c in occurr]), f'checked_conditions_{self.id[:4]}': occurr}
         #
         # Analisis mode HTML
